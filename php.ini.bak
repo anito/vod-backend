@@ -1,0 +1,4 @@
+error_reporting = E_ALL | E_STRICT;
+log_errors = On;
+display_errors = On;
+error_log = /homepages/39/d775446036/htdocs/backup-halehmann/php-errors.log;

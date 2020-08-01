@@ -1,0 +1,463 @@
+# LANGUAGE translation of CakePHP Application
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2019-08-19 14:28+0200\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: Controller/AppController.php:80
+msgid "Please log in"
+msgstr ""
+
+#: Controller/GroupsController.php:57
+#: Controller/GroupsController.php:81
+msgid "The group has been saved."
+msgstr ""
+
+#: Controller/GroupsController.php:61
+#: Controller/GroupsController.php:85
+msgid "The group could not be saved. Please, try again."
+msgstr ""
+
+#: Controller/GroupsController.php:102
+msgid "The group has been deleted."
+msgstr ""
+
+#: Controller/GroupsController.php:104
+msgid "The group could not be deleted. Please, try again."
+msgstr ""
+
+#: Controller/MysqlController.php:74
+#: Controller/MysqlController.php:98
+msgid "The mysql has been saved."
+msgstr ""
+
+#: Controller/MysqlController.php:78
+#: Controller/MysqlController.php:102
+msgid "The mysql could not be saved. Please, try again."
+msgstr ""
+
+#: Controller/MysqlController.php:119
+msgid "The mysql has been deleted."
+msgstr ""
+
+#: Controller/MysqlController.php:121
+msgid "The mysql could not be deleted. Please, try again."
+msgstr ""
+
+#: Controller/UsersController.php:32
+msgid "Logged in as <strong>%s</strong>"
+msgstr ""
+
+#: Controller/UsersController.php:45
+msgid "Login failed"
+msgstr ""
+
+#: Controller/UsersController.php:52
+msgid "Username und Password"
+msgstr ""
+
+#: Controller/UsersController.php:59
+msgid "You are now logged out"
+msgstr ""
+
+#: Controller/UsersController.php:122
+msgid "The user has been saved"
+msgstr ""
+
+#: Controller/UsersController.php:123
+msgid "Please <a href=\"mailto:support@ha-lehmann.at?subject=[DB Backup Tool] New User Account: %1$s&body=Please activate my account for user %1$s\" target=\"_blank\">Activate Your Account</a>"
+msgstr ""
+
+#: Controller/UsersController.php:127
+#: Controller/UsersController.php:159
+msgid "The user could not be saved. Please, try again."
+msgstr ""
+
+#: Controller/UsersController.php:145
+msgid "You are not allowed to edit this user."
+msgstr ""
+
+#: Controller/UsersController.php:155
+msgid "The user has been saved."
+msgstr ""
+
+#: Controller/UsersController.php:176
+msgid "You are not allowed to delete this user."
+msgstr ""
+
+#: Controller/UsersController.php:183
+msgid "The user has been deleted."
+msgstr ""
+
+#: Controller/UsersController.php:185
+msgid "The user could not be deleted. Please, try again."
+msgstr ""
+
+#: Controller/Api/AppController.php:41
+msgid "Not Authorized"
+msgstr ""
+
+#: Controller/Api/UsersController.php:39
+msgid "Invalid username or password"
+msgstr ""
+
+#: Model/Table/UsersTable.php:83
+msgid "Passwords do not match"
+msgstr ""
+
+#: Model/Table/UsersTable.php:118
+msgid "This username already exists"
+msgstr ""
+
+#: Template/Cocktails/add.ctp:9
+#: Template/Cocktails/edit.ctp:9
+#: Template/Cocktails/index.ctp:9
+#: Template/Cocktails/index.ctp:23
+#: Template/Cocktails/view.ctp:9
+#: Template/Groups/add.ctp:9
+#: Template/Groups/edit.ctp:9
+#: Template/Groups/index.ctp:9
+#: Template/Groups/index.ctp:22
+#: Template/Groups/view.ctp:9
+#: Template/Groups/view.ctp:40
+#: Template/Mysql/add.ctp:9
+#: Template/Mysql/edit.ctp:9
+#: Template/Mysql/index.ctp:9
+#: Template/Mysql/index.ctp:23
+#: Template/Mysql/view.ctp:9
+#: Template/Users/add.ctp:9
+#: Template/Users/edit.ctp:9
+#: Template/Users/index.ctp:9
+#: Template/Users/index.ctp:26
+#: Template/Users/view.ctp:9
+msgid "Actions"
+msgstr ""
+
+#: Template/Cocktails/add.ctp:10
+#: Template/Cocktails/edit.ctp:16
+#: Template/Cocktails/view.ctp:12
+msgid "List Cocktails"
+msgstr ""
+
+#: Template/Cocktails/add.ctp:16
+msgid "Add Cocktail"
+msgstr ""
+
+#: Template/Cocktails/add.ctp:22
+#: Template/Cocktails/edit.ctp:28
+#: Template/Groups/add.ctp:23
+#: Template/Groups/edit.ctp:29
+#: Template/Mysql/add.ctp:22
+#: Template/Mysql/edit.ctp:28
+#: Template/Users/edit.ctp:36
+msgid "Submit"
+msgstr ""
+
+#: Template/Cocktails/edit.ctp:11
+#: Template/Cocktails/index.ctp:37
+#: Template/Groups/edit.ctp:11
+#: Template/Groups/index.ctp:33
+#: Template/Groups/view.ctp:52
+#: Template/Mysql/edit.ctp:11
+#: Template/Mysql/index.ctp:37
+#: Template/Users/edit.ctp:11
+#: Template/Users/index.ctp:41
+msgid "Delete"
+msgstr ""
+
+#: Template/Cocktails/edit.ctp:13
+#: Template/Cocktails/index.ctp:37
+#: Template/Cocktails/view.ctp:11
+#: Template/Groups/edit.ctp:13
+#: Template/Groups/index.ctp:33
+#: Template/Groups/view.ctp:11
+#: Template/Groups/view.ctp:52
+#: Template/Mysql/edit.ctp:13
+#: Template/Mysql/index.ctp:37
+#: Template/Mysql/view.ctp:11
+#: Template/Users/edit.ctp:13
+#: Template/Users/index.ctp:41
+#: Template/Users/view.ctp:11
+msgid "Are you sure you want to delete # {0}?"
+msgstr ""
+
+#: Template/Cocktails/edit.ctp:22
+#: Template/Cocktails/view.ctp:10
+msgid "Edit Cocktail"
+msgstr ""
+
+#: Template/Cocktails/index.ctp:10
+#: Template/Cocktails/view.ctp:13
+msgid "New Cocktail"
+msgstr ""
+
+#: Template/Cocktails/index.ctp:14
+msgid "Cocktails"
+msgstr ""
+
+#: Template/Cocktails/index.ctp:35
+#: Template/Groups/index.ctp:31
+#: Template/Groups/view.ctp:50
+#: Template/Mysql/index.ctp:35
+#: Template/Users/index.ctp:39
+msgid "View"
+msgstr ""
+
+#: Template/Cocktails/index.ctp:36
+#: Template/Groups/index.ctp:32
+#: Template/Groups/view.ctp:51
+#: Template/Mysql/index.ctp:36
+#: Template/Users/index.ctp:40
+msgid "Edit"
+msgstr ""
+
+#: Template/Cocktails/index.ctp:45
+#: Template/Groups/index.ctp:41
+#: Template/Mysql/index.ctp:45
+#: Template/Users/index.ctp:49
+msgid "first"
+msgstr ""
+
+#: Template/Cocktails/index.ctp:46
+#: Template/Groups/index.ctp:42
+#: Template/Mysql/index.ctp:46
+#: Template/Users/index.ctp:50
+msgid "previous"
+msgstr ""
+
+#: Template/Cocktails/index.ctp:48
+#: Template/Groups/index.ctp:44
+#: Template/Mysql/index.ctp:48
+#: Template/Users/index.ctp:52
+msgid "next"
+msgstr ""
+
+#: Template/Cocktails/index.ctp:49
+#: Template/Groups/index.ctp:45
+#: Template/Mysql/index.ctp:49
+#: Template/Users/index.ctp:53
+msgid "last"
+msgstr ""
+
+#: Template/Cocktails/index.ctp:51
+#: Template/Groups/index.ctp:47
+#: Template/Mysql/index.ctp:51
+#: Template/Users/index.ctp:55
+msgid "Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total"
+msgstr ""
+
+#: Template/Cocktails/view.ctp:11
+msgid "Delete Cocktail"
+msgstr ""
+
+#: Template/Cocktails/view.ctp:20
+#: Template/Groups/view.ctp:22
+#: Template/Users/view.ctp:22
+msgid "Name"
+msgstr ""
+
+#: Template/Cocktails/view.ctp:24
+#: Template/Mysql/view.ctp:24
+msgid "Description"
+msgstr ""
+
+#: Template/Cocktails/view.ctp:28
+#: Template/Groups/view.ctp:26
+#: Template/Groups/view.ctp:35
+#: Template/Mysql/view.ctp:28
+#: Template/Users/view.ctp:34
+msgid "Id"
+msgstr ""
+
+#: Template/Cocktails/view.ctp:32
+#: Template/Mysql/view.ctp:32
+#: Template/Users/view.ctp:42
+msgid "Created"
+msgstr ""
+
+#: Template/Cocktails/view.ctp:36
+#: Template/Mysql/view.ctp:36
+#: Template/Users/view.ctp:46
+msgid "Modified"
+msgstr ""
+
+#: Template/Groups/add.ctp:10
+#: Template/Groups/edit.ctp:16
+#: Template/Groups/view.ctp:12
+#: Template/Users/add.ctp:11
+#: Template/Users/edit.ctp:17
+#: Template/Users/index.ctp:11
+#: Template/Users/view.ctp:14
+msgid "List Groups"
+msgstr ""
+
+#: Template/Groups/add.ctp:11
+#: Template/Groups/edit.ctp:17
+#: Template/Groups/index.ctp:11
+#: Template/Groups/view.ctp:14
+#: Template/Users/add.ctp:10
+#: Template/Users/edit.ctp:16
+#: Template/Users/view.ctp:12
+msgid "List Users"
+msgstr ""
+
+#: Template/Groups/add.ctp:12
+#: Template/Groups/edit.ctp:18
+#: Template/Groups/index.ctp:12
+#: Template/Groups/view.ctp:15
+#: Template/Users/index.ctp:10
+#: Template/Users/view.ctp:13
+msgid "New User"
+msgstr ""
+
+#: Template/Groups/add.ctp:18
+msgid "Add Group"
+msgstr ""
+
+#: Template/Groups/edit.ctp:24
+#: Template/Groups/view.ctp:10
+msgid "Edit Group"
+msgstr ""
+
+#: Template/Groups/index.ctp:10
+#: Template/Groups/view.ctp:13
+#: Template/Users/add.ctp:12
+#: Template/Users/edit.ctp:18
+#: Template/Users/index.ctp:12
+#: Template/Users/view.ctp:15
+msgid "New Group"
+msgstr ""
+
+#: Template/Groups/index.ctp:16
+msgid "Groups"
+msgstr ""
+
+#: Template/Groups/view.ctp:11
+msgid "Delete Group"
+msgstr ""
+
+#: Template/Groups/view.ctp:31
+msgid "Related Users"
+msgstr ""
+
+#: Template/Groups/view.ctp:36
+#: Template/Users/view.ctp:26
+msgid "Username"
+msgstr ""
+
+#: Template/Groups/view.ctp:37
+#: Template/Users/view.ctp:50
+msgid "Active"
+msgstr ""
+
+#: Template/Groups/view.ctp:38
+msgid "Group Id"
+msgstr ""
+
+#: Template/Groups/view.ctp:39
+#: Template/Users/view.ctp:38
+msgid "Last Login"
+msgstr ""
+
+#: Template/Layout/default.ctp:43
+msgid "Logout"
+msgstr ""
+
+#: Template/Layout/error.ctp:42
+#: Template/Layout/error.orig.ctp:35
+msgid "Error"
+msgstr ""
+
+#: Template/Layout/error.ctp:49
+#: Template/Layout/error.orig.ctp:43
+msgid "Back"
+msgstr ""
+
+#: Template/Mysql/add.ctp:10
+#: Template/Mysql/edit.ctp:16
+#: Template/Mysql/view.ctp:12
+msgid "List Mysql"
+msgstr ""
+
+#: Template/Mysql/add.ctp:16
+msgid "Add Mysql"
+msgstr ""
+
+#: Template/Mysql/edit.ctp:22
+#: Template/Mysql/view.ctp:10
+msgid "Edit Mysql"
+msgstr ""
+
+#: Template/Mysql/index.ctp:10
+#: Template/Mysql/view.ctp:13
+msgid "New Mysql"
+msgstr ""
+
+#: Template/Mysql/index.ctp:14
+msgid "Mysql"
+msgstr ""
+
+#: Template/Mysql/view.ctp:11
+msgid "Delete Mysql"
+msgstr ""
+
+#: Template/Mysql/view.ctp:20
+msgid "Filename"
+msgstr ""
+
+#: Template/Users/add.ctp:18
+msgid "Add User"
+msgstr ""
+
+#: Template/Users/add.ctp:23
+msgid "Password Confirm"
+msgstr ""
+
+#: Template/Users/add.ctp:30
+#: Template/Users/login.ctp:63
+msgid "Register"
+msgstr ""
+
+#: Template/Users/edit.ctp:24
+#: Template/Users/view.ctp:10
+msgid "Edit User"
+msgstr ""
+
+#: Template/Users/index.ctp:16
+msgid "Users"
+msgstr ""
+
+#: Template/Users/login.ctp:31
+msgid "User"
+msgstr ""
+
+#: Template/Users/login.ctp:44
+msgid "Password"
+msgstr ""
+
+#: Template/Users/view.ctp:11
+msgid "Delete User"
+msgstr ""
+
+#: Template/Users/view.ctp:30
+msgid "Group"
+msgstr ""
+
+#: Template/Users/view.ctp:51
+msgid "Yes"
+msgstr ""
+
+#: Template/Users/view.ctp:51
+msgid "No"
+msgstr ""
+

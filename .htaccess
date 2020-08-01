@@ -1,0 +1,20 @@
+# Uncomment the following to prevent the httpoxy vulnerability
+# See: https://httpoxy.org/
+#<IfModule mod_headers.c>
+#    RequestHeader unset Proxy
+#</IfModule>
+
+<IfModule mod_rewrite.c>
+    RewriteEngine on
+    RewriteBase /
+    RewriteRule    ^(\.well-known/.*)$ $1 [L]
+    RewriteRule    ^$    webroot/    [L]
+    RewriteRule    (.*) webroot/$1    [L]
+</IfModule>
+<IfModule mod_headers.c>
+    # Access Control Headers are set in app.php: 'crud' => [AllowOrigin => '*', ...]
+    # Header set Access-Control-Allow-Origin "*"
+</IfModule>
+
+# Prevent the server from stripping away AUTHORIZATION Header
+SetEnvIf Authorization "(.*)" HTTP_AUTHORIZATION=$1
