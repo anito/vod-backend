@@ -36,6 +36,8 @@ class Application extends BaseApplication
      */
     public function bootstrap()
     {
+        $this->addPlugin('Cake/Localized');
+
         $this->addPlugin('Crud');
 
         $this->addPlugin('ADmad/JwtAuth');

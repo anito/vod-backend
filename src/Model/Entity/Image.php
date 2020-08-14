@@ -4,23 +4,28 @@ namespace App\Model\Entity;
 use Cake\ORM\Entity;
 
 /**
- * Video Entity
+ * Image Entity
  *
  * @property string $id
- * @property string|null $images_id
+ * @property string|null $iso
+ * @property string|null $longitude
+ * @property string|null $aperture
+ * @property string|null $make
+ * @property string|null $model
  * @property string|null $title
  * @property string|null $description
+ * @property string|null $exposure
+ * @property \Cake\I18n\FrozenTime|null $captured
+ * @property string|null $software
  * @property string $src
  * @property int|null $filesize
  * @property string|null $user_id
  * @property \Cake\I18n\FrozenTime|null $created
  * @property \Cake\I18n\FrozenTime|null $modified
- * @property int $sequence
  *
- * @property \App\Model\Entity\Image $image
  * @property \App\Model\Entity\User $user
  */
-class Video extends Entity
+class Image extends Entity
 {
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
@@ -33,16 +38,21 @@ class Video extends Entity
      */
     protected $_accessible = [
         'id' => true,
-        'image_id' => true,
+        'iso' => true,
+        'longitude' => true,
+        'aperture' => true,
+        'make' => true,
+        'model' => true,
         'title' => true,
         'description' => true,
+        'exposure' => true,
+        'captured' => true,
+        'software' => true,
         'src' => true,
         'filesize' => true,
         'user_id' => true,
         'created' => true,
         'modified' => true,
-        'sequence' => true,
-        'image' => true,
         'user' => true,
     ];
 }

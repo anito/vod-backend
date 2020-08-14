@@ -68,8 +68,8 @@ class MySession implements StorageInterface
     public function __construct(ServerRequest $request, Response $response, array $config = [])
     {
         $this->_session = $request->getSession();
-        Log::write( 'debug', '__construct A' );
-        Log::write( 'debug', $config );
+        
+        
         $this->setConfig($config);
     }
 
@@ -81,13 +81,13 @@ class MySession implements StorageInterface
     public function read()
     {
         if ($this->_user !== null) {
-            Log::write( 'debug', 'read A' );
-            Log::write( 'debug', $this->_user );
+            
+            
             return $this->_user ?: null;
         }
         $this->_user = $this->_session->read($this->_config['key']) ?: false;
-        Log::write( 'debug', 'read B' );
-        Log::write( 'debug', $this->_user );
+        
+        
 
         return $this->_user ?: null;
     }
@@ -103,8 +103,8 @@ class MySession implements StorageInterface
     public function write($user)
     {
         $this->_user = $user;
-        Log::write( 'debug', 'write C' );
-        Log::write( 'debug', $user );
+        
+        
         $this->_session->renew();
         $this->_session->write($this->_config['key'], $user);
     }
@@ -123,7 +123,7 @@ class MySession implements StorageInterface
         $this->_session->delete($this->_config['key']);
         $this->_session->renew();
 
-        Log::write( 'debug', 'delete D' );
+        
     }
 
     /**

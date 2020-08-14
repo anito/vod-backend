@@ -11,7 +11,7 @@ class MySession extends DatabaseSession
 
     public function __construct()
     {
-        Log::write( 'debug', 'MySession handler' );
+        
         $this->cacheKey = Configure::read('Session.handler.cache');
         parent::__construct();
     }

@@ -1,21 +1,21 @@
 <?php
 namespace App\Test\TestCase\Model\Table;
 
-use App\Model\Table\VideosTable;
+use App\Model\Table\ImagesTable;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
 
 /**
- * App\Model\Table\VideosTable Test Case
+ * App\Model\Table\ImagesTable Test Case
  */
-class VideosTableTest extends TestCase
+class ImagesTableTest extends TestCase
 {
     /**
      * Test subject
      *
-     * @var \App\Model\Table\VideosTable
+     * @var \App\Model\Table\ImagesTable
      */
-    public $Videos;
+    public $Images;
 
     /**
      * Fixtures
@@ -23,7 +23,6 @@ class VideosTableTest extends TestCase
      * @var array
      */
     public $fixtures = [
-        'app.Videos',
         'app.Images',
         'app.Users',
     ];
@@ -36,8 +35,8 @@ class VideosTableTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $config = TableRegistry::getTableLocator()->exists('Videos') ? [] : ['className' => VideosTable::class];
-        $this->Videos = TableRegistry::getTableLocator()->get('Videos', $config);
+        $config = TableRegistry::getTableLocator()->exists('Images') ? [] : ['className' => ImagesTable::class];
+        $this->Images = TableRegistry::getTableLocator()->get('Images', $config);
     }
 
     /**
@@ -47,7 +46,7 @@ class VideosTableTest extends TestCase
      */
     public function tearDown()
     {
-        unset($this->Videos);
+        unset($this->Images);
 
         parent::tearDown();
     }

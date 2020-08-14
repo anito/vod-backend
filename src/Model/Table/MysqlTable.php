@@ -73,17 +73,17 @@ class MysqlTable extends Table
     function beforeSave( $event ) {
 
         $request = Router::getRequest();
-        // Log::write('debug', $request->is('ajax'));
-        // Log::write('debug', 'request:');
-        // Log::write('debug', $request);
+        // 
+        // 
+        // 
 
         if(!$request->is('ajax')) {
             // return false;
         }
         if(!empty($request['pass'])) {
             $action = $request['pass'][0];
-            // Log::write('debug', '$action');
-            // Log::write('debug', $action);
+            // 
+            // 
 
             // if(!empty($request['pass'])) {
             //     $action = $request['pass'][0]; // for routes with joker like /api/mysql/mysql/*

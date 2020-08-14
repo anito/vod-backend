@@ -11,5 +11,5 @@ header("X-JSON: ");
 
 $_flash = array('flash' => $this->Flash->render());
 $_flash = array_merge($_flash, $_serialize);
-Log::write('debug', $_flash);
+
 echo $json = json_encode($_flash);

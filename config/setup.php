@@ -35,7 +35,8 @@ define('DIR_REL_HOST', str_replace('/index.php?', '', Configure::read('App.fullB
 define('DIR_HOST', $protocol . preg_replace('/:80$/', '', env('HTTP_HOST')));
 define('BASE_URL', Configure::read('App.fullBaseUrl'));
 define('UPLOADS', ROOT . DS . 'uploads');
-define('IMPORTS', UPLOADS . DS . 'imports');
+define('IMAGES', UPLOADS . DS . 'images');
+define('VIDEOS', UPLOADS . DS . 'videos');
 if(!defined('MYSQL_CONFIG_DIR')) {
     define('MYSQL_CONFIG_DIR', ROOT . DS . 'mysqlconf' . DS);
     if (!is_dir(MYSQL_CONFIG_DIR)) {

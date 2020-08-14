@@ -5,16 +5,18 @@ namespace App\Controller\Api;
 use App\Controller\Api\AppController;
 use Cake\Core\App;
 use Cake\Event\Event;
+use Cake\Http\Exception\UnauthorizedException;
+use Cake\Utility\Text;
 use Cake\Log\Log;
 
 
 /**
- * Videos Controller
+ * Images Controller
  *
  *
  * @method \App\Model\Entity\Video[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
  */
-class VideosController extends AppController
+class ImagesController extends AppController
 {
 
     public function initialize()
@@ -26,28 +28,19 @@ class VideosController extends AppController
         $this->loadComponent('Upload');
     }
 
-    public function index_() {
-
-        $this->Crud->action()->findMethod('widthImages');
-        $this->Crud->execute();
-
-    }
-
     public function add()
     {
-        
-        if (!empty($files = $this->request->getData('Video'))) {
-            
+
+        if (!empty($files = $this->request->getData('Image'))) {
+
             // make shure single uploads are handled correctly
-            if (!empty($files['tmp_name'])) {
-                $files = [$files];
-            }
-            
-            if (!empty($videos = $this->Upload->saveUploadedFiles($files))) {
+            if(!empty($files['tmp_name'])) $files = [$files];
 
-                $videos = $this->Videos->newEntities($videos);
+            if (!empty($images = $this->Upload->saveUploadedFiles($files))) {
 
-                if ($data = $this->Videos->saveMany($videos)) {
+                $images = $this->Images->newEntities($images);
+
+                if ($data = $this->Images->saveMany($images)) {
 
                     $this->set([
                         'success' => true,
@@ -59,7 +52,7 @@ class VideosController extends AppController
                     $this->set([
                         'success' => false,
                         'data' => [],
-                        'message' => 'An error during save has occurred',
+                        'message' => 'An Error occurred while saving your data',
                         '_serialize' => ['success', 'data', 'message'],
                     ]);
                 }
@@ -68,7 +61,7 @@ class VideosController extends AppController
                 $this->set([
                     'success' => false,
                     'data' => [],
-                    'message' => 'No videos for upload',
+                    'message' => 'An Error occurred while uploading your files',
                     '_serialize' => ['success', 'data', 'message'],
                 ]);
             }
@@ -84,12 +77,7 @@ class VideosController extends AppController
                 $id = $event->getSubject()->entity->id;
                 $fn = $event->getSubject()->entity->src;
 
-                define('PATH', $this->Director->getPathConstant($fn));
-                if (!defined('PATH')) {
-                    $event->stopPropagation();
-                }
-
-                $path = PATH . DS . $id;
+                $path = IMAGES . DS . $id;
                 $lg_path = $path . DS . 'lg';
 
                 $oldies = glob($lg_path . DS . $fn);
@@ -109,7 +97,7 @@ class VideosController extends AppController
         $data = [];
         
         $params = $this->getRequest()->getQuery();
-        $lg_path = VIDEOS . DS . $id . DS . 'lg';
+        $lg_path = IMAGES . DS . $id . DS . 'lg';
         $files = glob($lg_path . DS . '*.*');
         $fn = basename($files[0]);
         
@@ -124,7 +112,6 @@ class VideosController extends AppController
                     '_serialize' => ['success', 'data'],
                 ]
             );
-
         } else {
             $this->set(
                 [
@@ -135,8 +122,6 @@ class VideosController extends AppController
             );
             // die;
         }
-        
-
     }
 
 }

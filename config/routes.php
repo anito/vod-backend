@@ -74,12 +74,14 @@ Router::scope('/', function (RouteBuilder $routes) {
         $routes->setExtensions(['json', 'xml']);
         $routes->resources('Users');
         $routes->resources('Videos');
+        $routes->resources('Images');
 
         Router::connect('/api/register', ['controller' => 'Users', 'action' => 'add', 'prefix' => 'api']);
         Router::connect('/api/logout', ['controller' => 'Users', 'action' => 'logout', 'prefix' => 'api']);
         Router::connect('/api/mysql/mysql/*', ['controller' => 'Mysql', 'action' => 'add', 'prefix' => 'api']);
-        Router::connect('/api/u/*', ['controller' => 'Videos', 'action' => 'uri', 'prefix' => 'api']);
-        Router::connect('/api/q/:crypt/:timestamp/*', ['controller' => 'Kodaks', 'action' => 'preprocess', 'prefix' => 'api']);
+        Router::connect('/api/u/v/*', ['controller' => 'Videos', 'action' => 'uri', 'prefix' => 'api']);
+        Router::connect('/api/u/i/*', ['controller' => 'Images', 'action' => 'uri', 'prefix' => 'api']);
+        Router::connect('/api/q/:crypt/:timestamp/*', ['controller' => 'Kodaks', 'action' => 'process', 'prefix' => 'api']);
 
         $routes->fallbacks('InflectedRoute');
     });

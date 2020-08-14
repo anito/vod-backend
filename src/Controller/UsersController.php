@@ -22,36 +22,15 @@ class UsersController extends AppController
 
     public function login() {
 
-        if( $this->request->is('ajax') ) {
-            if ($user = $this->Auth->identify()) {
+        if ($this->request->is('post')) {
+            $user = $this->Auth->identify();
+            if ($user) {
                 $this->Auth->setUser($user);
-                $_user = $this->Users->get($user['id']);
-                $_user->last_login = date('Y-m-d H:i:s');
-                $this->Users->save($_user);
-                $this->Flash->success(sprintf( __('Logged in as <strong>%s</strong>'), ($name = $user['name']) ? $name : $user['username'] ), ['escape' => false] );
-                $this->set('_serialize', [
-                    'success' => true,
-                    'data' => [
-                        'token' => JWT::encode([
-                            'sub' => $user['id'],
-                            'exp' =>  time() + 604800 // (sec) 604800/60/60/24 = 7 days
-                        ],
-                        Security::getSalt()),
-                        'id' => $user['id']
-                    ]
-                ]);
-            } else {
-                $this->Flash->error(__('Login failed'));
-                $this->Auth->logout();
-                $this->set('_serialize', []);
-                $this->response->header("WWW-Authenticate: Negotiate");
+                return $this->redirect($this->Auth->redirectUrl());
             }
-            $this->render(FLASH_JSON);
-        } else {
-            $this->viewBuilder()->setLayout('login_layout');
-            $this->Flash->default(__('Username und Password'));
-            $this->render();
+            $this->Flash->error('Your username or password is incorrect.');
         }
+
     }
 
     public function logout() {
@@ -74,19 +53,6 @@ class UsersController extends AppController
      */
     public function index()
     {
-        // $this->allowedGroups = array_merge($this->allowedGroups, ['Managers', 'Users']);
-        $this->paginate = [
-            'contain' => ['Groups']
-        ];
-
-        if (!$this->isAdmin()) {
-            $this->paginate = array_merge($this->paginate, [
-                'conditions' => function($q) {
-                    return ['Users.id' => $this->Auth->user('id')];
-                }
-            ]);
-        }
-
         $users = $this->paginate($this->Users);
 
         $this->set(compact('users'));
@@ -140,11 +106,6 @@ class UsersController extends AppController
      */
     public function edit($id = null)
     {
-        $this->allowedGroups = array_merge($this->allowedGroups, ['Managers']);
-        if (!$this->isAuthGroup()) {
-            $this->Flash->error(__('You are not allowed to edit this user.'));
-            return $this->redirect(array('action' => 'login'));
-        }
         $user = $this->Users->get($id, [
             'contain' => []
         ]);

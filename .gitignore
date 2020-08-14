@@ -22,3 +22,5 @@ logs/*
 tmp/*
 uploads/*
 vendor/*
+mysql/*
+mysqlconf/*

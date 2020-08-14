@@ -80,7 +80,7 @@ class MysqlController extends AppController {
     protected function recover( $files = [] ) {
         if( empty($files) ) {
             $files = l();
-            // Log::write('debug', $files);
+            // 
         }
 
         foreach ($files as $key => $file) {

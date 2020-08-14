@@ -49,8 +49,8 @@ class ConsoleShell extends Shell
         $this->out("You can exit with <info>`CTRL-C`</info> or <info>`exit`</info>");
         $this->out('');
 
-        Log::drop('debug');
-        Log::drop('error');
+        
+        
         $this->_io->setLoggers(false);
         restore_error_handler();
         restore_exception_handler();

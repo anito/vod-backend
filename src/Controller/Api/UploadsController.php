@@ -63,8 +63,8 @@ class UploadsController extends AppController {
             exit;
         }
 
-        Log::write('debug', $this->Videos);
-        Log::write('debug', $this->request->getData());
+        
+        
 
         if ( !empty( $files = $this->request->getData( 'Video' ) ) ) {
 
@@ -86,7 +86,7 @@ class UploadsController extends AppController {
                         $lg_path = $path . DS . 'lg' . DS . $file_name;
                         $lg_temp = $lg_path . '.tmp';
 
-                        Log::write( 'debug', $lg_temp );
+                        
 
                         if( $this->File->makeDir( $path ) &&
                             $this->File->setFolderPerms( $user_id ) &&
@@ -98,7 +98,7 @@ class UploadsController extends AppController {
 
                             list( $meta, $captured ) = $this->File->imageMetadata( $lg_path );
 
-                            Log::write( 'debug', $meta );
+                            
 
                             $file['exposure'] = $this->File->parseMetaTags('exif:exposure', $meta);
                             $file['iso'] = $this->File->parseMetaTags('exif:iso', $meta);

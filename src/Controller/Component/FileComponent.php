@@ -92,27 +92,6 @@ class FileComponent extends Component {
   }
 
   ////
-  // Check for import folders
-  ////
-  function checkImports() {
-    if (is_dir(IMPORTS) && $handle = opendir(IMPORTS)) {
-      $folders = array();
-
-      while (false !== ($file = readdir($handle))) {
-        $full_path = IMPORTS . DS . $file;
-        if (is_dir($full_path) && file_exists($full_path . DS . 'images.xml') && $file != '.' && $file != '..') {
-          $folders[] = $file;
-        }
-      }
-
-      closedir($handle);
-      return $folders;
-    } else {
-      return array();
-    }
-  }
-
-  ////
   // Set permissions on a directory
   ////
   function setPerms($dir) {
@@ -135,7 +114,7 @@ class FileComponent extends Component {
   }
 
   ////
-  // Create album subdirectories
+  // Create image subdirectories
   ////
   function setFolderPerms( $path ) {
     $cache = $path . DS . 'cache';
@@ -151,8 +130,8 @@ class FileComponent extends Component {
   ////
   // Process permissions for album subdirectories
   ////
-  function createFolderDirs($uid, $id) {
-    $path = UPLOADS . DS . $uid . DS . $id;
+  function createFolderDirs($base, $id) {
+    $path = $base . DS . $id;
     $lg = $path . DS . 'lg';
     $cache = $path . DS . 'cache';
 
@@ -605,7 +584,6 @@ class FileComponent extends Component {
   }
 
   function _divide($str) {
-//    $this->log($str, LOG_DEBUG);
     $bits = explode('/', $str);
     $dec = $bits[0] / $bits[1];
     return $dec;
@@ -639,7 +617,7 @@ class FileComponent extends Component {
   }
 
   function isVideo($fn) {
-    Log::write( 'debug', $fn );
+    
     if ( preg_match('/\.(flv|f4v|mov|mp4|m4a|m4v|3gp|3g2)$/i', $fn) ) {
         return true;
     } else {

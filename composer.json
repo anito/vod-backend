@@ -7,9 +7,10 @@
     "require": {
         "php": ">=7.2",
         "admad/cakephp-jwt-auth": "^2.3",
-        "cakephp/cakephp": "^3.8",
-        "cakephp/migrations": "^2.0.0",
         "cakephp/authentication": "^1.0",
+        "cakephp/cakephp": "^3.8",
+        "cakephp/localized": "^3.5",
+        "cakephp/migrations": "^2.0.0",
         "cakephp/plugin-installer": "^1.0",
         "friendsofcake/crud": "^5.0",
         "friendsofcake/crud-json-api": "^0.5.3",

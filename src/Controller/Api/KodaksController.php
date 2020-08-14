@@ -2,6 +2,7 @@
 namespace App\Controller\Api;
 
 use App\Controller\Api\AppController;
+use Cake\Cache\Cache;
 use Cake\Log\Log;
 
 
@@ -11,9 +12,8 @@ class KodaksController extends AppController
     public function initialize() {
         parent::initialize();
         define('USE_X_SEND', false);
-        $this->response->withDisabledCache();
+        Cache::disable();
         $this->Auth->allow([]);
-        $this->uses = array();
         $this->loadComponent( 'File' );
         $this->loadComponent( 'Salt' );
         $this->loadComponent( 'Director' );
@@ -31,16 +31,10 @@ class KodaksController extends AppController
         }
     }
 
-    public function index() {
-        $this->autoRender = false;
-        $this->layout = false;
-    }
-
-    public function preprocess() {
+    public function process() {
 
         $val = $this->getRequest()->getParam( 'crypt' );
         $timestamp = $this->getRequest()->getParam( 'timestamp' );
-        // die;
 
         if ( strpos( $val, 'http://' ) !== false || substr($val, 0, 1) == '/' ) {
             header('Location: ' . $val);
@@ -53,6 +47,7 @@ class KodaksController extends AppController
         $val = str_replace( ' ', '.2B', $val );
         $crypt = $this->Salt->convert( $val, false ); // decrypt
         $a = explode(',', $crypt);
+        
         $file = $fn = basename($a[0]);
 
         // Make sure supplied filename contains only approved chars
@@ -71,25 +66,24 @@ class KodaksController extends AppController
         $y      = $this->n($a[8], 50);
         $force  = $this->n($a[9], 0);
 
-        if ($sq != 2) {
-            list($w, $h) = $this->Director->computeSize( UPLOADS . DS . $id . DS . 'lg' . DS . $fn, $w, $h, $sq);
-            $w = $this->n($w);
-            $h = $this->n($h);
-        }
-
         $ext = $this->File->returnExt( $file );
 
-        define( 'PATH', UPLOADS . DS . $id );
+        define('PATH', $this->Director->getPathConstant($fn));
+        if (!defined('PATH')) {
+            return;
+        }
 
-        $original = PATH . DS . 'lg' . DS . $file;
+        $original = PATH . DS . $id . DS . 'lg' . DS . $file;
 
-        if ($sq == 2) {
-            $base_dir = PATH . DS . 'lg';
+        if ($this->File->isVideo($file)) $sq = 2;
+
+        if ( $sq==2 ) {
+            $base_dir = PATH . DS . $id . DS . 'lg';
             $path_to_cache = $original;
         } else {
             $fn .= "_{$w}_{$h}_{$sq}_{$q}_{$sh}_{$x}_{$y}";
             $fn .= ".$ext";
-            $base_dir = PATH . DS . 'cache';
+            $base_dir = PATH . DS . $id . DS . 'cache';
             $path_to_cache = $base_dir . DS . $fn;
         }
 
@@ -125,12 +119,13 @@ class KodaksController extends AppController
                 }
 
                 $this->loadComponent( 'Darkroom' );
-                $this->Darkroom->develop($original, $path_to_cache, $w, $h, $q, $sh, $sq, $x, $y, $force);
+                $this->Darkroom->develop($original, $path_to_cache, $w, $h, $sq, $q, $x, $y, $force);
             }
         }
 
         $mtime = filemtime($path_to_cache);
         $etag = md5($path_to_cache . $mtime);
+
         if (!$noob) {
             if (isset($_SERVER['HTTP_IF_NONE_MATCH']) && ($_SERVER['HTTP_IF_NONE_MATCH'] == $etag)) {
                 header("HTTP/1.1 304 Not Modified");
@@ -143,23 +138,20 @@ class KodaksController extends AppController
             }
         }
 
-        $disabled_functions = explode(',', ini_get('disable_functions'));
-
         if (USE_X_SEND) {
             header("X-Sendfile: $path_to_cache");
         } else {
-            $specs = getimagesize($path_to_cache);
-            header('Content-type: ' . $specs['mime']);
+            // $specs = getimagesize($path_to_cache);
+            // header('Content-type: ' . $specs['mime']);
+            header('Content-type: ' . mime_content_type( $path_to_cache));
             header('Content-length: ' . filesize($path_to_cache));
             header('Cache-Control: public');
             header('Expires: ' . gmdate('D, d M Y H:i:s', strtotime('+1 year')));
-            header('Last-Modified: ' . gmdate('D, d M Y H:i:s', filemtime($path_to_cache)));
+            header('Last-Modified: ' . gmdate('D, d M Y H:i:s', $mtime));
             header('ETag: ' . $etag);
-            if (is_callable('readfile') && !in_array('readfile', $disabled_functions)) {
-                readfile($path_to_cache);
-            } else {
-                die(file_get_contents($path_to_cache));
-            }
         }
+
+        die(file_get_contents($path_to_cache));
     }
+    
 }

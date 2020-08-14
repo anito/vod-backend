@@ -15,7 +15,6 @@
 namespace App\Controller;
 
 use Cake\Core\Configure;
-use Cake\Log\Log;
 use Cake\Http\Exception\ForbiddenException;
 use Cake\Http\Exception\NotFoundException;
 use Cake\View\Exception\MissingTemplateException;
@@ -25,19 +24,10 @@ use Cake\View\Exception\MissingTemplateException;
  *
  * This controller will render views from Template/Pages/
  *
- * @link https://book.cakephp.org/3.0/en/controllers/pages-controller.html
+ * @link https://book.cakephp.org/3/en/controllers/pages-controller.html
  */
 class PagesController extends AppController
 {
-
-    function initialize() {
-        parent::initialize();
-
-        $this->loadModel('User');
-        $this->autoRender = true;
-        $this->set('user', $this->Auth->user());
-    }
-
     /**
      * Displays a view
      *
@@ -45,12 +35,12 @@ class PagesController extends AppController
      * @return \Cake\Http\Response|null
      * @throws \Cake\Http\Exception\ForbiddenException When a directory traversal attempt.
      * @throws \Cake\Http\Exception\NotFoundException When the view file could not
-     *   be found or \Cake\View\Exception\MissingTemplateException in debug mode.
+     *   be found
+     * @throws \Cake\View\Exception\MissingTemplateException In debug mode.
      */
     public function display(...$path)
     {
-        $count = count($path);
-        if (!$count) {
+        if (!$path) {
             return $this->redirect('/');
         }
         if (in_array('..', $path, true) || in_array('.', $path, true)) {

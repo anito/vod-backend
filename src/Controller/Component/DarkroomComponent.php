@@ -26,7 +26,7 @@ class DarkroomComponent extends Component
     ////
     // The workhorse develop function
     ////
-    public function develop($name, $filename, $new_w, $new_h, $quality, $sharpening, $square = false, $x, $y, $force = false)
+    public function develop($name, $filename, $new_w, $new_h, $square = false, $quality, $x, $y, $force)
     {
         //sleep(5);
         $old_mask = umask(0);

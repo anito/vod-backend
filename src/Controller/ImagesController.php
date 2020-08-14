@@ -4,12 +4,12 @@ namespace App\Controller;
 use App\Controller\AppController;
 
 /**
- * Cocktails Controller
+ * Images Controller
  *
  *
- * @method \App\Model\Entity\Cocktail[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
+ * @method \App\Model\Entity\Image[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
  */
-class CocktailsController extends AppController
+class ImagesController extends AppController
 {
     /**
      * Index method
@@ -18,25 +18,25 @@ class CocktailsController extends AppController
      */
     public function index()
     {
-        $cocktails = $this->paginate($this->Cocktails);
+        $images = $this->paginate($this->Images);
 
-        $this->set(compact('cocktails'));
+        $this->set(compact('images'));
     }
 
     /**
      * View method
      *
-     * @param string|null $id Cocktail id.
+     * @param string|null $id Image id.
      * @return \Cake\Http\Response|null
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function view($id = null)
     {
-        $cocktail = $this->Cocktails->get($id, [
+        $image = $this->Images->get($id, [
             'contain' => [],
         ]);
 
-        $this->set('cocktail', $cocktail);
+        $this->set('image', $image);
     }
 
     /**
@@ -46,58 +46,58 @@ class CocktailsController extends AppController
      */
     public function add()
     {
-        $cocktail = $this->Cocktails->newEntity();
+        $image = $this->Images->newEntity();
         if ($this->request->is('post')) {
-            $cocktail = $this->Cocktails->patchEntity($cocktail, $this->request->getData());
-            if ($this->Cocktails->save($cocktail)) {
-                $this->Flash->success(__('The cocktail has been saved.'));
+            $image = $this->Images->patchEntity($image, $this->request->getData());
+            if ($this->Images->save($image)) {
+                $this->Flash->success(__('The image has been saved.'));
 
                 return $this->redirect(['action' => 'index']);
             }
-            $this->Flash->error(__('The cocktail could not be saved. Please, try again.'));
+            $this->Flash->error(__('The image could not be saved. Please, try again.'));
         }
-        $this->set(compact('cocktail'));
+        $this->set(compact('image'));
     }
 
     /**
      * Edit method
      *
-     * @param string|null $id Cocktail id.
+     * @param string|null $id Image id.
      * @return \Cake\Http\Response|null Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function edit($id = null)
     {
-        $cocktail = $this->Cocktails->get($id, [
+        $image = $this->Images->get($id, [
             'contain' => [],
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $cocktail = $this->Cocktails->patchEntity($cocktail, $this->request->getData());
-            if ($this->Cocktails->save($cocktail)) {
-                $this->Flash->success(__('The cocktail has been saved.'));
+            $image = $this->Images->patchEntity($image, $this->request->getData());
+            if ($this->Images->save($image)) {
+                $this->Flash->success(__('The image has been saved.'));
 
                 return $this->redirect(['action' => 'index']);
             }
-            $this->Flash->error(__('The cocktail could not be saved. Please, try again.'));
+            $this->Flash->error(__('The image could not be saved. Please, try again.'));
         }
-        $this->set(compact('cocktail'));
+        $this->set(compact('image'));
     }
 
     /**
      * Delete method
      *
-     * @param string|null $id Cocktail id.
+     * @param string|null $id Image id.
      * @return \Cake\Http\Response|null Redirects to index.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function delete($id = null)
     {
         $this->request->allowMethod(['post', 'delete']);
-        $cocktail = $this->Cocktails->get($id);
-        if ($this->Cocktails->delete($cocktail)) {
-            $this->Flash->success(__('The cocktail has been deleted.'));
+        $image = $this->Images->get($id);
+        if ($this->Images->delete($image)) {
+            $this->Flash->success(__('The image has been deleted.'));
         } else {
-            $this->Flash->error(__('The cocktail could not be deleted. Please, try again.'));
+            $this->Flash->error(__('The image could not be deleted. Please, try again.'));
         }
 
         return $this->redirect(['action' => 'index']);

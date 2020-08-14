@@ -21,6 +21,6 @@ class JsController extends AppController
     }
 
     public function app() {
-        Log::write('debug', '*** JsController::app***');
+        
     }
 }

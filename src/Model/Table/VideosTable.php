@@ -4,13 +4,14 @@ namespace App\Model\Table;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
-use Cake\Routing\Router;
 use Cake\Validation\Validator;
 use Cake\Log\Log;
-use Cake\ORM\Rule\IsUnique;
 
 /**
  * Videos Model
+ *
+ * @property \App\Model\Table\ImagesTable&\Cake\ORM\Association\BelongsTo $Images
+ * @property \App\Model\Table\UsersTable&\Cake\ORM\Association\BelongsTo $Users
  *
  * @method \App\Model\Entity\Video get($primaryKey, $options = [])
  * @method \App\Model\Entity\Video newEntity($data = null, array $options = [])
@@ -40,6 +41,12 @@ class VideosTable extends Table
         $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
+
+        $this->belongsTo('Images')
+            ->setForeignKey('image_id');
+ 
+        $this->belongsTo('Users')
+            ->setForeignKey('user_id');
     }
 
     /**
@@ -52,15 +59,55 @@ class VideosTable extends Table
     {
         $validator
             ->scalar('id')
-            ->notEmptyString('id', null, 'create');
+            ->maxLength('id', 36)
+            ->allowEmptyString('id', null, 'create');
 
-        // $validator
-        //     ->scalar('src')
-        //     ->maxLength('src', 100)
-        //     ->requirePresence('src', 'create')
-        //     ->notEmptyString('src');
+        $validator
+            ->scalar('title')
+            ->maxLength('title', 100)
+            ->allowEmptyString('title');
+
+        $validator
+            ->scalar('description')
+            ->allowEmptyString('description');
+
+        $validator
+            ->scalar('src')
+            ->maxLength('src', 100)
+            ->requirePresence('src', 'create')
+            ->notEmptyString('src');
+
+        $validator
+            ->integer('filesize')
+            ->allowEmptyFile('filesize');
+
+        $validator
+            ->integer('sequence')
+            ->notEmptyString('sequence');
 
         return $validator;
     }
 
+    /**
+     * Returns a rules checker object that will be used for validating
+     * application integrity.
+     *
+     * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
+     * @return \Cake\ORM\RulesChecker
+     */
+    public function buildRules(RulesChecker $rules)
+    {
+        $rules->add($rules->existsIn(['image_id'], 'Images'));
+        $rules->add($rules->existsIn(['user_id'], 'Users'));
+
+        return $rules;
+    }
+
+    public function findWidthImages(Query $query, array $options)
+    {
+        $query = $this->find('all')
+            ->contain('Images');
+        
+        return $query;
+    }
 }

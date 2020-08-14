@@ -74,7 +74,7 @@ class UsersController extends AppController
         $this->Users->Groups->recursive = 0;
         $query = $this->Users->Groups->find('all');
         $_groups = $query->toArray();
-        // Log::write( 'debug', $_groups );
+        // 
         foreach( $_groups as $group ) {
             $groups[] = array( 'name' => $group->name, 'id' => $group->id );
         }
