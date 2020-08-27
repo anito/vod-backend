@@ -85,6 +85,11 @@ class VideosTable extends Table
             ->integer('sequence')
             ->notEmptyString('sequence');
 
+        $validator
+            ->boolean('hardcoded')
+            ->allowEmptyString('hardcoded');
+
+
         return $validator;
     }
 
