@@ -618,7 +618,7 @@ class FileComponent extends Component {
 
   function isVideo($fn) {
     
-    if ( preg_match('/\.(flv|f4v|mov|mp4|m4a|m4v|3gp|3g2|webm)$/i', $fn) ) {
+    if ( preg_match('/\.(mov|mp4|m4a|m4v|3gp|3g2|webm)$/i', $fn) ) {
         return true;
     } else {
         return false;

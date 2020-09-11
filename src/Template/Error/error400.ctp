@@ -31,8 +31,11 @@ endif;
 $this->end();
 endif;
 ?>
-<h2><?= h($message) ?></h2>
+<h3><?= h($message) ?></h3>
 <p class="error">
-    <strong><?= __d('cake', 'Error') ?>: </strong>
-    <?= __d('cake', 'The requested address {0} was not found on this server.', "<strong>'{$url}'</strong>") ?>
+    <?php if($code === 401) : ?>
+        <?=__('Your are not allowed to view this content'); ?>
+    <?php else: ?>
+        <?= __d('cake', 'The requested address {0} was not found on this server.', "<strong>'{$url}'</strong>"); ?>
+    <?php endif; ?>
 </p>

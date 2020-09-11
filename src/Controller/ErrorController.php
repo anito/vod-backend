@@ -42,6 +42,7 @@ class ErrorController extends AppController
      * @return \Cake\Http\Response|null|void
      */
     public function beforeFilter(Event $event)
+    
     {
     }
 
@@ -54,7 +55,6 @@ class ErrorController extends AppController
     public function beforeRender(Event $event)
     {
         parent::beforeRender($event);
-
         $this->viewBuilder()->setTemplatePath('Error');
     }
 

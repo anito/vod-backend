@@ -4,7 +4,10 @@ namespace App\Controller\Api;
 use App\Controller\Api\AppController;
 use Cake\Cache\Cache;
 use Cake\Log\Log;
+use Exception as GlobalException;
 
+class NonExistentFileException extends \RuntimeException
+{}
 
 class KodaksController extends AppController
 {
@@ -17,10 +20,10 @@ class KodaksController extends AppController
         $this->loadComponent( 'File' );
         $this->loadComponent( 'Salt' );
         $this->loadComponent( 'Director' );
-
     }
 
-    private function n($var, $default = false) {
+    private function n($a, $index, $default = NULL) {
+        $var = $this->isArrayAt($a, $index);
         $var = trim($var);
         if (is_numeric($var)) {
             return $var;
@@ -31,10 +34,18 @@ class KodaksController extends AppController
         }
     }
 
+    private function isArrayAt($a, $index) {
+        if(!isset($a[$index])) {
+            throw new GlobalException(__('No Index Found Error'));
+        }
+        return $a[$index];
+    }
+
     public function process() {
 
         $val = $this->getRequest()->getParam( 'crypt' );
         $timestamp = $this->getRequest()->getParam( 'timestamp' );
+        $isVideo = false;
 
         if ( strpos( $val, 'http://' ) !== false || substr($val, 0, 1) == '/' ) {
             header('Location: ' . $val);
@@ -47,6 +58,8 @@ class KodaksController extends AppController
         $val = str_replace( ' ', '.2B', $val );
         $crypt = $this->Salt->convert( $val, false ); // decrypt
         $a = explode(',', $crypt);
+        // Log::debug('decrypted:');
+        // Log::debug($a);
         
         $file = $fn = basename($a[0]);
 
@@ -56,15 +69,15 @@ class KodaksController extends AppController
             exit;
         }
 
-        $id     = $a[1];
-        $w      = $this->n($a[2]);
-        $h      = $this->n($a[3]);
-        $sq     = $this->n($a[4]);
-        $q      = $this->n($a[5], 100);
-        $sh     = $this->n($a[6], 0);
-        $x      = $this->n($a[7], 50);
-        $y      = $this->n($a[8], 50);
-        $force  = $this->n($a[9], 0);
+        $id     = $this->isArrayAt($a, 1);
+        $w      = $this->n($a, 2);
+        $h      = $this->n($a, 3);
+        $sq     = $this->n($a, 4, 2);
+        $q      = $this->n($a, 5, 100);
+        $sh     = $this->n($a, 6, 0);
+        $x      = $this->n($a, 7, 50);
+        $y      = $this->n($a, 8, 50);
+        $force  = $this->n($a, 9, 0);
 
         $ext = $this->File->returnExt( $file );
 
@@ -75,7 +88,10 @@ class KodaksController extends AppController
 
         $original = PATH . DS . $id . DS . 'lg' . DS . $file;
 
-        if ($this->File->isVideo($file)) $sq = 2;
+        if ($this->File->isVideo($file)) {
+            $sq = 2;
+            $isVideo = true;
+        }
 
         if ( $sq==2 ) {
             $base_dir = PATH . DS . $id . DS . 'lg';
@@ -98,6 +114,12 @@ class KodaksController extends AppController
         if (!file_exists($path_to_cache)) {
             $noob = true;
             if ($sq == 2) {
+                if ($path_to_cache === false || !is_file($path_to_cache)) {
+                    throw new NonExistentFileException(
+                        $path_to_cache . ' does not exist or is not a file'
+                    );
+                }
+
                 copy($original, $path_to_cache);
             } else {
                 if (!defined('MAGICK_PATH')) {
@@ -141,8 +163,6 @@ class KodaksController extends AppController
         if (USE_X_SEND) {
             header("X-Sendfile: $path_to_cache");
         } else {
-            // $specs = getimagesize($path_to_cache);
-            // header('Content-type: ' . $specs['mime']);
             header('Content-type: ' . mime_content_type( $path_to_cache));
             header('Content-length: ' . filesize($path_to_cache));
             header('Cache-Control: public');
@@ -150,8 +170,17 @@ class KodaksController extends AppController
             header('Last-Modified: ' . gmdate('D, d M Y H:i:s', $mtime));
             header('ETag: ' . $etag);
         }
+        if(!$isVideo) {
+            die(file_get_contents($path_to_cache));
+        } else {
+            $this->loadComponent('RangeHeader');
+            $this->loadComponent('PartialFile');
 
-        die(file_get_contents($path_to_cache));
+            $header = $this->RangeHeader->get_request_header('Range');
+            $rangeHeader = $this->RangeHeader->createFromHeaderString($header);
+            die($this->PartialFile->sendFile($rangeHeader, $path_to_cache));
+        }
+
     }
     
 }
