@@ -18,6 +18,7 @@ xcuserdata
 error.log
 CVS
 config/app.php
+config/config.ini
 logs/*
 tmp/*
 uploads/*
