@@ -163,8 +163,8 @@ class KodaksController extends AppController
         if (USE_X_SEND) {
             header("X-Sendfile: $path_to_cache");
         } else {
-            header('Content-type: ' . mime_content_type( $path_to_cache));
-            header('Content-length: ' . filesize($path_to_cache));
+            header('Content-Type: ' . mime_content_type( $path_to_cache));
+            header('Content-Length: ' . filesize($path_to_cache));
             header('Cache-Control: public');
             header('Expires: ' . gmdate('D, d M Y H:i:s', strtotime('+1 year')));
             header('Last-Modified: ' . gmdate('D, d M Y H:i:s', $mtime));
