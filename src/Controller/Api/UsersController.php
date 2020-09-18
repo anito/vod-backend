@@ -40,7 +40,6 @@ class UsersController extends AppController
         if (!$user) {
             throw new UnauthorizedException(__('Invalid username or password'));
         }
-
         $user[ 'token' ] = JWT::encode([
             'sub' => $user,
             'exp' =>  time() + 604800 // 1 week [ 604800/60/60/24 = 7 days || 86400/60/60/24 = 1 day ]
@@ -52,7 +51,7 @@ class UsersController extends AppController
             'data' => [
                 'message' => __('Login successful'),
                 'user' => $user,
-                'groups' => $this->_getGroups(),
+                'role' => $this->_getUserRoleName($user),
             ],
             '_serialize' => ['success', 'data']
         ]);
@@ -69,12 +68,19 @@ class UsersController extends AppController
         ]);
     }
 
+    protected function _getUserRoleName($user) {
+        return $this->Users->Groups->find()
+            ->where(['id' => $user['group_id']])
+            ->select(['name'])
+            ->first()
+            ->name;
+    }
+
     protected function _getGroups() {
         $groups = [];
-        $this->Users->Groups->recursive = 0;
         $query = $this->Users->Groups->find('all');
         $_groups = $query->toArray();
-        // 
+        
         foreach( $_groups as $group ) {
             $groups[] = array( 'name' => $group->name, 'id' => $group->id );
         }
