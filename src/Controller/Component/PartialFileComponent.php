@@ -88,13 +88,13 @@ class PartialFileComponent extends Component
         $fileSize = filesize($localPath);
 
         if ($this->range == null) {
-            // No range requested, just send the whole file
-            header('HTTP/1.1 403 Forbidden');
+            // header('HTTP/1.1 403 Forbidden');
             // throw new DownloadNotAllowed(
             //     $path . ' You are not allowed to download this video'
             // );
-            die();
-
+            // die();
+                
+            // No range requested, just send the whole file
             $this->sendDownloadHeaders(basename($localPath), $fileSize, $contentType);
 
             fpassthru($fp);
