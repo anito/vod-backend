@@ -147,6 +147,7 @@ class KodaksController extends AppController
 
         $mtime = filemtime($path_to_cache);
         $etag = md5($path_to_cache . $mtime);
+        $content_type = mime_content_type( $path_to_cache);
 
         if (!$noob) {
             if (isset($_SERVER['HTTP_IF_NONE_MATCH']) && ($_SERVER['HTTP_IF_NONE_MATCH'] == $etag)) {
@@ -163,7 +164,7 @@ class KodaksController extends AppController
         if (USE_X_SEND) {
             header("X-Sendfile: $path_to_cache");
         } else {
-            header('Content-Type: ' . mime_content_type( $path_to_cache));
+            header('Content-Type: ' . $content_type);
             header('Content-Length: ' . filesize($path_to_cache));
             header('Cache-Control: public');
             header('Expires: ' . gmdate('D, d M Y H:i:s', strtotime('+1 year')));
@@ -178,7 +179,7 @@ class KodaksController extends AppController
 
             $header = $this->RangeHeader->get_request_header('Range');
             $rangeHeader = $this->RangeHeader->createFromHeaderString($header);
-            die($this->PartialFile->sendFile($rangeHeader, $path_to_cache));
+            die($this->PartialFile->sendFile($rangeHeader, $path_to_cache, $content_type));
         }
 
     }
