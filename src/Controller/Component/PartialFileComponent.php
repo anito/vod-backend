@@ -54,10 +54,12 @@ class PartialFileComponent extends Component
      * @param int $contentLength
      * @param string $contentType
      */
-    private function sendDownloadHeaders($fileName)
+    private function sendDownloadHeaders($fileName, $contentLength, $contentType = 'application/octet-stream')
     {
         header('Content-Disposition: attachment; filename="' . $fileName . '"');
         header('Accept-Ranges: bytes');
+        header('Content-Type:' . $contentType);
+        header('Content-Length:' . $contentLength);
     }
 
     /**
@@ -93,10 +95,10 @@ class PartialFileComponent extends Component
                 $path . ' You are not allowed to download this video'
             );
             die();
-                
-            // No range requested, just send the whole file
+            
             $this->sendDownloadHeaders(basename($localPath), $fileSize, $contentType);
-
+            
+            // No range requested, just send the whole file
             fpassthru($fp);
         } else {
             header('HTTP/1.1 206 Partial Content');

@@ -164,14 +164,14 @@ class KodaksController extends AppController
         if (USE_X_SEND) {
             header("X-Sendfile: $path_to_cache");
         } else {
-            header('Content-Type: ' . $content_type);
-            header('Content-Length: ' . filesize($path_to_cache));
             header('Cache-Control: public');
             header('Expires: ' . gmdate('D, d M Y H:i:s', strtotime('+1 year')));
             header('Last-Modified: ' . gmdate('D, d M Y H:i:s', $mtime));
             header('ETag: ' . $etag);
         }
         if(!$isVideo) {
+            header('Content-Length: ' . filesize($path_to_cache));
+            header('Content-Type: ' . $content_type);
             die(file_get_contents($path_to_cache));
         } else {
             $this->loadComponent('RangeHeader');
