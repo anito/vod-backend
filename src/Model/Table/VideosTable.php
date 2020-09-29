@@ -5,13 +5,12 @@ use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
-use Cake\Log\Log;
 
 /**
  * Videos Model
  *
  * @property \App\Model\Table\ImagesTable&\Cake\ORM\Association\BelongsTo $Images
- * @property \App\Model\Table\UsersTable&\Cake\ORM\Association\BelongsTo $Users
+ * @property \App\Model\Table\UsersTable&\Cake\ORM\Association\BelongsToMany $Users
  *
  * @method \App\Model\Entity\Video get($primaryKey, $options = [])
  * @method \App\Model\Entity\Video newEntity($data = null, array $options = [])
@@ -42,11 +41,14 @@ class VideosTable extends Table
 
         $this->addBehavior('Timestamp');
 
-        $this->belongsTo('Images')
-            ->setForeignKey('image_id');
- 
-        $this->belongsTo('Users')
-            ->setForeignKey('user_id');
+        $this->belongsTo('Images', [
+            'foreignKey' => 'image_id',
+        ]);
+        $this->belongsToMany('Users', [
+            'foreignKey' => 'video_id',
+            'targetForeignKey' => 'user_id',
+            'joinTable' => 'users_videos',
+        ]);
     }
 
     /**
@@ -64,11 +66,12 @@ class VideosTable extends Table
 
         $validator
             ->scalar('title')
-            ->maxLength('title', 100)
+            ->maxLength('title', 128)
             ->allowEmptyString('title');
 
         $validator
             ->scalar('description')
+            ->maxLength('description', 128)
             ->allowEmptyString('description');
 
         $validator
@@ -85,11 +88,6 @@ class VideosTable extends Table
             ->integer('sequence')
             ->notEmptyString('sequence');
 
-        $validator
-            ->boolean('hardcoded')
-            ->allowEmptyString('hardcoded');
-
-
         return $validator;
     }
 
@@ -103,16 +101,7 @@ class VideosTable extends Table
     public function buildRules(RulesChecker $rules)
     {
         $rules->add($rules->existsIn(['image_id'], 'Images'));
-        $rules->add($rules->existsIn(['user_id'], 'Users'));
 
         return $rules;
-    }
-
-    public function findWidthImages(Query $query, array $options)
-    {
-        $query = $this->find('all')
-            ->contain('Images');
-        
-        return $query;
     }
 }

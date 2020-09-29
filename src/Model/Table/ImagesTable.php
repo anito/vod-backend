@@ -9,7 +9,7 @@ use Cake\Validation\Validator;
 /**
  * Images Model
  *
- * @property \App\Model\Table\UsersTable&\Cake\ORM\Association\BelongsTo $Users
+ * @property \App\Model\Table\VideosTable&\Cake\ORM\Association\HasMany $Videos
  *
  * @method \App\Model\Entity\Image get($primaryKey, $options = [])
  * @method \App\Model\Entity\Image newEntity($data = null, array $options = [])
@@ -35,13 +35,13 @@ class ImagesTable extends Table
         parent::initialize($config);
 
         $this->setTable('images');
-        $this->setDisplayField('title');
+        $this->setDisplayField('src');
         $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
 
-        $this->belongsTo('Users', [
-            'foreignKey' => 'user_id',
+        $this->hasMany('Videos', [
+            'foreignKey' => 'image_id',
         ]);
     }
 
@@ -117,19 +117,5 @@ class ImagesTable extends Table
             ->allowEmptyFile('filesize');
 
         return $validator;
-    }
-
-    /**
-     * Returns a rules checker object that will be used for validating
-     * application integrity.
-     *
-     * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
-     * @return \Cake\ORM\RulesChecker
-     */
-    public function buildRules(RulesChecker $rules)
-    {
-        $rules->add($rules->existsIn(['user_id'], 'Users'));
-
-        return $rules;
     }
 }

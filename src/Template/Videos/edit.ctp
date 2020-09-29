@@ -14,6 +14,10 @@
             )
         ?></li>
         <li><?= $this->Html->link(__('List Videos'), ['action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('List Images'), ['controller' => 'Images', 'action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('New Image'), ['controller' => 'Images', 'action' => 'add']) ?></li>
+        <li><?= $this->Html->link(__('List Users'), ['controller' => 'Users', 'action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('New User'), ['controller' => 'Users', 'action' => 'add']) ?></li>
     </ul>
 </nav>
 <div class="videos form large-9 medium-8 columns content">
@@ -21,9 +25,13 @@
     <fieldset>
         <legend><?= __('Edit Video') ?></legend>
         <?php
-            echo $this->Form->control('filename');
+            echo $this->Form->control('image_id', ['options' => $images, 'empty' => true]);
             echo $this->Form->control('title');
             echo $this->Form->control('description');
+            echo $this->Form->control('src');
+            echo $this->Form->control('filesize');
+            echo $this->Form->control('sequence');
+            echo $this->Form->control('users._ids', ['options' => $users]);
         ?>
     </fieldset>
     <?= $this->Form->button(__('Submit')) ?>

@@ -6,7 +6,6 @@ use App\Controller\AppController;
 /**
  * Images Controller
  *
- * @property \App\Model\Table\ImagesTable $Images
  *
  * @method \App\Model\Entity\Image[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
  */
@@ -19,10 +18,6 @@ class ImagesController extends AppController
      */
     public function index()
     {
-        $this->paginate = [
-            'contain' => [],
-            // 'contain' => ['Users'],
-        ];
         $images = $this->paginate($this->Images);
 
         $this->set(compact('images'));
@@ -38,7 +33,6 @@ class ImagesController extends AppController
     public function view($id = null)
     {
         $image = $this->Images->get($id, [
-            // 'contain' => ['Users'],
             'contain' => [],
         ]);
 
@@ -62,8 +56,6 @@ class ImagesController extends AppController
             }
             $this->Flash->error(__('The image could not be saved. Please, try again.'));
         }
-        // $users = $this->Images->Users->find('list', ['limit' => 200]);
-        // $this->set(compact('image', 'users'));
         $this->set(compact('image'));
     }
 
@@ -88,8 +80,7 @@ class ImagesController extends AppController
             }
             $this->Flash->error(__('The image could not be saved. Please, try again.'));
         }
-        $users = $this->Images->Users->find('list', ['limit' => 200]);
-        $this->set(compact('image', 'users'));
+        $this->set(compact('image'));
     }
 
     /**

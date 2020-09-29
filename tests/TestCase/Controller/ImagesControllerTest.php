@@ -21,6 +21,7 @@ class ImagesControllerTest extends TestCase
      */
     public $fixtures = [
         'app.Images',
+        'app.Users',
     ];
 
     /**

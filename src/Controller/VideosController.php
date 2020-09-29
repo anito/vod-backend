@@ -6,6 +6,7 @@ use App\Controller\AppController;
 /**
  * Videos Controller
  *
+ * @property \App\Model\Table\VideosTable $Videos
  *
  * @method \App\Model\Entity\Video[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
  */
@@ -18,6 +19,9 @@ class VideosController extends AppController
      */
     public function index()
     {
+        $this->paginate = [
+            'contain' => ['Images'],
+        ];
         $videos = $this->paginate($this->Videos);
 
         $this->set(compact('videos'));
@@ -33,7 +37,7 @@ class VideosController extends AppController
     public function view($id = null)
     {
         $video = $this->Videos->get($id, [
-            'contain' => [],
+            'contain' => ['Images', 'Users'],
         ]);
 
         $this->set('video', $video);
@@ -56,7 +60,9 @@ class VideosController extends AppController
             }
             $this->Flash->error(__('The video could not be saved. Please, try again.'));
         }
-        $this->set(compact('video'));
+        $images = $this->Videos->Images->find('list', ['limit' => 200]);
+        $users = $this->Videos->Users->find('list', ['limit' => 200]);
+        $this->set(compact('video', 'images', 'users'));
     }
 
     /**
@@ -69,7 +75,7 @@ class VideosController extends AppController
     public function edit($id = null)
     {
         $video = $this->Videos->get($id, [
-            'contain' => [],
+            'contain' => ['Users'],
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $video = $this->Videos->patchEntity($video, $this->request->getData());
@@ -80,7 +86,9 @@ class VideosController extends AppController
             }
             $this->Flash->error(__('The video could not be saved. Please, try again.'));
         }
-        $this->set(compact('video'));
+        $images = $this->Videos->Images->find('list', ['limit' => 200]);
+        $users = $this->Videos->Users->find('list', ['limit' => 200]);
+        $this->set(compact('video', 'images', 'users'));
     }
 
     /**

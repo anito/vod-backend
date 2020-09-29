@@ -1,37 +1,27 @@
 <?php
 namespace App\Model\Entity;
 
-use Authentication\PasswordHasher\DefaultPasswordHasher;
 use Cake\ORM\Entity;
+use Cake\Auth\DefaultPasswordHasher;
 
 /**
  * User Entity
  *
  * @property int $id
  * @property string $username
- * @property string|null $name
- * @property string|null $email
- * @property string|null $password
+ * @property string $password
  * @property bool|null $active
- * @property int|null $group_id
- * @property \Cake\I18n\FrozenTime|null $last_login
+ * @property int $group_id
  * @property \Cake\I18n\FrozenTime $created
  * @property \Cake\I18n\FrozenTime|null $modified
  *
  * @property \App\Model\Entity\Group $group
- * @property \App\Model\Entity\Image[] $images
- * @property \App\Model\Entity\Video[] $videos
  */
 class User extends Entity
 {
     protected function _setPassword($password) {
-        if (strlen($password)) {
-            $hasher = new DefaultPasswordHasher();
-
-            return $hasher->hash($password);
-        }
+        return (new DefaultPasswordHasher)->hash($password);
     }
-    
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
      *
@@ -42,17 +32,15 @@ class User extends Entity
      * @var array
      */
     protected $_accessible = [
-        'username' => true,
         'name' => true,
+        'username' => true,
         'email' => true,
         'password' => true,
         'active' => true,
         'group_id' => true,
-        'last_login' => true,
         'created' => true,
         'modified' => true,
-        'group' => true,
-        'videos' => true,
+        'group' => true
     ];
 
     /**
@@ -61,6 +49,6 @@ class User extends Entity
      * @var array
      */
     protected $_hidden = [
-        'password',
+        'password'
     ];
 }

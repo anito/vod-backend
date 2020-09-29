@@ -40,7 +40,14 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
                 <h1><a href=""><?= $this->fetch('title') ?></a></h1>
             </li>
             <li class="logout">
-                <?php echo $this->Html->link(__('Logout'), '/logout', array('class' => 'success')); ?>
+                <?php
+                    if($this->Identity->isLoggedIn()){
+                        $user = $this->request->getAttribute('identity')->get('User');
+                        echo $this->Html->link(__('Logout') . ' (' . $user['email'] . ')' , '/logout', array('class' => 'success'));
+                    } else {
+                        echo $this->Html->link(__('Login'), '/login', array('class' => 'success'));
+                    }
+                ?>
             </li>
         </ul>
         <div class="top-bar-section">

@@ -14,6 +14,11 @@
  */
 namespace App;
 
+use Authentication\AuthenticationServiceProviderInterface;
+use Authentication\AuthenticationService;
+use Authentication\Middleware\AuthenticationMiddleware;
+use Psr\Http\Message\ServerRequestInterface;
+
 use Cake\Core\Configure;
 use Cake\Core\Exception\MissingPluginException;
 use Cake\Error\Middleware\ErrorHandlerMiddleware;
@@ -21,7 +26,7 @@ use Cake\Http\BaseApplication;
 use Cake\Routing\Middleware\AssetMiddleware;
 use Cake\Routing\Middleware\RoutingMiddleware;
 use Cake\Http\Middleware\CsrfProtectionMiddleware;
-use Cake\Http\Middleware\EncryptedCookieMiddleware;
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * Application setup class.
@@ -29,13 +34,18 @@ use Cake\Http\Middleware\EncryptedCookieMiddleware;
  * This defines the bootstrapping logic and middleware layers you
  * want to use in your application.
  */
-class Application extends BaseApplication
+class Application extends BaseApplication implements AuthenticationServiceProviderInterface
 {
     /**
      * {@inheritDoc}
      */
     public function bootstrap()
     {
+        // Call parent to load bootstrap from files.
+        parent::bootstrap();
+
+        $this->addPlugin('Authentication');
+
         $this->addPlugin('Cake/Localized');
 
         $this->addPlugin('Crud');
@@ -44,9 +54,6 @@ class Application extends BaseApplication
 
         // Enabling CORS middleware - see https://github.com/ozee31/cakephp-cors/tree/cake-3
         $this->addPlugin('Cors', ['bootstrap' => true, 'routes' => false]);
-
-        // Call parent to load bootstrap from files.
-        parent::bootstrap();
 
         if (PHP_SAPI === 'cli') {
             try {
@@ -65,6 +72,39 @@ class Application extends BaseApplication
         if (Configure::read('debug')) {
             $this->addPlugin('DebugKit');
         }
+    }
+
+    /**
+     * Returns a service provider instance.
+     *
+     * @param \Psr\Http\Message\ServerRequestInterface $request Request
+     * @param \Psr\Http\Message\ResponseInterface $response Response
+     * @return \Authentication\AuthenticationServiceInterface
+     */
+    public function getAuthenticationService(ServerRequestInterface $request, ResponseInterface $response)
+    {
+        $service = new AuthenticationService();
+        $service->setConfig([
+            'unauthenticatedRedirect' => '/users/login',
+            'queryParam' => 'redirect',
+        ]);
+
+        $fields = [
+            'username' => 'email',
+            'password' => 'password'
+        ];
+
+        // Load identifiers
+        $service->loadIdentifier('Authentication.Password', compact('fields'));
+
+        // Load the authenticators, you want session first
+        $service->loadAuthenticator('Authentication.Session');
+        $service->loadAuthenticator('Authentication.Form', [
+            'fields' => $fields,
+            'loginUrl' => '/users/login'
+        ]);
+
+        return $service;
     }
 
     /**
@@ -90,7 +130,12 @@ class Application extends BaseApplication
             // Routes collection cache enabled by default, to disable route caching
             // pass null as cacheConfig, example: `new RoutingMiddleware($this)`
             // you might want to disable this cache in case your routing is extremely simple
-            ->add(new RoutingMiddleware($this, '_cake_routes_'));
+            ->add(new RoutingMiddleware($this, '_cake_routes_'))
+
+            // Authentication should be added *after* RoutingMiddleware.
+            // So that subdirectory information and routes are loaded.
+            ->add(new AuthenticationMiddleware($this));
+
 
         return $middlewareQueue;
     }

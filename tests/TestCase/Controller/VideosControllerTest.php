@@ -21,6 +21,9 @@ class VideosControllerTest extends TestCase
      */
     public $fixtures = [
         'app.Videos',
+        'app.Images',
+        'app.Users',
+        'app.UsersVideos',
     ];
 
     /**

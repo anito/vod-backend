@@ -7,18 +7,17 @@ use Cake\ORM\Entity;
  * Video Entity
  *
  * @property string $id
- * @property string|null $images_id
+ * @property string|null $image_id
  * @property string|null $title
  * @property string|null $description
  * @property string $src
  * @property int|null $filesize
- * @property string|null $user_id
  * @property \Cake\I18n\FrozenTime|null $created
  * @property \Cake\I18n\FrozenTime|null $modified
  * @property int $sequence
  *
  * @property \App\Model\Entity\Image $image
- * @property \App\Model\Entity\User $user
+ * @property \App\Model\Entity\User[] $users
  */
 class Video extends Entity
 {
@@ -38,12 +37,10 @@ class Video extends Entity
         'description' => true,
         'src' => true,
         'filesize' => true,
-        'user_id' => true,
         'created' => true,
         'modified' => true,
         'sequence' => true,
-        'hardcoded' => true,
         'image' => true,
-        'user' => true,
+        'users' => true,
     ];
 }

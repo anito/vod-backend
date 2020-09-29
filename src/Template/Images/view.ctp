@@ -1,69 +1,87 @@
 <?php
 /**
  * @var \App\View\AppView $this
- * @var \App\Model\Entity\User $user
+ * @var \App\Model\Entity\Image $image
  */
 ?>
 <nav class="large-3 medium-4 columns" id="actions-sidebar">
     <ul class="side-nav">
         <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Html->link(__('Edit User'), ['action' => 'edit', $user->id]) ?> </li>
-        <li><?= $this->Form->postLink(__('Delete User'), ['action' => 'delete', $user->id], ['confirm' => __('Are you sure you want to delete # {0}?', $user->id)]) ?> </li>
-        <li><?= $this->Html->link(__('List Users'), ['action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('New User'), ['action' => 'add']) ?> </li>
-        <li><?= $this->Html->link(__('List Groups'), ['controller' => 'Groups', 'action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('New Group'), ['controller' => 'Groups', 'action' => 'add']) ?> </li>
+        <li><?= $this->Html->link(__('Edit Image'), ['action' => 'edit', $image->id]) ?> </li>
+        <li><?= $this->Form->postLink(__('Delete Image'), ['action' => 'delete', $image->id], ['confirm' => __('Are you sure you want to delete # {0}?', $image->id)]) ?> </li>
+        <li><?= $this->Html->link(__('List Images'), ['action' => 'index']) ?> </li>
+        <li><?= $this->Html->link(__('New Image'), ['action' => 'add']) ?> </li>
         <li><?= $this->Html->link(__('List Videos'), ['controller' => 'Videos', 'action' => 'index']) ?> </li>
         <li><?= $this->Html->link(__('New Video'), ['controller' => 'Videos', 'action' => 'add']) ?> </li>
     </ul>
 </nav>
-<div class="users view large-9 medium-8 columns content">
-    <h3><?= h($user->name) ?></h3>
+<div class="images view large-9 medium-8 columns content">
+    <h3><?= h($image->id) ?></h3>
     <table class="vertical-table">
         <tr>
-            <th scope="row"><?= __('Username') ?></th>
-            <td><?= h($user->username) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Name') ?></th>
-            <td><?= h($user->name) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Email') ?></th>
-            <td><?= h($user->email) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Password') ?></th>
-            <td><?= h($user->password) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Group') ?></th>
-            <td><?= $user->has('group') ? $this->Html->link($user->group->name, ['controller' => 'Groups', 'action' => 'view', $user->group->id]) : '' ?></td>
-        </tr>
-        <tr>
             <th scope="row"><?= __('Id') ?></th>
-            <td><?= $this->Number->format($user->id) ?></td>
+            <td><?= h($image->id) ?></td>
         </tr>
         <tr>
-            <th scope="row"><?= __('Last Login') ?></th>
-            <td><?= h($user->last_login) ?></td>
+            <th scope="row"><?= __('Iso') ?></th>
+            <td><?= h($image->iso) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Longitude') ?></th>
+            <td><?= h($image->longitude) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Aperture') ?></th>
+            <td><?= h($image->aperture) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Make') ?></th>
+            <td><?= h($image->make) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Model') ?></th>
+            <td><?= h($image->model) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Title') ?></th>
+            <td><?= h($image->title) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Exposure') ?></th>
+            <td><?= h($image->exposure) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Software') ?></th>
+            <td><?= h($image->software) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Src') ?></th>
+            <td><?= h($image->src) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Filesize') ?></th>
+            <td><?= $this->Number->format($image->filesize) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Captured') ?></th>
+            <td><?= h($image->captured) ?></td>
         </tr>
         <tr>
             <th scope="row"><?= __('Created') ?></th>
-            <td><?= h($user->created) ?></td>
+            <td><?= h($image->created) ?></td>
         </tr>
         <tr>
             <th scope="row"><?= __('Modified') ?></th>
-            <td><?= h($user->modified) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Active') ?></th>
-            <td><?= $user->active ? __('Yes') : __('No'); ?></td>
+            <td><?= h($image->modified) ?></td>
         </tr>
     </table>
+    <div class="row">
+        <h4><?= __('Description') ?></h4>
+        <?= $this->Text->autoParagraph(h($image->description)); ?>
+    </div>
     <div class="related">
         <h4><?= __('Related Videos') ?></h4>
-        <?php if (!empty($user->videos)): ?>
+        <?php if (!empty($image->videos)): ?>
         <table cellpadding="0" cellspacing="0">
             <tr>
                 <th scope="col"><?= __('Id') ?></th>
@@ -77,7 +95,7 @@
                 <th scope="col"><?= __('Sequence') ?></th>
                 <th scope="col" class="actions"><?= __('Actions') ?></th>
             </tr>
-            <?php foreach ($user->videos as $videos): ?>
+            <?php foreach ($image->videos as $videos): ?>
             <tr>
                 <td><?= h($videos->id) ?></td>
                 <td><?= h($videos->image_id) ?></td>

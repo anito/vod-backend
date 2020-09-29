@@ -16,6 +16,8 @@
         <li><?= $this->Html->link(__('List Users'), ['action' => 'index']) ?></li>
         <li><?= $this->Html->link(__('List Groups'), ['controller' => 'Groups', 'action' => 'index']) ?></li>
         <li><?= $this->Html->link(__('New Group'), ['controller' => 'Groups', 'action' => 'add']) ?></li>
+        <li><?= $this->Html->link(__('List Videos'), ['controller' => 'Videos', 'action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('New Video'), ['controller' => 'Videos', 'action' => 'add']) ?></li>
     </ul>
 </nav>
 <div class="users form large-9 medium-8 columns content">
@@ -23,15 +25,14 @@
     <fieldset>
         <legend><?= __('Edit User') ?></legend>
         <?php
-            echo $this->Form->control('name');
             echo $this->Form->control('username');
+            echo $this->Form->control('name');
             echo $this->Form->control('email');
-            echo $this->Form->control('password', ['label' => 'Passwort (leer für keine Änderung)'] );
-            echo $this->Form->control('password_confirm', ['label' => 'Passwort erneut eingeben', 'type' => 'password'] );
+            echo $this->Form->control('password');
             echo $this->Form->control('active');
-            if($isAdmin):
-                echo $this->Form->control('group_id', ['options' => $group]);
-            endif;
+            echo $this->Form->control('group_id', ['options' => $groups, 'empty' => true]);
+            echo $this->Form->control('last_login', ['empty' => true]);
+            echo $this->Form->control('videos._ids', ['options' => $videos]);
         ?>
     </fieldset>
     <?= $this->Form->button(__('Submit')) ?>

@@ -5,18 +5,19 @@ use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
-use Cake\Routing\Router;
-use Cake\Log\Log;
 
 /**
  * Users Model
  *
- * @property \App\Model\Table\GroupsTable|\Cake\ORM\Association\BelongsTo $Groups
+ * @property \App\Model\Table\GroupsTable&\Cake\ORM\Association\BelongsTo $Groups
+ * @property \App\Model\Table\ImagesTable&\Cake\ORM\Association\HasMany $Images
+ * @property \App\Model\Table\VideosTable&\Cake\ORM\Association\HasMany $Videos
+ * @property \App\Model\Table\VideosTable&\Cake\ORM\Association\BelongsToMany $Videos
  *
  * @method \App\Model\Entity\User get($primaryKey, $options = [])
  * @method \App\Model\Entity\User newEntity($data = null, array $options = [])
  * @method \App\Model\Entity\User[] newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\User|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\User|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
  * @method \App\Model\Entity\User saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  * @method \App\Model\Entity\User patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
  * @method \App\Model\Entity\User[] patchEntities($entities, array $data, array $options = [])
@@ -37,16 +38,25 @@ class UsersTable extends Table
         parent::initialize($config);
 
         $this->setTable('users');
-        $this->setDisplayField('id');
+        $this->setDisplayField('name');
         $this->setPrimaryKey('id');
 
-        $this->addBehavior('Timestamp');
+        $this->addBehavior('Timestamp', [
+            'events' => [
+                'Users.login' => [
+                    'last_login' => 'always',
+                ],
+            ],
+        ]);
 
-        $this->request = Router::getRequest();
 
         $this->belongsTo('Groups', [
             'foreignKey' => 'group_id',
-            'joinType' => 'INNER'
+        ]);
+        $this->belongsToMany('Videos', [
+            'foreignKey' => 'user_id',
+            'targetForeignKey' => 'video_id',
+            'joinTable' => 'users_videos',
         ]);
     }
 
@@ -60,7 +70,7 @@ class UsersTable extends Table
     {
         $validator
             ->integer('id')
-            ->allowEmptyString('id', 'create');
+            ->allowEmptyString('id', null, 'create');
 
         $validator
             ->scalar('username')
@@ -69,41 +79,28 @@ class UsersTable extends Table
             ->notEmptyString('username');
 
         $validator
-            ->scalar('password')
-            ->maxLength('password', 255)
-            ->requirePresence('password', 'create')
-            ->notEmptyString('password', 'create')
-            ->allowEmptyString('password', 'update');
+            ->scalar('name')
+            ->maxLength('name', 255)
+            ->allowEmptyString('name');
 
         $validator
-            ->add('password_confirm', [
-                'equalToField' => [
-                    'rule' => ['compareFields', 'password', '=='],
-                    'last' => true,
-                    'message' => __('Passwords do not match')
-                ],
-            ])
-            ->allowEmptyString('password_confirm', 'update');
+            ->email('email')
+            ->allowEmptyString('email');
+
+        $validator
+            ->scalar('password')
+            ->maxLength('password', 255)
+            ->allowEmptyString('password');
 
         $validator
             ->boolean('active')
             ->allowEmptyString('active');
 
+        $validator
+            ->dateTime('last_login')
+            ->allowEmptyDateTime('last_login');
+
         return $validator;
-    }
-
-    function beforeSave( $event ) {
-
-        // remove password entity on empty password
-        $request = Router::getRequest();
-        $isEmptyPassword = empty($request->getData('password'));
-
-        if( $isEmptyPassword ) {
-            $data = $event->getData();
-            // unset($data['entity']->password);
-        }
-
-        return true;
     }
 
     /**
@@ -116,7 +113,8 @@ class UsersTable extends Table
     public function buildRules(RulesChecker $rules)
     {
         $rules->add($rules->isUnique(['username'], __('This username already exists')));
-        $rules->add($rules->existsIn( ['group_id'], 'Groups') );
+        $rules->add($rules->isUnique(['email'], __('This email already exists')));
+        $rules->add($rules->existsIn(['group_id'], 'Groups'));
 
         return $rules;
     }

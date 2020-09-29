@@ -49,7 +49,7 @@ class AppController extends Controller
             'authenticate' => [
                 'Form' => [
                     'fields' => [
-                        'username' => 'username',
+                        'username' => 'email',
                         'password' => 'password',
                     ],
                 ],
@@ -58,13 +58,17 @@ class AppController extends Controller
                 'controller' => 'Users',
                 'action' => 'login',
             ],
+            'loginRedirect' => [
+                'controller' => 'Users',
+                'action' => 'index'
+            ],
             // If unauthorized, return them to page they were just on
             'unauthorizedRedirect' => $this->referer(),
         ]);
 
         // Allow the display action so our PagesController
         // continues to work. Also enable the read only actions.
-        $this->Auth->allow(['display', 'view', 'index']);
+        $this->Auth->allow(['display']);
 
 
         /*
@@ -74,7 +78,8 @@ class AppController extends Controller
         //$this->loadComponent('Security');
     }
 
-    public function isAuthGroup() {
+    public function isAuthGroup()
+    {
         $groups = $this->allowedGroups;
         if (in_array($this->_groupName(), $groups)) {
             return true;
@@ -82,7 +87,8 @@ class AppController extends Controller
         return false;
     }
 
-    public function isAdmin() {
+    public function isAdmin()
+    {
         $group = 'Administrators';
         if ( $this->_groupName() == $group ) {
             return true;
@@ -90,7 +96,8 @@ class AppController extends Controller
         return false;
     }
 
-    public function _groupName() {
+    public function _groupName()
+    {
         if ($user = $this->Auth->user()) {
             $users = $this->Users->get($user['id'], [
                 'contain' => ['Groups']

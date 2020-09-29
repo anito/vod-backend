@@ -2,8 +2,9 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
-use Cake\Utility\Security;
-use Firebase\JWT\JWT;
+use Cake\Event\Event;
+use Cake\Log\Log;
+use Cake\ORM\TableRegistry;
 
 /**
  * Users Controller
@@ -17,7 +18,7 @@ class UsersController extends AppController
 
     public function initialize() {
         parent::initialize();
-        $this->allowedGroups = ['Administrators'];
+        // // $this->Auth->allow(['add', 'view', 'edit']);
     }
 
     public function login() {
@@ -26,6 +27,14 @@ class UsersController extends AppController
             $user = $this->Auth->identify();
             if ($user) {
                 $this->Auth->setUser($user);
+                $id = $user['id'];
+
+                $_user = $this->Users->get($id);
+                $_user->last_login = date("Y-m-d H:i:s");
+
+                $usersTable = TableRegistry::getTableLocator()->get('Users');
+                $usersTable->save($_user);
+
                 return $this->redirect($this->Auth->redirectUrl());
             }
             $this->Flash->error('Your username or password is incorrect.');
@@ -34,16 +43,8 @@ class UsersController extends AppController
     }
 
     public function logout() {
-        $this->Auth->logout();
-        $this->Flash->success(__('You are now logged out'));
-        if( $this->request->is('ajax') ) {
-            $this->set('_serialize', [
-                'success' => true
-            ]);
-            $this->render(SIMPLE_JSON);
-        } else {
-            return $this->redirect($this->Auth->logout());
-        }
+        $this->Flash->success('You are now logged out.');
+        return $this->redirect($this->Auth->logout());
     }
 
     /**
@@ -53,6 +54,9 @@ class UsersController extends AppController
      */
     public function index()
     {
+        $this->paginate = [
+            'contain' => ['Groups'],
+        ];
         $users = $this->paginate($this->Users);
 
         $this->set(compact('users'));
@@ -68,7 +72,7 @@ class UsersController extends AppController
     public function view($id = null)
     {
         $user = $this->Users->get($id, [
-            'contain' => ['Groups']
+            'contain' => ['Groups', 'Videos'],
         ]);
 
         $this->set('user', $user);
@@ -85,16 +89,15 @@ class UsersController extends AppController
         if ($this->request->is('post')) {
             $user = $this->Users->patchEntity($user, $this->request->getData());
             if ($this->Users->save($user)) {
-                $this->Flash->success(sprintf(__('The user has been saved')));
-                $this->Flash->success(sprintf(__('Please <a href="mailto:support@ha-lehmann.at?subject=[DB Backup Tool] New User Account: %1$s&body=Please activate my account for user %1$s" target="_blank">Activate Your Account</a>'), $user->username), ['escape' => false]);
+                $this->Flash->success(__('The user has been saved.'));
 
-                return $this->redirect(['action' => 'login']);
+                return $this->redirect(['action' => 'index']);
             }
             $this->Flash->error(__('The user could not be saved. Please, try again.'));
         }
-        $isAdmin = $this->isAdmin();
-        $group = $this->Users->Groups->find('list', ['limit' => 200]);
-        $this->set(compact('user', 'group', 'isAdmin'));
+        $groups = $this->Users->Groups->find('list', ['limit' => 200]);
+        $videos = $this->Users->Videos->find('list', ['limit' => 200]);
+        $this->set(compact('user', 'groups', 'videos'));
     }
 
     /**
@@ -107,10 +110,9 @@ class UsersController extends AppController
     public function edit($id = null)
     {
         $user = $this->Users->get($id, [
-            'contain' => []
+            'contain' => ['Videos'],
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
-
             $user = $this->Users->patchEntity($user, $this->request->getData());
             if ($this->Users->save($user)) {
                 $this->Flash->success(__('The user has been saved.'));
@@ -119,9 +121,9 @@ class UsersController extends AppController
             }
             $this->Flash->error(__('The user could not be saved. Please, try again.'));
         }
-        $isAdmin = $this->isAdmin();
-        $group = $this->Users->Groups->find('list', ['limit' => 200]);
-        $this->set(compact('user', 'group', 'isAdmin'));
+        $groups = $this->Users->Groups->find('list', ['limit' => 200]);
+        $videos = $this->Users->Videos->find('list', ['limit' => 200]);
+        $this->set(compact('user', 'groups', 'videos'));
     }
 
     /**
@@ -133,11 +135,6 @@ class UsersController extends AppController
      */
     public function delete($id = null)
     {
-        if (!$this->isAuthGroup()) {
-            $this->Flash->error(__('You are not allowed to delete this user.'));
-            return $this->redirect(array('action' => 'login'));
-        }
-
         $this->request->allowMethod(['post', 'delete']);
         $user = $this->Users->get($id);
         if ($this->Users->delete($user)) {
@@ -148,5 +145,4 @@ class UsersController extends AppController
 
         return $this->redirect(['action' => 'index']);
     }
-
 }

@@ -19,11 +19,10 @@ use Cake\ORM\Entity;
  * @property string|null $software
  * @property string $src
  * @property int|null $filesize
- * @property string|null $user_id
  * @property \Cake\I18n\FrozenTime|null $created
  * @property \Cake\I18n\FrozenTime|null $modified
  *
- * @property \App\Model\Entity\User $user
+ * @property \App\Model\Entity\Video[] $videos
  */
 class Image extends Entity
 {
@@ -50,9 +49,8 @@ class Image extends Entity
         'software' => true,
         'src' => true,
         'filesize' => true,
-        'user_id' => true,
         'created' => true,
         'modified' => true,
-        'user' => true,
+        'videos' => true,
     ];
 }

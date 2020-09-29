@@ -7,6 +7,8 @@ use Cake\TestSuite\TestCase;
 
 /**
  * App\Controller\UsersController Test Case
+ *
+ * @uses \App\Controller\UsersController
  */
 class UsersControllerTest extends TestCase
 {
@@ -19,7 +21,9 @@ class UsersControllerTest extends TestCase
      */
     public $fixtures = [
         'app.Users',
-        'app.Groups'
+        'app.Groups',
+        'app.Videos',
+        'app.UsersVideos',
     ];
 
     /**
