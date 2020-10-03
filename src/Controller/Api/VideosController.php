@@ -141,8 +141,16 @@ class VideosController extends AppController
         
         if (!empty($files[0])) {
             $options = array_merge(compact(array('fn', 'id')), $params);
-            $data = array($id => $this->Director->p($options));
-            
+            $p = $this->Director->p($options);
+            $json = json_encode($params);
+            $stringified = preg_replace('/["\'\s]/', '', $json);
+
+            $data = array(
+                'id' => $id,
+                'url' => $p,
+                'params' => $stringified,
+            );
+
             $this->set(
                 [
                     'success' => true,
@@ -150,7 +158,6 @@ class VideosController extends AppController
                     '_serialize' => ['success', 'data'],
                 ]
             );
-
         } else {
             $this->set(
                 [
