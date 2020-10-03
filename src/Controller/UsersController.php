@@ -113,6 +113,7 @@ class UsersController extends AppController
             'contain' => ['Videos'],
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
+            Log::debug($this->request->getData());
             $user = $this->Users->patchEntity($user, $this->request->getData());
             if ($this->Users->save($user)) {
                 $this->Flash->success(__('The user has been saved.'));

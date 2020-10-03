@@ -5,6 +5,7 @@ use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
+use Cake\Log\Log;
 
 /**
  * Videos Model
@@ -103,5 +104,13 @@ class VideosTable extends Table
         $rules->add($rules->existsIn(['image_id'], 'Images'));
 
         return $rules;
+    }
+
+    public function findWidthImages(Query $query, array $options)
+    {
+        $query = $this->find('all')
+            ->contain('Images');
+        
+        return $query;
     }
 }

@@ -17,22 +17,26 @@ class AppController extends Controller
 
         $this->loadComponent('RequestHandler');
 
-        $this->loadComponent('Crud.Crud', [
-            'actions' => [
-                'Crud.Index',
-                'Crud.View',
-                'Crud.Add',
-                'Crud.Edit',
-                'Crud.Delete'
-            ],
-            'listeners' => [
-                'Crud.Api',
-                'Crud.ApiPagination',
-                'CrudJsonApi.JsonApi',
-                'CrudJsonApi.Pagination', // Pagination != ApiPagination
-                'Crud.ApiQueryLog'
-            ]
-        ]);
+        // $this->loadComponent('Crud.Crud', [
+        //     'actions' => [
+        //         'Crud.Index',
+        //         // 'index' => [
+        //         //     'className' => 'Crud.Index',
+        //         //     'relatedModels' => true,
+        //         // ],
+        //         'Crud.View',
+        //         'Crud.Add',
+        //         'Crud.Edit',
+        //         'Crud.Delete'
+        //     ],
+        //     'listeners' => [
+        //         'Crud.Api',
+        //         'Crud.ApiPagination',
+        //         'CrudJsonApi.JsonApi',
+        //         'CrudJsonApi.Pagination', // Pagination != ApiPagination
+        //         'Crud.ApiQueryLog'
+        //     ]
+        // ]);
 
         $this->loadComponent('Auth', [
             'storage' => 'Memory',
