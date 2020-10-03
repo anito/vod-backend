@@ -20,7 +20,11 @@ class UsersController extends AppController
                     'className' => 'Crud.Index',
                     'relatedModels' => true,
                 ],
-                'Crud.View',
+                // 'Crud.View',
+                'view' => [
+                    'className' => 'Crud.View',
+                    'relatedModels' => true,
+                ],
                 'Crud.Add',
                 'Crud.Edit',
                 'Crud.Delete'
@@ -90,25 +94,6 @@ class UsersController extends AppController
             ],
             '_serialize' => ['success', 'data']
         ]);
-    }
-
-    protected function _getUserRoleName($user) {
-        return $this->Users->Groups->find()
-            ->where(['id' => $user['group_id']])
-            ->select(['name'])
-            ->first()
-            ->name;
-    }
-
-    protected function _getGroups() {
-        $groups = [];
-        $query = $this->Users->Groups->find('all');
-        $_groups = $query->toArray();
-        
-        foreach( $_groups as $group ) {
-            $groups[] = array( 'name' => $group->name, 'id' => $group->id );
-        }
-        return $groups;
     }
 
 }

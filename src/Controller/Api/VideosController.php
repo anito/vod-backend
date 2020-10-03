@@ -6,7 +6,7 @@ use App\Controller\Api\AppController;
 use Cake\Core\App;
 use Cake\Event\Event;
 use Cake\Log\Log;
-
+use Cake\ORM\Query;
 
 /**
  * Videos Controller
@@ -52,10 +52,42 @@ class VideosController extends AppController
 
     }
 
-    public function index_() {
+    public function index() {
 
-        $this->Crud->action()->findMethod('widthImages');
-        $this->Crud->execute();
+        $user = $this->Auth->user()['sub'];
+        $role = $this->_getUserRoleName($user);
+
+        switch($role) {
+
+            case 'Administrators':
+                $data = $this->Videos->find()
+                    ->toArray();
+                break;
+            
+            case 'Managers':
+            case 'Guests':
+            case 'Users':
+                $data = $this->Videos->find()
+                    // see https://book.cakephp.org/3/en/orm/retrieving-data-and-resultsets.html#filtering-by-associated-data
+                    ->matching('Users', function(Query $q) {
+        
+                        $user = $this->Auth->user()['sub'];
+                        $condition = ['Users.id' => $user['id']];
+                        
+                        return $q
+                            ->where($condition);
+                    })
+                    ->toArray();
+    
+        }
+
+        $this->set([
+            'success' => true,
+            'data' => $data,
+            '_serialize' => ['success', 'data'],
+        ]);
+
+        // $this->Crud->execute();
 
     }
 

@@ -5,6 +5,7 @@ use Cake\Controller\Controller;
 use Cake\Event\Event;
 use Cake\Cache\Cache;
 use Cake\Log\Log;
+use Cake\ORM\TableRegistry;
 
 class AppController extends Controller
 {
@@ -16,27 +17,6 @@ class AppController extends Controller
         Cache::disable();
 
         $this->loadComponent('RequestHandler');
-
-        // $this->loadComponent('Crud.Crud', [
-        //     'actions' => [
-        //         'Crud.Index',
-        //         // 'index' => [
-        //         //     'className' => 'Crud.Index',
-        //         //     'relatedModels' => true,
-        //         // ],
-        //         'Crud.View',
-        //         'Crud.Add',
-        //         'Crud.Edit',
-        //         'Crud.Delete'
-        //     ],
-        //     'listeners' => [
-        //         'Crud.Api',
-        //         'Crud.ApiPagination',
-        //         'CrudJsonApi.JsonApi',
-        //         'CrudJsonApi.Pagination', // Pagination != ApiPagination
-        //         'Crud.ApiQueryLog'
-        //     ]
-        // ]);
 
         $this->loadComponent('Auth', [
             'storage' => 'Memory',
@@ -64,6 +44,28 @@ class AppController extends Controller
             'loginAction' => false
         ]);
 
+    }
+
+    protected function _getUserRoleName($user) {
+        $groups = TableRegistry::getTableLocator()->get('Groups');
+        return $groups->find()
+            ->where(['id' => $user['group_id']])
+            ->select(['name'])
+            ->first()
+            ->name;
+    }
+
+    protected function _getGroups() {
+        $groups = TableRegistry::getTableLocator()->get('Groups');
+
+        $_groups = [];
+        $data = $groups->find('all')
+            ->toArray();
+        
+        foreach( $data as $group ) {
+            $_groups[] = array( 'name' => $group->name, 'id' => $group->id );
+        }
+        return $_groups;
     }
 
 }
