@@ -31,7 +31,7 @@ class User extends Entity
             return $hasher->hash($password);
         }
     }
-    
+
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
      *
