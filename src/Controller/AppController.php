@@ -89,7 +89,7 @@ class AppController extends Controller
 
     public function isAdmin()
     {
-        $group = 'Administrators';
+        $group = 'Administrator';
         if ( $this->_groupName() == $group ) {
             return true;
         }
@@ -101,7 +101,8 @@ class AppController extends Controller
         if ($user = $this->Auth->user()) {
             $users = $this->Users->get($user['id'], [
                 'contain' => ['Groups']
-            ])->toArray();
+            ])
+            ->toArray();
             return $users['group']['name'];
         }
     }

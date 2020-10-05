@@ -59,14 +59,14 @@ class VideosController extends AppController
 
         switch($role) {
 
-            case 'Administrators':
+            case 'Administrator':
                 $data = $this->Videos->find()
                     ->toArray();
                 break;
             
-            case 'Managers':
-            case 'Guests':
-            case 'Users':
+            case 'Manager':
+            case 'Guest':
+            case 'User':
                 $data = $this->Videos->find()
                     // see https://book.cakephp.org/3/en/orm/retrieving-data-and-resultsets.html#filtering-by-associated-data
                     ->matching('Users', function(Query $q) {
