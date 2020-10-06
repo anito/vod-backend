@@ -2,6 +2,7 @@
 namespace App\Model\Table;
 
 use Cake\ORM\Query;
+use Cake\ORM\Rule\IsUnique;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
@@ -49,10 +50,10 @@ class UsersTable extends Table
             ],
         ]);
 
-
         $this->belongsTo('Groups', [
             'foreignKey' => 'group_id',
         ]);
+
         $this->belongsToMany('Videos', [
             'foreignKey' => 'user_id',
             'targetForeignKey' => 'video_id',
@@ -73,12 +74,6 @@ class UsersTable extends Table
             ->allowEmptyString('id', null, 'create');
 
         $validator
-            ->scalar('username')
-            ->maxLength('username', 50)
-            ->requirePresence('username', 'create')
-            ->notEmptyString('username');
-
-        $validator
             ->scalar('name')
             ->maxLength('name', 255)
             ->allowEmptyString('name');
@@ -87,10 +82,12 @@ class UsersTable extends Table
             ->email('email')
             ->notEmptyString('email');
 
+
         $validator
             ->scalar('password')
             ->maxLength('password', 255)
-            ->allowEmptyString('password');
+            ->minLength('password', 8)
+            ->notEmptyString('password');
 
         $validator
             ->boolean('active')
@@ -112,9 +109,10 @@ class UsersTable extends Table
      */
     public function buildRules(RulesChecker $rules)
     {
-        $rules->add($rules->isUnique(['username'], __('This username already exists')));
+        // $rules->add(new IsUnique(['email']), __('This email already exists'));
         $rules->add($rules->isUnique(['email'], __('This email already exists')));
         $rules->add($rules->existsIn(['group_id'], 'Groups'));
+
 
         return $rules;
     }

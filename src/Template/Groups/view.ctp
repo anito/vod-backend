@@ -33,7 +33,7 @@
         <table cellpadding="0" cellspacing="0">
             <tr>
                 <th scope="col"><?= __('Id') ?></th>
-                <th scope="col"><?= __('Username') ?></th>
+                <th scope="col"><?= __('Email') ?></th>
                 <th scope="col"><?= __('Active') ?></th>
                 <th scope="col"><?= __('Group Id') ?></th>
                 <th scope="col"><?= __('Last Login') ?></th>
@@ -42,7 +42,7 @@
             <?php foreach ($group->users as $users): ?>
             <tr>
                 <td><?= h($users->id) ?></td>
-                <td><?= h($users->username) ?></td>
+                <td><?= h($users->email) ?></td>
                 <td><?= h($users->active) ?></td>
                 <td><?= h($users->group_id) ?></td>
                 <td><?= h($users->last_login) ?></td>

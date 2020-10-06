@@ -21,10 +21,6 @@
     <h3><?= h($user->name) ?></h3>
     <table class="vertical-table">
         <tr>
-            <th scope="row"><?= __('Username') ?></th>
-            <td><?= h($user->username) ?></td>
-        </tr>
-        <tr>
             <th scope="row"><?= __('Name') ?></th>
             <td><?= h($user->name) ?></td>
         </tr>
