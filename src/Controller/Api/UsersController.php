@@ -15,15 +15,13 @@ class UsersController extends AppController
 
         $this->loadComponent('Crud.Crud', [
             'actions' => [
-                // 'Crud.Index',
                 'index' => [
                     'className' => 'Crud.Index',
                     'relatedModels' => true,
                 ],
-                // 'Crud.View',
                 'view' => [
                     'className' => 'Crud.View',
-                    'relatedModels' => true,
+                    'relatedModels' => true // not supported
                 ],
                 'Crud.Add',
                 'Crud.Edit',
@@ -59,6 +57,13 @@ class UsersController extends AppController
         return $this->Crud->execute();
     }
 
+    public function edit($id) {
+        // $request = $this->request->getData();
+        // Log::debug($request);
+        
+        return $this->Crud->execute();
+    }
+
     public function token() {
         $this->login();
     }
@@ -70,7 +75,7 @@ class UsersController extends AppController
         }
         $user[ 'token' ] = JWT::encode([
             'sub' => $user,
-            'exp' =>  time() + 604800 // 1 week [ 604800/60/60/24 = 7 days || 86400/60/60/24 = 1 day ]
+            'exp' =>  time() + 604800 // 1 week => 7 days = 7*60*60*24 = 604800 || 1 day = 60*60*24 =  86400
         ],
         Security::getSalt());
 

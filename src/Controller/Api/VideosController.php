@@ -4,9 +4,13 @@ namespace App\Controller\Api;
 
 use App\Controller\Api\AppController;
 use Cake\Core\App;
+use Cake\Database\Expression\QueryExpression;
+use Cake\Database\Query as DatabaseQuery;
 use Cake\Event\Event;
 use Cake\Log\Log;
 use Cake\ORM\Query;
+use Cake\I18n\Time;
+use DateTime;
 
 /**
  * Videos Controller
@@ -69,10 +73,20 @@ class VideosController extends AppController
             case 'User':
                 $data = $this->Videos->find()
                     // see https://book.cakephp.org/3/en/orm/retrieving-data-and-resultsets.html#filtering-by-associated-data
+                    // see https: //stackoverflow.com/questions/26799094/how-to-filter-by-conditions-for-associated-models
+                    // see https: //stackoverflow.com/questions/10154717/php-cakephp-datetime-compare
                     ->matching('Users', function(Query $q) {
-        
+                        
+                        $now = date('Y-m-d H:i:s');
+                        Log::debug('Current time ' . $now);
+
                         $user = $this->Auth->user()['sub'];
-                        $condition = ['Users.id' => $user['id']];
+
+                        $condition = [
+                            'Users.id' => $user['id'],
+                            'UsersVideos.start <=' => $now,
+                            'UsersVideos.end >=' => $now,
+                        ];
                         
                         return $q
                             ->where($condition);
@@ -86,8 +100,6 @@ class VideosController extends AppController
             'data' => $data,
             '_serialize' => ['success', 'data'],
         ]);
-
-        // $this->Crud->execute();
 
     }
 
