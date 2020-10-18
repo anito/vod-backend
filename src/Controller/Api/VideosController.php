@@ -78,8 +78,6 @@ class VideosController extends AppController
                     ->matching('Users', function(Query $q) {
                         
                         $now = date('Y-m-d H:i:s');
-                        Log::debug('Current time ' . $now);
-
                         $user = $this->Auth->user()['sub'];
 
                         $condition = [

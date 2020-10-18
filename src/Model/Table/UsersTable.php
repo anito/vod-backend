@@ -6,6 +6,7 @@ use Cake\ORM\Rule\IsUnique;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
+use Cake\Log\Log;
 
 /**
  * Users Model
@@ -82,7 +83,6 @@ class UsersTable extends Table
             ->email('email')
             ->notEmptyString('email');
 
-
         $validator
             ->scalar('password')
             ->maxLength('password', 255)
@@ -112,6 +112,13 @@ class UsersTable extends Table
         // $rules->add(new IsUnique(['email']), __('This email already exists'));
         $rules->add($rules->isUnique(['email'], __('This email already exists')));
         $rules->add($rules->existsIn(['group_id'], 'Groups'));
+        // Add a rule for preventing to update specific users
+        $rules->addUpdate(function ($entity, $options) {
+            $notAllowed = [15, 23];
+            if(in_array($entity->id, $notAllowed)) return false;
+            return true;
+        }, 'ruleName');
+
 
 
         return $rules;
