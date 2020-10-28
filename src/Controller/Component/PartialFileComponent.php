@@ -92,7 +92,7 @@ class PartialFileComponent extends Component
         if ($this->range == null) {
             header('HTTP/1.1 403 Forbidden');
             throw new DownloadNotAllowed(
-                $path . ' You are not allowed to download this video'
+                'You are not allowed to download this video'
             );
             die();
             
