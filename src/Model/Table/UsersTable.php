@@ -97,6 +97,48 @@ class UsersTable extends Table
             ->dateTime('last_login')
             ->allowEmptyDateTime('last_login');
 
+        
+        $notAllowed = FIXTURE;
+        $validator
+            ->add('name', 'custom', [
+                'rule' => function ($value, $context) use ($notAllowed) {
+                    $id = $context['data']['id'];
+                    $name = $context['data']['name'];
+                    $index = array_search($id, array_column($notAllowed, 'id'));
+                    if (is_int($index)) {
+                        $validName = $notAllowed[$index]['name'] === $name;
+                        if(!$validName) return false;
+                    }
+
+                    return true;
+                },
+                'message' => 'The name cannot be changed',
+            ])
+            ->add('email', 'custom', [
+                'rule' => function ($value, $context) use ($notAllowed) {
+                    $id = $context['data']['id'];
+                    $email = $context['data']['email'];
+                    $index = array_search($id, array_column($notAllowed, 'id'));
+                    if (is_int($index)) {
+                        $validEmail = $notAllowed[$index]['email'] === $email;
+                        if(!$validEmail) return false;
+                    }
+
+                    return true;
+                },
+                'message' => 'The email cannot be changed',
+            ])
+            ->add('password', 'custom', [
+                'rule' => function ($value, $context) use ($notAllowed) {
+                    $id = $context['data']['id'];
+                    $index = array_search($id, array_column($notAllowed, 'id'));
+                    if (is_int($index)) return false;
+                    return true;
+                },
+                'message' => 'The password cannot be changed',
+            ]);
+
+
         return $validator;
     }
 
@@ -112,14 +154,6 @@ class UsersTable extends Table
         // $rules->add(new IsUnique(['email']), __('This email already exists'));
         $rules->add($rules->isUnique(['email'], __('This email already exists')));
         $rules->add($rules->existsIn(['group_id'], 'Groups'));
-        // Add a rule for preventing to update specific users
-        $rules->addUpdate(function ($entity, $options) {
-            $notAllowed = [15, 23];
-            if(in_array($entity->id, $notAllowed)) return false;
-            return true;
-        }, 'ruleName');
-
-
 
         return $rules;
     }

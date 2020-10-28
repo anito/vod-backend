@@ -26,6 +26,19 @@ Cache::setConfig('mysql_conf', [
 
 Time::setDefaultLocale('de-DE');
 
+define('FIXTURE', array(
+    array(
+        'id' => 15,
+        'name' => 'Sample User',
+        'email' => 'sampleuser@webpremiere.dev',
+    ),
+    array(
+        'id' => 24,
+        'name' => 'Sample Admin',
+        'email' => 'test@webpremiere.de',
+    ),
+));
+
 if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') {
     $protocol = 'https://';
 } else {
