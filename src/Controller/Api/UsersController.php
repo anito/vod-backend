@@ -75,7 +75,7 @@ class UsersController extends AppController
         }
         $user[ 'token' ] = JWT::encode([
             'sub' => $user,
-            'exp' =>  time() + 604800 // 1 week => 7 days = 7*60*60*24 = 604800 || 1 day = 60*60*24 =  86400
+            'exp' =>  time() + 1*60*60 // 1 week => 7 days = 7*24*60*60 = 604800 || 1 day = 24*60*60 =  86400
         ],
         Security::getSalt());
 
