@@ -102,7 +102,11 @@ class UsersTable extends Table
         $validator
             ->add('name', 'custom', [
                 'rule' => function ($value, $context) use ($notAllowed) {
-                    $id = $context['data']['id'];
+                    if (isset($context['data']['id'])) {
+                        $id = $context['data']['id'];
+                    } else {
+                        return true;
+                    }
                     $name = $context['data']['name'];
                     $index = array_search($id, array_column($notAllowed, 'id'));
                     if (is_int($index)) {
@@ -116,7 +120,11 @@ class UsersTable extends Table
             ])
             ->add('email', 'custom', [
                 'rule' => function ($value, $context) use ($notAllowed) {
-                    $id = $context['data']['id'];
+                    if(isset($context['data']['id'])) {
+                        $id = $context['data']['id'];
+                    } else {
+                        return true;
+                    }
                     $email = $context['data']['email'];
                     $index = array_search($id, array_column($notAllowed, 'id'));
                     if (is_int($index)) {
@@ -130,7 +138,11 @@ class UsersTable extends Table
             ])
             ->add('password', 'custom', [
                 'rule' => function ($value, $context) use ($notAllowed) {
-                    $id = $context['data']['id'];
+                    if (isset($context['data']['id'])) {
+                        $id = $context['data']['id'];
+                    } else {
+                        return true;
+                    }
                     $index = array_search($id, array_column($notAllowed, 'id'));
                     if (is_int($index)) return false;
                     return true;
