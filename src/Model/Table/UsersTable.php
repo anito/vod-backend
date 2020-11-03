@@ -116,7 +116,7 @@ class UsersTable extends Table
 
                     return true;
                 },
-                'message' => 'The name cannot be changed',
+                'message' => __('The "Name" field cannot be changed for this user'),
             ])
             ->add('email', 'custom', [
                 'rule' => function ($value, $context) use ($notAllowed) {
@@ -134,7 +134,7 @@ class UsersTable extends Table
 
                     return true;
                 },
-                'message' => 'The email cannot be changed',
+                'message' => __('The "Email" field cannot be changed for this user'),
             ])
             ->add('password', 'custom', [
                 'rule' => function ($value, $context) use ($notAllowed) {
