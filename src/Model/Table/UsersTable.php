@@ -116,7 +116,7 @@ class UsersTable extends Table
 
                     return true;
                 },
-                'message' => __('The "Name" field cannot be changed for this user'),
+                'message' => __('The name cannot be changed for this user'),
             ])
             ->add('email', 'custom', [
                 'rule' => function ($value, $context) use ($notAllowed) {
@@ -134,7 +134,25 @@ class UsersTable extends Table
 
                     return true;
                 },
-                'message' => __('The "Email" field cannot be changed for this user'),
+                'message' => __('The email cannot be changed for this user'),
+            ])
+            ->add('group_id', 'custom', [
+                'rule' => function ($value, $context) use ($notAllowed) {
+                    if(isset($context['data']['id'])) {
+                        $id = $context['data']['id'];
+                    } else {
+                        return true;
+                    }
+                    $group_id = $context['data']['group_id'];
+                    $index = array_search($id, array_column($notAllowed, 'id'));
+                    if (is_int($index)) {
+                        $validGroupId = $notAllowed[$index]['email'] === $group_id;
+                        if(!$validGroupId) return false;
+                    }
+
+                    return true;
+                },
+                'message' => __('The role cannot be changed for this user'),
             ])
             ->add('password', 'custom', [
                 'rule' => function ($value, $context) use ($notAllowed) {
@@ -148,7 +166,7 @@ class UsersTable extends Table
                     if (is_int($index)) return false;
                     return true;
                 },
-                'message' => __('The "Password" field cannot be changed for this user'),
+                'message' => __('The password cannot be changed for this user'),
             ]);
 
 
