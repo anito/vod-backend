@@ -16,6 +16,7 @@ namespace App\Controller;
 
 use Cake\Controller\Controller;
 use Cake\Event\Event;
+use Cake\Log\Log;
 
 /**
  * Application Controller
@@ -81,7 +82,7 @@ class AppController extends Controller
     public function isAuthGroup()
     {
         $groups = $this->allowedGroups;
-        if (in_array($this->_groupName(), $groups)) {
+        if (in_array($this->groupName(), $groups)) {
             return true;
         }
         return false;
@@ -90,13 +91,13 @@ class AppController extends Controller
     public function isAdmin()
     {
         $group = 'Administrator';
-        if ( $this->_groupName() == $group ) {
+        if ( $this->groupName() == $group ) {
             return true;
         }
         return false;
     }
 
-    public function _groupName()
+    public function groupName()
     {
         if ($user = $this->Auth->user()) {
             $users = $this->Users->get($user['id'], [

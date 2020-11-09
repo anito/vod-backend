@@ -10,6 +10,10 @@ use Cake\Log\Log;
 
 class UsersController extends AppController
 {
+    // 1 week => 7 days = 7*24*60*60 = 604800
+    // 1 day = 24*60*60 =  86400
+    static $max_token_time = 60*60;
+
     public function initialize() {
         parent::initialize();
         $this->Auth->allow( ['token', 'logout', 'login'] );
@@ -43,13 +47,24 @@ class UsersController extends AppController
 
     public function add() {
         $this->Crud->on('afterSave', function(Event $event) {
+            if ($event->getSubject()->entity->hasErrors()) {
+                $errors = $event->getSubject()->entity->errors();
+                Log::debug($errors);
+                $field = array_key_first($errors);
+                $type = array_key_first($errors[$field]);
+
+                $message = $errors[$field][$type];
+                throw new ForbiddenException($message);
+            }
+
             if ($event->getSubject()->created) {
+                $id = $event->getSubject()->entity->id;
                 $this->set('data', [
-                    'id' => $event->getSubject()->id,
+                    'id' => $id,
                     'message' => 'User created',
                     'token' => JWT::encode([
-                        'sub' => $event->getSubject()->id,
-                        'exp' =>  time() + 604800 // (sec) 604800/60/60/24 = 7 days
+                        'sub' => $id,
+                        'exp' =>  time() + $this::$max_token_time
                     ],
                     Security::getSalt())
                 ]);
@@ -64,14 +79,41 @@ class UsersController extends AppController
             // Log::debug($event->getSubject());
             if ($event->getSubject()->entity->hasErrors()) {
                 $errors = $event->getSubject()->entity->errors();
-                $key = array_key_first($errors);
-                $message = $errors[$key]['custom'];
-                throw new ForbiddenException(__($message));
+                $field = array_key_first($errors);
+                $type = array_key_first($errors[$field]);
+
+                $message = $errors[$field][$type];
+                throw new ForbiddenException($message);
             }
             if ($event->getSubject()->success) {
                 $message = __('User updated');
             } else {
                 $message = __('User could not be updated');
+            }
+            $this->set('data', [
+                'message' => $message
+            ]);
+
+            $this->Crud->action()->config('serialize.data', 'data');
+        });
+        return $this->Crud->execute();
+    }
+
+    public function delete($id) {
+        $this->Crud->on('afterDelete', function(Event $event) {
+            
+            if ($event->getSubject()->entity->hasErrors()) {
+                $errors = $event->getSubject()->entity->errors();
+                $field = array_key_first($errors);
+                $type = array_key_first($errors[$field]);
+
+                $message = $errors[$field][$type];
+                throw new ForbiddenException($message);
+            }
+            if ($event->getSubject()->success) {
+                $message = __('User deleted');
+            } else {
+                $message = __('User could not be deleted');
             }
             $this->set('data', [
                 'message' => $message
@@ -93,7 +135,7 @@ class UsersController extends AppController
         }
         $user[ 'token' ] = JWT::encode([
             'sub' => $user,
-            'exp' =>  time() + 1*60*60 // 1 week => 7 days = 7*24*60*60 = 604800 || 1 day = 24*60*60 =  86400
+            'exp' =>  time() + $this::$max_token_time
         ],
         Security::getSalt());
 
@@ -103,6 +145,7 @@ class UsersController extends AppController
                 'message' => __('Login successful'),
                 'user' => $user,
                 'role' => $this->_getUserRoleName($user),
+                'groups' => $this->_getGroups(),
             ],
             '_serialize' => ['success', 'data']
         ]);

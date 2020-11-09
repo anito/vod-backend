@@ -138,6 +138,7 @@ class UsersTable extends Table
             ])
             ->add('password', 'custom', [
                 'rule' => function ($value, $context) use ($notAllowed) {
+                    
                     if (isset($context['data']['id'])) {
                         $id = $context['data']['id'];
                     } else {
@@ -147,7 +148,7 @@ class UsersTable extends Table
                     if (is_int($index)) return false;
                     return true;
                 },
-                'message' => 'The password cannot be changed',
+                'message' => __('The "Password" field cannot be changed for this user'),
             ]);
 
 
