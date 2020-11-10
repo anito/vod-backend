@@ -78,7 +78,7 @@ class UsersController extends AppController
         $this->Crud->on('afterSave', function(Event $event) {
             // Log::debug($event->getSubject());
             if ($event->getSubject()->entity->hasErrors()) {
-                $errors = $event->getSubject()->entity->errors();
+                $errors = $event->getSubject()->entity->getErrors();
                 $field = array_key_first($errors);
                 $type = array_key_first($errors[$field]);
 
@@ -100,21 +100,27 @@ class UsersController extends AppController
     }
 
     public function delete($id) {
+        $this->Crud->on('beforeDelete', function(Event $event) {
+            $notAllowed = FIXTURE;
+            $id = $event->getSubject()->entity->id;
+            $index = array_search($id, array_column($notAllowed, 'id'));
+            if (is_int($index)) {
+                $message = __('This protected user may not be deleted');
+                $event->stopPropagation();
+                throw new ForbiddenException($message);
+            }
+        });
+
         $this->Crud->on('afterDelete', function(Event $event) {
-            
             if ($event->getSubject()->entity->hasErrors()) {
-                $errors = $event->getSubject()->entity->errors();
+                $errors = $event->getSubject()->entity->getErrors();
                 $field = array_key_first($errors);
                 $type = array_key_first($errors[$field]);
 
                 $message = $errors[$field][$type];
                 throw new ForbiddenException($message);
             }
-            if ($event->getSubject()->success) {
-                $message = __('User deleted');
-            } else {
-                $message = __('User could not be deleted');
-            }
+            $message = __('User deleted');
             $this->set('data', [
                 'message' => $message
             ]);
