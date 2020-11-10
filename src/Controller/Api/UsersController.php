@@ -105,7 +105,7 @@ class UsersController extends AppController
             $id = $event->getSubject()->entity->id;
             $index = array_search($id, array_column($notAllowed, 'id'));
             if (is_int($index)) {
-                $message = __('This protected user may not be deleted');
+                $message = __('Protected users can not be deleted');
                 $event->stopPropagation();
                 throw new ForbiddenException($message);
             }
