@@ -12,7 +12,7 @@ class UsersController extends AppController
 {
     // 1 week => 7 days = 7*24*60*60 = 604800
     // 1 day = 24*60*60 =  86400
-    static $max_token_time = 60*60;
+    static $max_token_time = 1*60*60;
 
     public function initialize() {
         parent::initialize();
