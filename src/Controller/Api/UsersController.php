@@ -45,11 +45,27 @@ class UsersController extends AppController
 
     }
 
+    public function index()
+    {
+        $this->Crud->on('afterPaginate', function(\Cake\Event\Event $event) {
+            $notAllowed = FIXTURE;
+
+            foreach ($event->getSubject()->entities as $entity) {
+                $id = $entity->id;
+                $index = array_search($id, array_column($notAllowed, 'id'));
+                if (is_int($index)) {
+                    $entity['protected'] = true;
+                }
+            }
+        });
+
+        return $this->Crud->execute();
+    }
+
     public function add() {
         $this->Crud->on('afterSave', function(Event $event) {
             if ($event->getSubject()->entity->hasErrors()) {
                 $errors = $event->getSubject()->entity->errors();
-                Log::debug($errors);
                 $field = array_key_first($errors);
                 $type = array_key_first($errors[$field]);
 
@@ -76,7 +92,6 @@ class UsersController extends AppController
 
     public function edit($id) {
         $this->Crud->on('afterSave', function(Event $event) {
-            // Log::debug($event->getSubject());
             if ($event->getSubject()->entity->hasErrors()) {
                 $errors = $event->getSubject()->entity->getErrors();
                 $field = array_key_first($errors);
