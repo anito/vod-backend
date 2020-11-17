@@ -82,6 +82,7 @@ Router::scope('/', function (RouteBuilder $routes) {
         Router::connect('/api/mysql/mysql/*', ['controller' => 'Mysql', 'action' => 'add', 'prefix' => 'api']);
         Router::connect('/api/u/v/*', ['controller' => 'Videos', 'action' => 'uri', 'prefix' => 'api']);
         Router::connect('/api/u/i/*', ['controller' => 'Images', 'action' => 'uri', 'prefix' => 'api']);
+        Router::connect('/api/u/a/*', ['controller' => 'Avatars', 'action' => 'uri', 'prefix' => 'api']);
         Router::connect('/api/q/:crypt/:timestamp/*', ['controller' => 'Kodaks', 'action' => 'process', 'prefix' => 'api']);
 
         $routes->fallbacks('InflectedRoute');

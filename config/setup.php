@@ -52,6 +52,7 @@ define('BASE_URL', Configure::read('App.fullBaseUrl'));
 define('UPLOADS', ROOT . DS . 'uploads');
 define('IMAGES', UPLOADS . DS . 'images');
 define('VIDEOS', UPLOADS . DS . 'videos');
+define('AVATARS', UPLOADS . DS . 'avatars');
 if(!defined('MYSQL_CONFIG_DIR')) {
     define('MYSQL_CONFIG_DIR', ROOT . DS . 'mysqlconf' . DS);
     if (!is_dir(MYSQL_CONFIG_DIR)) {

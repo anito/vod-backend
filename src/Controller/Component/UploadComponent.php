@@ -22,6 +22,13 @@ class UploadComponent extends Component
         parent::__construct($registry, $config);
     }
 
+    public function saveAvatar($files) {
+
+        define('PATH', AVATARS);
+        $this->saveUploadedFiles($files);
+
+    }
+    
     public function saveUploadedFiles($files)
     {
 
