@@ -11,12 +11,12 @@ use Cake\Log\Log;
 
 
 /**
- * Images Controller
+ * Avatars Controller
  *
  *
  * @method \App\Model\Entity\Video[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
  */
-class ImagesController extends AppController
+class AvatarsController extends AppController
 {
 
     public function initialize()
@@ -61,11 +61,19 @@ class ImagesController extends AppController
             // make shure single uploads are handled correctly
             if(!empty($files['tmp_name'])) $files = [$files];
 
-            if (!empty($avatars = $this->Upload->saveAvatar($files))) {
+            if (!empty($avatars = $this->Upload->saveAsAvatar($files))) {
 
-                $avatars = $this->Images->newEntities($avatars);
+                $avatars = $this->Avatars->newEntities($avatars);
 
-                if ($data = $this->Images->saveMany($avatars)) {
+                $user = $this->Auth->identify();
+                $uid = $user['sub']['id'];
+                $data = [];
+                foreach($avatars as $avatar) {
+
+                    $avatar->user_id = $uid;
+                    $data[] = $this->Avatars->save($avatar);
+                }
+                if (!empty($data)) {
 
                     $this->set([
                         'success' => true,
@@ -153,7 +161,6 @@ class ImagesController extends AppController
                     '_serialize' => ['success', 'data'],
                 ]
             );
-            // die;
         }
     }
 

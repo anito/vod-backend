@@ -22,10 +22,10 @@ class UploadComponent extends Component
         parent::__construct($registry, $config);
     }
 
-    public function saveAvatar($files) {
+    public function saveAsAvatar($files) {
 
         define('PATH', AVATARS);
-        $this->saveUploadedFiles($files);
+        return $this->saveUploadedFiles($files);
 
     }
     
@@ -40,10 +40,8 @@ class UploadComponent extends Component
 
         foreach ($files as $file) {
 
-            $file_name = $file['name'];
-            $isImage = $this->File->isImage($file_name);
-
             $uuid = Text::uuid();
+            $file_name = $file['name'];
 
             if(!defined('PATH')) {
                 define('PATH', $this->Director->getPathConstant($file_name));
@@ -52,6 +50,10 @@ class UploadComponent extends Component
             if (!defined('PATH')) {
                 return;
             }
+
+            $isImage = $this->File->isImage($file_name);
+            $isAvatar = $isImage && strpos(PATH, 'avatar');
+
 
             if (!is_dir(PATH)) {
                 $this->File->makeDir(PATH);
@@ -78,7 +80,7 @@ class UploadComponent extends Component
                     copy($lg_temp, $lg_path);
                     unlink($lg_temp);
 
-                    if ($isImage) {
+                    if ($isImage && !$isAvatar) {
 
                         list($meta, $captured) = $this->File->imageMetadata($lg_path);
 
@@ -95,6 +97,7 @@ class UploadComponent extends Component
                         $file['software'] = $this->File->parseMetaTags('exif:software', $meta);
 
                     }
+                    
 
                     $file['id'] = $uuid;
                     $file['src'] = $file_name;

@@ -27,6 +27,7 @@ class Avatar extends Entity
      * @var array
      */
     protected $_accessible = [
+        'id' => true,
         'src' => true,
         'user_id' => true,
         'filesize' => true,

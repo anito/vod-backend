@@ -116,7 +116,7 @@ class UsersTable extends Table
 
                     return true;
                 },
-                'message' => __('The name cannot be changed for protected users'),
+                'message' => __('This name is protected and cannot be changed'),
             ])
             ->add('email', 'custom', [
                 'rule' => function ($value, $context) use ($notAllowed) {
@@ -134,7 +134,7 @@ class UsersTable extends Table
 
                     return true;
                 },
-                'message' => __('The email cannot be changed for protected users'),
+                'message' => __('This email is protected and cannot be changed'),
             ])
             ->add('group_id', 'custom', [
                 'rule' => function ($value, $context) use ($notAllowed) {
@@ -152,7 +152,7 @@ class UsersTable extends Table
 
                     return true;
                 },
-                'message' => __('The role cannot be changed for protected users'),
+                'message' => __('This role is protected and cannot be changed'),
             ])
             ->add('password', 'custom', [
                 'rule' => function ($value, $context) use ($notAllowed) {
@@ -166,7 +166,7 @@ class UsersTable extends Table
                     if (is_int($index)) return false;
                     return true;
                 },
-                'message' => __('The password cannot be changed for protected users'),
+                'message' => __('This password is protected and cannot be changed'),
             ]);
 
 
