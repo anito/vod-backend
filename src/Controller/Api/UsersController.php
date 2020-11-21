@@ -12,7 +12,7 @@ class UsersController extends AppController
 {
     // 1 week => 7 days = 7*24*60*60 = 604800
     // 1 day = 24*60*60 =  86400
-    static $max_token_time = 1*60*60;
+    static $tokenLifeTime = 1*30*60;
 
     public function initialize() {
         parent::initialize();
@@ -80,7 +80,7 @@ class UsersController extends AppController
                     'message' => 'User created',
                     'token' => JWT::encode([
                         'sub' => $id,
-                        'exp' =>  time() + $this::$max_token_time
+                        'exp' =>  time() + $this::$tokenLifeTime
                     ],
                     Security::getSalt())
                 ]);
@@ -156,7 +156,7 @@ class UsersController extends AppController
         }
         $user[ 'token' ] = JWT::encode([
             'sub' => $user,
-            'exp' =>  time() + $this::$max_token_time
+            'exp' =>  time() + $this::$tokenLifeTime
         ],
         Security::getSalt());
 
