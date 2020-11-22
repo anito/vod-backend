@@ -42,12 +42,12 @@ class AvatarsFixture extends TestFixture
     {
         $this->records = [
             [
-                'id' => '11dd127b-9520-4c91-9df2-0f05067de815',
+                'id' => 'dbda2c44-93c1-4659-a483-d38e834b9358',
                 'src' => 'Lorem ipsum dolor sit amet',
                 'user_id' => 'Lorem ipsum dolor sit amet',
                 'filesize' => 1,
-                'created' => '2020-11-17 15:53:38',
-                'modified' => '2020-11-17 15:53:38',
+                'created' => '2020-11-21 18:31:56',
+                'modified' => '2020-11-21 18:31:56',
             ],
         ];
         parent::init();

@@ -23,7 +23,6 @@ use Cake\ORM\Entity;
  */
 class User extends Entity
 {
-
     protected function _setPassword($password) {
         if (strlen($password)) {
             $hasher = new DefaultPasswordHasher();
@@ -31,6 +30,7 @@ class User extends Entity
             return $hasher->hash($password);
         }
     }
+
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
      *

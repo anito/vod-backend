@@ -56,7 +56,7 @@ class ImagesController extends AppController
     public function add()
     {
 
-        if (!empty($files = $this->request->getData('Image'))) {
+        if (!empty($files = $this->request->getData('Files'))) {
 
             // make shure single uploads are handled correctly
             if(!empty($files['tmp_name'])) $files = [$files];

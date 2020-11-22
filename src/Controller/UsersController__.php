@@ -16,6 +16,11 @@ use Cake\ORM\TableRegistry;
 class UsersController extends AppController
 {
 
+    public function initialize() {
+        parent::initialize();
+        // // $this->Auth->allow(['add', 'view', 'edit']);
+    }
+
     public function login() {
 
         if ($this->request->is('post')) {
@@ -50,7 +55,7 @@ class UsersController extends AppController
     public function index()
     {
         $this->paginate = [
-            'contain' => ['Groups', 'Videos', 'Avatars'],
+            'contain' => ['Groups'],
         ];
         $users = $this->paginate($this->Users);
 
@@ -67,7 +72,7 @@ class UsersController extends AppController
     public function view($id = null)
     {
         $user = $this->Users->get($id, [
-            'contain' => ['Groups', 'Videos', 'Avatars'],
+            'contain' => ['Groups', 'Videos'],
         ]);
 
         $this->set('user', $user);
@@ -108,6 +113,7 @@ class UsersController extends AppController
             'contain' => ['Videos'],
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
+            Log::debug($this->request->getData());
             $user = $this->Users->patchEntity($user, $this->request->getData());
             if ($this->Users->save($user)) {
                 $this->Flash->success(__('The user has been saved.'));

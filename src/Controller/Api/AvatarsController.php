@@ -55,49 +55,65 @@ class AvatarsController extends AppController
 
     public function add()
     {
+        $this->Crud->on('beforeSave', function (Event $event) {
 
-        if (!empty($files = $this->request->getData('Avatar'))) {
+            //
 
-            // make shure single uploads are handled correctly
-            if(!empty($files['tmp_name'])) $files = [$files];
+        });
 
-            if (!empty($avatars = $this->Upload->saveAsAvatar($files))) {
+        if (!empty($files = $this->request->getData('Files'))) {
+            Log::debug($this->request->getData());
+            $data = $this->addUpload($files);
 
-                $avatars = $this->Avatars->newEntities($avatars);
+            if (!empty($data)) {
 
-                $user = $this->Auth->identify();
-                $uid = $user['sub']['id'];
-                $data = [];
-                foreach($avatars as $avatar) {
-
-                    $avatar->user_id = $uid;
-                    $data[] = $this->Avatars->save($avatar);
-                }
-                if (!empty($data)) {
-
-                    $this->set([
-                        'success' => true,
-                        'data' => $data,
-                        '_serialize' => ['success', 'data'],
-                    ]);
-                } else {
-
-                    $this->set([
-                        'success' => false,
-                        'data' => [],
-                        'message' => 'An Error occurred while saving your data',
-                        '_serialize' => ['success', 'data', 'message'],
-                    ]);
-                }
+                $this->set([
+                    'success' => true,
+                    'data' => $data,
+                    '_serialize' => ['success', 'data'],
+                ]);
             } else {
 
                 $this->set([
                     'success' => false,
                     'data' => [],
-                    'message' => 'An Error occurred while uploading your files',
+                    'message' => 'An Error occurred while saving your data',
                     '_serialize' => ['success', 'data', 'message'],
                 ]);
             }
+
+        }
+    }
+    
+    public function edit($id)
+    {
+        $this->Crud->on('beforeSave', function (Event $event) {
+
+            $this->deleteUpload($event);
+
+        });
+
+        if (!empty($files = $this->request->getData('Files'))) {
+
+            $data = $this->addUpload($files);
+
+            if (!empty($data)) {
+
+                $this->set([
+                    'success' => true,
+                    'data' => $data,
+                    '_serialize' => ['success', 'data'],
+                ]);
+            } else {
+
+                $this->set([
+                    'success' => false,
+                    'data' => [],
+                    'message' => 'An Error occurred while saving your data',
+                    '_serialize' => ['success', 'data', 'message'],
+                ]);
+            }
+
         }
     }
 
@@ -105,24 +121,60 @@ class AvatarsController extends AppController
     {
         $this->Crud->on('beforeDelete', function (Event $event) {
 
-            if ($this->Auth->identify()) {
+            $this->deleteUpload($event);
 
-                $id = $event->getSubject()->entity->id;
-                $fn = $event->getSubject()->entity->src;
-
-                $path = AVATARS . DS . $id;
-                $lg_path = $path . DS . 'lg';
-
-                $oldies = glob($lg_path . DS . $fn);
-
-                if (!empty($oldies) && $oldies && !unlink($oldies[0])) {
-                    $event->stopPropagation();
-                } else {
-                    $this->File->rmdirr($path);
-                }
-            }
         });
         return $this->Crud->execute();
+    }
+
+    protected function addUpload($files) {
+       
+        // make shure single uploads are handled correctly
+        if (!empty($files['tmp_name'])) {
+            $files = [$files];
+        }
+
+        if (!empty($avatars = $this->Upload->saveAsAvatar($files))) {
+
+            $avatars = $this->Avatars->newEntities($avatars);
+
+            $user = $this->Auth->identify();
+            $uid = $user['sub']['id'];
+            $data = [];
+            foreach ($avatars as $avatar) {
+
+                $avatar->user_id = $uid;
+                $data[] = $this->Avatars->save($avatar);
+            }
+            return $data;
+            
+        } else {
+
+            $this->set([
+                'success' => false,
+                'data' => [],
+                'message' => 'An Error occurred while uploading your files',
+                '_serialize' => ['success', 'data', 'message'],
+            ]);
+        }
+    }
+
+    protected function deleteUpload($event) {
+
+        $id = $event->getSubject()->entity->id;
+        $fn = $event->getSubject()->entity->src;
+
+        $path = AVATARS . DS . $id;
+        $lg_path = $path . DS . 'lg';
+
+        $oldies = glob($lg_path . DS . $fn);
+
+        if (!empty($oldies) && $oldies && !unlink($oldies[0])) {
+            $event->stopPropagation();
+        } else {
+            $this->File->rmdirr($path);
+        }
+
     }
 
     public function uri($id)

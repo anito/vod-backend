@@ -2,18 +2,15 @@
 namespace App\Model\Table;
 
 use Cake\ORM\Query;
-use Cake\ORM\Rule\IsUnique;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
-use Cake\Log\Log;
 
 /**
  * Users Model
  *
  * @property \App\Model\Table\GroupsTable&\Cake\ORM\Association\BelongsTo $Groups
- * @property \App\Model\Table\ImagesTable&\Cake\ORM\Association\HasMany $Images
- * @property \App\Model\Table\VideosTable&\Cake\ORM\Association\HasMany $Videos
+ * @property \App\Model\Table\AvatarsTable&\Cake\ORM\Association\HasMany $Avatars
  * @property \App\Model\Table\VideosTable&\Cake\ORM\Association\BelongsToMany $Videos
  *
  * @method \App\Model\Entity\User get($primaryKey, $options = [])
@@ -43,18 +40,14 @@ class UsersTable extends Table
         $this->setDisplayField('name');
         $this->setPrimaryKey('id');
 
-        $this->addBehavior('Timestamp', [
-            'events' => [
-                'Users.login' => [
-                    'last_login' => 'always',
-                ],
-            ],
-        ]);
+        $this->addBehavior('Timestamp');
 
         $this->belongsTo('Groups', [
             'foreignKey' => 'group_id',
         ]);
-
+        $this->hasOne('Avatars', [
+            'foreignKey' => 'user_id',
+        ]);
         $this->belongsToMany('Videos', [
             'foreignKey' => 'user_id',
             'targetForeignKey' => 'video_id',
@@ -75,19 +68,23 @@ class UsersTable extends Table
             ->allowEmptyString('id', null, 'create');
 
         $validator
+            ->scalar('username')
+            ->maxLength('username', 50)
+            ->allowEmptyString('username');
+
+        $validator
             ->scalar('name')
             ->maxLength('name', 255)
             ->allowEmptyString('name');
 
         $validator
-            ->email('email', null, 'Not a valid email address')
-            ->notEmptyString('email');
+            ->email('email')
+            ->allowEmptyString('email');
 
         $validator
             ->scalar('password')
             ->maxLength('password', 255)
-            ->minLength('password', 8)
-            ->notEmptyString('password');
+            ->allowEmptyString('password');
 
         $validator
             ->boolean('active')
@@ -96,79 +93,6 @@ class UsersTable extends Table
         $validator
             ->dateTime('last_login')
             ->allowEmptyDateTime('last_login');
-
-        
-        $notAllowed = FIXTURE;
-        $validator
-            ->add('name', 'custom', [
-                'rule' => function ($value, $context) use ($notAllowed) {
-                    if (isset($context['data']['id'])) {
-                        $id = $context['data']['id'];
-                    } else {
-                        return true;
-                    }
-                    $name = $context['data']['name'];
-                    $index = array_search($id, array_column($notAllowed, 'id'));
-                    if (is_int($index)) {
-                        $validName = $notAllowed[$index]['name'] === $name;
-                        if(!$validName) return false;
-                    }
-
-                    return true;
-                },
-                'message' => __('This name is protected and cannot be changed'),
-            ])
-            ->add('email', 'custom', [
-                'rule' => function ($value, $context) use ($notAllowed) {
-                    if(isset($context['data']['id'])) {
-                        $id = $context['data']['id'];
-                    } else {
-                        return true;
-                    }
-                    $email = $context['data']['email'];
-                    $index = array_search($id, array_column($notAllowed, 'id'));
-                    if (is_int($index)) {
-                        $validEmail = $notAllowed[$index]['email'] === $email;
-                        if(!$validEmail) return false;
-                    }
-
-                    return true;
-                },
-                'message' => __('This email is protected and cannot be changed'),
-            ])
-            ->add('group_id', 'custom', [
-                'rule' => function ($value, $context) use ($notAllowed) {
-                    if(isset($context['data']['id'])) {
-                        $id = $context['data']['id'];
-                    } else {
-                        return true;
-                    }
-                    $group_id = $context['data']['group_id'];
-                    $index = array_search($id, array_column($notAllowed, 'id'));
-                    if (is_int($index)) {
-                        $validGroupId = $notAllowed[$index]['email'] === $group_id;
-                        if(!$validGroupId) return false;
-                    }
-
-                    return true;
-                },
-                'message' => __('This role is protected and cannot be changed'),
-            ])
-            ->add('password', 'custom', [
-                'rule' => function ($value, $context) use ($notAllowed) {
-                    
-                    if (isset($context['data']['id'])) {
-                        $id = $context['data']['id'];
-                    } else {
-                        return true;
-                    }
-                    $index = array_search($id, array_column($notAllowed, 'id'));
-                    if (is_int($index)) return false;
-                    return true;
-                },
-                'message' => __('This password is protected and cannot be changed'),
-            ]);
-
 
         return $validator;
     }
@@ -182,8 +106,7 @@ class UsersTable extends Table
      */
     public function buildRules(RulesChecker $rules)
     {
-        // $rules->add(new IsUnique(['email']), __('This email already exists'));
-        $rules->add($rules->isUnique(['email'], __('This email already exists')));
+        $rules->add($rules->isUnique(['email']));
         $rules->add($rules->existsIn(['group_id'], 'Groups'));
 
         return $rules;
