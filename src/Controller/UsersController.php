@@ -16,10 +16,16 @@ use Cake\ORM\TableRegistry;
 class UsersController extends AppController
 {
 
+    public function initialize() {
+        parent::initialize();
+        // // $this->Auth->allow(['add', 'view', 'edit']);
+    }
+
     public function login() {
 
         if ($this->request->is('post')) {
             $user = $this->Auth->identify();
+            
             if ($user) {
                 $this->Auth->setUser($user);
                 $id = $user['id'];

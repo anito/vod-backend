@@ -81,8 +81,7 @@ class AppController extends Controller
 
     public function isAuthGroup()
     {
-        $groups = $this->allowedGroups;
-        if (in_array($this->groupName(), $groups)) {
+        if (in_array($this->groupName(), $this->allowedGroups)) {
             return true;
         }
         return false;

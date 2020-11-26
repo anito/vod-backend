@@ -62,6 +62,20 @@ class UsersController extends AppController
         return $this->Crud->execute();
     }
 
+    public function view($id)
+    {
+        $user = $this->Users->get($id, [
+            'contain' => ['Groups', 'Videos', 'Avatars'],
+        ]);
+
+        $this->set('data', $user);
+
+        $this->Crud->action()->config('serialize.data', 'data');
+
+        return $this->Crud->execute();
+
+    }
+
     public function add() {
         $this->Crud->on('afterSave', function(Event $event) {
             if ($event->getSubject()->entity->hasErrors()) {
@@ -151,6 +165,7 @@ class UsersController extends AppController
 
     public function login() {
         $user = $this->Auth->identify();
+        Log::debug($user);
         if (!$user) {
             throw new UnauthorizedException(__('Invalid username or password'));
         }

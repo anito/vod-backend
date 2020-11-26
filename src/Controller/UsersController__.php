@@ -55,7 +55,7 @@ class UsersController extends AppController
     public function index()
     {
         $this->paginate = [
-            'contain' => ['Groups'],
+            'contain' => ['Groups', 'Videos', 'Avatars'],
         ];
         $users = $this->paginate($this->Users);
 
@@ -72,7 +72,7 @@ class UsersController extends AppController
     public function view($id = null)
     {
         $user = $this->Users->get($id, [
-            'contain' => ['Groups', 'Videos'],
+            'contain' => ['Groups', 'Videos', 'Avatars'],
         ]);
 
         $this->set('user', $user);

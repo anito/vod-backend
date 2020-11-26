@@ -5,10 +5,11 @@ namespace App\Controller\Api;
 use App\Controller\Api\AppController;
 use Cake\Core\App;
 use Cake\Event\Event;
+use Cake\ORM\TableRegistry;
 use Cake\Http\Exception\UnauthorizedException;
 use Cake\Utility\Text;
 use Cake\Log\Log;
-
+use Cake\ORM\Locator\LocatorInterface;
 
 /**
  * Avatars Controller
@@ -55,68 +56,53 @@ class AvatarsController extends AppController
 
     public function add()
     {
-        $this->Crud->on('beforeSave', function (Event $event) {
 
-            //
+        $files = $this->request->getData('Files');
+        $uid = $this->request->getData('user_id');
+
+
+        $this->Crud->on('beforeSave', function (Event $event) use ($files, $uid) {
+            
+            Log::debug("add::beforeSave");
+            
+
+            $entity = $event->getSubject()->entity;
+            Log::debug($entity);
+            
+            $newEntities = $this->addUpload($files);
+            Log::debug($newEntities);
+
+            if(!empty($newEntities)) {
+
+                // delete existing entries since we cant use PUT for altering data ($_FILES is only available in POST method (not PUT))
+                $query = $this->Avatars->query();
+                $query->delete()
+                    ->where(['user_id' => $uid])
+                    ->execute();
+
+                $this->Avatars->patchEntity($entity, $newEntities[0]);
+            }
 
         });
 
-        if (!empty($files = $this->request->getData('Files'))) {
-            Log::debug($this->request->getData());
-            $data = $this->addUpload($files);
+        $this->Crud->on('afterSave', function (Event $event) use ($uid) {
 
-            if (!empty($data)) {
+            $usersTable = TableRegistry::getTableLocator()->get('Users');
+            $user = $usersTable->get($uid, [
+                'contain' => ['Groups', 'Videos', 'Avatars'],
+            ]);
+    
+            $this->set([
+                'success' => true,
+                'data' => $user,
+                '_serialize' => ['success', 'data'],
+            ]);
+        });
 
-                $this->set([
-                    'success' => true,
-                    'data' => $data,
-                    '_serialize' => ['success', 'data'],
-                ]);
-            } else {
+        return $this->Crud->execute();
 
-                $this->set([
-                    'success' => false,
-                    'data' => [],
-                    'message' => 'An Error occurred while saving your data',
-                    '_serialize' => ['success', 'data', 'message'],
-                ]);
-            }
-
-        }
     }
     
-    public function edit($id)
-    {
-        $this->Crud->on('beforeSave', function (Event $event) {
-
-            $this->deleteUpload($event);
-
-        });
-
-        if (!empty($files = $this->request->getData('Files'))) {
-
-            $data = $this->addUpload($files);
-
-            if (!empty($data)) {
-
-                $this->set([
-                    'success' => true,
-                    'data' => $data,
-                    '_serialize' => ['success', 'data'],
-                ]);
-            } else {
-
-                $this->set([
-                    'success' => false,
-                    'data' => [],
-                    'message' => 'An Error occurred while saving your data',
-                    '_serialize' => ['success', 'data', 'message'],
-                ]);
-            }
-
-        }
-    }
-
     public function delete()
     {
         $this->Crud->on('beforeDelete', function (Event $event) {
@@ -135,18 +121,7 @@ class AvatarsController extends AppController
         }
 
         if (!empty($avatars = $this->Upload->saveAsAvatar($files))) {
-
-            $avatars = $this->Avatars->newEntities($avatars);
-
-            $user = $this->Auth->identify();
-            $uid = $user['sub']['id'];
-            $data = [];
-            foreach ($avatars as $avatar) {
-
-                $avatar->user_id = $uid;
-                $data[] = $this->Avatars->save($avatar);
-            }
-            return $data;
+            return $avatars;
             
         } else {
 
@@ -179,15 +154,17 @@ class AvatarsController extends AppController
 
     public function uri($id)
     {
+        define('PATH', AVATARS);
         $data = [];
         
         $params = $this->getRequest()->getQuery();
-        $lg_path = AVATARS . DS . $id . DS . 'lg';
+        $lg_path = PATH . DS . $id . DS . 'lg';
         $files = glob($lg_path . DS . '*.*');
         $fn = basename($files[0]);
+        $path = "avatars";
         
         if (!empty($files[0])) {
-            $options = array_merge(compact(array('fn', 'id')), $params);
+            $options = array_merge(compact(array('fn', 'id', 'path')), $params);
             $p = $this->Director->p($options);
             $json = json_encode($params);
             $stringified = preg_replace('/["\'\s]/', '', $json);

@@ -43,9 +43,8 @@ class DirectorComponent extends Component
         $args = join(',', $o);
         $fn = $o['fn'];
 
-        define('PATH', $this->getPathConstant($fn));
-        if (!defined('PATH')) {
-            return;
+        if(!defined('PATH')) {
+            define('PATH', $this->getPathConstant($fn));
         }
 
         $crypt = $this->Salt->convert($args); //encode
@@ -92,13 +91,8 @@ class DirectorComponent extends Component
         return array($x, $y);
     }
 
-    public function getPathConstant($fn)
+    public function getPathConstant($path)
     {
-        if ($this->File->isVideo($fn)) {
-            return VIDEOS;
-        } elseif ($this->File->isImage($fn)) {
-            return IMAGES;
-        }
-        return null;
+        return UPLOADS . DS . $path;
     }
 }
