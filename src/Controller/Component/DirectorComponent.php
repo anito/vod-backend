@@ -3,6 +3,7 @@ namespace App\Controller\Component;
 
 use Cake\Controller\Component;
 use Cake\Event\Event;
+use Cake\Log\Log;
 
 class DirectorComponent extends Component
 {
@@ -41,10 +42,9 @@ class DirectorComponent extends Component
 
         $o = array_merge($defaults, $options);
         $args = join(',', $o);
-        $fn = $o['fn'];
 
         if(!defined('PATH')) {
-            define('PATH', $this->getPathConstant($fn));
+            define('PATH', $this->getPathConstant($o['type']));
         }
 
         $crypt = $this->Salt->convert($args); //encode

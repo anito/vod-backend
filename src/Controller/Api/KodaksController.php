@@ -59,7 +59,6 @@ class KodaksController extends AppController
         $crypt = $this->Salt->convert( $val, false ); // decrypt
         $a = explode(',', $crypt);
         // Log::debug('decrypted:');
-        Log::debug($a);
         
         $file = $fn = basename($a[0]);
 
@@ -78,15 +77,12 @@ class KodaksController extends AppController
         $x      = $this->n($a, 7, 50);
         $y      = $this->n($a, 8, 50);
         $force  = $this->n($a, 9, 0);
-        $path  = $this->isArrayAt($a, 10);
-
-        Log::debug($path);
+        $type   = $this->isArrayAt($a, 10);
 
         $ext = $this->File->returnExt( $file );
 
-        if($path) define('PATH', $this->Director->getPathConstant($path));
         if (!defined('PATH')) {
-            return;
+            define('PATH', $this->Director->getPathConstant($type));
         }
 
         $original = PATH . DS . $id . DS . 'lg' . DS . $file;

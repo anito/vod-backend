@@ -152,12 +152,7 @@ class VideosController extends AppController
                 $id = $event->getSubject()->entity->id;
                 $fn = $event->getSubject()->entity->src;
 
-                define('PATH', $this->Director->getPathConstant($fn));
-                if (!defined('PATH')) {
-                    $event->stopPropagation();
-                }
-
-                $path = PATH . DS . $id;
+                $path = VIDEOS . DS . $id;
                 $lg_path = $path . DS . 'lg';
 
                 $oldies = glob($lg_path . DS . $fn);
@@ -174,17 +169,16 @@ class VideosController extends AppController
 
     public function uri($id)
     {
-        define('PATH', VIDEOS);
         $data = [];
         
         $params = $this->getRequest()->getQuery();
-        $lg_path = PATH . DS . $id . DS . 'lg';
+        $lg_path = VIDEOS . DS . $id . DS . 'lg';
         $files = glob($lg_path . DS . '*.*');
         $fn = basename($files[0]);
-        $path = "videos";
+        $type = "videos";
         
         if (!empty($files[0])) {
-            $options = array_merge(compact(array('fn', 'id', 'path')), $params);
+            $options = array_merge(compact(array('fn', 'id', 'type')), $params);
             $p = $this->Director->p($options);
             $json = json_encode($params);
             $stringified = preg_replace('/["\'\s]/', '', $json);

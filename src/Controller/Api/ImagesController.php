@@ -119,18 +119,16 @@ class ImagesController extends AppController
 
     public function uri($id)
     {
-        define('PATH', IMAGES);
-
         $data = [];
         
         $params = $this->getRequest()->getQuery();
-        $lg_path = PATH . DS . $id . DS . 'lg';
+        $lg_path = IMAGES . DS . $id . DS . 'lg';
         $files = glob($lg_path . DS . '*.*');
         $fn = basename($files[0]);
-        $path = "images";
+        $type = "images";
         
         if (!empty($files[0])) {
-            $options = array_merge(compact(array('fn', 'id', 'path')), $params);
+            $options = array_merge(compact(array('fn', 'id', 'type')), $params);
             $p = $this->Director->p($options);
             $json = json_encode($params);
             $stringified = preg_replace('/["\'\s]/', '', $json);

@@ -165,7 +165,6 @@ class UsersController extends AppController
 
     public function login() {
         $user = $this->Auth->identify();
-        Log::debug($user);
         if (!$user) {
             throw new UnauthorizedException(__('Invalid username or password'));
         }

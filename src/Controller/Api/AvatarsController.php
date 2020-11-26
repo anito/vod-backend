@@ -63,14 +63,8 @@ class AvatarsController extends AppController
 
         $this->Crud->on('beforeSave', function (Event $event) use ($files, $uid) {
             
-            Log::debug("add::beforeSave");
-            
-
             $entity = $event->getSubject()->entity;
-            Log::debug($entity);
-            
             $newEntities = $this->addUpload($files);
-            Log::debug($newEntities);
 
             if(!empty($newEntities)) {
 
@@ -154,17 +148,17 @@ class AvatarsController extends AppController
 
     public function uri($id)
     {
-        define('PATH', AVATARS);
         $data = [];
         
         $params = $this->getRequest()->getQuery();
-        $lg_path = PATH . DS . $id . DS . 'lg';
+        $lg_path = AVATARS . DS . $id . DS . 'lg';
         $files = glob($lg_path . DS . '*.*');
         $fn = basename($files[0]);
-        $path = "avatars";
+        $type = "avatars";
         
         if (!empty($files[0])) {
-            $options = array_merge(compact(array('fn', 'id', 'path')), $params);
+            $options = array_merge(compact(array('fn', 'id', 'type')), $params);
+            // Log::debug($options);
             $p = $this->Director->p($options);
             $json = json_encode($params);
             $stringified = preg_replace('/["\'\s]/', '', $json);
