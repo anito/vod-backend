@@ -174,10 +174,10 @@ class VideosController extends AppController
         $params = $this->getRequest()->getQuery();
         $lg_path = VIDEOS . DS . $id . DS . 'lg';
         $files = glob($lg_path . DS . '*.*');
-        $fn = basename($files[0]);
-        $type = "videos";
+        if (!empty($files)) {
+            $fn = basename($files[0]);
+            $type = "videos";
         
-        if (!empty($files[0])) {
             $options = array_merge(compact(array('fn', 'id', 'type')), $params);
             $p = $this->Director->p($options);
             $json = json_encode($params);

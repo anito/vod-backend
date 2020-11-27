@@ -94,6 +94,89 @@ class UsersTable extends Table
             ->dateTime('last_login')
             ->allowEmptyDateTime('last_login');
 
+        $notAllowed = FIXTURE;
+        $validator
+            ->add('name', 'custom', [
+                'rule' => function ($value, $context) use ($notAllowed) {
+                    if (isset($context['data']['id'])) {
+                        $id = $context['data']['id'];
+                    } else {
+                        return true;
+                    }
+                    $name = $context['data']['name'];
+                    $index = array_search($id, array_column($notAllowed, 'id'));
+                    if (is_int($index)) {
+                        $validName = $notAllowed[$index]['name'] === $name;
+                        if (!$validName) {
+                            return false;
+                        }
+
+                    }
+
+                    return true;
+                },
+                'message' => __('This name is protected and cannot be changed'),
+            ])
+            ->add('email', 'custom', [
+                'rule' => function ($value, $context) use ($notAllowed) {
+                    if (isset($context['data']['id'])) {
+                        $id = $context['data']['id'];
+                    } else {
+                        return true;
+                    }
+                    $email = $context['data']['email'];
+                    $index = array_search($id, array_column($notAllowed, 'id'));
+                    if (is_int($index)) {
+                        $validEmail = $notAllowed[$index]['email'] === $email;
+                        if (!$validEmail) {
+                            return false;
+                        }
+
+                    }
+
+                    return true;
+                },
+                'message' => __('This email is protected and cannot be changed'),
+            ])
+            ->add('group_id', 'custom', [
+                'rule' => function ($value, $context) use ($notAllowed) {
+                    if (isset($context['data']['id'])) {
+                        $id = $context['data']['id'];
+                    } else {
+                        return true;
+                    }
+                    $group_id = $context['data']['group_id'];
+                    $index = array_search($id, array_column($notAllowed, 'id'));
+                    if (is_int($index)) {
+                        $validGroupId = $notAllowed[$index]['email'] === $group_id;
+                        if (!$validGroupId) {
+                            return false;
+                        }
+
+                    }
+
+                    return true;
+                },
+                'message' => __('This role is protected and cannot be changed'),
+            ])
+            ->add('password', 'custom', [
+                'rule' => function ($value, $context) use ($notAllowed) {
+
+                    if (isset($context['data']['id'])) {
+                        $id = $context['data']['id'];
+                    } else {
+                        return true;
+                    }
+                    $index = array_search($id, array_column($notAllowed, 'id'));
+                    if (is_int($index)) {
+                        return false;
+                    }
+
+                    return true;
+                },
+                'message' => __('This password is protected and cannot be changed'),
+            ]);
+
         return $validator;
     }
 

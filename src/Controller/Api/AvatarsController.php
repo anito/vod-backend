@@ -103,12 +103,28 @@ class AvatarsController extends AppController
         return $this->Crud->execute();
 
     }
-    
-    public function delete()
+
+    public function delete($id)
     {
         $this->Crud->on('beforeDelete', function (Event $event) {
 
             $this->deleteUpload($event);
+
+        });
+        $this->Crud->on('afterDelete', function (Event $event) {
+
+            $uid = $event->getSubject()->entity["user_id"];
+            $usersTable = TableRegistry::getTableLocator()->get('Users');
+            $user = $usersTable->get($uid, [
+                'contain' => ['Groups', 'Videos', 'Avatars'],
+            ]);
+
+            $this->set([
+                'success' => true,
+                'data' => $user,
+                '_serialize' => ['success', 'data'],
+            ]);
+
 
         });
         return $this->Crud->execute();
@@ -153,10 +169,10 @@ class AvatarsController extends AppController
         $params = $this->getRequest()->getQuery();
         $lg_path = AVATARS . DS . $id . DS . 'lg';
         $files = glob($lg_path . DS . '*.*');
-        $fn = basename($files[0]);
-        $type = "avatars";
+        if (!empty($files)) {
+            $fn = basename($files[0]);
+            $type = "avatars";
         
-        if (!empty($files[0])) {
             $options = array_merge(compact(array('fn', 'id', 'type')), $params);
             // Log::debug($options);
             $p = $this->Director->p($options);

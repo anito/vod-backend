@@ -41,7 +41,7 @@ class DirectorComponent extends Component
         );
 
         $o = array_merge($defaults, $options);
-        Log::debug($o);
+        // Log::debug($o);
         $args = join(',', $o);
 
         if(!defined('PATH')) {
