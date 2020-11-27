@@ -61,7 +61,7 @@ class ImagesController extends AppController
             // make shure single uploads are handled correctly
             if(!empty($files['tmp_name'])) $files = [$files];
 
-            if (!empty($images = $this->Upload->saveUploadedFiles($files))) {
+            if (!empty($images = $this->Upload->saveAs(IMAGES, $files))) {
 
                 $images = $this->Images->newEntities($images);
 
@@ -77,7 +77,7 @@ class ImagesController extends AppController
                     $this->set([
                         'success' => false,
                         'data' => [],
-                        'message' => 'An Error occurred while saving your data',
+                        'message' => 'An error occurred saving your image data',
                         '_serialize' => ['success', 'data', 'message'],
                     ]);
                 }
@@ -124,10 +124,11 @@ class ImagesController extends AppController
         $params = $this->getRequest()->getQuery();
         $lg_path = IMAGES . DS . $id . DS . 'lg';
         $files = glob($lg_path . DS . '*.*');
-        $fn = basename($files[0]);
-        $type = "images";
+
+        if (!empty($files)) {
+            $fn = basename($files[0]);
+            $type = "images";
         
-        if (!empty($files[0])) {
             $options = array_merge(compact(array('fn', 'id', 'type')), $params);
             $p = $this->Director->p($options);
             $json = json_encode($params);

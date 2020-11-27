@@ -75,6 +75,13 @@ class AvatarsController extends AppController
                     ->execute();
 
                 $this->Avatars->patchEntity($entity, $newEntities[0]);
+            } else {
+                $this->set([
+                    'success' => false,
+                    'data' => [],
+                    'message' => 'An Error occurred while uploading your files',
+                    '_serialize' => ['success', 'data', 'message'],
+                ]);
             }
 
         });
@@ -114,17 +121,10 @@ class AvatarsController extends AppController
             $files = [$files];
         }
 
-        if (!empty($avatars = $this->Upload->saveAsAvatar($files))) {
+        if (!empty($avatars = $this->Upload->saveAs(AVATARS, $files))) {
             return $avatars;
-            
         } else {
-
-            $this->set([
-                'success' => false,
-                'data' => [],
-                'message' => 'An Error occurred while uploading your files',
-                '_serialize' => ['success', 'data', 'message'],
-            ]);
+            return [];
         }
     }
 

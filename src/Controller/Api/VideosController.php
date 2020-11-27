@@ -111,7 +111,7 @@ class VideosController extends AppController
                 $files = [$files];
             }
             
-            if (!empty($videos = $this->Upload->saveUploadedFiles($files))) {
+            if (!empty($videos = $this->Upload->saveAs(VIDEOS, $files))) {
 
                 $videos = $this->Videos->newEntities($videos);
 
@@ -127,7 +127,7 @@ class VideosController extends AppController
                     $this->set([
                         'success' => false,
                         'data' => [],
-                        'message' => 'An error during save has occurred',
+                        'message' => 'An error occurred saving your video data',
                         '_serialize' => ['success', 'data', 'message'],
                     ]);
                 }
@@ -136,7 +136,7 @@ class VideosController extends AppController
                 $this->set([
                     'success' => false,
                     'data' => [],
-                    'message' => 'No videos for upload',
+                    'message' => 'An Error occurred while uploading your files',
                     '_serialize' => ['success', 'data', 'message'],
                 ]);
             }

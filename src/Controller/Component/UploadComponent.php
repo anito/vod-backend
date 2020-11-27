@@ -22,14 +22,14 @@ class UploadComponent extends Component
         parent::__construct($registry, $config);
     }
 
-    public function saveAsAvatar($files) {
+    public function saveAs($path, $files) {
 
-        define('PATH', AVATARS);
+        define('PATH', $path);
         return $this->saveUploadedFiles($files);
 
     }
     
-    public function saveUploadedFiles($files)
+    protected function saveUploadedFiles($files)
     {
 
         $_files = [];
@@ -42,10 +42,6 @@ class UploadComponent extends Component
 
             $uuid = Text::uuid();
             $file_name = $file['name'];
-
-            if(!defined('PATH')) {
-                define('PATH', $this->Director->getPathConstant($file_name));
-            }
 
             if (!defined('PATH')) {
                 return;

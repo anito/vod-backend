@@ -57,8 +57,9 @@ class KodaksController extends AppController
 
         $val = str_replace( ' ', '.2B', $val );
         $crypt = $this->Salt->convert( $val, false ); // decrypt
+        // Log::debug('crypt:');
+        // Log::debug($crypt);
         $a = explode(',', $crypt);
-        // Log::debug('decrypted:');
         
         $file = $fn = basename($a[0]);
 
