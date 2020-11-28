@@ -28,13 +28,13 @@ Time::setDefaultLocale('de-DE');
 
 define('FIXTURE', array(
     array(
-        'id' => 150,
+        'id' => 15,
         'name' => 'Sample User',
         'email' => 'sampleuser@webpremiere.dev',
         'group_id' => '3'
     ),
     array(
-        'id' => 240,
+        'id' => 24,
         'name' => 'Sample Admin',
         'email' => 'test@webpremiere.de',
         'group_id' => '1'
