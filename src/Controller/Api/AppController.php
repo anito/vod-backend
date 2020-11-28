@@ -46,7 +46,11 @@ class AppController extends Controller
 
     }
 
-    protected function _getUserRoleName($user) {
+    protected function isAdmin($user) {
+        return $this->getUserRoleName($user) === 'Administrator';
+    }
+
+    protected function getUserRoleName($user) {
         $groups = TableRegistry::getTableLocator()->get('Groups');
         return $groups->find()
             ->where(['id' => $user['group_id']])
@@ -55,7 +59,7 @@ class AppController extends Controller
             ->name;
     }
 
-    protected function _getGroups() {
+    protected function getGroups() {
         $groups = TableRegistry::getTableLocator()->get('Groups');
 
         $_groups = [];

@@ -17,6 +17,7 @@ namespace App\Controller;
 use Cake\Controller\Controller;
 use Cake\Event\Event;
 use Cake\Log\Log;
+use Cake\ORM\TableRegistry;
 
 /**
  * Application Controller
@@ -79,32 +80,17 @@ class AppController extends Controller
         //$this->loadComponent('Security');
     }
 
-    public function isAuthGroup()
-    {
-        if (in_array($this->groupName(), $this->allowedGroups)) {
-            return true;
-        }
-        return false;
+    protected function isAdmin($user) {
+        return $this->getUserRoleName($user) === 'Administrator';
     }
 
-    public function isAdmin()
-    {
-        $group = 'Administrator';
-        if ( $this->groupName() == $group ) {
-            return true;
-        }
-        return false;
-    }
-
-    public function groupName()
-    {
-        if ($user = $this->Auth->user()) {
-            $users = $this->Users->get($user['id'], [
-                'contain' => ['Groups']
-            ])
-            ->toArray();
-            return $users['group']['name'];
-        }
+    protected function getUserRoleName($user) {
+        $groups = TableRegistry::getTableLocator()->get('Groups');
+        return $groups->find()
+            ->where(['id' => $user['group_id']])
+            ->select(['name'])
+            ->first()
+            ->name;
     }
     
 }

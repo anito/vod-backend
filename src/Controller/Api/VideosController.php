@@ -59,7 +59,7 @@ class VideosController extends AppController
     public function index() {
 
         $user = $this->Auth->user()['sub'];
-        $role = $this->_getUserRoleName($user);
+        $role = $this->getUserRoleName($user);
 
         switch($role) {
 
@@ -69,8 +69,8 @@ class VideosController extends AppController
                 break;
             
             case 'Manager':
-            case 'Guest':
             case 'User':
+            case 'Guest':
                 $data = $this->Videos->find()
                     // see https://book.cakephp.org/3/en/orm/retrieving-data-and-resultsets.html#filtering-by-associated-data
                     // see https: //stackoverflow.com/questions/26799094/how-to-filter-by-conditions-for-associated-models

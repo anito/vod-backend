@@ -64,9 +64,15 @@ class UsersController extends AppController
 
     public function view($id)
     {
-        $user = $this->Users->get($id, [
-            'contain' => ['Groups', 'Videos', 'Avatars'],
-        ]);
+        $authUser = $this->Auth->user('sub');
+        
+        if($this->isAdmin($authUser) || $authUser['id'] == $id) {
+            $user = $this->Users->get($id, [
+                'contain' => ['Groups', 'Videos', 'Avatars'],
+            ]);
+        } else {
+            $user = [];
+        }
 
         $this->set('data', $user);
 
@@ -169,7 +175,6 @@ class UsersController extends AppController
             throw new UnauthorizedException(__('Invalid username or password'));
         }
         $this->Auth->setUser($user);
-        Log::debug($this->Auth->user('id')); 
 
         $user = $this->Users->get($user['id'], [
             'contain' => ['Groups', 'Videos', 'Avatars'],
@@ -185,7 +190,7 @@ class UsersController extends AppController
             'data' => [
                 'message' => __('Login successful'),
                 'user' => $user,
-                'groups' => $this->_getGroups(),
+                'groups' => $this->getGroups(),
             ],
             '_serialize' => ['success', 'data']
         ]);
