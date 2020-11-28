@@ -168,6 +168,12 @@ class UsersController extends AppController
         if (!$user) {
             throw new UnauthorizedException(__('Invalid username or password'));
         }
+        $this->Auth->setUser($user);
+        Log::debug($this->Auth->user('id')); 
+
+        $user = $this->Users->get($user['id'], [
+            'contain' => ['Groups', 'Videos', 'Avatars'],
+        ]);
         $user[ 'token' ] = JWT::encode([
             'sub' => $user,
             'exp' =>  time() + $this::$tokenLifeTime
@@ -179,7 +185,6 @@ class UsersController extends AppController
             'data' => [
                 'message' => __('Login successful'),
                 'user' => $user,
-                'role' => $this->_getUserRoleName($user),
                 'groups' => $this->_getGroups(),
             ],
             '_serialize' => ['success', 'data']
