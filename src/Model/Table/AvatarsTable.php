@@ -61,11 +61,9 @@ class AvatarsTable extends Table
         if (!empty($oldies) && $oldies && !unlink($oldies[0])) {
             $event->stopPropagation();
         } else {
-            $f = new Folder();
-            $f->delete($path);
-
+            $f = new Folder($path);
+            $f->delete();
         }
-
 
     }
 

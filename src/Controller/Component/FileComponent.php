@@ -205,8 +205,8 @@ class FileComponent extends Component {
   // Recursive Directory Removal
   ////
   function rmdirr( $dir ) {
-    $f = new Folder();
-    $f->delete( $dir );
+    $f = new Folder($dir);
+    $f->delete();
   }
 
   ////

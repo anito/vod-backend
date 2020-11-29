@@ -48,6 +48,7 @@ class UsersTable extends Table
         $this->hasOne('Avatars', [
             'foreignKey' => 'user_id',
             'dependent' => true,
+            'cascadeCallbacks' => true, // triggers core events on the foreign model (when also dependent set to ttue)
         ]);
         $this->belongsToMany('Videos', [
             'foreignKey' => 'user_id',
