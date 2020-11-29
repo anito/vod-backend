@@ -57,6 +57,8 @@ class AvatarsController extends AppController
     public function add()
     {
 
+        // we cant use PUT (alias edit method) for altering data
+        // because $_FILES is only available in POST (alias add method)
         $files = $this->request->getData('Files');
         $uid = $this->request->getData('user_id');
 
@@ -68,12 +70,24 @@ class AvatarsController extends AppController
 
             if(!empty($newEntities)) {
 
-                // delete existing entries since we cant use PUT for altering data ($_FILES is only available in POST method (not PUT))
-                $query = $this->Avatars->query();
-                $query->delete()
+                // remove the former avatar (that with the same user_id) manually
+                $oldEntities = $this->Avatars->find()
                     ->where(['user_id' => $uid])
-                    ->execute();
+                    ->toList();
 
+                foreach($oldEntities as $oldie) {
+                    $this->Avatars->delete($oldie);
+                }
+
+                // we depend on events (here beforeDelete) to get rid of old uploads
+                // executing queries on query objects don't trigger events, so we don't can use this
+
+                // $query = $this->Avatars->query();
+                // $oldEntity = $query->delete()
+                //     ->where(['user_id' => $uid])
+                //     ->execute();
+
+                // overwrite request data with updated data from the $this->addUpload method
                 $this->Avatars->patchEntity($entity, $newEntities[0]);
             } else {
                 $this->set([
@@ -93,6 +107,8 @@ class AvatarsController extends AppController
                 'contain' => ['Groups', 'Videos', 'Avatars'],
             ]);
     
+            // normally we would send the added avatar
+            // but here we send the (updated) user back to the client
             $this->set([
                 'success' => true,
                 'data' => $user,

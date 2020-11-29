@@ -50,7 +50,6 @@ class ImagesController extends AppController
 
         $this->Crud->addListener('relatedModels', 'Crud.RelatedModels');
 
-
     }
 
     public function add()
