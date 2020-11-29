@@ -174,7 +174,6 @@ class AvatarsController extends AppController
             $type = "avatars";
         
             $options = array_merge(compact(array('fn', 'id', 'type')), $params);
-            // Log::debug($options);
             $p = $this->Director->p($options);
             $json = json_encode($params);
             $stringified = preg_replace('/["\'\s]/', '', $json);
@@ -182,7 +181,6 @@ class AvatarsController extends AppController
                 'id' => $id,
                 'url' => $p,
                 'params' => $stringified
-                // preg_replace('/[\"\'\s]/i', '', json_encode($params)) => $this->Director->p($options)
             );
             
             $this->set(

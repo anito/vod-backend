@@ -147,7 +147,7 @@ class VideosController extends AppController
     {
         $this->Crud->on('beforeDelete', function (Event $event) {
 
-            if ($this->Auth->identify()) {
+            if ($this->Auth->user()) {
 
                 $id = $event->getSubject()->entity->id;
                 $fn = $event->getSubject()->entity->src;

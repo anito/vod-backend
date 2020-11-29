@@ -47,6 +47,7 @@ class UsersTable extends Table
         ]);
         $this->hasOne('Avatars', [
             'foreignKey' => 'user_id',
+            'dependent' => true,
         ]);
         $this->belongsToMany('Videos', [
             'foreignKey' => 'user_id',

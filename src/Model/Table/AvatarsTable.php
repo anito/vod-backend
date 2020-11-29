@@ -5,6 +5,8 @@ use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
+use Cake\Filesystem\Folder;
+use Cake\Log\Log;
 
 /**
  * Avatars Model
@@ -44,6 +46,27 @@ class AvatarsTable extends Table
             'foreignKey' => 'user_id',
             'joinType' => 'INNER',
         ]);
+    }
+
+    public function beforeDelete($event, $entity, $options) {
+
+        $id = $entity->id;
+        $fn = $entity->src;
+
+        $path = AVATARS . DS . $id;
+        $lg_path = $path . DS . 'lg';
+
+        $oldies = glob($lg_path . DS . $fn);
+
+        if (!empty($oldies) && $oldies && !unlink($oldies[0])) {
+            $event->stopPropagation();
+        } else {
+            $f = new Folder();
+            $f->delete($path);
+
+        }
+
+
     }
 
     /**
