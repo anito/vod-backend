@@ -6,6 +6,7 @@ use Cake\Event\Event;
 use Cake\Cache\Cache;
 use Cake\Log\Log;
 use Cake\ORM\TableRegistry;
+use stdClass;
 
 class AppController extends Controller
 {
@@ -44,15 +45,36 @@ class AppController extends Controller
             'loginAction' => false
         ]);
 
+        // $session = $this->getRequest()->getSession();
+        // $session->destroy();
+
     }
 
     protected function isAdmin($user) {
         return $this->getUserRoleName($user) === 'Administrator';
     }
 
-    protected function getUserRoleName($user) {
-        $groups = TableRegistry::getTableLocator()->get('Groups');
-        return $groups->find()
+    protected function getUser($id, array $config=[]) {
+        $defaults = [
+            'contain' => ['Groups', 'Avatars', 'Videos']
+        ];
+        $options = array_merge($defaults, $config);
+
+        if(!is_array($id)) {
+            $user = TableRegistry::getTableLocator()->get('Users')
+                ->find()
+                ->contain($options['contain'])
+                ->where(['Users.id' => $id])
+                ->first()
+                ->toArray();
+        }
+        Log::debug($user);
+        return $user;
+    }
+
+    protected function getUserRoleName(array $user) {
+        return TableRegistry::getTableLocator()->get('Groups')
+            ->find()
             ->where(['id' => $user['group_id']])
             ->select(['name'])
             ->first()

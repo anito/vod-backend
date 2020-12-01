@@ -69,6 +69,7 @@ class ImagesController extends AppController
                     $this->set([
                         'success' => true,
                         'data' => $data,
+                        'message' => 'Saved',
                         '_serialize' => ['success', 'data'],
                     ]);
                 } else {
@@ -136,7 +137,6 @@ class ImagesController extends AppController
                 'id' => $id,
                 'url' => $p,
                 'params' => $stringified
-                // preg_replace('/[\"\'\s]/i', '', json_encode($params)) => $this->Director->p($options)
             );
             
             $this->set(

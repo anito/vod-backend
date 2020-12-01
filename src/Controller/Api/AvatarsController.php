@@ -7,6 +7,7 @@ use Cake\Core\App;
 use Cake\Event\Event;
 use Cake\ORM\TableRegistry;
 use Cake\Http\Exception\UnauthorizedException;
+use Cake\Http\Session;
 use Cake\Utility\Text;
 use Cake\Log\Log;
 use Cake\ORM\Locator\LocatorInterface;
@@ -59,9 +60,8 @@ class AvatarsController extends AppController
 
         // we cant use PUT (alias edit method) for altering data
         // because $_FILES is only available in POST (alias add method)
-        $files = $this->request->getData('Files');
-        $uid = $this->request->getData('user_id');
-
+        $files = $this->getRequest()->getData('Files');
+        $uid = $this->getRequest()->getData('user_id');
 
         $this->Crud->on('beforeSave', function (Event $event) use ($files, $uid) {
             
@@ -76,11 +76,12 @@ class AvatarsController extends AppController
                     ->toList();
 
                 foreach($oldEntities as $oldie) {
+                    // this triggers necessary events
                     $this->Avatars->delete($oldie);
                 }
 
                 // we depend on events (here beforeDelete) to get rid of old uploads
-                // executing queries on query objects don't trigger events, so we don't can use this
+                // executing queries on query objects don't trigger events, so we can not use the following:
 
                 // $query = $this->Avatars->query();
                 // $oldEntity = $query->delete()
@@ -107,8 +108,8 @@ class AvatarsController extends AppController
                 'contain' => ['Groups', 'Videos', 'Avatars'],
             ]);
     
-            // normally we would send the added avatar
-            // but here we send the (updated) user back to the client
+            // normally we would send the new avatar
+            // but in this case we need the (updated) user sent back to the client
             $this->set([
                 'success' => true,
                 'data' => $user,
@@ -122,11 +123,7 @@ class AvatarsController extends AppController
 
     public function delete($id)
     {
-        $this->Crud->on('beforeDelete', function (Event $event) {
-
-            $this->deleteUpload($event);
-
-        });
+        $this->getRequest()->getSession()->destroy();
         $this->Crud->on('afterDelete', function (Event $event) {
 
             $uid = $event->getSubject()->entity["user_id"];
@@ -158,24 +155,6 @@ class AvatarsController extends AppController
         } else {
             return [];
         }
-    }
-
-    protected function deleteUpload($event) {
-
-        $id = $event->getSubject()->entity->id;
-        $fn = $event->getSubject()->entity->src;
-
-        $path = AVATARS . DS . $id;
-        $lg_path = $path . DS . 'lg';
-
-        $oldies = glob($lg_path . DS . $fn);
-
-        if (!empty($oldies) && $oldies && !unlink($oldies[0])) {
-            $event->stopPropagation();
-        } else {
-            $this->File->rmdirr($path);
-        }
-
     }
 
     public function uri($id)

@@ -58,7 +58,8 @@ class VideosController extends AppController
 
     public function index() {
 
-        $user = $this->Auth->user()['sub'];
+        $authUser = $this->Auth->user('sub');
+        $user = $this->getUser($authUser);
         $role = $this->getUserRoleName($user);
 
         switch($role) {
@@ -75,10 +76,9 @@ class VideosController extends AppController
                     // see https://book.cakephp.org/3/en/orm/retrieving-data-and-resultsets.html#filtering-by-associated-data
                     // see https: //stackoverflow.com/questions/26799094/how-to-filter-by-conditions-for-associated-models
                     // see https: //stackoverflow.com/questions/10154717/php-cakephp-datetime-compare
-                    ->matching('Users', function(Query $q) {
+                    ->matching('Users', function(Query $q) use($user) {
                         
                         $now = date('Y-m-d H:i:s');
-                        $user = $this->Auth->user()['sub'];
 
                         $condition = [
                             'Users.id' => $user['id'],
@@ -120,6 +120,7 @@ class VideosController extends AppController
                     $this->set([
                         'success' => true,
                         'data' => $data,
+                        'message' => 'Saved',
                         '_serialize' => ['success', 'data'],
                     ]);
                 } else {

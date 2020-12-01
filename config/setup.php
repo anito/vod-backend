@@ -16,6 +16,7 @@ Configure::config( 'settings', new IniConfig() );
 Configure::load( 'config', 'settings' );
 (new ErrorHandler(Configure::read('Error')))->register();
 Configure::write('DebugKit.safeTld', Configure::read('DebugKit.tld'));
+Configure::write('Session.timeout', Configure::read('Session.lifetime')/60);
 
 Cache::setConfig('mysql_conf', [
     'className' => 'File',
@@ -243,22 +244,22 @@ function get_date_diff( $time, $time_unit = "d" ) {
 		case "y":
             $total = $diff->y + $diff->m / 12 + $diff->d / 365.25;
             $total = round($total, 0, PHP_ROUND_HALF_DOWN);
-			$unit_name = sprintf( __('Jahr%s'), 1 !== (int) $total ? 'en' : '' );
+			$unit_name = sprintf( __('Year%s'), 1 !== (int) $total ? 'en' : '' );
 			break;
 		case "m":
             $total= $diff->y * 12 + $diff->m + $diff->d/30 + $diff->h / 24;
             $total = round($total, 0, PHP_ROUND_HALF_DOWN);
-			$unit_name = sprintf( __('Monat%s'), 1 !== (int) $total ? 'en' : '' );
+			$unit_name = sprintf( __('Month%s'), 1 !== (int) $total ? 'en' : '' );
 			break;
 		case "d":
             $total = $diff->y * 365.25 + $diff->m * 30 + $diff->d + $diff->h/24 + $diff->i/60;
             $total = round($total, 0, PHP_ROUND_HALF_DOWN);
-			$unit_name = sprintf( __('Tag%s'), 1 < (int) $total ? 'en' : '');
+			$unit_name = sprintf( __('Day%s'), 1 < (int) $total ? 'en' : '');
 			break;
 		case "h":
             $total = ($diff->y * 365.25 + $diff->m * 30 + $diff->d) * 24 + $diff->h + $diff->i/60;
             $total = round($total, 0, PHP_ROUND_HALF_DOWN);
-			$unit_name = sprintf( __('Stunde%s'), 1 !== (int) $total ? 'n' : '' );
+			$unit_name = sprintf( __('Hour%s'), 1 !== (int) $total ? 'n' : '' );
 			break;
 		case "i":
             $total = (($diff->y * 365.25 + $diff->m * 30 + $diff->d) * 24 + $diff->h) * 60 + $diff->i + $diff->s/60;

@@ -1,22 +1,21 @@
 <?php
 namespace App\Controller\Api;
 
+use Cake\Core\Configure;
 use Cake\Event\Event;
 use Cake\Http\Exception\ForbiddenException;
 use Cake\Http\Exception\UnauthorizedException;
 use Cake\Utility\Security;
 use Firebase\JWT\JWT;
 use Cake\Log\Log;
+use Cake\ORM\TableRegistry;
 
 class UsersController extends AppController
 {
-    // 1 week => 7 days = 7*24*60*60 = 604800
-    // 1 day = 24*60*60 =  86400
-    static $tokenLifeTime = 1*60*60;
-
+    
     public function initialize() {
         parent::initialize();
-        $this->Auth->allow( ['token', 'logout', 'login'] );
+        $this->Auth->allow( ['add', 'token', 'logout', 'login'] );
 
         $this->loadComponent('Crud.Crud', [
             'actions' => [
@@ -64,13 +63,10 @@ class UsersController extends AppController
 
     public function view($id)
     {
-        $authUser = $this->Auth->user('sub');
+        $authUser = $this->getUser($this->Auth->user('sub'));
+        $user = $this->getUser($id);
         
-        if($this->isAdmin($authUser) || $authUser['id'] == $id) {
-            $user = $this->Users->get($id, [
-                'contain' => ['Groups', 'Videos', 'Avatars'],
-            ]);
-        } else {
+        if(!$this->isAdmin($authUser) || $user['id'] != $id) {
             $user = [];
         }
 
@@ -79,6 +75,26 @@ class UsersController extends AppController
         $this->Crud->action()->config('serialize.data', 'data');
 
         return $this->Crud->execute();
+
+    }
+
+    public function view_($id)
+    {
+        $authUser = $this->Auth->user('sub');
+        $user = $this->getUser($authUser);
+
+        if(!($this->isAdmin($user)) || $user['id'] != $id) {
+            $user = [];
+            $success = false;
+        } else {
+            $success = true;
+        }
+
+        $this->set([
+            'data' => $user,
+            'success' => $success,
+            '_serialize' => ['success', 'data'],
+        ]);
 
     }
 
@@ -97,10 +113,10 @@ class UsersController extends AppController
                 $id = $event->getSubject()->entity->id;
                 $this->set('data', [
                     'id' => $id,
-                    'message' => 'User created',
+                    'message' => __('User created'),
                     'token' => JWT::encode([
                         'sub' => $id,
-                        'exp' =>  time() + $this::$tokenLifeTime
+                        'exp' =>  time() + Configure::read('Token.lifetime')
                     ],
                     Security::getSalt())
                 ]);
@@ -111,7 +127,8 @@ class UsersController extends AppController
     }
 
     public function edit($id) {
-        $this->Crud->on('afterSave', function(Event $event) {
+
+        $this->Crud->on('afterSave', function(Event $event) use($id) {
             if ($event->getSubject()->entity->hasErrors()) {
                 $errors = $event->getSubject()->entity->getErrors();
                 $field = array_key_first($errors);
@@ -125,8 +142,14 @@ class UsersController extends AppController
             } else {
                 $message = __('User could not be updated');
             }
-            $this->set('data', [
-                'message' => $message
+
+            $authUser = $this->Auth->user('sub');
+            $user = $this->getUser($authUser);
+
+            $this->set([
+                'data' => $user,
+                'message' => $message,
+                '_serialize' => ['success', 'data', 'message'],
             ]);
 
             $this->Crud->action()->config('serialize.data', 'data');
@@ -166,33 +189,51 @@ class UsersController extends AppController
     }
 
     public function token() {
-        $this->login();
+        $user = $this->Auth->identify();
+        if (!$user) {
+            throw new UnauthorizedException(__('Invalid username or password'));
+        }
+
+        $this->set([
+            'success' => true,
+            'data' => [
+                'token' => JWT::encode([
+                    'sub' => $user['id'],
+                    'exp' =>  time() + 604800
+                ],
+                Security::getSalt())
+            ],
+            '_serialize' => ['success', 'data']
+        ]);
     }
 
     public function login() {
+        
         $user = $this->Auth->identify();
         if (!$user) {
             throw new UnauthorizedException(__('Invalid username or password'));
         }
         $this->Auth->setUser($user);
 
+        // hydrate the user with associated data
         $user = $this->Users->get($user['id'], [
             'contain' => ['Groups', 'Videos', 'Avatars'],
         ]);
+        
         $user[ 'token' ] = JWT::encode([
-            'sub' => $user,
-            'exp' =>  time() + $this::$tokenLifeTime
+            'sub' => $user['id'],
+            'exp' =>  time() + Configure::read('Token.lifetime')
         ],
         Security::getSalt());
 
         $this->set([
             'success' => true,
+            'message' => __('Login successful'),
             'data' => [
-                'message' => __('Login successful'),
                 'user' => $user,
                 'groups' => $this->getGroups(),
             ],
-            '_serialize' => ['success', 'data']
+            '_serialize' => ['success', 'data', 'message']
         ]);
     }
 
@@ -200,10 +241,8 @@ class UsersController extends AppController
         $this->Auth->logout();
         $this->set([
             'success' => true,
-            'data' => [
-                'message' => ' You\'re logged out'
-            ],
-            '_serialize' => ['success', 'data']
+            'message' => ' You\'re logged out',
+            '_serialize' => ['success', 'message']
         ]);
     }
 
