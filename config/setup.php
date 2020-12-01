@@ -27,20 +27,7 @@ Cache::setConfig('mysql_conf', [
 
 Time::setDefaultLocale('de-DE');
 
-define('FIXTURE', array(
-    array(
-        'id' => 15,
-        'name' => 'Sample User',
-        'email' => 'sampleuser@webpremiere.dev',
-        'group_id' => '3'
-    ),
-    array(
-        'id' => 24,
-        'name' => 'Sample Admin',
-        'email' => 'test@webpremiere.de',
-        'group_id' => '1'
-    ),
-));
+define('FIXTURE', [11, 23]);
 
 if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') {
     $protocol = 'https://';
