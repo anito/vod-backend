@@ -179,7 +179,7 @@ class UsersController extends AppController
         $this->Crud->on('beforeDelete', function(Event $event) {
             $notAllowed = FIXTURE;
             $id = $event->getSubject()->entity->id;
-            $index = array_search($id, array_column($notAllowed, 'id'));
+            $index = array_search($id, $notAllowed);
             if (is_int($index)) {
                 $message = __('Protected users can not be deleted');
                 $event->stopPropagation();
