@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2020-12-01 05:58+0100\n"
+"POT-Creation-Date: 2020-12-01 08:25+0100\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -176,33 +176,37 @@ msgstr ""
 
 #: Controller/Api/MysqlController.php:43
 #: Controller/Api/UploadsController.php:50
-#: Controller/Api/UsersController.php:194
-#: Controller/Api/UsersController.php:214
+#: Controller/Api/UsersController.php:212
+#: Controller/Api/UsersController.php:232
 msgid "Invalid username or password"
 msgstr ""
 
-#: Controller/Api/UsersController.php:116
+#: Controller/Api/UsersController.php:134
 msgid "User created"
 msgstr ""
 
-#: Controller/Api/UsersController.php:141
+#: Controller/Api/UsersController.php:159
 msgid "User updated"
 msgstr ""
 
-#: Controller/Api/UsersController.php:143
+#: Controller/Api/UsersController.php:161
 msgid "User could not be updated"
 msgstr ""
 
-#: Controller/Api/UsersController.php:166
+#: Controller/Api/UsersController.php:184
 msgid "Protected users can not be deleted"
 msgstr ""
 
-#: Controller/Api/UsersController.php:181
+#: Controller/Api/UsersController.php:199
 msgid "User deleted"
 msgstr ""
 
-#: Controller/Api/UsersController.php:231
+#: Controller/Api/UsersController.php:249
 msgid "Login successful"
+msgstr ""
+
+#: Controller/Api/UsersController.php:262
+msgid "You're logged out"
 msgstr ""
 
 #: Controller/Component/FileComponent.php:230

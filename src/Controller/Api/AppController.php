@@ -68,7 +68,6 @@ class AppController extends Controller
                 ->first()
                 ->toArray();
         }
-        Log::debug($user);
         return $user;
     }
 

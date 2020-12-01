@@ -4,6 +4,7 @@ namespace App\Controller\Api;
 use Cake\Core\Configure;
 use Cake\Event\Event;
 use Cake\Http\Exception\ForbiddenException;
+use Cake\Http\Exception\NotFoundException;
 use Cake\Http\Exception\UnauthorizedException;
 use Cake\Utility\Security;
 use Firebase\JWT\JWT;
@@ -46,7 +47,21 @@ class UsersController extends AppController
 
     public function index()
     {
-        $this->Crud->on('afterPaginate', function(\Cake\Event\Event $event) {
+        $authUser = $this->getUser($this->Auth->user('sub'));
+
+        $this->Crud->on('beforePaginate', function(\Cake\Event\Event $event) use($authUser) {
+
+            if (!$this->isAdmin($authUser)) {
+                $query = $event->getSubject()->query;
+                $query->where(['Users.id' => $authUser['id']]);
+                $this->paginate($query);
+
+            }
+            
+        });
+
+        $this->Crud->on('afterPaginate', function(\Cake\Event\Event $event) use($authUser) {
+
             $notAllowed = FIXTURE;
 
             foreach ($event->getSubject()->entities as $entity) {
@@ -65,12 +80,15 @@ class UsersController extends AppController
     {
         $authUser = $this->getUser($this->Auth->user('sub'));
         $user = $this->getUser($id);
-        
-        if(!$this->isAdmin($authUser) || $user['id'] != $id) {
-            $user = [];
-        }
 
-        $this->set('data', $user);
+        $this->Crud->on('beforeFind', function(\Cake\Event\Event $event) use($authUser, $user, $id) {
+            if ($authUser['id'] != $id && !$this->isAdmin($authUser)) {
+                $event->stopPropagation();
+                throw new NotFoundException();
+            }
+            $this->set('data', $user);
+
+        });
 
         $this->Crud->action()->config('serialize.data', 'data');
 
@@ -241,7 +259,7 @@ class UsersController extends AppController
         $this->Auth->logout();
         $this->set([
             'success' => true,
-            'message' => ' You\'re logged out',
+            'message' => __('You\'re logged out'),
             '_serialize' => ['success', 'message']
         ]);
     }

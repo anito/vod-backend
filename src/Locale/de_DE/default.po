@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2020-12-01 05:58+0100\n"
-"PO-Revision-Date: 2020-12-01 06:06+0100\n"
+"POT-Creation-Date: 2020-12-01 08:25+0100\n"
+"PO-Revision-Date: 2020-12-01 08:26+0100\n"
 "Last-Translator: \n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
 "Language: de\n"
@@ -164,34 +164,38 @@ msgstr "Index nicht gefunden"
 
 #: Controller/Api/MysqlController.php:43
 #: Controller/Api/UploadsController.php:50
-#: Controller/Api/UsersController.php:194
-#: Controller/Api/UsersController.php:214
+#: Controller/Api/UsersController.php:212
+#: Controller/Api/UsersController.php:232
 msgid "Invalid username or password"
 msgstr "Ungültiger Benutzername oder Passwort"
 
-#: Controller/Api/UsersController.php:116
+#: Controller/Api/UsersController.php:134
 msgid "User created"
 msgstr "Benutzer erstellt"
 
-#: Controller/Api/UsersController.php:141
+#: Controller/Api/UsersController.php:159
 msgid "User updated"
 msgstr "Benutzer aktualisiert"
 
-#: Controller/Api/UsersController.php:143
+#: Controller/Api/UsersController.php:161
 msgid "User could not be updated"
 msgstr "Benutzer konnte nicht aktualisiert werden"
 
-#: Controller/Api/UsersController.php:166
+#: Controller/Api/UsersController.php:184
 msgid "Protected users can not be deleted"
 msgstr "Geschützte Benutzer können nicht gelöscht werden"
 
-#: Controller/Api/UsersController.php:181
+#: Controller/Api/UsersController.php:199
 msgid "User deleted"
 msgstr "Benutzer gelöscht"
 
-#: Controller/Api/UsersController.php:231
+#: Controller/Api/UsersController.php:249
 msgid "Login successful"
-msgstr "Anmeldung erfolgreich"
+msgstr "Du wurdest angemeldet"
+
+#: Controller/Api/UsersController.php:262
+msgid "You're logged out"
+msgstr "Du wurdest abgemeldet"
 
 #: Controller/Component/FileComponent.php:230
 msgid ""
@@ -1686,9 +1690,6 @@ msgstr[1] "{0} Validierungsfehler sind aufgetreten"
 
 #~ msgid "Username und Password"
 #~ msgstr "Benutzer und Passwort"
-
-#~ msgid "You are now logged out"
-#~ msgstr "Du wurdest abgemeldet"
 
 #~ msgid "The user has been saved"
 #~ msgstr "Der Benutzer wurde gespeichert"
