@@ -66,7 +66,7 @@ class UsersController extends AppController
 
             foreach ($event->getSubject()->entities as $entity) {
                 $id = $entity->id;
-                $index = array_search($id, array_column($notAllowed, 'id'));
+                $index = array_search($id, $notAllowed);
                 if (is_int($index)) {
                     $entity['protected'] = true;
                 }
