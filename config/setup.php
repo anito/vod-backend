@@ -27,7 +27,7 @@ Cache::setConfig('mysql_conf', [
 
 Time::setDefaultLocale('de-DE');
 
-define('FIXTURE', [11, 23]);
+define('FIXTURE', [15, 24]);
 
 if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') {
     $protocol = 'https://';
