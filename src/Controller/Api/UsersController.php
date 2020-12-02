@@ -161,8 +161,7 @@ class UsersController extends AppController
                 $message = __('User could not be updated');
             }
 
-            $authUser = $this->Auth->user('sub');
-            $user = $this->getUser($authUser);
+            $user = $this->getUser($id);
 
             $this->set([
                 'data' => $user,
