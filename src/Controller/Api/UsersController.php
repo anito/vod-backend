@@ -210,11 +210,13 @@ class UsersController extends AppController
             throw new UnauthorizedException(__('Invalid username or password'));
         }
 
+        $request = $this->getRequest()->getData();
+
         $this->set([
             'success' => true,
             'data' => [
                 'token' => JWT::encode([
-                    'sub' => $user['id'],
+                    'sub' => $request['id'],
                     'exp' =>  time() + 604800
                 ],
                 Security::getSalt())
@@ -229,19 +231,24 @@ class UsersController extends AppController
         if (!$user) {
             throw new UnauthorizedException(__('Invalid username or password'));
         }
+
         $this->Auth->setUser($user);
 
+        if(isset($user['id'])) {
+            $id = $user['id'];
+        } else {
+            $id = $user['sub'];
+        }
+
         // hydrate the user with associated data
-        $user = $this->Users->get($user['id'], [
-            'contain' => ['Groups', 'Videos', 'Avatars'],
-        ]);
-        
-        $user[ 'token' ] = JWT::encode([
-            'sub' => $user['id'],
-            'exp' =>  time() + Configure::read('Token.lifetime')
+        $user = $this->getUser($id);
+        $token = JWT::encode([
+            'sub' => $id,
+            'exp' => time() + Configure::read('Token.lifetime'),
         ],
         Security::getSalt());
 
+        $user[ 'token' ] = $token;
         $this->set([
             'success' => true,
             'message' => __('Login successful'),
