@@ -9,7 +9,6 @@ use Cake\Http\Exception\UnauthorizedException;
 use Cake\Utility\Security;
 use Firebase\JWT\JWT;
 use Cake\Log\Log;
-use Cake\ORM\TableRegistry;
 
 class UsersController extends AppController
 {
