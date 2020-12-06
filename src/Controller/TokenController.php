@@ -4,12 +4,12 @@ namespace App\Controller;
 use App\Controller\AppController;
 
 /**
- * Images Controller
+ * Token Controller
  *
  *
- * @method \App\Model\Entity\Image[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
+ * @method \App\Model\Entity\Token[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
  */
-class ImagesController extends AppController
+class TokenController extends AppController
 {
     /**
      * Index method
@@ -18,25 +18,25 @@ class ImagesController extends AppController
      */
     public function index()
     {
-        $images = $this->paginate($this->Images);
+        $token = $this->paginate($this->Token);
 
-        $this->set(compact('images'));
+        $this->set(compact('token'));
     }
 
     /**
      * View method
      *
-     * @param string|null $id Image id.
+     * @param string|null $id Token id.
      * @return \Cake\Http\Response|null
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function view($id = null)
     {
-        $image = $this->Images->get($id, [
+        $token = $this->Token->get($id, [
             'contain' => [],
         ]);
 
-        $this->set('image', $image);
+        $this->set('token', $token);
     }
 
     /**
@@ -46,58 +46,58 @@ class ImagesController extends AppController
      */
     public function add()
     {
-        $image = $this->Images->newEntity();
+        $token = $this->Token->newEntity();
         if ($this->request->is('post')) {
-            $image = $this->Images->patchEntity($image, $this->request->getData());
-            if ($this->Images->save($image)) {
-                $this->Flash->success(__('The image has been saved.'));
+            $token = $this->Token->patchEntity($token, $this->request->getData());
+            if ($this->Token->save($token)) {
+                $this->Flash->success(__('The token has been saved.'));
 
                 return $this->redirect(['action' => 'index']);
             }
-            $this->Flash->error(__('The image could not be saved. Please, try again.'));
+            $this->Flash->error(__('The token could not be saved. Please, try again.'));
         }
-        $this->set(compact('image'));
+        $this->set(compact('token'));
     }
 
     /**
      * Edit method
      *
-     * @param string|null $id Image id.
+     * @param string|null $id Token id.
      * @return \Cake\Http\Response|null Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function edit($id = null)
     {
-        $image = $this->Images->get($id, [
+        $token = $this->Token->get($id, [
             'contain' => [],
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $image = $this->Images->patchEntity($image, $this->request->getData());
-            if ($this->Images->save($image)) {
-                $this->Flash->success(__('The image has been saved.'));
+            $token = $this->Token->patchEntity($token, $this->request->getData());
+            if ($this->Token->save($token)) {
+                $this->Flash->success(__('The token has been saved.'));
 
                 return $this->redirect(['action' => 'index']);
             }
-            $this->Flash->error(__('The image could not be saved. Please, try again.'));
+            $this->Flash->error(__('The token could not be saved. Please, try again.'));
         }
-        $this->set(compact('image'));
+        $this->set(compact('token'));
     }
 
     /**
      * Delete method
      *
-     * @param string|null $id Image id.
+     * @param string|null $id Token id.
      * @return \Cake\Http\Response|null Redirects to index.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function delete($id = null)
     {
         $this->request->allowMethod(['post', 'delete']);
-        $image = $this->Images->get($id);
-        if ($this->Images->delete($image)) {
-            $this->Flash->success(__('The image has been deleted.'));
+        $token = $this->Token->get($id);
+        if ($this->Token->delete($token)) {
+            $this->Flash->success(__('The token has been deleted.'));
         } else {
-            $this->Flash->error(__('The image could not be deleted. Please, try again.'));
+            $this->Flash->error(__('The token could not be deleted. Please, try again.'));
         }
 
         return $this->redirect(['action' => 'index']);

@@ -80,14 +80,6 @@ class AvatarsController extends AppController
                     $this->Avatars->delete($oldie);
                 }
 
-                // we depend on events (here beforeDelete) to get rid of old uploads
-                // executing queries on query objects don't trigger events, so we can not use the following:
-
-                // $query = $this->Avatars->query();
-                // $oldEntity = $query->delete()
-                //     ->where(['user_id' => $uid])
-                //     ->execute();
-
                 // overwrite request data with updated data from the $this->addUpload method
                 $this->Avatars->patchEntity($entity, $newEntities[0]);
             } else {

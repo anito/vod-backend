@@ -77,7 +77,7 @@ class AvatarsTable extends Table
     {
         $validator
             ->scalar('id')
-            ->maxLength('id', 36)
+            ->maxLength('id', 40)
             ->allowEmptyString('id', null, 'create');
 
         $validator

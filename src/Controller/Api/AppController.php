@@ -28,25 +28,23 @@ class AppController extends Controller
                             'username' => 'email',
                             'password' => 'password'
                     ],
-                    'scope' => ['Users.active' => 1]
+                    // 'finder' => ['withToken' => []],
+                    'finder' => 'withToken'
                 ],
                 'ADmad/JwtAuth.Jwt' => [
                     'parameter' => 'token',
                     'userModel' => 'Users',
-                    'scope' => ['Users.active' => 1],
+                    'finder' => 'withToken',
                     'fields' => [
                         'username' => 'id'
                     ],
-                    'queryDatasource' => false
+                    'queryDatasource' => true
                 ]
             ],
             'unauthorizedRedirect' => true,
             'checkAuthIn' => 'Controller.initialize',
             'loginAction' => false
         ]);
-
-        // $session = $this->getRequest()->getSession();
-        // $session->destroy();
 
     }
 
@@ -56,7 +54,7 @@ class AppController extends Controller
 
     protected function getUser($id, array $config=[]) {
         $defaults = [
-            'contain' => ['Groups', 'Avatars', 'Videos']
+            'contain' => ['Groups', 'Avatars', 'Videos', 'Tokens']
         ];
         $options = array_merge($defaults, $config);
 
@@ -67,6 +65,8 @@ class AppController extends Controller
                 ->where(['Users.id' => $id])
                 ->first()
                 ->toArray();
+        } else {
+            $user = $id;
         }
         return $user;
     }

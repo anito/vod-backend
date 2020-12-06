@@ -4,15 +4,17 @@ namespace App\Model\Entity;
 use Cake\ORM\Entity;
 
 /**
- * Cocktail Entity
+ * Token Entity
  *
- * @property int $id
- * @property string $name
- * @property string $description
- * @property \Cake\I18n\FrozenTime $created
+ * @property string $id
+ * @property string $token
+ * @property string $user_id
+ * @property \Cake\I18n\FrozenTime|null $created
  * @property \Cake\I18n\FrozenTime|null $modified
+ *
+ * @property \App\Model\Entity\User $user
  */
-class Cocktail extends Entity
+class Token extends Entity
 {
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
@@ -24,9 +26,18 @@ class Cocktail extends Entity
      * @var array
      */
     protected $_accessible = [
-        'name' => true,
-        'description' => true,
+        'id' => true,
+        'token' => true,
+        'user_id' => true,
         'created' => true,
-        'modified' => true
+        'modified' => true,
+        'user' => true,
     ];
+
+    /**
+     * Fields that are excluded from JSON versions of the entity.
+     *
+     * @var array
+     */
+    protected $_hidden = [];
 }

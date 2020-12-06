@@ -19,6 +19,7 @@ use Cake\ORM\Entity;
  *
  * @property \App\Model\Entity\Group $group
  * @property \App\Model\Entity\Avatar[] $avatars
+ * @property \App\Model\Entity\Avatar[] $tokens
  * @property \App\Model\Entity\Video[] $videos
  */
 class User extends Entity
@@ -46,12 +47,14 @@ class User extends Entity
         'email' => true,
         'password' => true,
         'active' => true,
+        'token_id' => true,
         'group_id' => true,
         'last_login' => true,
         'created' => true,
         'modified' => true,
         'group' => true,
         'avatars' => true,
+        'tokens' => true,
         'videos' => true,
     ];
 

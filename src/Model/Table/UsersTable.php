@@ -1,6 +1,7 @@
 <?php
 namespace App\Model\Table;
 
+use Cake\Log\Log;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
@@ -50,6 +51,14 @@ class UsersTable extends Table
             'dependent' => true,
             'cascadeCallbacks' => true, // triggers core events on the foreign model (when also dependent set to ttue)
         ]);
+        $this->belongsTo('Tokens', [
+            'foreignKey' => 'token_id',
+        ]);
+        $this->hasOne('Tokens', [
+            'foreignKey' => 'user_id',
+            'dependent' => true,
+            'cascadeCallbacks' => true, // triggers core events on the foreign model (when also dependent set to ttue)
+        ]);
         $this->belongsToMany('Videos', [
             'foreignKey' => 'user_id',
             'targetForeignKey' => 'video_id',
@@ -66,13 +75,8 @@ class UsersTable extends Table
     public function validationDefault(Validator $validator)
     {
         $validator
-            ->integer('id')
+            ->scalar('id')
             ->allowEmptyString('id', null, 'create');
-
-        $validator
-            ->scalar('username')
-            ->maxLength('username', 50)
-            ->allowEmptyString('username');
 
         $validator
             ->scalar('name')
@@ -91,6 +95,10 @@ class UsersTable extends Table
         $validator
             ->boolean('active')
             ->allowEmptyString('active');
+
+        $validator
+            ->boolean('token_id')
+            ->allowEmptyString('token_id');
 
         $validator
             ->dateTime('last_login')
@@ -181,5 +189,13 @@ class UsersTable extends Table
         $rules->add($rules->existsIn(['group_id'], 'Groups'));
 
         return $rules;
+    }
+
+    public function findWithToken(\Cake\ORM\Query $query, array $options)
+    {
+        $query
+            ->where(['Users.token_id !=' => 0]);
+            
+        return $query;
     }
 }

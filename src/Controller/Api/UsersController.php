@@ -9,6 +9,7 @@ use Cake\Http\Exception\UnauthorizedException;
 use Cake\Utility\Security;
 use Firebase\JWT\JWT;
 use Cake\Log\Log;
+use Cake\ORM\TableRegistry;
 
 class UsersController extends AppController
 {
@@ -46,7 +47,7 @@ class UsersController extends AppController
 
     public function index()
     {
-        $authUser = $this->getUser($this->Auth->user('sub'));
+        $authUser = $this->getUser($this->Auth->user());
 
         $this->Crud->on('beforePaginate', function(\Cake\Event\Event $event) use($authUser) {
 
@@ -77,7 +78,7 @@ class UsersController extends AppController
 
     public function view($id)
     {
-        $authUser = $this->getUser($this->Auth->user('sub'));
+        $authUser = $this->getUser($this->Auth->user());
         $user = $this->getUser($id);
 
         $this->Crud->on('beforeFind', function(\Cake\Event\Event $event) use($authUser, $user, $id) {
@@ -92,26 +93,6 @@ class UsersController extends AppController
         $this->Crud->action()->config('serialize.data', 'data');
 
         return $this->Crud->execute();
-
-    }
-
-    public function view_($id)
-    {
-        $authUser = $this->Auth->user('sub');
-        $user = $this->getUser($authUser);
-
-        if(!($this->isAdmin($user)) || $user['id'] != $id) {
-            $user = [];
-            $success = false;
-        } else {
-            $success = true;
-        }
-
-        $this->set([
-            'data' => $user,
-            'success' => $success,
-            '_serialize' => ['success', 'data'],
-        ]);
 
     }
 
@@ -212,14 +193,18 @@ class UsersController extends AppController
 
         $request = $this->getRequest()->getData();
 
+        $token = JWT::encode([
+            'sub' => $request['id'],
+            'exp' =>  time() + 604800
+        ],
+        Security::getSalt());
+
+        $tokenTable = TableRegistry::getTableLocator()->get('Tokens');
+        
         $this->set([
             'success' => true,
             'data' => [
-                'token' => JWT::encode([
-                    'sub' => $request['id'],
-                    'exp' =>  time() + 604800
-                ],
-                Security::getSalt())
+                'token' => $token
             ],
             '_serialize' => ['success', 'data']
         ]);
@@ -233,10 +218,12 @@ class UsersController extends AppController
         }
 
         $this->Auth->setUser($user);
-
+       
         if(isset($user['id'])) {
+            // if query database
             $id = $user['id'];
         } else {
+            // using raw auth information (no database query)
             $id = $user['sub'];
         }
 

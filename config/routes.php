@@ -76,11 +76,11 @@ Router::scope('/', function (RouteBuilder $routes) {
         $routes->resources('Users');
         $routes->resources('Videos');
         $routes->resources('Images');
+        $routes->resources('Tokens');
         $routes->resources('Avatars');
 
         Router::connect('/api/register', ['controller' => 'Users', 'action' => 'add', 'prefix' => 'api']);
         Router::connect('/api/login', ['controller' => 'Users', 'action' => 'login', 'prefix' => 'api']);
-        Router::connect('/api/token', ['controller' => 'Users', 'action' => 'token', 'prefix' => 'api']);
         Router::connect('/api/logout', ['controller' => 'Users', 'action' => 'logout', 'prefix' => 'api']);
         Router::connect('/api/u/v/*', ['controller' => 'Videos', 'action' => 'uri', 'prefix' => 'api']);
         Router::connect('/api/u/i/*', ['controller' => 'Images', 'action' => 'uri', 'prefix' => 'api']);
