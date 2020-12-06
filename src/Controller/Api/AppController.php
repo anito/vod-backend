@@ -28,7 +28,6 @@ class AppController extends Controller
                             'username' => 'email',
                             'password' => 'password'
                     ],
-                    // 'finder' => ['withToken' => []],
                     'finder' => 'withToken'
                 ],
                 'ADmad/JwtAuth.Jwt' => [
