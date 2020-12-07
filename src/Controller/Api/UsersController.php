@@ -51,11 +51,12 @@ class UsersController extends AppController
 
         $this->Crud->on('beforePaginate', function(\Cake\Event\Event $event) use($authUser) {
 
+            $query = $event->getSubject()->query;
             if (!$this->isAdmin($authUser)) {
-                $query = $event->getSubject()->query;
                 $query->where(['Users.id' => $authUser['id']]);
                 $this->paginate($query);
-
+            } else {
+                $query->order(['Users.name' => 'ASC']);
             }
             
         });
