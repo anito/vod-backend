@@ -227,8 +227,8 @@ class UsersController extends AppController
         $this->Auth->setUser($user);
         $this->set([
             'success' => true,
-            'message' => __('Login successful'),
             'data' => [
+                'message' => __('Login successful'),
                 'user' => $user,
                 'groups' => $this->getGroups(),
             ],
