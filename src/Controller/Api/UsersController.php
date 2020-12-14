@@ -47,13 +47,13 @@ class UsersController extends AppController
 
     public function index()
     {
-        $authUser = $this->getUser($this->Auth->user());
+        $authUser = $this->getAuthUser();
 
         $this->Crud->on('beforePaginate', function(\Cake\Event\Event $event) use($authUser) {
 
             $query = $event->getSubject()->query;
             if (!$this->isAdmin($authUser)) {
-                $query->where(['Users.id' => $authUser['id']]);
+                $query->where(['Users.id' => $authUser["id"]]);
                 $this->paginate($query);
             } else {
                 $query->order(['Users.name' => 'ASC']);
@@ -61,7 +61,7 @@ class UsersController extends AppController
             
         });
 
-        $this->Crud->on('afterPaginate', function(\Cake\Event\Event $event) use($authUser) {
+        $this->Crud->on('afterPaginate', function(\Cake\Event\Event $event) {
 
             $notAllowed = FIXTURE;
 
@@ -212,31 +212,19 @@ class UsersController extends AppController
     }
 
     public function login() {
-        
-        $user = $this->Auth->identify();
-        if (!$user) {
+            
+        $loggedinUser = $this->Auth->identify();
+
+        // eventhough we have a valid login we now continue validating if in case someone had tried to login using a token, this token equals the current users token
+        if (!($loggedinUser && ($user = $this->validateAuthUser($loggedinUser)))) {
+            
             throw new UnauthorizedException(__('Invalid username or password'));
+
         }
 
+        $user["token"] = $user["token"]["token"];
+        
         $this->Auth->setUser($user);
-       
-        if(isset($user['id'])) {
-            // if query database
-            $id = $user['id'];
-        } else {
-            // using raw auth information (no database query)
-            $id = $user['sub'];
-        }
-
-        // hydrate the user with associated data
-        $user = $this->getUser($id);
-        $token = JWT::encode([
-            'sub' => $id,
-            'exp' => time() + Configure::read('Token.lifetime'),
-        ],
-        Security::getSalt());
-
-        $user[ 'token' ] = $token;
         $this->set([
             'success' => true,
             'message' => __('Login successful'),
@@ -248,6 +236,30 @@ class UsersController extends AppController
         ]);
     }
 
+    protected function validateAuthUser($identifiedUser) {
+        if(!isset($identifiedUser)) $identifiedUser = $this->Auth->identify();
+        $currentToken = null;
+
+        if (isset($identifiedUser['id'])) {
+            // if query database
+            $id = $identifiedUser['id'];
+        } else {
+            // using raw auth information (no database query)
+            $id = $identifiedUser['sub'];
+        }
+
+        // hydrate the user with associated data
+        $user = $this->getUser($id);
+        if(isset($user["token"])) $currentToken = $user["token"]["token"];
+        $queryToken = $this->getRequest()->getQuery("token");
+
+        if(isset($queryToken) && $currentToken !== $queryToken) {
+            return false;
+        } else {
+            return $user;
+        }
+
+    }
     public function logout() {
         $this->Auth->logout();
         $this->set([

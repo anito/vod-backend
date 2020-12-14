@@ -37,7 +37,7 @@ class AppController extends Controller
                     'fields' => [
                         'username' => 'id'
                     ],
-                    'queryDatasource' => true
+                    'queryDatasource' => false
                 ]
             ],
             'unauthorizedRedirect' => true,
@@ -47,10 +47,20 @@ class AppController extends Controller
 
     }
 
-    protected function isAdmin($user) {
-        return $this->getUserRoleName($user) === 'Administrator';
+    protected function getAuthUser($key="") {
+        if(!$authUser = $this->Auth->user()) return;
+        if(isset($authUser["sub"])) {
+            $user = $this->getUser($authUser["sub"]);
+        } else {
+            $user = $this->getUser($authUser["id"]);
+        }
+        if(!empty($key)) {
+            return $user[$key];
+        } else {
+            return $user;
+        }
+        
     }
-
     protected function getUser($id, array $config=[]) {
         $defaults = [
             'contain' => ['Groups', 'Avatars', 'Videos', 'Tokens']
@@ -68,6 +78,10 @@ class AppController extends Controller
             $user = $id;
         }
         return $user;
+    }
+
+    protected function isAdmin($user) {
+        return $this->getUserRoleName($user) === 'Administrator';
     }
 
     protected function getUserRoleName(array $user) {
