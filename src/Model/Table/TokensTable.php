@@ -45,9 +45,6 @@ class TokensTable extends Table
             'foreignKey' => 'user_id',
             'joinType' => 'INNER',
         ]);
-        $this->hasMany('Users', [
-            'foreignKey' => 'token_id',
-        ]);
     }
 
     /**

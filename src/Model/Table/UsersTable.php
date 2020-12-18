@@ -5,7 +5,12 @@ use Cake\Log\Log;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
+use Cake\Utility\Security;
 use Cake\Validation\Validator;
+use Cake\Http\Exception\UnauthorizedException;
+use Cake\Core\Configure;
+use Exception;
+use Firebase\JWT\JWT;
 
 /**
  * Users Model
@@ -51,9 +56,6 @@ class UsersTable extends Table
             'dependent' => true,
             'cascadeCallbacks' => true, // triggers core events on the foreign model (when also dependent set to ttue)
         ]);
-        $this->belongsTo('Tokens', [
-            'foreignKey' => 'token_id',
-        ]);
         $this->hasOne('Tokens', [
             'foreignKey' => 'user_id',
             'dependent' => true,
@@ -97,15 +99,27 @@ class UsersTable extends Table
             ->allowEmptyString('active');
 
         $validator
-            ->boolean('token_id')
-            ->allowEmptyString('token_id');
-
-        $validator
             ->dateTime('last_login')
             ->allowEmptyDateTime('last_login');
 
         $notAllowed = FIXTURE;
         $validator
+            ->add('active', 'custom', [
+                'rule' => function ($value, $context) use ($notAllowed) {
+                    if (isset($context['data']['id'])) {
+                        $id = $context['data']['id'];
+                    } else {
+                        return true;
+                    }
+                    $index = array_search($id, $notAllowed);
+                    if (is_int($index)) {
+                        return false;
+                    }
+
+                    return true;
+                },
+                'message' => __('This user is protected and cannot be changed'),
+            ])
             ->add('name', 'custom', [
                 'rule' => function ($value, $context) use ($notAllowed) {
                     if (isset($context['data']['id'])) {
@@ -191,11 +205,64 @@ class UsersTable extends Table
         return $rules;
     }
 
-    public function findWithToken(\Cake\ORM\Query $query, array $options)
+    public function findWithEmail(\Cake\ORM\Query $query, array $options)
     {
+        $user = $this->getUser('email', $options['username']);
+        $this->checkJWT($user);
+
+        
         $query
-            ->where(['Users.token_id !=' => 0]);
+            ->where(['Users.active' => 1]);
             
         return $query;
     }
+    
+    public function findWithId(\Cake\ORM\Query $query, array $options)
+    {
+        
+        $user = $this->getUser('id', $options['username']);
+        $this->checkJWT($user);
+
+        $query
+            ->where(['Users.active' => 1]);
+            
+        return $query;
+    }
+
+    protected function getUser($field, $value) {
+        $_field = 'Users.' . $field;
+
+        return $this
+            ->find()
+            ->contain(['Groups', 'Tokens'])
+            ->where([$_field => $value])
+            ->first();
+    }
+
+    protected function checkJWT($user) {
+        if ($user->group->name !== "Administrator") {
+            $allowed_algs = ['HS256'];
+            $token = isset($user->token) ? $user->token->token : null;
+
+            if (!$token) {
+
+                throw new UnauthorizedException(__('Invalid username or password'));
+
+            }
+
+            try {
+                JWT::decode(
+                    $token,
+                    Security::getSalt(),
+                    $allowed_algs
+                );
+            } catch (Exception $e) {
+                if (Configure::read('debug')) {
+                    throw $e;
+                }
+            }
+        }
+
+    }
+
 }

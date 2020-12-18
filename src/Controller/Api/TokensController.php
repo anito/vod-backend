@@ -4,16 +4,15 @@ namespace App\Controller\Api;
 
 use App\Controller\Api\AppController;
 use Cake\Core\App;
-use Cake\Core\Configure;
 use Cake\Event\Event;
 use Cake\ORM\TableRegistry;
-use Firebase\JWT\JWT;
-use Cake\Utility\Security;
 use Cake\Http\Exception\UnauthorizedException;
 use Cake\Http\Session;
+use Cake\I18n\Time;
 use Cake\Utility\Text;
 use Cake\Log\Log;
 use Cake\ORM\Locator\LocatorInterface;
+use DateTime;
 
 /**
  * Tokens Controller
@@ -62,8 +61,20 @@ class TokensController extends AppController
         $this->Crud->on('beforeSave', function (Event $event) use ($uid) {
 
             $entity = $event->getSubject()->entity;
+            $timestamp = null;
+
+            // get the latest video subscription to adjust the tokens expiration time
+            $videosTable = TableRegistry::getTableLocator()->get('Videos');
+            $latestVideo = $videosTable->find('latestVideo', ['uid' => $uid]);
+
+            if(!empty($latestVideo)) {
+                $end = $latestVideo->_matchingData['UsersVideos']->end;
+                $end = $end->i18nFormat('yyyy-MM-dd HH:mm:ss');
+                $timestamp = strtotime($end);
+            }
+
             
-            $entity['token'] = $this->createToken($uid);
+            $entity['token'] = $this->createToken($uid, $timestamp);
             $this->Tokens->patchEntity($entity, [$entity]);
 
             // remove the former token (that with the same user_id) manually
@@ -79,10 +90,11 @@ class TokensController extends AppController
         });
 
         // normally we would return the newly created token
-        // but in this case we need the (updated) user sent back to the client
+        // but in this case we want the (updated) user being sent back to the client
         $this->Crud->on('afterSave', function (Event $event) use ($uid) {
 
             $usersTable = TableRegistry::getTableLocator()->get('Users');
+
             $user = $usersTable->get($uid, [
                 'contain' => ['Groups', 'Videos', 'Avatars', 'Tokens'],
             ]);
@@ -125,14 +137,6 @@ class TokensController extends AppController
         });
 
         return $this->Crud->execute();
-    }
-
-    protected function createToken($id) {
-        return JWT::encode([
-            'sub' => $id,
-            'exp' => time() + Configure::read('Token.lifetime'),
-        ],
-        Security::getSalt());
     }
 
 }

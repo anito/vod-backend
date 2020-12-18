@@ -2,7 +2,11 @@
 namespace App\Model\Entity;
 
 use Authentication\PasswordHasher\DefaultPasswordHasher;
+use Cake\Log\Log;
 use Cake\ORM\Entity;
+use Firebase\JWT\JWT;
+use Cake\Core\Configure;
+use Cake\Utility\Security;
 
 /**
  * User Entity
@@ -47,7 +51,6 @@ class User extends Entity
         'email' => true,
         'password' => true,
         'active' => true,
-        'token_id' => true,
         'group_id' => true,
         'last_login' => true,
         'created' => true,
@@ -66,4 +69,31 @@ class User extends Entity
     protected $_hidden = [
         'password',
     ];
+
+    protected $_virtual = [
+        'expires', 'protected'
+    ];
+
+    protected function _getExpires()
+    {
+        if(isset($this->token)) {
+            $jwt = $this->token->token;
+
+            $tks = \explode('.', $jwt);
+            list($headb64, $bodyb64, $cryptob64) = $tks;
+            return JWT::jsonDecode(JWT::urlsafeB64Decode($bodyb64))->exp;
+
+        }
+    }
+
+    protected function _getProtected()
+    {
+        $notAllowed = FIXTURE;
+
+        $index = array_search($this->id, $notAllowed);
+        if (is_int($index)) {
+            return true;
+        }
+
+    }
 }

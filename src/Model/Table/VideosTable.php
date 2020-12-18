@@ -113,4 +113,30 @@ class VideosTable extends Table
         
         return $query;
     }
+
+    public function findLatestVideo(Query $query, $options) {
+        
+        $uid = $options['uid'];
+        return $query
+            ->matching('Users', function(Query $q) use($uid) {
+                $now = date('Y-m-d H:i:s');
+
+                $condition = [
+                    'Users.id' => $uid,
+                    'UsersVideos.end >' => $now
+                ];
+
+                return $q
+                    ->where($condition);
+            })
+            ->select([
+                'UsersVideos.user_id',
+                'UsersVideos.end'
+            ])
+            ->order([
+                'UsersVideos.end' => 'DESC'
+            ])
+            ->first();
+
+    }
 }

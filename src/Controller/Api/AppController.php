@@ -2,11 +2,12 @@
 namespace App\Controller\Api;
 
 use Cake\Controller\Controller;
-use Cake\Event\Event;
 use Cake\Cache\Cache;
-use Cake\Log\Log;
+use Firebase\JWT\JWT;
+use Cake\Core\Configure;
+use Cake\Utility\Security;
 use Cake\ORM\TableRegistry;
-use stdClass;
+use Cake\Log\Log;
 
 class AppController extends Controller
 {
@@ -28,16 +29,16 @@ class AppController extends Controller
                             'username' => 'email',
                             'password' => 'password'
                     ],
-                    'finder' => 'withToken'
+                    'finder' => 'withEmail'
                 ],
                 'ADmad/JwtAuth.Jwt' => [
                     'parameter' => 'token',
                     'userModel' => 'Users',
-                    'finder' => 'withToken',
+                    'finder' => 'withId',
                     'fields' => [
                         'username' => 'id'
                     ],
-                    'queryDatasource' => false
+                    'queryDatasource' => true
                 ]
             ],
             'unauthorizedRedirect' => true,
@@ -45,6 +46,25 @@ class AppController extends Controller
             'loginAction' => false
         ]);
 
+    }
+
+    protected function getJWTPayload($jwt) {
+        $tks = \explode('.', $jwt);
+        list($headb64, $bodyb64, $cryptob64) = $tks;
+        return JWT::jsonDecode(JWT::urlsafeB64Decode($bodyb64));
+    }
+
+    protected function createToken($id, $exp=null) {
+        if(!isset($exp)) {
+            $expires = time() + Configure::read('Token.lifetime');
+        } else {
+            $expires = $exp;
+        }
+        return JWT::encode([
+            'sub' => $id,
+            'exp' => $expires,
+        ],
+        Security::getSalt());
     }
 
     protected function getAuthUser($key="") {
@@ -63,9 +83,13 @@ class AppController extends Controller
     }
     protected function getUser($id, array $config=[]) {
         $defaults = [
-            'contain' => ['Groups', 'Avatars', 'Videos', 'Tokens']
+            'contain' => ['Groups', 'Avatars', 'Videos', 'Tokens'],
+            'object' => false,
         ];
         $options = array_merge($defaults, $config);
+        if (isset($id['sub'])) {
+            $id = $id['sub'];
+        }
 
         if(!is_array($id)) {
             $user = TableRegistry::getTableLocator()->get('Users')
@@ -77,6 +101,7 @@ class AppController extends Controller
         } else {
             $user = $id;
         }
+        
         return $user;
     }
 
@@ -85,6 +110,9 @@ class AppController extends Controller
     }
 
     protected function getUserRoleName(array $user) {
+        if(isset($user['sub'])) {
+            $user = $this->getUser($user['sub']);
+        }
         return TableRegistry::getTableLocator()->get('Groups')
             ->find()
             ->where(['id' => $user['group_id']])

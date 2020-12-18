@@ -9,6 +9,7 @@ use Cake\Http\Exception\UnauthorizedException;
 use Cake\Utility\Security;
 use Firebase\JWT\JWT;
 use Cake\Log\Log;
+use Cake\ORM\Query;
 use Cake\ORM\TableRegistry;
 
 class UsersController extends AppController
@@ -58,20 +59,36 @@ class UsersController extends AppController
             } else {
                 $query->order(['Users.name' => 'ASC']);
             }
-            
+
         });
 
         $this->Crud->on('afterPaginate', function(\Cake\Event\Event $event) {
 
-            $notAllowed = FIXTURE;
-
             foreach ($event->getSubject()->entities as $entity) {
                 $id = $entity->id;
-                $index = array_search($id, $notAllowed);
-                if (is_int($index)) {
-                    $entity['protected'] = true;
-                }
+                $v = $this->Users->Videos->find()
+                    ->matching('Users', function(Query $q) use($id) {
+
+                        $now = date('Y-m-d H:i:s');
+
+                        return $q
+                            ->where([
+                                'Users.id' => $id,
+                                'UsersVideos.end >' => $now
+                            ]);
+                    })
+                    ->select([
+                        'UsersVideos.user_id',
+                        'UsersVideos.end'
+                    ])
+                    ->order([
+                        'UsersVideos.end' => 'DESC'
+                    ])
+                    ->first();
+                    
+                // Log::debug(($v));
             }
+
         });
 
         return $this->Crud->execute();
@@ -216,15 +233,37 @@ class UsersController extends AppController
         $loggedinUser = $this->Auth->identify();
 
         // eventhough we have a valid login we now continue validating if in case someone had tried to login using a token, this token equals the current users token
-        if (!($loggedinUser && ($user = $this->validateAuthUser($loggedinUser)))) {
+        if (!$loggedinUser) {
             
             throw new UnauthorizedException(__('Invalid username or password'));
 
         }
 
-        $user["token"] = $user["token"]["token"];
+        if (isset($loggedinUser['sub'])) {
+            $id = $loggedinUser['sub'];
+        } else {
+            $id = $loggedinUser["id"];
+        }
+
+        // save login time
+        $_user = $this->Users->get($id);
+        $_user->last_login = date("Y-m-d H:i:s");
+        $this->Users->save($_user);
+
+        $user = $this->getUser($id);
+
+        // prevent admins from using expired tokens retrieved from the db
+        if($this->isAdmin($loggedinUser)) {
+            // fresh token for admins
+            $token = $this->createToken($id, time() + 604800); // 1 week
+        } else {
+            $token = isset($user["token"]) ? $user["token"]["token"] : null;
+        }
+
+        $user["token"] = $token;
         
         $this->Auth->setUser($user);
+
         $this->set([
             'success' => true,
             'data' => [

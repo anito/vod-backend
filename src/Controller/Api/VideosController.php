@@ -59,6 +59,7 @@ class VideosController extends AppController
     public function index() {
 
         $authUser = $this->getAuthUser();
+        
         $role = $this->getUserRoleName($authUser);
 
         switch($role) {
