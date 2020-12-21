@@ -23,6 +23,7 @@ class UsersControllerTest extends TestCase
         'app.Users',
         'app.Groups',
         'app.Avatars',
+        'app.Tokens',
         'app.Videos',
         'app.UsersVideos',
     ];

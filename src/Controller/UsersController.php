@@ -2,9 +2,6 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
-use Cake\Core\Configure;
-use Cake\Event\Event;
-use Cake\Log\Log;
 use Cake\ORM\TableRegistry;
 
 /**
@@ -57,7 +54,7 @@ class UsersController extends AppController
     public function index()
     {
         $this->paginate = [
-            'contain' => ['Groups', 'Videos', 'Avatars'],
+            'contain' => ['Groups'],
         ];
         $users = $this->paginate($this->Users);
 
@@ -74,7 +71,7 @@ class UsersController extends AppController
     public function view($id = null)
     {
         $user = $this->Users->get($id, [
-            'contain' => ['Groups', 'Videos', 'Avatars'],
+            'contain' => ['Groups', 'Videos', 'Avatars', 'Tokens'],
         ]);
 
         $this->set('user', $user);

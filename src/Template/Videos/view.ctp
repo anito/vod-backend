@@ -26,7 +26,7 @@
         </tr>
         <tr>
             <th scope="row"><?= __('Image') ?></th>
-            <td><?= $video->has('image') ? $this->Html->link($video->image->title, ['controller' => 'Images', 'action' => 'view', $video->image->id]) : '' ?></td>
+            <td><?= $video->has('image') ? $this->Html->link($video->image->src, ['controller' => 'Images', 'action' => 'view', $video->image->id]) : '' ?></td>
         </tr>
         <tr>
             <th scope="row"><?= __('Title') ?></th>

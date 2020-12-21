@@ -16,7 +16,7 @@
     </ul>
 </nav>
 <div class="images view large-9 medium-8 columns content">
-    <h3><?= h($image->id) ?></h3>
+    <h3><?= h($image->src) ?></h3>
     <table class="vertical-table">
         <tr>
             <th scope="row"><?= __('Id') ?></th>
