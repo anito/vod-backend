@@ -120,15 +120,15 @@ class VideosController extends AppController
                     $this->set([
                         'success' => true,
                         'data' => $data,
-                        'message' => 'Saved',
-                        '_serialize' => ['success', 'data'],
+                        'message' => __('Video saved'),
+                        '_serialize' => ['success', 'data', 'message'],
                     ]);
                 } else {
 
                     $this->set([
                         'success' => false,
                         'data' => [],
-                        'message' => 'An error occurred saving your video data',
+                        'message' => __('An error occurred saving your video data'),
                         '_serialize' => ['success', 'data', 'message'],
                     ]);
                 }
@@ -137,11 +137,33 @@ class VideosController extends AppController
                 $this->set([
                     'success' => false,
                     'data' => [],
-                    'message' => 'An Error occurred while uploading your files',
+                    'message' => __('An Error occurred while uploading your files'),
                     '_serialize' => ['success', 'data', 'message'],
                 ]);
             }
         }
+    }
+
+    public function edit($id) {
+        $this->Crud->on('afterSave', function (Event $event) {
+            if($event->getSubject()->success) {
+                $this->set([
+                    'success' => true,
+                    'message' => __('Video saved'),
+                    '_serialize' => ['success', 'message'],
+                ]);
+            } else {
+                $this->set([
+                    'success' => false,
+                    'message' => __('An error occurred saving video data'),
+                    '_serialize' => ['success', 'data', 'message'],
+                ]);
+
+            }
+        });
+
+        return $this->Crud->execute();
+
     }
 
     public function delete()
@@ -165,6 +187,26 @@ class VideosController extends AppController
                 }
             }
         });
+
+        $this->Crud->on('afterDelete', function (Event $event) {
+
+            if ($event->getSubject()->success) {
+                $this->set([
+                    'success' => true,
+                    'message' => __('Video deleted'),
+                    '_serialize' => ['success', 'message'],
+                ]);
+            } else {
+                $this->set([
+                    'success' => false,
+                    'message' => __('Video could not be deleted'),
+                    '_serialize' => ['success', 'message'],
+                ]);
+
+            }
+
+        });
+
         return $this->Crud->execute();
     }
 

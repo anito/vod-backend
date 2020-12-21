@@ -69,15 +69,15 @@ class ImagesController extends AppController
                     $this->set([
                         'success' => true,
                         'data' => $data,
-                        'message' => 'Saved',
-                        '_serialize' => ['success', 'data'],
+                        'message' => __('Image saved'),
+                        '_serialize' => ['success', 'data', 'message'],
                     ]);
                 } else {
 
                     $this->set([
                         'success' => false,
                         'data' => [],
-                        'message' => 'An error occurred saving your image data',
+                        'message' => __('An error occurred saving your image data'),
                         '_serialize' => ['success', 'data', 'message'],
                     ]);
                 }
@@ -86,7 +86,7 @@ class ImagesController extends AppController
                 $this->set([
                     'success' => false,
                     'data' => [],
-                    'message' => 'An Error occurred while uploading your files',
+                    'message' => __('An Error occurred while uploading your files'),
                     '_serialize' => ['success', 'data', 'message'],
                 ]);
             }
@@ -109,11 +109,43 @@ class ImagesController extends AppController
 
                 if (!empty($oldies) && $oldies && !unlink($oldies[0])) {
                     $event->stopPropagation();
+
+                    $this->set([
+                        'success' => false,
+                        'message' => __('Image could not be deleted'),
+                        '_serialize' => ['success', 'message'],
+                    ]);
+
+
                 } else {
                     $this->File->rmdirr($path);
+
+
                 }
             }
         });
+
+        $this->Crud->on('afterDelete', function (Event $event) {
+
+            if($event->getSubject()->success) {
+                $this->set([
+                    'success' => true,
+                    'message' => __('Image deleted'),
+                    '_serialize' => ['success', 'message'],
+                ]);
+            } else {
+                $this->set([
+                    'success' => false,
+                    'message' => __('Image could not be deleted'),
+                    '_serialize' => ['success', 'message'],
+                ]);
+
+            }
+
+        });
+
+
+
         return $this->Crud->execute();
     }
 

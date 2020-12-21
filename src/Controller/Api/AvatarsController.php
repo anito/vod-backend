@@ -97,7 +97,7 @@ class AvatarsController extends AppController
 
             $usersTable = TableRegistry::getTableLocator()->get('Users');
             $user = $usersTable->get($uid, [
-                'contain' => ['Groups', 'Videos', 'Avatars'],
+                'contain' => ['Groups', 'Videos', 'Avatars', 'Tokens'],
             ]);
     
             // normally we would send the new avatar
