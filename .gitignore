@@ -12,6 +12,7 @@ build/*
 *.pbxuser
 *.xcworkspace
 xcuserdata
+.vscode
 
 # svn & cvs
 .svn
