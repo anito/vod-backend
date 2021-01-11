@@ -57,8 +57,7 @@ class TokensTable extends Table
     {
         $validator
             ->uuid('id')
-            ->allowEmptyString('id', null, 'create')
-            ->add('id', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
+            ->allowEmptyString('id', null, 'create');
 
         $validator
             ->scalar('token')
@@ -77,6 +76,7 @@ class TokensTable extends Table
     public function buildRules(RulesChecker $rules)
     {
         $rules->add($rules->isUnique(['id']));
+        $rules->add($rules->isUnique(['token'], __('Token did not change.')));
         $rules->add($rules->existsIn(['user_id'], 'Users'));
 
         return $rules;

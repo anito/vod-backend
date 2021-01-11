@@ -128,7 +128,7 @@ class VideosController extends AppController
                     $this->set([
                         'success' => false,
                         'data' => [],
-                        'message' => __('An error occurred saving your video data'),
+                        'message' => __('Video could not be saved'),
                         '_serialize' => ['success', 'data', 'message'],
                     ]);
                 }
@@ -155,7 +155,7 @@ class VideosController extends AppController
             } else {
                 $this->set([
                     'success' => false,
-                    'message' => __('An error occurred saving video data'),
+                    'message' => __('Video could not be saved'),
                     '_serialize' => ['success', 'data', 'message'],
                 ]);
 

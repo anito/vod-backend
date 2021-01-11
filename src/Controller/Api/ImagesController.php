@@ -116,11 +116,8 @@ class ImagesController extends AppController
                         '_serialize' => ['success', 'message'],
                     ]);
 
-
                 } else {
                     $this->File->rmdirr($path);
-
-
                 }
             }
         });

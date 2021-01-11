@@ -55,7 +55,7 @@ class TokensController extends AppController
     public function add()
     {
 
-        // we cant use PUT (alias edit method) for altering data
+        // we can not use PUT (alias edit method) for altering data
         $uid = $this->getRequest()->getData('user_id');
 
         $this->Crud->on('beforeSave', function (Event $event) use ($uid) {
@@ -73,19 +73,21 @@ class TokensController extends AppController
                 $timestamp = strtotime($end);
             }
 
-            
-            $entity['token'] = $this->createToken($uid, $timestamp);
+            $jwt = $this->createToken($uid, $timestamp);
+
+            $entity['token'] = $jwt;
             $this->Tokens->patchEntity($entity, [$entity]);
 
-            // remove the former token (that with the same user_id) manually
+            // remove all former tokens belonging to that user, except the newly created one
             $oldEntities = $this->Tokens->find()
-                ->where(['user_id' => $uid])
+                ->where(['user_id' => $uid, 'token !=' => $jwt])
                 ->toList();
 
             foreach ($oldEntities as $oldie) {
-                // this triggers necessary events
+                // triggers necessary events
                 $this->Tokens->delete($oldie);
             }
+            
 
         });
 
@@ -98,10 +100,6 @@ class TokensController extends AppController
             $user = $usersTable->get($uid, [
                 'contain' => ['Groups', 'Videos', 'Avatars', 'Tokens'],
             ]);
-            
-            $user['token_id'] = $event->getSubject()->entity->id;
-            $usersTable->patchEntity($user, [$user]);
-            $usersTable->save($user);
 
             $this->set([
                 'success' => true,
