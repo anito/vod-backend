@@ -9,6 +9,7 @@ use Cake\Utility\Security;
 use Cake\Validation\Validator;
 use Cake\Http\Exception\UnauthorizedException;
 use Cake\Core\Configure;
+use Cake\ORM\Entity;
 use Exception;
 use Firebase\JWT\JWT;
 
@@ -208,8 +209,7 @@ class UsersTable extends Table
     public function findWithEmail(\Cake\ORM\Query $query, array $options)
     {
         $user = $this->getUser('email', $options['username']);
-        $this->checkJWT($user);
-
+        $user && $this->checkJWT($user);
         
         $query
             ->where(['Users.active' => 1]);
@@ -219,9 +219,8 @@ class UsersTable extends Table
     
     public function findWithId(\Cake\ORM\Query $query, array $options)
     {
-        
         $user = $this->getUser('id', $options['username']);
-        $this->checkJWT($user);
+        $user && $this->checkJWT($user);
 
         $query
             ->where(['Users.active' => 1]);
@@ -239,15 +238,16 @@ class UsersTable extends Table
             ->first();
     }
 
-    protected function checkJWT($user) {
+    protected function checkJWT(Entity $user) {
+        if(!$user instanceof Entity) {
+            return;
+        }
         if ($user->group->name !== "Administrator") {
             $allowed_algs = ['HS256'];
             $token = isset($user->token) ? $user->token->token : null;
 
             if (!$token) {
-
-                throw new UnauthorizedException(__('Invalid username or password'));
-
+                throw new UnauthorizedException(__('Useraccount locked'));
             }
 
             try {

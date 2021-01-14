@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2021-01-11 18:07+0100\n"
+"POT-Creation-Date: 2021-01-14 02:35+0100\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -13,26 +13,6 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
-
-#: /setup.php:234
-msgid "Year%s"
-msgstr ""
-
-#: /setup.php:239
-msgid "Month%s"
-msgstr ""
-
-#: /setup.php:244
-msgid "Day%s"
-msgstr ""
-
-#: /setup.php:249
-msgid "Hour%s"
-msgstr ""
-
-#: /setup.php:254
-msgid "Minute%s"
-msgstr ""
 
 #: Controller/AvatarsController.php:57
 #: Controller/AvatarsController.php:82
@@ -193,16 +173,15 @@ msgstr ""
 #: Controller/Api/MysqlController.php:43
 #: Controller/Api/UploadsController.php:50
 #: Controller/Api/UsersController.php:209
-#: Controller/Api/UsersController.php:238
-#: Model/Table/UsersTable.php:249
+#: Controller/Api/UsersController.php:234
 msgid "Invalid username or password"
 msgstr ""
 
-#: Controller/Api/TokensController.php:107
+#: Controller/Api/TokensController.php:122
 msgid "Token created"
 msgstr ""
 
-#: Controller/Api/TokensController.php:131
+#: Controller/Api/TokensController.php:146
 msgid "Token removed"
 msgstr ""
 
@@ -226,11 +205,15 @@ msgstr ""
 msgid "User deleted"
 msgstr ""
 
-#: Controller/Api/UsersController.php:270
+#: Controller/Api/UsersController.php:237
+msgid "Invalid Token"
+msgstr ""
+
+#: Controller/Api/UsersController.php:268
 msgid "Login successful"
 msgstr ""
 
-#: Controller/Api/UsersController.php:306
+#: Controller/Api/UsersController.php:305
 msgid "You're logged out"
 msgstr ""
 
@@ -260,12 +243,16 @@ msgstr ""
 msgid "Token did not change."
 msgstr ""
 
-#: Model/Table/UsersTable.php:121
-#: Model/Table/UsersTable.php:137
-#: Model/Table/UsersTable.php:153
-#: Model/Table/UsersTable.php:170
-#: Model/Table/UsersTable.php:187
+#: Model/Table/UsersTable.php:122
+#: Model/Table/UsersTable.php:138
+#: Model/Table/UsersTable.php:154
+#: Model/Table/UsersTable.php:171
+#: Model/Table/UsersTable.php:188
 msgid "This user is protected and cannot be changed"
+msgstr ""
+
+#: Model/Table/UsersTable.php:250
+msgid "Useraccount locked"
 msgstr ""
 
 #: Template/Avatars/add.ctp:9
@@ -505,7 +492,6 @@ msgstr ""
 #: Template/UsersVideos/index.ctp:39
 #: Template/Videos/index.ctp:47
 #: Template/Videos/view.ctp:88
-#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/cakephp/src/View/Helper/PaginatorHelper.php:1271
 msgid "View"
 msgstr ""
 
@@ -1094,21 +1080,5 @@ msgstr ""
 
 #: Template/Videos/view.ctp:28
 msgid "Image"
-msgstr ""
-
-#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/wyrihaximus/twig-view/src/Shell/CompileShell.php:151
-msgid "Searches and precompiles all twig templates it finds."
-msgstr ""
-
-#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/wyrihaximus/twig-view/src/Shell/CompileShell.php:159
-msgid "Searches and precompiles all twig templates for a specific plugin."
-msgstr ""
-
-#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/wyrihaximus/twig-view/src/Shell/CompileShell.php:167
-msgid "Precompile a specific file."
-msgstr ""
-
-#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/wyrihaximus/twig-view/src/Shell/CompileShell.php:171
-msgid "TwigView templates precompiler"
 msgstr ""
 

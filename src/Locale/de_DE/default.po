@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2021-01-11 18:07+0100\n"
-"PO-Revision-Date: 2021-01-11 18:11+0100\n"
+"POT-Creation-Date: 2021-01-14 02:35+0100\n"
+"PO-Revision-Date: 2021-01-14 02:36+0100\n"
 "Last-Translator: \n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
 "Language: de\n"
@@ -14,26 +14,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 2.4.2\n"
-
-#: /setup.php:234
-msgid "Year%s"
-msgstr "Jahr%s"
-
-#: /setup.php:239
-msgid "Month%s"
-msgstr "Monat%s"
-
-#: /setup.php:244
-msgid "Day%s"
-msgstr "Tag%s"
-
-#: /setup.php:249
-msgid "Hour%s"
-msgstr "Stunde%s"
-
-#: /setup.php:254
-msgid "Minute%s"
-msgstr "Minute%s"
 
 #: Controller/AvatarsController.php:57 Controller/AvatarsController.php:82
 msgid "The avatar has been saved."
@@ -183,15 +163,15 @@ msgstr "Index nicht gefunden"
 #: Controller/Api/MysqlController.php:43
 #: Controller/Api/UploadsController.php:50
 #: Controller/Api/UsersController.php:209
-#: Controller/Api/UsersController.php:238 Model/Table/UsersTable.php:249
+#: Controller/Api/UsersController.php:234
 msgid "Invalid username or password"
 msgstr "Ungültiger Benutzername oder Passwort"
 
-#: Controller/Api/TokensController.php:107
+#: Controller/Api/TokensController.php:122
 msgid "Token created"
 msgstr "Token wurde generiert"
 
-#: Controller/Api/TokensController.php:131
+#: Controller/Api/TokensController.php:146
 msgid "Token removed"
 msgstr "Token wurde gelöscht"
 
@@ -215,11 +195,15 @@ msgstr "Änderungen an diesem Benutzer sind nicht zulässig"
 msgid "User deleted"
 msgstr "Benutzer gelöscht"
 
-#: Controller/Api/UsersController.php:270
+#: Controller/Api/UsersController.php:237
+msgid "Invalid Token"
+msgstr "Ungültiger Token"
+
+#: Controller/Api/UsersController.php:268
 msgid "Login successful"
 msgstr "Sie wurden angemeldet"
 
-#: Controller/Api/UsersController.php:306
+#: Controller/Api/UsersController.php:305
 msgid "You're logged out"
 msgstr "Sie wurden abgemeldet"
 
@@ -252,11 +236,15 @@ msgstr ""
 msgid "Token did not change."
 msgstr "Der Token wurde nicht geändert."
 
-#: Model/Table/UsersTable.php:121 Model/Table/UsersTable.php:137
-#: Model/Table/UsersTable.php:153 Model/Table/UsersTable.php:170
-#: Model/Table/UsersTable.php:187
+#: Model/Table/UsersTable.php:122 Model/Table/UsersTable.php:138
+#: Model/Table/UsersTable.php:154 Model/Table/UsersTable.php:171
+#: Model/Table/UsersTable.php:188
 msgid "This user is protected and cannot be changed"
 msgstr "Dieser Benutzer ist schreibgeschützt"
+
+#: Model/Table/UsersTable.php:250
+msgid "Useraccount locked"
+msgstr "Benutzerkonto gesperrt"
 
 #: Template/Avatars/add.ctp:9 Template/Avatars/edit.ctp:9
 #: Template/Avatars/index.ctp:9 Template/Avatars/index.ctp:26
@@ -395,7 +383,6 @@ msgstr "Avatare"
 #: Template/Users/index_.ctp:47 Template/Users/view.ctp:100
 #: Template/Users/view_.ctp:88 Template/UsersVideos/index.ctp:39
 #: Template/Videos/index.ctp:47 Template/Videos/view.ctp:88
-#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/cakephp/src/View/Helper/PaginatorHelper.php:1271
 msgid "View"
 msgstr "Ansehen"
 
@@ -856,21 +843,20 @@ msgstr "Video löschen"
 msgid "Image"
 msgstr "Image"
 
-#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/wyrihaximus/twig-view/src/Shell/CompileShell.php:151
-msgid "Searches and precompiles all twig templates it finds."
-msgstr ""
+#~ msgid "Year%s"
+#~ msgstr "Jahr%s"
 
-#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/wyrihaximus/twig-view/src/Shell/CompileShell.php:159
-msgid "Searches and precompiles all twig templates for a specific plugin."
-msgstr ""
+#~ msgid "Month%s"
+#~ msgstr "Monat%s"
 
-#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/wyrihaximus/twig-view/src/Shell/CompileShell.php:167
-msgid "Precompile a specific file."
-msgstr ""
+#~ msgid "Day%s"
+#~ msgstr "Tag%s"
 
-#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/wyrihaximus/twig-view/src/Shell/CompileShell.php:171
-msgid "TwigView templates precompiler"
-msgstr ""
+#~ msgid "Hour%s"
+#~ msgstr "Stunde%s"
+
+#~ msgid "Minute%s"
+#~ msgstr "Minute%s"
 
 #~ msgid "An Internal Error Has Occurred"
 #~ msgstr "Ein interner Fehler ist aufgetreten."

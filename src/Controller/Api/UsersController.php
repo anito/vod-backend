@@ -217,8 +217,6 @@ class UsersController extends AppController
         ],
         Security::getSalt());
 
-        $tokenTable = TableRegistry::getTableLocator()->get('Tokens');
-        
         $this->set([
             'success' => true,
             'data' => [
@@ -232,11 +230,11 @@ class UsersController extends AppController
             
         $loggedinUser = $this->Auth->identify();
 
-        // eventhough we have a valid login we now continue validating if in case someone had tried to login using a token, this token equals the current users token
         if (!$loggedinUser) {
-            
             throw new UnauthorizedException(__('Invalid username or password'));
-
+        } elseif(!$this->isValidToken($loggedinUser)) {
+            // in case the token got tampered or stolen, only the users actual token is allowed
+            throw new UnauthorizedException(__('Invalid Token'));
         }
 
         if (isset($loggedinUser['sub'])) {
@@ -275,7 +273,7 @@ class UsersController extends AppController
         ]);
     }
 
-    protected function validateAuthUser($identifiedUser) {
+    protected function isValidToken($identifiedUser = null) {
         if(!isset($identifiedUser)) $identifiedUser = $this->Auth->identify();
         $currentToken = null;
 
@@ -299,6 +297,7 @@ class UsersController extends AppController
         }
 
     }
+
     public function logout() {
         $this->Auth->logout();
         $this->set([

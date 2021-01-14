@@ -70,7 +70,16 @@ class TokensController extends AppController
             if(!empty($latestVideo)) {
                 $end = $latestVideo->_matchingData['UsersVideos']->end;
                 $end = $end->i18nFormat('yyyy-MM-dd HH:mm:ss');
-                $timestamp = strtotime($end);
+
+                // tokens expiration time normally equals last's videos subscription time
+                // however we need a different token in case of REgenerating due to tampered or stolen tokens
+                // solution is to add a timespan (now - time ellapsed today)
+                // which should be differ from second to second, hence gives us a different token
+                $startOfDayTimestamp = (new DateTime())->setTime(0, 0, 0)->getTimestamp();
+                $nowTimestamp = (new DateTime())->getTimestamp();
+                $diff = $nowTimestamp - $startOfDayTimestamp;
+
+                $timestamp = strtotime($end) + $diff;
             }
 
             $jwt = $this->createToken($uid, $timestamp);
@@ -78,7 +87,9 @@ class TokensController extends AppController
             $entity['token'] = $jwt;
             $this->Tokens->patchEntity($entity, [$entity]);
 
-            // remove all former tokens belonging to that user, except the newly created one
+            // since we must use POST (eventhough we may only wanted to update the token)
+            // we must now remove all former tokens belonging to that user manually
+            // except the newly created one
             $oldEntities = $this->Tokens->find()
                 ->where(['user_id' => $uid, 'token !=' => $jwt])
                 ->toList();
