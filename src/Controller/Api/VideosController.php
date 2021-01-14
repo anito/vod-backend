@@ -103,8 +103,8 @@ class VideosController extends AppController
 
     public function add()
     {
-        
-        if (!empty($files = $this->request->getData('Files'))) {
+        $files = $this->request->getData('Files');
+        if (!empty($files)) {
             
             // make shure single uploads are handled correctly
             if (!empty($files['tmp_name'])) {
