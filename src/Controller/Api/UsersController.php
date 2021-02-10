@@ -204,15 +204,15 @@ class UsersController extends AppController
     }
 
     public function token() {
-        $user = $this->Auth->identify();
-        if (!$user) {
+        $loggedinUser = $this->Auth->identify();
+        if (!$loggedinUser) {
             throw new UnauthorizedException(__('Invalid username or password'));
         }
 
-        $request = $this->getRequest()->getData();
+        $id = $loggedinUser["id"];
 
         $token = JWT::encode([
-            'sub' => $request['id'],
+            'sub' => $id,
             'exp' =>  time() + 604800
         ],
         Security::getSalt());
@@ -224,6 +224,7 @@ class UsersController extends AppController
             ],
             '_serialize' => ['success', 'data']
         ]);
+
     }
 
     public function login() {
@@ -237,6 +238,7 @@ class UsersController extends AppController
             throw new UnauthorizedException(__('Invalid Token'));
         }
 
+        // user logged in by form or token, so checking for id or sub 
         if (isset($loggedinUser['sub'])) {
             $id = $loggedinUser['sub'];
         } else {
