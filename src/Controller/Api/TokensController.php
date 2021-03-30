@@ -71,10 +71,11 @@ class TokensController extends AppController
                 $end = $latestVideo->_matchingData['UsersVideos']->end;
                 $end = $end->i18nFormat('yyyy-MM-dd HH:mm:ss');
 
-                // tokens expiration time normally equals last's videos subscription time
-                // however we need a different token in case of REgenerating due to tampered or stolen tokens
-                // solution is to add a timespan (now - time ellapsed today)
-                // which should be differ from second to second, hence gives us a different token
+                // tokens expiration time normally equals last's videos subscription time -
+                // so in normal cases this (the token) would not change as long as the videos end date doesn't change 
+                // in case of tampered or stolen tokens however, we NEED to regenerate the token 
+                // solution here is to add a timespan (now - time ellapsed today)
+                // which should be differ from second to second, hence gives us a new token different from the previous one
                 $startOfDayTimestamp = (new DateTime())->setTime(0, 0, 0)->getTimestamp();
                 $nowTimestamp = (new DateTime())->getTimestamp();
                 $diff = $nowTimestamp - $startOfDayTimestamp;

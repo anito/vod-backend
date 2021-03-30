@@ -5,6 +5,7 @@ use Cake\Controller\Controller;
 use Cake\Cache\Cache;
 use Firebase\JWT\JWT;
 use Cake\Core\Configure;
+use Cake\I18n\I18n;
 use Cake\Utility\Security;
 use Cake\ORM\TableRegistry;
 use Cake\Log\Log;
@@ -46,6 +47,11 @@ class AppController extends Controller
             'loginAction' => false
         ]);
 
+        if(array_key_exists('lang', $this->getRequest()->getQuery())) {
+            $language = $this->getRequest()->getQuery('lang');
+            I18n::setLocale($language);
+        }
+        
     }
 
     protected function getJWTPayload($jwt) {

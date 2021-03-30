@@ -3,21 +3,25 @@ namespace App\Controller\Api;
 
 use Cake\Core\Configure;
 use Cake\Event\Event;
+use Cake\Http\Cookie\Cookie;
 use Cake\Http\Exception\ForbiddenException;
 use Cake\Http\Exception\NotFoundException;
 use Cake\Http\Exception\UnauthorizedException;
+use Cake\Http\Session;
 use Cake\Utility\Security;
 use Firebase\JWT\JWT;
 use Cake\Log\Log;
 use Cake\ORM\Query;
 use Cake\ORM\TableRegistry;
+use Cake\I18n\I18n;
+use DateTime;
 
 class UsersController extends AppController
 {
     
     public function initialize() {
         parent::initialize();
-        $this->Auth->allow( ['add', 'token', 'logout', 'login'] );
+        $this->Auth->allow( ['token', 'logout', 'login'] );
 
         $this->loadComponent('Crud.Crud', [
             'actions' => [
@@ -86,7 +90,6 @@ class UsersController extends AppController
                     ])
                     ->first();
                     
-                // Log::debug(($v));
             }
 
         });
@@ -275,6 +278,40 @@ class UsersController extends AppController
         ]);
     }
 
+    public function logout() {
+        $this->Auth->logout();
+        $this->set([
+            'success' => true,
+            'message' => __('You\'re logged out'),
+            '_serialize' => ['success', 'message']
+        ]);
+    }
+
+    public function setLocale($locale) {
+      // $cookie = (new Cookie('language'))
+      //   ->withValue($locale)
+      //   ->withExpiry(new DateTime('+1 year'))
+      //   ->withPath('/')
+      //   ->withSecure(false);
+
+      if(isset($locale)) {
+          $session = $this->getRequest()->getSession();
+          $session->write('locale', $locale);
+          I18n::setLocale($locale);
+      }
+
+      $currentLocale = $session->read('locale');
+
+      $this->set([
+          'success' => true,
+          'data' => [
+              'locale' => $currentLocale,
+          ],
+          '_serialize' => ['success', 'data'],
+      ]);
+
+    }
+
     protected function isValidToken($identifiedUser = null) {
         if(!isset($identifiedUser)) $identifiedUser = $this->Auth->identify();
         $currentToken = null;
@@ -299,14 +336,4 @@ class UsersController extends AppController
         }
 
     }
-
-    public function logout() {
-        $this->Auth->logout();
-        $this->set([
-            'success' => true,
-            'message' => __('You\'re logged out'),
-            '_serialize' => ['success', 'message']
-        ]);
-    }
-
 }

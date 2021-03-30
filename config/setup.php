@@ -18,12 +18,12 @@ Configure::load( 'config', 'settings' );
 Configure::write('DebugKit.safeTld', Configure::read('DebugKit.tld'));
 Configure::write('Session.timeout', Configure::read('Session.lifetime')/60);
 
-Cache::setConfig('mysql_conf', [
-    'className' => 'File',
-    'duration' => '+1 hours',
-    'path' => CACHE,
-    'prefix' => 'cake_mysql_conf_'
-]);
+// Cache::setConfig('mysql_conf', [
+//     'className' => 'File',
+//     'duration' => '+1 hours',
+//     'path' => CACHE,
+//     'prefix' => 'cake_mysql_conf_'
+// ]);
 
 Time::setDefaultLocale('de-DE');
 
@@ -63,47 +63,6 @@ if (!defined('FFMPEG_PATH')) {
 } else {
 	define('FFMPEG_PATH_FINAL', FFMPEG_PATH);	
 }
-
-define('MYSQL_CONFIG_FILENAME', 'my');
-define('MYSQL_CONFIG', MYSQL_CONFIG_DIR . MYSQL_CONFIG_FILENAME . '.ini');
-
-if( !Cache::read('Client', 'mysql_conf') || !file_exists( MYSQL_CONFIG ) ) {
-    $config = ConnectionManager::getConfig('target_db');
-    $db_host = $config['host'];
-    $db_db   = $config['database'];
-    $db_pass = $config['password'];
-    $db_user = $config['username'];
-    Configure::write('Client', [
-        'host'      => $db_host,
-        'user'      => $db_user,
-        'password'  => $db_pass
-        ]);
-    Configure::config( 'mysql_conf', new IniConfig( MYSQL_CONFIG_DIR ));
-    Configure::dump( MYSQL_CONFIG_FILENAME, 'mysql_conf', ['Client'] );
-    Configure::load( MYSQL_CONFIG_FILENAME, 'mysql_conf' );
-    Cache::write('Client', Configure::consume('Client'), 'mysql_conf');
-}
-
-if(!defined('MYSQLUPLOAD')) {
-    define('MYSQLUPLOAD', ROOT . DS . 'mysql');
-    if (!is_dir(MYSQLUPLOAD)) {
-        $parent_perms = substr(sprintf('%o', fileperms(dirname(dirname(MYSQLUPLOAD)))), -4);
-        $old = umask(0);
-        mkdir(MYSQLUPLOAD, octdec($parent_perms));
-        umask($old);
-    }
-}
-if (!defined('MYSQL_CMD_PATH')) {
-    $a = explode('.', DIR_HOST);
-    $last = count($a) - 1;
-    $local_tld = array( 'dev', 'mbp', 'local' );
-    $tl = $a[$last];
-    $path = '';
-    if( in_array( $tl, $local_tld ) ) {
-        $path = '/usr/local/mysql/bin/';
-    }
-    define('MYSQL_CMD_PATH', $path);
-}
 if (!defined('TOPLEVEL')) {
     $a = explode('.', DIR_HOST);
     $last = count($a) - 1;
@@ -117,81 +76,6 @@ if (!defined('FLASH_JSON')) {
 }
 if (!defined('MAX_DUMPS')) {
     define('MAX_DUMPS', Configure::check('Mysql.max_dumps') ? (int) Configure::read( 'Mysql.max_dumps' ) : 5 );
-}
-
-function rm_file( $fn ) {
-    $path = MYSQLUPLOAD . DS . $fn;
-    $files = glob($path);
-    // Log::write('debug', 'rm_file:');
-    // Log::write('debug', $files);
-    if(!empty($files)) {
-        $file = new File($files[0]);
-        $deleted = $file->delete();
-        $file->close();
-        return $deleted;
-    }
-    return true;
-}
-
-function c($max = 5) {
-    $files = l(SORT_ASC, TRUE);
-    reset($files);
-    $c = count($files);
-    if($c > $max) {
-        $file = new File(key($files));
-        $file->delete();
-        $file->close();
-        c($max);
-    }
-}
-
-function l( $sort = SORT_DESC, $fullpath = '' ) {
-    $times = array();
-    $path = MYSQLUPLOAD . DS . '*.*';
-    $files = glob($path);
-    if(!is_array($files)) $files = [$files];
-    foreach ($files as $key => $val) {
-        $timestamp = filemtime($val);
-        if(!$fullpath) {
-            $parts = explode(DS, $val);
-            $val = array_pop($parts);
-        }
-        $times[$val] = $timestamp;
-    }
-    array_multisort($times, $sort);
-    return $times;
-}
-
-function l2( $sort = SORT_DESC, $fullpath = false ) {
-
-    $time = array();
-    $path = MYSQLUPLOAD . DS . '*.*';
-    $files = glob($path);
-    if(!is_array($files)) $files = [];
-    foreach ($files as $key => $val) {
-        $timestamp = filemtime($val);
-        if(!$fullpath) {
-            $parts = explode(DS, $val);
-            $val = array_pop($parts);
-        }
-        $t = Time::createFromTimestamp($timestamp);
-        $ago = $t->timeAgoInWords(
-            [
-                'accuracy' => 'minutes',
-                'format' => 'd. MMM, YYY',
-                'end' => '+1 year'
-            ]
-        );
-        $time[$val] = [
-            'human' => $t->i18nFormat('d. MMM yyy HH:mm B', 'Europe/Berlin', 'de-DE'),
-            'unix' => $timestamp,
-            'ago' => $ago
-        ];
-    }
-    array_multisort($time, $sort);
-    // debug($time);
-
-    return $time;
 }
 
 /*

@@ -40,17 +40,17 @@ class DirectorComponent extends Component
             'force' => false,
         );
 
-        $o = array_merge($defaults, $options);
-        // Log::debug($o);
-        $args = join(',', $o);
+        $params = array_merge($defaults, $options);
+        // Log::debug($params);
+        $args = join(',', $params);
 
         if(!defined('PATH')) {
-            define('PATH', $this->getPathConstant($o['type']));
+            define('PATH', $this->getPathConstant($params['type']));
         }
 
         $crypt = $this->Salt->convert($args); //encode
 
-        $path = PATH . DS . $o['id'] . DS . 'lg' . DS . $o['fn'];
+        $path = PATH . DS . $params['id'] . DS . 'lg' . DS . $params['fn'];
         $m = filemtime($path);
         $x = pathinfo($path, PATHINFO_EXTENSION);
 

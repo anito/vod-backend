@@ -141,7 +141,6 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
             // So that subdirectory information and routes are loaded.
             ->add(new AuthenticationMiddleware($this));
 
-
         return $middlewareQueue;
     }
 
