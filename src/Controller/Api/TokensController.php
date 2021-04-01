@@ -52,10 +52,10 @@ class TokensController extends AppController
         $this->Crud->addListener('relatedModels', 'Crud.RelatedModels');
     }
 
+    // there is no such thing like altering a token, so when regenerating a token,
+    // we actually have to add a new token and remove the old one that previously belonged to that user
     public function add()
     {
-
-        // we can not use PUT (alias edit method) for altering data
         $uid = $this->getRequest()->getData('user_id');
 
         $this->Crud->on('beforeSave', function (Event $event) use ($uid) {
@@ -84,23 +84,21 @@ class TokensController extends AppController
             }
 
             $jwt = $this->createToken($uid, $timestamp);
-
-            $entity['token'] = $jwt;
+            $entity->token = $jwt;
+            
             $this->Tokens->patchEntity($entity, [$entity]);
 
-            // since we must use POST (eventhough we may only wanted to update the token)
-            // we must now remove all former tokens belonging to that user manually
-            // except the newly created one
-            $oldEntities = $this->Tokens->find()
-                ->where(['user_id' => $uid, 'token !=' => $jwt])
-                ->toList();
+            // since we must use POST (PUT contains no body to hold our data?)
+            // and eventhough we might only want to update the token,
+            // we now have to remove all older tokens belonging to the same user
+            $oldies = $this->Tokens->find()
+              ->where(['user_id' => $uid, 'token !=' => $jwt])
+              ->toList();
 
-            foreach ($oldEntities as $oldie) {
-                // triggers necessary events
-                $this->Tokens->delete($oldie);
+            foreach ($oldies as $oldie) {
+              // trigger events
+              $this->Tokens->delete($oldie);
             }
-            
-
         });
 
         // normally we would return the newly created token

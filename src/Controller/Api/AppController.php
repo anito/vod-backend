@@ -97,18 +97,16 @@ class AppController extends Controller
             $id = $id['sub'];
         }
 
-        if(!is_array($id)) {
-            $user = TableRegistry::getTableLocator()->get('Users')
+        if(is_array($id)) {
+          return $id;
+        } else {
+          return $user = TableRegistry::getTableLocator()->get('Users')
                 ->find()
                 ->contain($options['contain'])
                 ->where(['Users.id' => $id])
                 ->first()
                 ->toArray();
-        } else {
-            $user = $id;
         }
-        
-        return $user;
     }
 
     protected function isAdmin($user) {

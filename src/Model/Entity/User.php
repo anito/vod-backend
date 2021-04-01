@@ -57,7 +57,7 @@ class User extends Entity
         'modified' => true,
         'group' => true,
         'avatars' => true,
-        'tokens' => true,
+        'token' => true,
         'videos' => true,
     ];
 
