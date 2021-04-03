@@ -279,7 +279,7 @@ class UsersController extends AppController
               }
               $token->token = $jwt;
               $tokenTable->save($token);
-              $renewed =  true;
+              $renewed =  $id;
             }
         }
 
