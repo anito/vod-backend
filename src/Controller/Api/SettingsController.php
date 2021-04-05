@@ -22,21 +22,39 @@
 namespace App\Controller\Api;
 
 use App\Controller\Api\AppController;
-use Cake\Network\Exception\UnauthorizedException;
 use Cake\Core\Configure;
-use Cake\Cache\Cache;
 use Cake\Log\Log;
 
 class SettingsController extends AppController {
 
     function initialize() {
         parent::initialize();
-        $this->autoRender = false;
+
+        $this->Auth->allow(['index']);
+
+        $this->loadComponent('Crud.Crud', [
+            'actions' => [
+                // 'Crud.Index',
+                'index' => [
+                    'className' => 'Crud.Index',
+                    'relatedModels' => true,
+                ],
+            ],
+            'listeners' => [
+                'Crud.Api',
+                'Crud.ApiPagination',
+                'CrudJsonApi.JsonApi',
+                'CrudJsonApi.Pagination', // Pagination != ApiPagination
+                'Crud.ApiQueryLog',
+            ],
+        ]);
+
+        $this->Crud->addListener('relatedModels', 'Crud.RelatedModels');
     }
 
-    public function read() {
+    public function index() {
 
-        $allowed = ['Refresh', 'Client', 'Error', 'Overdue', 'Site' ];
+        $allowed = ['Session'];
         $settings = Configure::read();
         $settings = array_intersect_key($settings, array_flip($allowed));
 
@@ -47,6 +65,5 @@ class SettingsController extends AppController {
             ],
             '_serialize' => ['success', 'data']
         ]);
-        $this->render();
     }
 }

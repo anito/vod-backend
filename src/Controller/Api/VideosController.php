@@ -52,8 +52,6 @@ class VideosController extends AppController
         ]);
 
         $this->Crud->addListener('relatedModels', 'Crud.RelatedModels');
-
-
     }
 
     public function index() {
