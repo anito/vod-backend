@@ -47,7 +47,7 @@ class VideosController extends AppController
                 'Crud.ApiPagination',
                 'CrudJsonApi.JsonApi',
                 'CrudJsonApi.Pagination', // Pagination != ApiPagination
-                'Crud.ApiQueryLog',
+                // 'Crud.ApiQueryLog',
             ],
         ]);
 
