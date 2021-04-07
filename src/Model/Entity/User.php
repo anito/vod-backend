@@ -11,7 +11,7 @@ use Cake\Utility\Security;
 /**
  * User Entity
  *
- * @property int $id
+ * @property string $id
  * @property string|null $name
  * @property string|null $email
  * @property string|null $password
@@ -23,7 +23,7 @@ use Cake\Utility\Security;
  *
  * @property \App\Model\Entity\Group $group
  * @property \App\Model\Entity\Avatar[] $avatars
- * @property \App\Model\Entity\Avatar[] $tokens
+ * @property \App\Model\Entity\Token[] $tokens
  * @property \App\Model\Entity\Video[] $videos
  */
 class User extends Entity
@@ -51,6 +51,7 @@ class User extends Entity
         'email' => true,
         'password' => true,
         'active' => true,
+        'protected' => true,
         'group_id' => true,
         'last_login' => true,
         'created' => true,
@@ -59,6 +60,7 @@ class User extends Entity
         'avatars' => true,
         'token' => true,
         'videos' => true,
+        'mails' => true,
     ];
 
     /**
@@ -71,7 +73,7 @@ class User extends Entity
     ];
 
     protected $_virtual = [
-        'expires', 'protected'
+        'expires'
     ];
 
     protected function _getExpires()
@@ -84,16 +86,5 @@ class User extends Entity
             return JWT::jsonDecode(JWT::urlsafeB64Decode($bodyb64))->exp;
 
         }
-    }
-
-    protected function _getProtected()
-    {
-        $notAllowed = FIXTURE;
-
-        $index = array_search($this->id, $notAllowed);
-        if (is_int($index)) {
-            return true;
-        }
-
     }
 }

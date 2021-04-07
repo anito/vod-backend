@@ -34,11 +34,11 @@ class SettingsController extends AppController {
 
         $this->loadComponent('Crud.Crud', [
             'actions' => [
-                // 'Crud.Index',
-                'index' => [
-                    'className' => 'Crud.Index',
-                    'relatedModels' => true,
-                ],
+                'Crud.Index',
+                // 'index' => [
+                //     'className' => 'Crud.Index',
+                //     'relatedModels' => true,
+                // ],
             ],
             'listeners' => [
                 'Crud.Api',

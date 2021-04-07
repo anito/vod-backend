@@ -17,6 +17,8 @@
         <li><?= $this->Html->link(__('New Avatar'), ['controller' => 'Avatars', 'action' => 'add']) ?> </li>
         <li><?= $this->Html->link(__('List Tokens'), ['controller' => 'Tokens', 'action' => 'index']) ?> </li>
         <li><?= $this->Html->link(__('New Token'), ['controller' => 'Tokens', 'action' => 'add']) ?> </li>
+        <li><?= $this->Html->link(__('List Mails'), ['controller' => 'Mails', 'action' => 'index']) ?> </li>
+        <li><?= $this->Html->link(__('New Mail'), ['controller' => 'Mails', 'action' => 'add']) ?> </li>
         <li><?= $this->Html->link(__('List Videos'), ['controller' => 'Videos', 'action' => 'index']) ?> </li>
         <li><?= $this->Html->link(__('New Video'), ['controller' => 'Videos', 'action' => 'add']) ?> </li>
     </ul>
@@ -68,6 +70,10 @@
             <th scope="row"><?= __('Active') ?></th>
             <td><?= $user->active ? __('Yes') : __('No'); ?></td>
         </tr>
+        <tr>
+            <th scope="row"><?= __('Protected') ?></th>
+            <td><?= $user->protected ? __('Yes') : __('No'); ?></td>
+        </tr>
     </table>
     <div class="related">
         <h4><?= __('Related Videos') ?></h4>
@@ -100,6 +106,35 @@
                     <?= $this->Html->link(__('View'), ['controller' => 'Videos', 'action' => 'view', $videos->id]) ?>
                     <?= $this->Html->link(__('Edit'), ['controller' => 'Videos', 'action' => 'edit', $videos->id]) ?>
                     <?= $this->Form->postLink(__('Delete'), ['controller' => 'Videos', 'action' => 'delete', $videos->id], ['confirm' => __('Are you sure you want to delete # {0}?', $videos->id)]) ?>
+                </td>
+            </tr>
+            <?php endforeach; ?>
+        </table>
+        <?php endif; ?>
+    </div>
+    <div class="related">
+        <h4><?= __('Related Mails') ?></h4>
+        <?php if (!empty($user->mails)): ?>
+        <table cellpadding="0" cellspacing="0">
+            <tr>
+                <th scope="col"><?= __('Id') ?></th>
+                <th scope="col"><?= __('User Id') ?></th>
+                <th scope="col"><?= __('Sent') ?></th>
+                <th scope="col"><?= __('Created') ?></th>
+                <th scope="col"><?= __('Modified') ?></th>
+                <th scope="col" class="actions"><?= __('Actions') ?></th>
+            </tr>
+            <?php foreach ($user->mails as $mails): ?>
+            <tr>
+                <td><?= h($mails->id) ?></td>
+                <td><?= h($mails->user_id) ?></td>
+                <td><?= h($mails->sent) ?></td>
+                <td><?= h($mails->created) ?></td>
+                <td><?= h($mails->modified) ?></td>
+                <td class="actions">
+                    <?= $this->Html->link(__('View'), ['controller' => 'Mails', 'action' => 'view', $mails->id]) ?>
+                    <?= $this->Html->link(__('Edit'), ['controller' => 'Mails', 'action' => 'edit', $mails->id]) ?>
+                    <?= $this->Form->postLink(__('Delete'), ['controller' => 'Mails', 'action' => 'delete', $mails->id], ['confirm' => __('Are you sure you want to delete # {0}?', $mails->id)]) ?>
                 </td>
             </tr>
             <?php endforeach; ?>

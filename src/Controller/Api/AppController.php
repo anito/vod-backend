@@ -5,6 +5,7 @@ use Cake\Controller\Controller;
 use Cake\Cache\Cache;
 use Firebase\JWT\JWT;
 use Cake\Core\Configure;
+use Cake\Event\Event;
 use Cake\I18n\I18n;
 use Cake\Utility\Security;
 use Cake\ORM\TableRegistry;
@@ -100,7 +101,7 @@ class AppController extends Controller
         if(is_array($id)) {
           return $id;
         } else {
-          return $user = TableRegistry::getTableLocator()->get('Users')
+          return TableRegistry::getTableLocator()->get('Users')
                 ->find()
                 ->contain($options['contain'])
                 ->where(['Users.id' => $id])
@@ -136,6 +137,18 @@ class AppController extends Controller
             $_groups[] = array( 'name' => $group->name, 'id' => $group->id );
         }
         return $_groups;
+    }
+    protected function getCustomValidationErrorMessage(Event $event, $ruleName) {
+        if ($event->getSubject()->entity->hasErrors()) {
+            $errors = $event->getSubject()->entity->getErrors();
+
+            if (!empty($errors)) {
+                $first_key = array_key_first($errors);
+                if(array_key_exists($ruleName, $errors[$first_key]))
+                return $errors[$first_key][$ruleName];
+            }
+        }
+
     }
 
 }

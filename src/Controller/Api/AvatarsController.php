@@ -6,11 +6,6 @@ use App\Controller\Api\AppController;
 use Cake\Core\App;
 use Cake\Event\Event;
 use Cake\ORM\TableRegistry;
-use Cake\Http\Exception\UnauthorizedException;
-use Cake\Http\Session;
-use Cake\Utility\Text;
-use Cake\Log\Log;
-use Cake\ORM\Locator\LocatorInterface;
 
 /**
  * Avatars Controller

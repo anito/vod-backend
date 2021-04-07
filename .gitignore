@@ -27,3 +27,4 @@ vendor/*
 mysql/*
 mysqlconf/*
 composer.lock
+src/backups/*

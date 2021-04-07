@@ -18,6 +18,7 @@ use Firebase\JWT\JWT;
  *
  * @property \App\Model\Table\GroupsTable&\Cake\ORM\Association\BelongsTo $Groups
  * @property \App\Model\Table\AvatarsTable&\Cake\ORM\Association\HasMany $Avatars
+ * @property \App\Model\Table\TokensTable&\Cake\ORM\Association\HasMany $Tokens
  * @property \App\Model\Table\VideosTable&\Cake\ORM\Association\BelongsToMany $Videos
  *
  * @method \App\Model\Entity\User get($primaryKey, $options = [])
@@ -52,6 +53,9 @@ class UsersTable extends Table
         $this->belongsTo('Groups', [
             'foreignKey' => 'group_id',
         ]);
+        $this->hasMany('Mails', [
+            'foreignKey' => 'user_id',
+        ]);
         $this->hasOne('Avatars', [
             'foreignKey' => 'user_id',
             'dependent' => true,
@@ -67,6 +71,8 @@ class UsersTable extends Table
             'targetForeignKey' => 'video_id',
             'joinTable' => 'users_videos',
         ]);
+
+        $this->notAllowedMessage = __('This user is protected and cannot be changed');
     }
 
     /**
@@ -78,8 +84,11 @@ class UsersTable extends Table
     public function validationDefault(Validator $validator)
     {
         $validator
+            // dont use uuid validation as long as there are still any scalar user ids
+            // ->uuid('id', 'No valid UUID')
             ->scalar('id')
-            ->allowEmptyString('id', null, 'create');
+            ->allowEmptyString('id', null, 'create')
+            ->add('id', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
 
         $validator
             ->scalar('name')
@@ -103,92 +112,42 @@ class UsersTable extends Table
             ->dateTime('last_login')
             ->allowEmptyDateTime('last_login');
 
-        $notAllowed = FIXTURE;
         $validator
-            ->add('active', 'custom', [
-                'rule' => function ($value, $context) use ($notAllowed) {
-                    if (isset($context['data']['id'])) {
-                        $id = $context['data']['id'];
-                    } else {
-                        return true;
-                    }
-                    $index = array_search($id, $notAllowed);
-                    if (is_int($index)) {
-                        return false;
-                    }
-
-                    return true;
-                },
-                'message' => __('This user is protected and cannot be changed'),
+            ->add('active', 'checkProtected', [
+                'rule' => [$this, 'protectedUser'],
+                'message' => $this->notAllowedMessage
             ])
-            ->add('name', 'custom', [
-                'rule' => function ($value, $context) use ($notAllowed) {
-                    if (isset($context['data']['id'])) {
-                        $id = $context['data']['id'];
-                    } else {
-                        return true;
-                    }
-                    $index = array_search($id, $notAllowed);
-                    if (is_int($index)) {
-                        return false;
-                    }
-
-                    return true;
-                },
-                'message' => __('This user is protected and cannot be changed'),
+            ->add('name', 'checkProtected', [
+                'rule' => [$this, 'protectedUser'],
+                'message' => $this->notAllowedMessage
             ])
-            ->add('email', 'custom', [
-                'rule' => function ($value, $context) use ($notAllowed) {
-                    if (isset($context['data']['id'])) {
-                        $id = $context['data']['id'];
-                    } else {
-                        return true;
-                    }
-                    $index = array_search($id, $notAllowed);
-                    if (is_int($index)) {
-                        return false;
-                    }
-
-                    return true;
-                },
-                'message' => __('This user is protected and cannot be changed'),
+            ->add('email', 'checkProtected', [
+                'rule' => [$this, 'protectedUser'],
+                'message' => $this->notAllowedMessage
             ])
-            ->add('group_id', 'custom', [
-                'rule' => function ($value, $context) use ($notAllowed) {
-                    if (isset($context['data']['id'])) {
-                        $id = $context['data']['id'];
-                    } else {
-                        return true;
-                    }
-                    $index = array_search($id, $notAllowed);
-                    if (is_int($index)) {
-                        return false;
-                    }
-
-
-                    return true;
-                },
-                'message' => __('This user is protected and cannot be changed'),
+            ->add('group_id', 'checkProtected', [
+                'rule' => [$this, 'protectedUser'],
+                'message' => $this->notAllowedMessage
             ])
-            ->add('password', 'custom', [
-                'rule' => function ($value, $context) use ($notAllowed) {
-
-                    if (isset($context['data']['id'])) {
-                        $id = $context['data']['id'];
-                    } else {
-                        return true;
-                    }
-                    $index = array_search($id, $notAllowed);
-                    if (is_int($index)) {
-                        return false;
-                    }
-
-                    return true;
-                },
-                'message' => __('This user is protected and cannot be changed'),
+            ->add('password', 'checkProtected', [
+                'rule' => [$this, 'protectedUser'],
+                'message' => $this->notAllowedMessage
             ]);
 
         return $validator;
+    }
+
+    public function protectedUser($value, $context) {
+        if (isset($context['data']['id'])) {
+            $id = $context['data']['id'];
+        } else {
+            return true;
+        }
+        $index = array_search($id, FIXTURE);
+        if (is_int($index)) {
+            return __('Fields are protected and cannot be changed');
+        }
+        return true;
     }
 
     /**
@@ -201,6 +160,7 @@ class UsersTable extends Table
     public function buildRules(RulesChecker $rules)
     {
         $rules->add($rules->isUnique(['email']));
+        $rules->add($rules->isUnique(['id']));
         $rules->add($rules->existsIn(['group_id'], 'Groups'));
 
         return $rules;

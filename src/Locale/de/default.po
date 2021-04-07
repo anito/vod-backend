@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2021-01-14 02:35+0100\n"
-"PO-Revision-Date: 2021-01-14 02:36+0100\n"
+"POT-Creation-Date: 2021-04-08 00:15+0200\n"
+"PO-Revision-Date: 2021-04-08 00:23+0200\n"
 "Last-Translator: \n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
 "Language: de\n"
@@ -64,6 +64,24 @@ msgstr "Das Image  wurde gelöscht."
 #: Controller/ImagesController.php:101
 msgid "The image could not be deleted. Please, try again."
 msgstr "Das Image  konnte nicht gelöscht werden. Bitte versuche es erneut."
+
+#: Controller/MailsController.php:57 Controller/MailsController.php:82
+msgid "The mail has been saved."
+msgstr "Die Email wurde gespeichert."
+
+#: Controller/MailsController.php:61 Controller/MailsController.php:86
+msgid "The mail could not be saved. Please, try again."
+msgstr ""
+"Die Email konnte nicht gespeichert werden. Bitte versuchen Sie es erneut."
+
+#: Controller/MailsController.php:104
+msgid "The mail has been deleted."
+msgstr "Die Email wurde gelöscht."
+
+#: Controller/MailsController.php:106
+msgid "The mail could not be deleted. Please, try again."
+msgstr ""
+"Die Email konnte nicht gelöscht werden. Bitte versuchen Sie es erneut."
 
 #: Controller/MysqlController.php:74 Controller/MysqlController.php:98
 msgid "The mysql has been saved."
@@ -130,7 +148,7 @@ msgstr "Das Video wurde gelöscht."
 msgid "The video could not be deleted. Please, try again."
 msgstr "Das Video konnte nicht gelöscht werden. Bitte versuche es erneut."
 
-#: Controller/Api/AppController.php:25
+#: Controller/Api/AppController.php:27
 msgid "Not Authorized"
 msgstr "Keine Berechtigung"
 
@@ -143,7 +161,7 @@ msgid "An error occurred saving your image data"
 msgstr "Fehler beim speichern des Images"
 
 #: Controller/Api/ImagesController.php:89
-#: Controller/Api/VideosController.php:140
+#: Controller/Api/VideosController.php:138
 msgid "An Error occurred while uploading your files"
 msgstr "Fehler beim hochladen der Dateien"
 
@@ -163,15 +181,15 @@ msgstr "Index nicht gefunden"
 #: Controller/Api/MysqlController.php:43
 #: Controller/Api/UploadsController.php:50
 #: Controller/Api/UsersController.php:209
-#: Controller/Api/UsersController.php:234
+#: Controller/Api/UsersController.php:236
 msgid "Invalid username or password"
 msgstr "Ungültiger Benutzername oder Passwort"
 
-#: Controller/Api/TokensController.php:122
+#: Controller/Api/TokensController.php:117
 msgid "Token created"
 msgstr "Token wurde generiert"
 
-#: Controller/Api/TokensController.php:146
+#: Controller/Api/TokensController.php:141
 msgid "Token removed"
 msgstr "Token wurde gelöscht"
 
@@ -179,27 +197,27 @@ msgstr "Token wurde gelöscht"
 msgid "User created"
 msgstr "Benutzer erstellt"
 
-#: Controller/Api/UsersController.php:157
+#: Controller/Api/UsersController.php:155
 msgid "User updated"
 msgstr "Benutzer aktualisiert"
 
-#: Controller/Api/UsersController.php:159
+#: Controller/Api/UsersController.php:157
 msgid "User could not be updated"
 msgstr "Benutzer konnte nicht aktualisiert werden"
 
-#: Controller/Api/UsersController.php:181
+#: Controller/Api/UsersController.php:180
 msgid "Protected users can not be deleted"
 msgstr "Änderungen an diesem Benutzer sind nicht zulässig"
 
-#: Controller/Api/UsersController.php:196
+#: Controller/Api/UsersController.php:195
 msgid "User deleted"
 msgstr "Benutzer gelöscht"
 
-#: Controller/Api/UsersController.php:237
+#: Controller/Api/UsersController.php:239
 msgid "Invalid Token"
 msgstr "Ungültiger Token"
 
-#: Controller/Api/UsersController.php:268
+#: Controller/Api/UsersController.php:291
 msgid "Login successful"
 msgstr "Sie wurden angemeldet"
 
@@ -207,21 +225,21 @@ msgstr "Sie wurden angemeldet"
 msgid "You're logged out"
 msgstr "Sie wurden abgemeldet"
 
-#: Controller/Api/VideosController.php:123
-#: Controller/Api/VideosController.php:152
+#: Controller/Api/VideosController.php:121
+#: Controller/Api/VideosController.php:150
 msgid "Video saved"
 msgstr "Video gespeichert"
 
-#: Controller/Api/VideosController.php:131
-#: Controller/Api/VideosController.php:158
+#: Controller/Api/VideosController.php:129
+#: Controller/Api/VideosController.php:156
 msgid "Video could not be saved"
 msgstr "Video konnte nicht gesichert werden"
 
-#: Controller/Api/VideosController.php:196
+#: Controller/Api/VideosController.php:194
 msgid "Video deleted"
 msgstr "Video gelöscht"
 
-#: Controller/Api/VideosController.php:202
+#: Controller/Api/VideosController.php:200
 msgid "Video could not be deleted"
 msgstr "Video konnte nicht gelöscht werden"
 
@@ -236,13 +254,15 @@ msgstr ""
 msgid "Token did not change."
 msgstr "Der Token wurde nicht geändert."
 
-#: Model/Table/UsersTable.php:122 Model/Table/UsersTable.php:138
-#: Model/Table/UsersTable.php:154 Model/Table/UsersTable.php:171
-#: Model/Table/UsersTable.php:188
+#: Model/Table/UsersTable.php:75
 msgid "This user is protected and cannot be changed"
 msgstr "Dieser Benutzer ist schreibgeschützt"
 
-#: Model/Table/UsersTable.php:250
+#: Model/Table/UsersTable.php:148
+msgid "Fields are protected and cannot be changed"
+msgstr "Die Felder sind schreibgeschützt"
+
+#: Model/Table/UsersTable.php:210
 msgid "Useraccount locked"
 msgstr "Benutzerkonto gesperrt"
 
@@ -254,18 +274,18 @@ msgstr "Benutzerkonto gesperrt"
 #: Template/Groups/view.ctp:40 Template/Images/add.ctp:9
 #: Template/Images/edit.ctp:9 Template/Images/index.ctp:9
 #: Template/Images/index.ctp:34 Template/Images/view.ctp:9
-#: Template/Images/view.ctp:96 Template/Mysql/add.ctp:9
-#: Template/Mysql/edit.ctp:9 Template/Mysql/index.ctp:9
-#: Template/Mysql/index.ctp:23 Template/Mysql/view.ctp:9
-#: Template/Tokens/add.ctp:9 Template/Tokens/edit.ctp:9
-#: Template/Tokens/index.ctp:9 Template/Tokens/index.ctp:24
-#: Template/Tokens/view.ctp:9 Template/Users/add.ctp:9
-#: Template/Users/add_.ctp:9 Template/Users/edit.ctp:9
-#: Template/Users/edit_.ctp:9 Template/Users/index.ctp:9
-#: Template/Users/index.ctp:35 Template/Users/index_.ctp:9
-#: Template/Users/index_.ctp:31 Template/Users/view.ctp:9
-#: Template/Users/view.ctp:86 Template/Users/view_.ctp:9
-#: Template/Users/view_.ctp:74 Template/UsersVideos/add.ctp:9
+#: Template/Images/view.ctp:96 Template/Mails/add.ctp:9
+#: Template/Mails/edit.ctp:9 Template/Mails/index.ctp:9
+#: Template/Mails/index.ctp:24 Template/Mails/view.ctp:9
+#: Template/Mysql/add.ctp:9 Template/Mysql/edit.ctp:9
+#: Template/Mysql/index.ctp:9 Template/Mysql/index.ctp:23
+#: Template/Mysql/view.ctp:9 Template/Tokens/add.ctp:9
+#: Template/Tokens/edit.ctp:9 Template/Tokens/index.ctp:9
+#: Template/Tokens/index.ctp:24 Template/Tokens/view.ctp:9
+#: Template/Users/add.ctp:9 Template/Users/edit.ctp:9
+#: Template/Users/index.ctp:9 Template/Users/index.ctp:38
+#: Template/Users/view.ctp:9 Template/Users/view.ctp:92
+#: Template/Users/view.ctp:125 Template/UsersVideos/add.ctp:9
 #: Template/UsersVideos/edit.ctp:9 Template/UsersVideos/index.ctp:9
 #: Template/UsersVideos/index.ctp:27 Template/UsersVideos/view.ctp:9
 #: Template/Videos/add.ctp:9 Template/Videos/edit.ctp:9
@@ -285,15 +305,16 @@ msgstr "Avatars auflisten"
 #: Template/Avatars/index.ctp:11 Template/Avatars/view.ctp:14
 #: Template/Groups/add.ctp:11 Template/Groups/edit.ctp:17
 #: Template/Groups/index.ctp:11 Template/Groups/view.ctp:14
+#: Template/Mails/add.ctp:11 Template/Mails/edit.ctp:17
+#: Template/Mails/index.ctp:11 Template/Mails/view.ctp:14
 #: Template/Tokens/add.ctp:11 Template/Tokens/edit.ctp:17
 #: Template/Tokens/index.ctp:11 Template/Tokens/view.ctp:14
-#: Template/Users/add.ctp:10 Template/Users/add_.ctp:10
-#: Template/Users/edit.ctp:16 Template/Users/edit_.ctp:16
-#: Template/Users/view.ctp:12 Template/Users/view_.ctp:12
-#: Template/UsersVideos/add.ctp:11 Template/UsersVideos/edit.ctp:17
-#: Template/UsersVideos/index.ctp:11 Template/UsersVideos/view.ctp:14
-#: Template/Videos/add.ctp:13 Template/Videos/edit.ctp:19
-#: Template/Videos/index.ctp:13 Template/Videos/view.ctp:16
+#: Template/Users/add.ctp:10 Template/Users/edit.ctp:16
+#: Template/Users/view.ctp:12 Template/UsersVideos/add.ctp:11
+#: Template/UsersVideos/edit.ctp:17 Template/UsersVideos/index.ctp:11
+#: Template/UsersVideos/view.ctp:14 Template/Videos/add.ctp:13
+#: Template/Videos/edit.ctp:19 Template/Videos/index.ctp:13
+#: Template/Videos/view.ctp:16
 msgid "List Users"
 msgstr "Benutzer auflisten"
 
@@ -301,10 +322,11 @@ msgstr "Benutzer auflisten"
 #: Template/Avatars/index.ctp:12 Template/Avatars/view.ctp:15
 #: Template/Groups/add.ctp:12 Template/Groups/edit.ctp:18
 #: Template/Groups/index.ctp:12 Template/Groups/view.ctp:15
+#: Template/Mails/add.ctp:12 Template/Mails/edit.ctp:18
+#: Template/Mails/index.ctp:12 Template/Mails/view.ctp:15
 #: Template/Tokens/add.ctp:12 Template/Tokens/edit.ctp:18
 #: Template/Tokens/index.ctp:12 Template/Tokens/view.ctp:15
-#: Template/Users/index.ctp:10 Template/Users/index_.ctp:10
-#: Template/Users/view.ctp:13 Template/Users/view_.ctp:13
+#: Template/Users/index.ctp:10 Template/Users/view.ctp:13
 #: Template/UsersVideos/add.ctp:12 Template/UsersVideos/edit.ctp:18
 #: Template/UsersVideos/index.ctp:12 Template/UsersVideos/view.ctp:15
 #: Template/Videos/add.ctp:14 Template/Videos/edit.ctp:20
@@ -319,10 +341,10 @@ msgstr "Avatar hinzufügen"
 #: Template/Avatars/add.ctp:25 Template/Avatars/edit.ctp:31
 #: Template/Groups/add.ctp:23 Template/Groups/edit.ctp:29
 #: Template/Images/add.ctp:34 Template/Images/edit.ctp:40
+#: Template/Mails/add.ctp:23 Template/Mails/edit.ctp:29
 #: Template/Mysql/add.ctp:22 Template/Mysql/edit.ctp:28
 #: Template/Tokens/add.ctp:24 Template/Tokens/edit.ctp:30
-#: Template/Users/add.ctp:35 Template/Users/add_.ctp:31
-#: Template/Users/edit.ctp:41 Template/Users/edit_.ctp:37
+#: Template/Users/add.ctp:38 Template/Users/edit.ctp:44
 #: Template/UsersVideos/add.ctp:28 Template/UsersVideos/edit.ctp:34
 #: Template/Videos/add.ctp:31 Template/Videos/edit.ctp:37
 msgid "Submit"
@@ -332,11 +354,11 @@ msgstr "Speichern"
 #: Template/Groups/edit.ctp:11 Template/Groups/index.ctp:33
 #: Template/Groups/view.ctp:52 Template/Images/edit.ctp:11
 #: Template/Images/index.ctp:57 Template/Images/view.ctp:112
+#: Template/Mails/edit.ctp:11 Template/Mails/index.ctp:37
 #: Template/Mysql/edit.ctp:11 Template/Mysql/index.ctp:37
 #: Template/Tokens/edit.ctp:11 Template/Tokens/index.ctp:37
-#: Template/Users/edit.ctp:11 Template/Users/edit_.ctp:11
-#: Template/Users/index.ctp:53 Template/Users/index_.ctp:49
-#: Template/Users/view.ctp:102 Template/Users/view_.ctp:90
+#: Template/Users/edit.ctp:11 Template/Users/index.ctp:57
+#: Template/Users/view.ctp:108 Template/Users/view.ctp:137
 #: Template/UsersVideos/edit.ctp:11 Template/UsersVideos/index.ctp:41
 #: Template/Videos/edit.ctp:11 Template/Videos/index.ctp:49
 #: Template/Videos/view.ctp:90
@@ -348,14 +370,14 @@ msgstr "Löschen"
 #: Template/Groups/index.ctp:33 Template/Groups/view.ctp:11
 #: Template/Groups/view.ctp:52 Template/Images/edit.ctp:13
 #: Template/Images/index.ctp:57 Template/Images/view.ctp:11
-#: Template/Images/view.ctp:112 Template/Mysql/edit.ctp:13
-#: Template/Mysql/index.ctp:37 Template/Mysql/view.ctp:11
-#: Template/Tokens/edit.ctp:13 Template/Tokens/index.ctp:37
-#: Template/Tokens/view.ctp:11 Template/Users/edit.ctp:13
-#: Template/Users/edit_.ctp:13 Template/Users/index.ctp:53
-#: Template/Users/index_.ctp:49 Template/Users/view.ctp:11
-#: Template/Users/view.ctp:102 Template/Users/view_.ctp:11
-#: Template/Users/view_.ctp:90 Template/UsersVideos/edit.ctp:13
+#: Template/Images/view.ctp:112 Template/Mails/edit.ctp:13
+#: Template/Mails/index.ctp:37 Template/Mails/view.ctp:11
+#: Template/Mysql/edit.ctp:13 Template/Mysql/index.ctp:37
+#: Template/Mysql/view.ctp:11 Template/Tokens/edit.ctp:13
+#: Template/Tokens/index.ctp:37 Template/Tokens/view.ctp:11
+#: Template/Users/edit.ctp:13 Template/Users/index.ctp:57
+#: Template/Users/view.ctp:11 Template/Users/view.ctp:108
+#: Template/Users/view.ctp:137 Template/UsersVideos/edit.ctp:13
 #: Template/UsersVideos/index.ctp:41 Template/UsersVideos/view.ctp:11
 #: Template/Videos/edit.ctp:13 Template/Videos/index.ctp:49
 #: Template/Videos/view.ctp:11 Template/Videos/view.ctp:90
@@ -378,60 +400,60 @@ msgstr "Avatare"
 
 #: Template/Avatars/index.ctp:39 Template/Groups/index.ctp:31
 #: Template/Groups/view.ctp:50 Template/Images/index.ctp:55
-#: Template/Images/view.ctp:110 Template/Mysql/index.ctp:35
-#: Template/Tokens/index.ctp:35 Template/Users/index.ctp:51
-#: Template/Users/index_.ctp:47 Template/Users/view.ctp:100
-#: Template/Users/view_.ctp:88 Template/UsersVideos/index.ctp:39
+#: Template/Images/view.ctp:110 Template/Mails/index.ctp:35
+#: Template/Mysql/index.ctp:35 Template/Tokens/index.ctp:35
+#: Template/Users/index.ctp:55 Template/Users/view.ctp:106
+#: Template/Users/view.ctp:135 Template/UsersVideos/index.ctp:39
 #: Template/Videos/index.ctp:47 Template/Videos/view.ctp:88
 msgid "View"
 msgstr "Ansehen"
 
 #: Template/Avatars/index.ctp:40 Template/Groups/index.ctp:32
 #: Template/Groups/view.ctp:51 Template/Images/index.ctp:56
-#: Template/Images/view.ctp:111 Template/Mysql/index.ctp:36
-#: Template/Tokens/index.ctp:36 Template/Users/index.ctp:52
-#: Template/Users/index_.ctp:48 Template/Users/view.ctp:101
-#: Template/Users/view_.ctp:89 Template/UsersVideos/index.ctp:40
+#: Template/Images/view.ctp:111 Template/Mails/index.ctp:36
+#: Template/Mysql/index.ctp:36 Template/Tokens/index.ctp:36
+#: Template/Users/index.ctp:56 Template/Users/view.ctp:107
+#: Template/Users/view.ctp:136 Template/UsersVideos/index.ctp:40
 #: Template/Videos/index.ctp:48 Template/Videos/view.ctp:89
 msgid "Edit"
 msgstr "Bearbeiten"
 
 #: Template/Avatars/index.ctp:49 Template/Groups/index.ctp:41
-#: Template/Images/index.ctp:65 Template/Mysql/index.ctp:45
-#: Template/Tokens/index.ctp:45 Template/Users/index.ctp:61
-#: Template/Users/index_.ctp:57 Template/UsersVideos/index.ctp:49
+#: Template/Images/index.ctp:65 Template/Mails/index.ctp:45
+#: Template/Mysql/index.ctp:45 Template/Tokens/index.ctp:45
+#: Template/Users/index.ctp:65 Template/UsersVideos/index.ctp:49
 #: Template/Videos/index.ctp:57
 msgid "first"
 msgstr "Erster"
 
 #: Template/Avatars/index.ctp:50 Template/Groups/index.ctp:42
-#: Template/Images/index.ctp:66 Template/Mysql/index.ctp:46
-#: Template/Tokens/index.ctp:46 Template/Users/index.ctp:62
-#: Template/Users/index_.ctp:58 Template/UsersVideos/index.ctp:50
+#: Template/Images/index.ctp:66 Template/Mails/index.ctp:46
+#: Template/Mysql/index.ctp:46 Template/Tokens/index.ctp:46
+#: Template/Users/index.ctp:66 Template/UsersVideos/index.ctp:50
 #: Template/Videos/index.ctp:58
 msgid "previous"
 msgstr "Vorherige"
 
 #: Template/Avatars/index.ctp:52 Template/Groups/index.ctp:44
-#: Template/Images/index.ctp:68 Template/Mysql/index.ctp:48
-#: Template/Tokens/index.ctp:48 Template/Users/index.ctp:64
-#: Template/Users/index_.ctp:60 Template/UsersVideos/index.ctp:52
+#: Template/Images/index.ctp:68 Template/Mails/index.ctp:48
+#: Template/Mysql/index.ctp:48 Template/Tokens/index.ctp:48
+#: Template/Users/index.ctp:68 Template/UsersVideos/index.ctp:52
 #: Template/Videos/index.ctp:60
 msgid "next"
 msgstr "Nächste"
 
 #: Template/Avatars/index.ctp:53 Template/Groups/index.ctp:45
-#: Template/Images/index.ctp:69 Template/Mysql/index.ctp:49
-#: Template/Tokens/index.ctp:49 Template/Users/index.ctp:65
-#: Template/Users/index_.ctp:61 Template/UsersVideos/index.ctp:53
+#: Template/Images/index.ctp:69 Template/Mails/index.ctp:49
+#: Template/Mysql/index.ctp:49 Template/Tokens/index.ctp:49
+#: Template/Users/index.ctp:69 Template/UsersVideos/index.ctp:53
 #: Template/Videos/index.ctp:61
 msgid "last"
 msgstr "Letzte"
 
 #: Template/Avatars/index.ctp:55 Template/Groups/index.ctp:47
-#: Template/Images/index.ctp:71 Template/Mysql/index.ctp:51
-#: Template/Tokens/index.ctp:51 Template/Users/index.ctp:67
-#: Template/Users/index_.ctp:63 Template/UsersVideos/index.ctp:55
+#: Template/Images/index.ctp:71 Template/Mails/index.ctp:51
+#: Template/Mysql/index.ctp:51 Template/Tokens/index.ctp:51
+#: Template/Users/index.ctp:71 Template/UsersVideos/index.ctp:55
 #: Template/Videos/index.ctp:63
 msgid ""
 "Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} "
@@ -444,17 +466,17 @@ msgstr "Avatar löschen"
 
 #: Template/Avatars/view.ctp:22 Template/Groups/view.ctp:26
 #: Template/Groups/view.ctp:35 Template/Images/view.ctp:22
-#: Template/Images/view.ctp:87 Template/Mysql/view.ctp:28
-#: Template/Tokens/view.ctp:22 Template/Users/view.ctp:28
-#: Template/Users/view.ctp:77 Template/Users/view_.ctp:40
-#: Template/Users/view_.ctp:65 Template/UsersVideos/view.ctp:32
+#: Template/Images/view.ctp:87 Template/Mails/view.ctp:22
+#: Template/Mysql/view.ctp:28 Template/Tokens/view.ctp:22
+#: Template/Users/view.ctp:30 Template/Users/view.ctp:83
+#: Template/Users/view.ctp:120 Template/UsersVideos/view.ctp:32
 #: Template/Videos/view.ctp:24 Template/Videos/view.ctp:65
 msgid "Id"
 msgstr "ID"
 
 #: Template/Avatars/view.ctp:26 Template/Images/view.ctp:58
-#: Template/Images/view.ctp:91 Template/Users/view.ctp:81
-#: Template/Users/view_.ctp:69 Template/Videos/view.ctp:40
+#: Template/Images/view.ctp:91 Template/Users/view.ctp:87
+#: Template/Videos/view.ctp:40
 msgid "Src"
 msgstr "Quelle"
 
@@ -464,25 +486,25 @@ msgid "User"
 msgstr "Benutzer"
 
 #: Template/Avatars/view.ctp:34 Template/Images/view.ctp:62
-#: Template/Images/view.ctp:92 Template/Users/view.ctp:82
-#: Template/Users/view_.ctp:70 Template/Videos/view.ctp:44
+#: Template/Images/view.ctp:92 Template/Users/view.ctp:88
+#: Template/Videos/view.ctp:44
 msgid "Filesize"
 msgstr "Dateingröße"
 
 #: Template/Avatars/view.ctp:38 Template/Images/view.ctp:70
-#: Template/Images/view.ctp:93 Template/Mysql/view.ctp:32
-#: Template/Tokens/view.ctp:30 Template/Users/view.ctp:60
-#: Template/Users/view.ctp:83 Template/Users/view_.ctp:48
-#: Template/Users/view_.ctp:71 Template/Videos/view.ctp:52
+#: Template/Images/view.ctp:93 Template/Mails/view.ctp:30
+#: Template/Mysql/view.ctp:32 Template/Tokens/view.ctp:30
+#: Template/Users/view.ctp:62 Template/Users/view.ctp:89
+#: Template/Users/view.ctp:123 Template/Videos/view.ctp:52
 #: Template/Videos/view.ctp:72
 msgid "Created"
 msgstr "Erstellt"
 
 #: Template/Avatars/view.ctp:42 Template/Images/view.ctp:74
-#: Template/Images/view.ctp:94 Template/Mysql/view.ctp:36
-#: Template/Tokens/view.ctp:34 Template/Users/view.ctp:64
-#: Template/Users/view.ctp:84 Template/Users/view_.ctp:52
-#: Template/Users/view_.ctp:72 Template/Videos/view.ctp:56
+#: Template/Images/view.ctp:94 Template/Mails/view.ctp:34
+#: Template/Mysql/view.ctp:36 Template/Tokens/view.ctp:34
+#: Template/Users/view.ctp:66 Template/Users/view.ctp:90
+#: Template/Users/view.ctp:124 Template/Videos/view.ctp:56
 #: Template/Videos/view.ctp:73
 msgid "Modified"
 msgstr "Geändert"
@@ -493,10 +515,8 @@ msgstr "Sie sind nicht berechtigt diesen Inhalt zu ändern"
 
 #: Template/Groups/add.ctp:10 Template/Groups/edit.ctp:16
 #: Template/Groups/view.ctp:12 Template/Users/add.ctp:11
-#: Template/Users/add_.ctp:11 Template/Users/edit.ctp:17
-#: Template/Users/edit_.ctp:17 Template/Users/index.ctp:11
-#: Template/Users/index_.ctp:11 Template/Users/view.ctp:14
-#: Template/Users/view_.ctp:14
+#: Template/Users/edit.ctp:17 Template/Users/index.ctp:11
+#: Template/Users/view.ctp:14
 msgid "List Groups"
 msgstr "Gruppen auflisten"
 
@@ -509,10 +529,8 @@ msgid "Edit Group"
 msgstr "Gruppe bearbeiten"
 
 #: Template/Groups/index.ctp:10 Template/Groups/view.ctp:13
-#: Template/Users/add.ctp:12 Template/Users/add_.ctp:12
-#: Template/Users/edit.ctp:18 Template/Users/edit_.ctp:18
-#: Template/Users/index.ctp:12 Template/Users/index_.ctp:12
-#: Template/Users/view.ctp:15 Template/Users/view_.ctp:15
+#: Template/Users/add.ctp:12 Template/Users/edit.ctp:18
+#: Template/Users/index.ctp:12 Template/Users/view.ctp:15
 msgid "New Group"
 msgstr "Neue Gruppe"
 
@@ -524,8 +542,8 @@ msgstr "Gruppen"
 msgid "Delete Group"
 msgstr "Gruppe löschen"
 
-#: Template/Groups/view.ctp:22 Template/Users/view.ctp:32
-#: Template/Users/view_.ctp:24 Template/Videos/view.ctp:66
+#: Template/Groups/view.ctp:22 Template/Users/view.ctp:34
+#: Template/Videos/view.ctp:66
 msgid "Name"
 msgstr "Name"
 
@@ -533,13 +551,13 @@ msgstr "Name"
 msgid "Related Users"
 msgstr "Zugehörige Benutzer"
 
-#: Template/Groups/view.ctp:36 Template/Users/view.ctp:36
-#: Template/Users/view_.ctp:28 Template/Videos/view.ctp:67
+#: Template/Groups/view.ctp:36 Template/Users/view.ctp:38
+#: Template/Videos/view.ctp:67
 msgid "Email"
-msgstr ""
+msgstr "Email"
 
-#: Template/Groups/view.ctp:37 Template/Users/view.ctp:68
-#: Template/Users/view_.ctp:56 Template/Videos/view.ctp:69
+#: Template/Groups/view.ctp:37 Template/Users/view.ctp:70
+#: Template/Videos/view.ctp:69
 msgid "Active"
 msgstr "Aktiv"
 
@@ -547,8 +565,8 @@ msgstr "Aktiv"
 msgid "Group Id"
 msgstr "Gruppen ID"
 
-#: Template/Groups/view.ctp:39 Template/Users/view.ctp:56
-#: Template/Users/view_.ctp:44 Template/Videos/view.ctp:71
+#: Template/Groups/view.ctp:39 Template/Users/view.ctp:58
+#: Template/Videos/view.ctp:71
 msgid "Last Login"
 msgstr "Letzte Anmeldung"
 
@@ -561,10 +579,8 @@ msgstr "Images auflisten"
 
 #: Template/Images/add.ctp:11 Template/Images/edit.ctp:17
 #: Template/Images/index.ctp:11 Template/Images/view.ctp:14
-#: Template/Users/add.ctp:17 Template/Users/add_.ctp:13
-#: Template/Users/edit.ctp:23 Template/Users/edit_.ctp:19
-#: Template/Users/index.ctp:17 Template/Users/index_.ctp:13
-#: Template/Users/view.ctp:20 Template/Users/view_.ctp:16
+#: Template/Users/add.ctp:19 Template/Users/edit.ctp:25
+#: Template/Users/index.ctp:19 Template/Users/view.ctp:22
 #: Template/UsersVideos/add.ctp:13 Template/UsersVideos/edit.ctp:19
 #: Template/UsersVideos/index.ctp:13 Template/UsersVideos/view.ctp:16
 #: Template/Videos/add.ctp:10 Template/Videos/edit.ctp:16
@@ -574,10 +590,8 @@ msgstr "Videos auflisten"
 
 #: Template/Images/add.ctp:12 Template/Images/edit.ctp:18
 #: Template/Images/index.ctp:12 Template/Images/view.ctp:15
-#: Template/Users/add.ctp:18 Template/Users/add_.ctp:14
-#: Template/Users/edit.ctp:24 Template/Users/edit_.ctp:20
-#: Template/Users/index.ctp:18 Template/Users/index_.ctp:14
-#: Template/Users/view.ctp:21 Template/Users/view_.ctp:17
+#: Template/Users/add.ctp:20 Template/Users/edit.ctp:26
+#: Template/Users/index.ctp:20 Template/Users/view.ctp:23
 #: Template/UsersVideos/add.ctp:14 Template/UsersVideos/edit.ctp:20
 #: Template/UsersVideos/index.ctp:14 Template/UsersVideos/view.ctp:17
 #: Template/Videos/index.ctp:10 Template/Videos/view.ctp:13
@@ -627,8 +641,7 @@ msgid "Model"
 msgstr "Modell"
 
 #: Template/Images/view.ctp:46 Template/Images/view.ctp:89
-#: Template/Users/view.ctp:79 Template/Users/view_.ctp:67
-#: Template/Videos/view.ctp:32
+#: Template/Users/view.ctp:85 Template/Videos/view.ctp:32
 msgid "Title"
 msgstr "Titel"
 
@@ -645,23 +658,21 @@ msgid "Captured"
 msgstr "Aufgenommen am"
 
 #: Template/Images/view.ctp:79 Template/Images/view.ctp:90
-#: Template/Mysql/view.ctp:24 Template/Users/view.ctp:80
-#: Template/Users/view_.ctp:68 Template/Videos/view.ctp:36
+#: Template/Mysql/view.ctp:24 Template/Users/view.ctp:86
+#: Template/Videos/view.ctp:36
 msgid "Description"
 msgstr "Beschreibung"
 
-#: Template/Images/view.ctp:83 Template/Users/view.ctp:73
-#: Template/Users/view_.ctp:61
+#: Template/Images/view.ctp:83 Template/Users/view.ctp:79
 msgid "Related Videos"
 msgstr "Zugehörige Videos"
 
-#: Template/Images/view.ctp:88 Template/Users/view.ctp:78
-#: Template/Users/view_.ctp:66
+#: Template/Images/view.ctp:88 Template/Users/view.ctp:84
 msgid "Image Id"
 msgstr "Image Id"
 
-#: Template/Images/view.ctp:95 Template/Users/view.ctp:85
-#: Template/Users/view_.ctp:73 Template/Videos/view.ctp:48
+#: Template/Images/view.ctp:95 Template/Users/view.ctp:91
+#: Template/Videos/view.ctp:48
 msgid "Sequence"
 msgstr "Reihenfolge"
 
@@ -670,7 +681,6 @@ msgid "Logout"
 msgstr "Abmelden"
 
 #: Template/Layout/default.ctp:48 Template/Users/login.ctp:14
-#: Template/Users/login_.ctp:14
 msgid "Login"
 msgstr "Anmelden"
 
@@ -681,6 +691,39 @@ msgstr ""
 #: Template/Layout/error.ctp:43
 msgid "Back"
 msgstr "Zurück"
+
+#: Template/Mails/add.ctp:10 Template/Mails/edit.ctp:16
+#: Template/Mails/view.ctp:12 Template/Users/add.ctp:17
+#: Template/Users/edit.ctp:23 Template/Users/index.ctp:17
+#: Template/Users/view.ctp:20
+msgid "List Mails"
+msgstr "Emails auflisten"
+
+#: Template/Mails/add.ctp:18
+msgid "Add Mail"
+msgstr "Email erstellen"
+
+#: Template/Mails/edit.ctp:24 Template/Mails/view.ctp:10
+msgid "Edit Mail"
+msgstr "Email bearbeiten"
+
+#: Template/Mails/index.ctp:10 Template/Mails/view.ctp:13
+#: Template/Users/add.ctp:18 Template/Users/edit.ctp:24
+#: Template/Users/index.ctp:18 Template/Users/view.ctp:21
+msgid "New Mail"
+msgstr "Email verfassen"
+
+#: Template/Mails/index.ctp:16
+msgid "Mails"
+msgstr "Emails"
+
+#: Template/Mails/view.ctp:11
+msgid "Delete Mail"
+msgstr "Email löschen"
+
+#: Template/Mails/view.ctp:26 Template/Users/view.ctp:121
+msgid "User Id"
+msgstr "Benutzer Id"
 
 #: Template/Mysql/add.ctp:10 Template/Mysql/edit.ctp:16
 #: Template/Mysql/view.ctp:12
@@ -740,51 +783,61 @@ msgstr "Token"
 msgid "Delete Token"
 msgstr "Token löschen"
 
-#: Template/Tokens/view.ctp:39 Template/Users/view.ctp:52
+#: Template/Tokens/view.ctp:39 Template/Users/view.ctp:54
 msgid "Token"
 msgstr "Token"
 
-#: Template/Users/add.ctp:24 Template/Users/add_.ctp:20
+#: Template/Users/add.ctp:26
 msgid "Add User"
 msgstr "Benutzer erstellen"
 
-#: Template/Users/edit.ctp:30 Template/Users/edit_.ctp:26
-#: Template/Users/view.ctp:10 Template/Users/view_.ctp:10
+#: Template/Users/edit.ctp:32 Template/Users/view.ctp:10
 msgid "Edit User"
 msgstr "Benutzer bearbeiten"
 
-#: Template/Users/index.ctp:22 Template/Users/index_.ctp:18
+#: Template/Users/index.ctp:24
 msgid "Users"
 msgstr "Benutzer"
 
-#: Template/Users/login.ctp:10 Template/Users/login_.ctp:10
+#: Template/Users/login.ctp:10
 msgid "Please enter your email and password"
 msgstr "Bitte Email und Passwort eingeben"
 
-#: Template/Users/view.ctp:11 Template/Users/view_.ctp:11
+#: Template/Users/view.ctp:11
 msgid "Delete User"
 msgstr "Benutzer löschen"
 
-#: Template/Users/view.ctp:40 Template/Users/view_.ctp:32
-#: Template/Videos/view.ctp:68
+#: Template/Users/view.ctp:42 Template/Videos/view.ctp:68
 msgid "Password"
 msgstr "Passwort"
 
-#: Template/Users/view.ctp:44 Template/Users/view_.ctp:36
+#: Template/Users/view.ctp:46
 msgid "Group"
 msgstr "Gruppe"
 
-#: Template/Users/view.ctp:48
+#: Template/Users/view.ctp:50
 msgid "Avatar"
 msgstr "Avatar"
 
-#: Template/Users/view.ctp:69 Template/Users/view_.ctp:57
+#: Template/Users/view.ctp:71 Template/Users/view.ctp:75
 msgid "Yes"
 msgstr "Ja"
 
-#: Template/Users/view.ctp:69 Template/Users/view_.ctp:57
+#: Template/Users/view.ctp:71 Template/Users/view.ctp:75
 msgid "No"
 msgstr "Nein"
+
+#: Template/Users/view.ctp:74
+msgid "Protected"
+msgstr "Geschützt"
+
+#: Template/Users/view.ctp:116
+msgid "Related Mails"
+msgstr "Zugehörige Emails"
+
+#: Template/Users/view.ctp:122
+msgid "Sent"
+msgstr "Gesendet"
 
 #: Template/UsersVideos/add.ctp:10 Template/UsersVideos/edit.ctp:16
 #: Template/UsersVideos/view.ctp:12
@@ -843,6 +896,26 @@ msgstr "Video löschen"
 msgid "Image"
 msgstr "Image"
 
+#: Template/Error/error400.ctp:39
+msgid "The requested address {0} was not found on this server."
+msgstr "Die gesuchte Adresse wurde nicht auf diesem Server gefunden."
+
+#: Template/Error/error500.ctp:39
+msgid "An Internal Error Has Occurred"
+msgstr "Ein interner Fehler ist aufgetreten"
+
+#: Template/Error/error500.ctp:41 Template/Error/missing_template.ctp:41
+msgid "Error"
+msgstr "Fehler"
+
+#: Template/Error/missing_template.ctp:39
+msgid "Missing Template"
+msgstr "Template nicht gefunden"
+
+#: Template/Layout/login_layout.ctp:19
+msgid "Backup DB"
+msgstr "Backup DB"
+
 #~ msgid "Year%s"
 #~ msgstr "Jahr%s"
 
@@ -857,12 +930,6 @@ msgstr "Image"
 
 #~ msgid "Minute%s"
 #~ msgstr "Minute%s"
-
-#~ msgid "An Internal Error Has Occurred"
-#~ msgstr "Ein interner Fehler ist aufgetreten."
-
-#~ msgid "Error"
-#~ msgstr "Fehler"
 
 #~ msgid "You are not authorized to access that location."
 #~ msgstr "Sie sind nicht berechtigt diese Seite aufzurufen."
@@ -938,11 +1005,6 @@ msgstr "Image"
 #~ msgid "December"
 #~ msgstr "Dezember"
 
-#, fuzzy
-#~| msgid "Back"
-#~ msgid "Backup DB"
-#~ msgstr "Zurück"
-
 #~ msgid "cache could not be cleared."
 #~ msgstr "Cache konnte nicht aktualisiert werden"
 
@@ -982,9 +1044,6 @@ msgstr "Image"
 #~ msgstr ""
 #~ "Der Cocktail konnte nicht gelöscht werden. Bitte versuchen Sie es erneut."
 
-#~ msgid "This name is protected and cannot be changed"
-#~ msgstr "Dieser Name ist schreibgeschützt"
-
 #~ msgid "This email is protected and cannot be changed"
 #~ msgstr "Diese E-Mail Adresse ist schreibgeschützt"
 
@@ -996,9 +1055,6 @@ msgstr "Image"
 
 #~ msgid "This email already exists"
 #~ msgstr "Diese Email existiert bereits"
-
-#~ msgid "List Cocktails"
-#~ msgstr "Cocktails auflisten"
 
 #~ msgid "Add Cocktail"
 #~ msgstr "Cocktail hinzufügen"

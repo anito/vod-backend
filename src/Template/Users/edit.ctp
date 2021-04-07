@@ -20,6 +20,8 @@
         <li><?= $this->Html->link(__('New Avatar'), ['controller' => 'Avatars', 'action' => 'add']) ?></li>
         <li><?= $this->Html->link(__('List Tokens'), ['controller' => 'Tokens', 'action' => 'index']) ?></li>
         <li><?= $this->Html->link(__('New Token'), ['controller' => 'Tokens', 'action' => 'add']) ?></li>
+        <li><?= $this->Html->link(__('List Mails'), ['controller' => 'Mails', 'action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('New Mail'), ['controller' => 'Mails', 'action' => 'add']) ?></li>
         <li><?= $this->Html->link(__('List Videos'), ['controller' => 'Videos', 'action' => 'index']) ?></li>
         <li><?= $this->Html->link(__('New Video'), ['controller' => 'Videos', 'action' => 'add']) ?></li>
     </ul>
@@ -33,6 +35,7 @@
             echo $this->Form->control('email');
             echo $this->Form->control('password');
             echo $this->Form->control('active');
+            echo $this->Form->control('protected');
             echo $this->Form->control('group_id', ['options' => $groups, 'empty' => true]);
             echo $this->Form->control('last_login', ['empty' => true]);
             echo $this->Form->control('videos._ids', ['options' => $videos]);
