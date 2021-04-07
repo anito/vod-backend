@@ -44,8 +44,8 @@ class TokensController extends AppController
                 'Crud.Api',
                 'Crud.ApiPagination',
                 'CrudJsonApi.JsonApi',
-                'CrudJsonApi.Pagination', // Pagination != ApiPagination
-                'Crud.ApiQueryLog'
+                'CrudJsonApi.Pagination',
+                // 'Crud.ApiQueryLog'
             ]
         ]);
 
