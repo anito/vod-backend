@@ -230,12 +230,20 @@ class UsersController extends AppController
     public function login()
     {
         $renewed = false;
+        /*
+         * Form login: based on findWithEmail
+         *             which includes a token check against database and JWT verification
+         * 
+         * Token login: generally based on JWT verification
+         */
         $loggedinUser = $this->Auth->identify();
 
         if (!$loggedinUser) {
+            // invalid form login or
+            // invalid token
             throw new UnauthorizedException(__('Invalid username or password'));
         } elseif (!$this->isValidToken($loggedinUser)) {
-            // check token against the database
+            // Token valid but didn't pass database check
             throw new UnauthorizedException(__('Invalid Token'));
         }
 

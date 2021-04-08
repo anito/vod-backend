@@ -203,13 +203,15 @@ class UsersTable extends Table
             return;
         }
         if ($user->group->name !== "Administrator") {
-            $allowed_algs = ['HS256'];
+
             $token = isset($user->token) ? $user->token->token : null;
 
             if (!$token) {
-                throw new UnauthorizedException(__('Useraccount locked'));
+                throw new UnauthorizedException(__('Invalid token'));
             }
 
+            // Token found in database, check it's validity 
+            $allowed_algs = ['HS256'];
             try {
                 JWT::decode(
                     $token,
@@ -217,12 +219,9 @@ class UsersTable extends Table
                     $allowed_algs
                 );
             } catch (Exception $e) {
-                if (Configure::read('debug')) {
-                    throw $e;
-                }
+                // throw new UnauthorizedException(__('Invalid token'));
+                throw $e;
             }
         }
-
     }
-
 }

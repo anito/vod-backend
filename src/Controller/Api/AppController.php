@@ -31,6 +31,9 @@ class AppController extends Controller
                             'username' => 'email',
                             'password' => 'password'
                     ],
+                    /*
+                     * 'withEmail' includes a token check against database and a JWT verification
+                     */
                     'finder' => 'withEmail'
                 ],
                 'ADmad/JwtAuth.Jwt' => [
@@ -138,13 +141,14 @@ class AppController extends Controller
         }
         return $_groups;
     }
+
     protected function getCustomValidationErrorMessage(Event $event, $ruleName) {
         if ($event->getSubject()->entity->hasErrors()) {
             $errors = $event->getSubject()->entity->getErrors();
 
             if (!empty($errors)) {
                 $first_key = array_key_first($errors);
-                if(array_key_exists($ruleName, $errors[$first_key]))
+                if(isset($errors[$first_key][$ruleName]))
                 return $errors[$first_key][$ruleName];
             }
         }
