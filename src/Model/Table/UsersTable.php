@@ -1,15 +1,13 @@
 <?php
 namespace App\Model\Table;
 
-use Cake\Log\Log;
+use Cake\Http\Exception\UnauthorizedException;
+use Cake\ORM\Entity;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Utility\Security;
 use Cake\Validation\Validator;
-use Cake\Http\Exception\UnauthorizedException;
-use Cake\ORM\Entity;
-use Cake\ORM\TableRegistry;
 use Exception;
 use Firebase\JWT\JWT;
 
@@ -93,9 +91,9 @@ class UsersTable extends Table
     public function validationDefault(Validator $validator)
     {
         $validator
-            // dont use uuid validation as long as there are still any scalar user ids
-            // ->uuid('id', 'No valid UUID')
-            ->scalar('id')
+        // dont use uuid validation as long as there are still any scalar user ids
+        // ->uuid('id', 'No valid UUID')
+        ->scalar('id')
             ->allowEmptyString('id', null, 'create')
             ->add('id', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
 
@@ -128,30 +126,30 @@ class UsersTable extends Table
         $validator
             ->add('active', 'checkProtected', [
                 'rule' => [$this, 'protectedUser'],
-                'message' => $this->notAllowedMessage
+                'message' => $this->notAllowedMessage,
             ])
             ->add('name', 'checkProtected', [
                 'rule' => [$this, 'protectedUser'],
-                'message' => $this->notAllowedMessage
+                'message' => $this->notAllowedMessage,
             ])
             ->add('email', 'checkProtected', [
                 'rule' => [$this, 'protectedUser'],
-                'message' => $this->notAllowedMessage
+                'message' => $this->notAllowedMessage,
             ])
             ->add('group_id', 'checkProtected', [
                 'rule' => [$this, 'protectedUser'],
-                'message' => $this->notAllowedMessage
+                'message' => $this->notAllowedMessage,
             ])
             ->add('password', 'checkProtected', [
                 'rule' => [$this, 'protectedUser'],
-                'message' => $this->notAllowedMessage
+                'message' => $this->notAllowedMessage,
             ]);
 
         return $validator;
     }
 
-    public function protectedUser($value, $context) {
-        return true;
+    public function protectedUser($value, $context)
+    {
         if (isset($context['data']['id'])) {
             $id = $context['data']['id'];
         } else {
@@ -184,13 +182,13 @@ class UsersTable extends Table
     {
         $user = $this->_getUser('email', $options['username']);
         $user && $this->checkJWT($user);
-        
+
         $query
             ->where(['Users.active' => 1]);
-            
+
         return $query;
     }
-    
+
     public function findWithId(Query $query, array $options)
     {
         $user = $this->_getUser('id', $options['username']);
@@ -198,11 +196,12 @@ class UsersTable extends Table
 
         $query
             ->where(['Users.active' => 1]);
-            
+
         return $query;
     }
 
-    protected function _getUser($field, $value) {
+    protected function _getUser($field, $value)
+    {
         $_field = 'Users.' . $field;
 
         return $this
@@ -212,8 +211,9 @@ class UsersTable extends Table
             ->first();
     }
 
-    protected function checkJWT(Entity $user) {
-        if(!$user instanceof Entity) {
+    protected function checkJWT(Entity $user)
+    {
+        if (!$user instanceof Entity) {
             return;
         }
         if ($user->group->name !== "Administrator") {
@@ -224,7 +224,7 @@ class UsersTable extends Table
                 throw new UnauthorizedException(__('Invalid token'));
             }
 
-            // Token found in database, check it's validity 
+            // Token found in database, check it's validity
             $allowed_algs = ['HS256'];
             try {
                 JWT::decode(
