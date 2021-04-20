@@ -78,6 +78,10 @@ Router::scope('/', function (RouteBuilder $routes) {
         $routes->resources('Images');
         $routes->resources('Tokens');
         $routes->resources('Avatars');
+        $routes->resources('Mails');
+        $routes->resources('Inboxes');
+        $routes->resources('Templates');
+        $routes->resources('EmailTemplates');
 
         Router::connect('/api/register', ['controller' => 'Users', 'action' => 'add', 'prefix' => 'api']);
         Router::connect('/api/login', ['controller' => 'Users', 'action' => 'login', 'prefix' => 'api']);

@@ -5,10 +5,6 @@ namespace App\Controller\Api;
 use App\Controller\Api\AppController;
 use Cake\Core\App;
 use Cake\Event\Event;
-use Cake\Http\Exception\UnauthorizedException;
-use Cake\Utility\Text;
-use Cake\Log\Log;
-
 
 /**
  * Images Controller
@@ -29,23 +25,19 @@ class ImagesController extends AppController
 
         $this->loadComponent('Crud.Crud', [
             'actions' => [
-                'Crud.Index',
-                // 'index' => [
-                //     'className' => 'Crud.Index',
-                //     'relatedModels' => true,
-                // ],
+                'index' => [
+                    'className' => 'Crud.Index',
+                    'relatedModels' => true,
+                ],
                 'Crud.View',
                 'Crud.Add',
                 'Crud.Edit',
-                'Crud.Delete'
+                'Crud.Delete',
             ],
             'listeners' => [
                 'Crud.Api',
                 'Crud.ApiPagination',
-                'CrudJsonApi.JsonApi',
-                'CrudJsonApi.Pagination', // Pagination != ApiPagination
-                // 'Crud.ApiQueryLog'
-            ]
+            ],
         ]);
 
         $this->Crud->addListener('relatedModels', 'Crud.RelatedModels');
@@ -58,7 +50,9 @@ class ImagesController extends AppController
         if (!empty($files = $this->request->getData('Files'))) {
 
             // make shure single uploads are handled correctly
-            if(!empty($files['tmp_name'])) $files = [$files];
+            if (!empty($files['tmp_name'])) {
+                $files = [$files];
+            }
 
             if (!empty($images = $this->Upload->saveAs(IMAGES, $files))) {
 
@@ -124,7 +118,7 @@ class ImagesController extends AppController
 
         $this->Crud->on('afterDelete', function (Event $event) {
 
-            if($event->getSubject()->success) {
+            if ($event->getSubject()->success) {
                 $this->set([
                     'success' => true,
                     'message' => __('Image deleted'),
@@ -138,10 +132,7 @@ class ImagesController extends AppController
                 ]);
 
             }
-
         });
-
-
 
         return $this->Crud->execute();
     }
@@ -149,7 +140,7 @@ class ImagesController extends AppController
     public function uri($id)
     {
         $data = [];
-        
+
         $params = $this->getRequest()->getQuery();
         $lg_path = IMAGES . DS . $id . DS . 'lg';
         $files = glob($lg_path . DS . '*.*');
@@ -157,7 +148,7 @@ class ImagesController extends AppController
         if (!empty($files)) {
             $fn = basename($files[0]);
             $type = "images";
-        
+
             $options = array_merge(compact(array('fn', 'id', 'type')), $params);
             $p = $this->Director->p($options);
             $json = json_encode($params);
@@ -165,9 +156,9 @@ class ImagesController extends AppController
             $data = array(
                 'id' => $id,
                 'url' => $p,
-                'params' => $stringified
+                'params' => $stringified,
             );
-            
+
             $this->set(
                 [
                     'success' => true,

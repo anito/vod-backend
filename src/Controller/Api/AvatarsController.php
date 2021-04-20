@@ -52,9 +52,11 @@ class AvatarsController extends AppController
 
     public function add()
     {
-
-        // we cant use PUT (alias edit method) for altering data
-        // because $_FILES is only available in POST (alias add method)
+        /**
+         * we can not use PUT (alias edit method) for altering data
+         * because $_FILES is only available in POST (alias add method),
+         * so we have to first add the new and then remove the old entity
+         */ 
         $files = $this->getRequest()->getData('Files');
         $uid = $this->getRequest()->getData('user_id');
 
@@ -75,7 +77,7 @@ class AvatarsController extends AppController
                     $this->Avatars->delete($oldie);
                 }
 
-                // overwrite request data with updated data from the $this->addUpload method
+                // overwrite request data with data returned from $this->addUpload
                 $this->Avatars->patchEntity($entity, $newEntities[0]);
             } else {
                 $this->set([

@@ -35,7 +35,7 @@ class VideosController extends AppController
                 // 'Crud.Index',
                 'index' => [
                     'className' => 'Crud.Index',
-                    'relatedModels' => true,
+                    'relatedModels' => true, // only for index
                 ],
                 'Crud.View',
                 'Crud.Add',
@@ -56,9 +56,9 @@ class VideosController extends AppController
 
     public function index() {
 
-        $authUser = $this->getAuthUser();
+        $authUser = $this->_getAuthUser();
         
-        $role = $this->getUserRoleName($authUser);
+        $role = $this->_getUserRoleName($authUser);
 
         switch($role) {
 

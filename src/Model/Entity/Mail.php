@@ -7,8 +7,10 @@ use Cake\ORM\Entity;
  * Mail Entity
  *
  * @property string $id
- * @property string $users_id
- * @property string|resource $data
+ * @property string $user_id
+ * @property string $_to
+ * @property string $_from
+ * @property array $message
  * @property \Cake\I18n\FrozenTime $created
  * @property \Cake\I18n\FrozenTime $modified
  *
@@ -26,8 +28,10 @@ class Mail extends Entity
      * @var array
      */
     protected $_accessible = [
-        'users_id' => true,
-        'sent' => true,
+        'user_id' => true,
+        '_to' => true,
+        '_from' => true,
+        'message' => true,
         'created' => true,
         'modified' => true,
         'user' => true,

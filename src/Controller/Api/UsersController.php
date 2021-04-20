@@ -4,7 +4,6 @@ namespace App\Controller\Api;
 use Cake\Core\Configure;
 use Cake\Event\Event;
 use Cake\Http\Exception\ForbiddenException;
-use Cake\Http\Exception\NotFoundException;
 use Cake\Http\Exception\UnauthorizedException;
 use Cake\I18n\Date;
 use Cake\ORM\Query;
@@ -23,12 +22,9 @@ class UsersController extends AppController
             'actions' => [
                 'index' => [
                     'className' => 'Crud.Index',
-                    'relatedModels' => true,
+                    'relatedModels' => true, // available only for index
                 ],
-                'view' => [
-                    'className' => 'Crud.View',
-                    'relatedModels' => true, // not supported
-                ],
+                'Crud.View',
                 'Crud.Add',
                 'Crud.Edit',
                 'Crud.Delete',
@@ -36,73 +32,68 @@ class UsersController extends AppController
             'listeners' => [
                 'Crud.Api',
                 'Crud.ApiPagination',
-                'CrudJsonApi.JsonApi',
-                'CrudJsonApi.Pagination', // Pagination != ApiPagination
-                // 'Crud.ApiQueryLog',
             ],
         ]);
 
         $this->Crud->addListener('relatedModels', 'Crud.RelatedModels');
-
     }
 
     public function index()
     {
-        $authUser = $this->getAuthUser();
+        $authUser = $this->_getAuthUser();
 
-        $this->Crud->on('beforePaginate', function (\Cake\Event\Event $event) use ($authUser) {
+        $this->Crud->on('beforePaginate', function (Event $event) use ($authUser) {
 
             $query = $event->getSubject()->query;
-            if (!$this->isAdmin($authUser)) {
-                $query->where(['Users.id' => $authUser["id"]]);
+            if (!$this->_isAdmin($authUser)) {
+                $query
+                    // limit user query to only contain itself
+                    ->where(['Users.id' => $authUser["id"]]);
                 $this->paginate($query);
             } else {
-                $query->order(['Users.name' => 'ASC']);
+                $query
+                    // we must force "hasMany" relations manually, although Crud.relatedModels Listener is set
+                    // belongsTo, hasOne and belongsToMany work just fine
+                    // this seems to be a bug in crud plugin
+                    ->order(['Users.name' => 'ASC']);
+                $this->paginate($query);
             }
-
-        });
-
-        $this->Crud->on('afterPaginate', function (\Cake\Event\Event $event) {
-
-            foreach ($event->getSubject()->entities as $entity) {
-                $id = $entity->id;
-                $v = $this->Users->Videos->find()
-                    ->matching('Users', function (Query $q) use ($id) {
-
-                        $now = date('Y-m-d H:i:s');
-
-                        return $q
-                            ->where([
-                                'Users.id' => $id,
-                                'UsersVideos.end >' => $now,
-                            ]);
-                    })
-                    ->select([
-                        'UsersVideos.user_id',
-                        'UsersVideos.end',
-                    ])
-                    ->order([
-                        'UsersVideos.end' => 'DESC',
-                    ])
-                    ->first();
-
-            }
-
         });
 
         return $this->Crud->execute();
     }
 
-    public function view($id)
+    public function view()
     {
-        $authUser = $this->getUser($this->Auth->user());
-        $user = $this->getUser($id);
+        $this->Crud->on('beforeFind', function (Event $event) {
 
-        $this->Crud->on('beforeFind', function (\Cake\Event\Event $event) use ($authUser, $user, $id) {
-            if ($authUser['id'] != $id && !$this->isAdmin($authUser)) {
+            $authUser = $this->_getAuthUser();
+            if (!$this->_isAdmin($authUser)) {
                 $event->stopPropagation();
-                throw new NotFoundException();
+                throw new UnauthorizedException();
             }
+
+            $user = $event->getSubject()->query
+                ->contain(
+                    'Mails', function (Query $q) {
+                        return $q
+                            ->select([
+                                'Mails.user_id',
+                                'total' => $q->func()->count('*'),
+                            ]);
+                    })
+                ->contain(
+                    'Inboxes', function (Query $q) {
+                        return $q
+                            ->select([
+                                'Inboxes.user_id',
+                                'total' => $q->func()->count('*'),
+                                'read' => $q->func()->sum('Inboxes._read'),
+                            ]);
+                    })
+                ->contain(['Groups', 'Avatars', 'Videos', 'Tokens'])
+                ->first();
+
             $this->set('data', $user);
 
         });
@@ -147,7 +138,7 @@ class UsersController extends AppController
 
         $this->Crud->on('afterSave', function (Event $event) use ($id) {
 
-            $message = $this->getCustomValidationErrorMessage($event, 'checkProtected');
+            $message = $this->_getCustomValidationErrorMessage($event, 'checkProtected');
             if ($message) {
                 throw new ForbiddenException($message);
             }
@@ -157,7 +148,7 @@ class UsersController extends AppController
                 $message = __('User could not be updated');
             }
 
-            $user = $this->getUser($id);
+            $user = $this->_getUser($id);
 
             $this->set([
                 'data' => $user,
@@ -204,12 +195,12 @@ class UsersController extends AppController
 
     public function token()
     {
-        $loggedinUser = $this->Auth->identify();
-        if (!$loggedinUser) {
+        $authUser = $this->Auth->identify();
+        if (!$authUser) {
             throw new UnauthorizedException(__('Invalid username or password'));
         }
 
-        $id = $loggedinUser["id"];
+        $id = $authUser["id"];
 
         $token = JWT::encode([
             'sub' => $id,
@@ -233,7 +224,7 @@ class UsersController extends AppController
         /*
          * Form login: based on findWithEmail
          *             which includes a token check against database and JWT verification
-         * 
+         *
          * Token login: generally based on JWT verification
          */
         $loggedinUser = $this->Auth->identify();
@@ -242,7 +233,7 @@ class UsersController extends AppController
             // invalid form login or
             // invalid token
             throw new UnauthorizedException(__('Invalid username or password'));
-        } elseif (!$this->isValidToken($loggedinUser)) {
+        } elseif (!$this->_isValidToken($loggedinUser)) {
             // Token valid but didn't pass database check
             throw new UnauthorizedException(__('Invalid Token'));
         }
@@ -259,7 +250,7 @@ class UsersController extends AppController
         $_user->last_login = date("Y-m-d H:i:s");
         $this->Users->save($_user);
 
-        if ($this->isAdmin($loggedinUser)) {
+        if ($this->_isAdmin($loggedinUser)) {
             $expires = TableRegistry::getTableLocator()->get('Users')
                 ->find()
                 ->contain(['Tokens'])
@@ -267,28 +258,27 @@ class UsersController extends AppController
                 ->first()
                 ->expires;
 
-            
-            if(time() > $expires) {
-              $jwt = $this->createToken($id, time() + 30 * 24 * 3600); // 30*24 hours (30 days)
+            if (time() > $expires) {
+                $jwt = $this->createToken($id, time() + 30 * 24 * 3600); // 30*24 hours (30 days)
 
-              $tokenTable = TableRegistry::getTableLocator()->get('Tokens');
-              $token = $tokenTable
-                  ->find()
-                  ->where(['Tokens.user_id' => $id])
-                  ->first();
-  
-              if (!$token) {
-                  $token = $tokenTable->newEntity([
-                      'user_id' => $id,
-                  ]);
-              }
-              $token->token = $jwt;
-              $tokenTable->save($token);
-              $renewed =  $id;
+                $tokenTable = TableRegistry::getTableLocator()->get('Tokens');
+                $token = $tokenTable
+                    ->find()
+                    ->where(['Tokens.user_id' => $id])
+                    ->first();
+
+                if (!$token) {
+                    $token = $tokenTable->newEntity([
+                        'user_id' => $id,
+                    ]);
+                }
+                $token->token = $jwt;
+                $tokenTable->save($token);
+                $renewed = $id;
             }
         }
 
-        $user = $this->getUser($id);
+        $user = $this->_getUser($id);
         $user["token"] = $user["token"]["token"];
 
         $this->Auth->setUser($user);
@@ -298,8 +288,8 @@ class UsersController extends AppController
             'data' => [
                 'message' => __('Login successful'),
                 'user' => $user,
-                'groups' => $this->getGroups(),
-                'renewed' => $renewed
+                'groups' => $this->_getGroups(),
+                'renewed' => $renewed,
             ],
             '_serialize' => ['success', 'data'],
         ]);
@@ -315,7 +305,7 @@ class UsersController extends AppController
         ]);
     }
 
-    protected function isValidToken($identifiedUser = null)
+    protected function _isValidToken($identifiedUser = null)
     {
         if (!isset($identifiedUser)) {
             $identifiedUser = $this->Auth->identify();
@@ -332,7 +322,7 @@ class UsersController extends AppController
         }
 
         // hydrate the user with associated data
-        $user = $this->getUser($id);
+        $user = $this->_getUser($id);
         if (isset($user["token"])) {
             $currentToken = $user["token"]["token"];
         }

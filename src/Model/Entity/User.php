@@ -16,6 +16,7 @@ use Cake\Utility\Security;
  * @property string|null $email
  * @property string|null $password
  * @property bool|null $active
+ * @property bool|null $protected
  * @property int|null $group_id
  * @property \Cake\I18n\FrozenTime|null $last_login
  * @property \Cake\I18n\FrozenTime $created
@@ -23,6 +24,8 @@ use Cake\Utility\Security;
  *
  * @property \App\Model\Entity\Group $group
  * @property \App\Model\Entity\Avatar[] $avatars
+ * @property \App\Model\Entity\Inbox[] $inboxes
+ * @property \App\Model\Entity\Mail[] $mails
  * @property \App\Model\Entity\Token[] $tokens
  * @property \App\Model\Entity\Video[] $videos
  */
@@ -57,10 +60,11 @@ class User extends Entity
         'created' => true,
         'modified' => true,
         'group' => true,
-        'avatars' => true,
+        'avatar' => true,
+        'inboxes' => true,
+        'mails' => true,
         'token' => true,
         'videos' => true,
-        'mails' => true,
     ];
 
     /**

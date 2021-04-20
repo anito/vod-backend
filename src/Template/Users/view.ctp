@@ -17,6 +17,8 @@
         <li><?= $this->Html->link(__('New Avatar'), ['controller' => 'Avatars', 'action' => 'add']) ?> </li>
         <li><?= $this->Html->link(__('List Tokens'), ['controller' => 'Tokens', 'action' => 'index']) ?> </li>
         <li><?= $this->Html->link(__('New Token'), ['controller' => 'Tokens', 'action' => 'add']) ?> </li>
+        <li><?= $this->Html->link(__('List Inboxes'), ['controller' => 'Inboxes', 'action' => 'index']) ?> </li>
+        <li><?= $this->Html->link(__('New Inbox'), ['controller' => 'Inboxes', 'action' => 'add']) ?> </li>
         <li><?= $this->Html->link(__('List Mails'), ['controller' => 'Mails', 'action' => 'index']) ?> </li>
         <li><?= $this->Html->link(__('New Mail'), ['controller' => 'Mails', 'action' => 'add']) ?> </li>
         <li><?= $this->Html->link(__('List Videos'), ['controller' => 'Videos', 'action' => 'index']) ?> </li>
@@ -113,13 +115,50 @@
         <?php endif; ?>
     </div>
     <div class="related">
+        <h4><?= __('Related Inboxes') ?></h4>
+        <?php if (!empty($user->inboxes)): ?>
+        <table cellpadding="0" cellspacing="0">
+            <tr>
+                <th scope="col"><?= __('Id') ?></th>
+                <th scope="col"><?= __('User Id') ?></th>
+                <th scope="col"><?= __(' From') ?></th>
+                <th scope="col"><?= __(' Read') ?></th>
+                <th scope="col"><?= __('Message') ?></th>
+                <th scope="col"><?= __('Created') ?></th>
+                <th scope="col"><?= __('Modified') ?></th>
+                <th scope="col" class="actions"><?= __('Actions') ?></th>
+            </tr>
+            <?php foreach ($user->inboxes as $inboxes): ?>
+            <tr>
+                <td><?= h($inboxes->id) ?></td>
+                <td><?= h($inboxes->user_id) ?></td>
+                <td><?= h($inboxes->_from) ?></td>
+                <td><?= h($inboxes->_read) ?></td>
+                <td>
+                    <iframe id="<?= h($inboxes->id)?>" src="" frameborder="0" data-html="<?= h($inboxes->message['message'])?>" ></iframe>
+                </td>
+                <td><?= h($inboxes->created) ?></td>
+                <td><?= h($inboxes->modified) ?></td>
+                <td class="actions">
+                    <?= $this->Html->link(__('View'), ['controller' => 'Inboxes', 'action' => 'view', $inboxes->id]) ?>
+                    <?= $this->Html->link(__('Edit'), ['controller' => 'Inboxes', 'action' => 'edit', $inboxes->id]) ?>
+                    <?= $this->Form->postLink(__('Delete'), ['controller' => 'Inboxes', 'action' => 'delete', $inboxes->id], ['confirm' => __('Are you sure you want to delete # {0}?', $inboxes->id)]) ?>
+                </td>
+            </tr>
+            <?php endforeach; ?>
+        </table>
+        <?php endif; ?>
+    </div>
+    <div class="related">
         <h4><?= __('Related Mails') ?></h4>
         <?php if (!empty($user->mails)): ?>
         <table cellpadding="0" cellspacing="0">
             <tr>
                 <th scope="col"><?= __('Id') ?></th>
                 <th scope="col"><?= __('User Id') ?></th>
-                <th scope="col"><?= __('Sent') ?></th>
+                <th scope="col"><?= __(' To') ?></th>
+                <th scope="col"><?= __(' From') ?></th>
+                <th scope="col"><?= __('Message') ?></th>
                 <th scope="col"><?= __('Created') ?></th>
                 <th scope="col"><?= __('Modified') ?></th>
                 <th scope="col" class="actions"><?= __('Actions') ?></th>
@@ -128,7 +167,11 @@
             <tr>
                 <td><?= h($mails->id) ?></td>
                 <td><?= h($mails->user_id) ?></td>
-                <td><?= h($mails->sent) ?></td>
+                <td><?= h($mails->_to) ?></td>
+                <td><?= h($mails->_from) ?></td>
+                <td>
+                    <iframe id="<?= h($mails->id)?>" src="" frameborder="0" data-html="<?= h($mails->message['message'])?>" ></iframe>
+                </td>
                 <td><?= h($mails->created) ?></td>
                 <td><?= h($mails->modified) ?></td>
                 <td class="actions">
@@ -142,3 +185,16 @@
         <?php endif; ?>
     </div>
 </div>
+
+<script>
+  window.addEventListener('load', () => {
+    let iFrames = document.documentElement.getElementsByTagName('iframe');
+    for(let iFrame of iFrames) {
+      if(iFrame.dataset.html) {
+          iFrame.contentDocument.open();
+          iFrame.contentDocument.write(iFrame.dataset.html);
+          iFrame.contentDocument.close();
+      }
+    }
+  })
+</script>

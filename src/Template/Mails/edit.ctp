@@ -23,7 +23,10 @@
     <fieldset>
         <legend><?= __('Edit Mail') ?></legend>
         <?php
-            echo $this->Form->control('user_id');
+            echo $this->Form->control('user_id', ['options' => $users]);
+            echo $this->Form->control('_to');
+            echo $this->Form->control('_from');
+            echo $this->Form->control('message');
         ?>
     </fieldset>
     <?= $this->Form->button(__('Submit')) ?>

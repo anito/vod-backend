@@ -77,12 +77,12 @@ class AppController extends Controller
         // $this->loadComponent('Security');
     }
 
-    protected function isAdmin($user)
+    protected function _isAdmin($user)
     {
-        return $this->getUserRoleName($user) === 'Administrator';
+        return $this->_getUserRoleName($user) === 'Administrator';
     }
 
-    protected function getUserRoleName($user)
+    protected function _getUserRoleName($user)
     {
         $groups = TableRegistry::getTableLocator()->get('Groups');
         return $groups->find()

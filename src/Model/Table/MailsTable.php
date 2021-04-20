@@ -60,8 +60,20 @@ class MailsTable extends Table
             ->add('id', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
 
         $validator
-            ->requirePresence('sent', 'create')
-            ->notEmptyString('sent');
+            ->scalar('_to')
+            ->maxLength('_to', 256)
+            ->requirePresence('_to', 'create')
+            ->notEmptyString('_to');
+
+        $validator
+            ->scalar('_from')
+            ->maxLength('_from', 256)
+            ->requirePresence('_from', 'create')
+            ->notEmptyString('_from');
+
+        $validator
+            ->requirePresence('message', 'create')
+            ->notEmptyString('message');
 
         return $validator;
     }
@@ -79,5 +91,18 @@ class MailsTable extends Table
         $rules->add($rules->existsIn(['user_id'], 'Users'));
 
         return $rules;
+    }
+
+    public function findByIdOrEmail(Query $query, array $options)
+    {
+        $query
+            ->where([
+                'OR' => [
+                    'Mails.user_id' => $options['field'],
+                    'Mails._from' => $options['field']],
+            ])
+            ->toArray();
+
+        return $query;
     }
 }

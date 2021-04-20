@@ -19,6 +19,9 @@
             <tr>
                 <th scope="col"><?= $this->Paginator->sort('id') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('user_id') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('_to') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('_from') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('message') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('created') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('modified') ?></th>
                 <th scope="col" class="actions"><?= __('Actions') ?></th>
@@ -28,7 +31,13 @@
             <?php foreach ($mails as $mail): ?>
             <tr>
                 <td><?= h($mail->id) ?></td>
-                <td><?= h($mail->user_id) ?></td>
+                <td><?= $mail->has('user') ? $this->Html->link($mail->user->name, ['controller' => 'Users', 'action' => 'view', $mail->user->id]) : '' ?></td>
+                <td><?= h($mail->_to) ?></td>
+                <td><?= h($mail->_from) ?></td>
+                <td>
+                    <iframe id="<?= h($mail->id)?>" src="" frameborder="0" data-html="<?= h($mail->message['message'])?>" ></iframe>
+                </td>
+                <td><?= h($mail->message) ?></td>
                 <td><?= h($mail->created) ?></td>
                 <td><?= h($mail->modified) ?></td>
                 <td class="actions">
@@ -51,3 +60,16 @@
         <p><?= $this->Paginator->counter(['format' => __('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')]) ?></p>
     </div>
 </div>
+
+<script>
+  window.addEventListener('load', () => {
+    let iFrames = document.documentElement.getElementsByTagName('iframe');
+    for(let iFrame of iFrames) {
+      if(iFrame.dataset.html) {
+          iFrame.contentDocument.open();
+          iFrame.contentDocument.write(iFrame.dataset.html);
+          iFrame.contentDocument.close();
+      }
+    }
+  })
+</script>

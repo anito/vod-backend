@@ -35,26 +35,17 @@ class SettingsController extends AppController {
         $this->loadComponent('Crud.Crud', [
             'actions' => [
                 'Crud.Index',
-                // 'index' => [
-                //     'className' => 'Crud.Index',
-                //     'relatedModels' => true,
-                // ],
             ],
             'listeners' => [
                 'Crud.Api',
                 'Crud.ApiPagination',
-                'CrudJsonApi.JsonApi',
-                'CrudJsonApi.Pagination', // Pagination != ApiPagination
-                // 'Crud.ApiQueryLog',
             ],
         ]);
-
-        $this->Crud->addListener('relatedModels', 'Crud.RelatedModels');
     }
 
     public function index() {
 
-        $allowed = ['Session'];
+        $allowed = ['Session', 'Site'];
         $settings = Configure::read();
         $settings = array_intersect_key($settings, array_flip($allowed));
 

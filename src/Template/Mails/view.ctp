@@ -23,8 +23,22 @@
             <td><?= h($mail->id) ?></td>
         </tr>
         <tr>
-            <th scope="row"><?= __('User Id') ?></th>
-            <td><?= h($mail->user_id) ?></td>
+            <th scope="row"><?= __('User') ?></th>
+            <td><?= $mail->has('user') ? $this->Html->link($mail->user->name, ['controller' => 'Users', 'action' => 'view', $mail->user->id]) : '' ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __(' To') ?></th>
+            <td><?= h($mail->_to) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __(' From') ?></th>
+            <td><?= h($mail->_from) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Message') ?></th>
+            <td>
+                <iframe id="<?= h($mail->id)?>" src="" frameborder="0" data-html="<?= h($mail->message['message'])?>" ></iframe>
+            </td>
         </tr>
         <tr>
             <th scope="row"><?= __('Created') ?></th>
@@ -36,3 +50,16 @@
         </tr>
     </table>
 </div>
+
+<script>
+  window.addEventListener('load', () => {
+    let iFrames = document.documentElement.getElementsByTagName('iframe');
+    for(let iFrame of iFrames) {
+      if(iFrame.dataset.html) {
+          iFrame.contentDocument.open();
+          iFrame.contentDocument.write(iFrame.dataset.html);
+          iFrame.contentDocument.close();
+      }
+    }
+  })
+</script>

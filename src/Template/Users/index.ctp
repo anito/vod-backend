@@ -14,6 +14,8 @@
         <li><?= $this->Html->link(__('New Avatar'), ['controller' => 'Avatars', 'action' => 'add']) ?></li>
         <li><?= $this->Html->link(__('List Tokens'), ['controller' => 'Tokens', 'action' => 'index']) ?></li>
         <li><?= $this->Html->link(__('New Token'), ['controller' => 'Tokens', 'action' => 'add']) ?></li>
+        <li><?= $this->Html->link(__('List Inboxes'), ['controller' => 'Inboxes', 'action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('New Inbox'), ['controller' => 'Inboxes', 'action' => 'add']) ?></li>
         <li><?= $this->Html->link(__('List Mails'), ['controller' => 'Mails', 'action' => 'index']) ?></li>
         <li><?= $this->Html->link(__('New Mail'), ['controller' => 'Mails', 'action' => 'add']) ?></li>
         <li><?= $this->Html->link(__('List Videos'), ['controller' => 'Videos', 'action' => 'index']) ?></li>

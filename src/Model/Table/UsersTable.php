@@ -8,8 +8,8 @@ use Cake\ORM\Table;
 use Cake\Utility\Security;
 use Cake\Validation\Validator;
 use Cake\Http\Exception\UnauthorizedException;
-use Cake\Core\Configure;
 use Cake\ORM\Entity;
+use Cake\ORM\TableRegistry;
 use Exception;
 use Firebase\JWT\JWT;
 
@@ -18,7 +18,9 @@ use Firebase\JWT\JWT;
  *
  * @property \App\Model\Table\GroupsTable&\Cake\ORM\Association\BelongsTo $Groups
  * @property \App\Model\Table\AvatarsTable&\Cake\ORM\Association\HasMany $Avatars
- * @property \App\Model\Table\TokensTable&\Cake\ORM\Association\HasMany $Tokens
+ * @property \App\Model\Table\InboxesTable&\Cake\ORM\Association\HasMany $Inboxes
+ * @property \App\Model\Table\MailsTable&\Cake\ORM\Association\HasMany $Mails
+ * @property \App\Model\Table\TokensTable&\Cake\ORM\Association\HasOne $Tokens
  * @property \App\Model\Table\VideosTable&\Cake\ORM\Association\BelongsToMany $Videos
  *
  * @method \App\Model\Entity\User get($primaryKey, $options = [])
@@ -53,18 +55,25 @@ class UsersTable extends Table
         $this->belongsTo('Groups', [
             'foreignKey' => 'group_id',
         ]);
-        $this->hasMany('Mails', [
-            'foreignKey' => 'user_id',
-        ]);
         $this->hasOne('Avatars', [
             'foreignKey' => 'user_id',
             'dependent' => true,
-            'cascadeCallbacks' => true, // triggers core events on the foreign model (when also dependent set to ttue)
+            'cascadeCallbacks' => true, // triggers core events on the foreign model (when also dependent set to true)
+        ]);
+        $this->hasMany('Inboxes', [
+            'foreignKey' => 'user_id',
+            'dependent' => true,
+            'cascadeCallbacks' => true, // triggers core events on the foreign model (when also dependent set to true)
+        ]);
+        $this->hasMany('Mails', [
+            'foreignKey' => 'user_id',
+            'dependent' => true,
+            'cascadeCallbacks' => true, // triggers core events on the foreign model (when also dependent set to true)
         ]);
         $this->hasOne('Tokens', [
             'foreignKey' => 'user_id',
             'dependent' => true,
-            'cascadeCallbacks' => true, // triggers core events on the foreign model (when also dependent set to ttue)
+            'cascadeCallbacks' => true, // triggers core events on the foreign model (when also dependent set to true)
         ]);
         $this->belongsToMany('Videos', [
             'foreignKey' => 'user_id',
@@ -109,6 +118,10 @@ class UsersTable extends Table
             ->allowEmptyString('active');
 
         $validator
+            ->boolean('protected')
+            ->allowEmptyString('protected');
+
+        $validator
             ->dateTime('last_login')
             ->allowEmptyDateTime('last_login');
 
@@ -138,6 +151,7 @@ class UsersTable extends Table
     }
 
     public function protectedUser($value, $context) {
+        return true;
         if (isset($context['data']['id'])) {
             $id = $context['data']['id'];
         } else {
@@ -166,9 +180,9 @@ class UsersTable extends Table
         return $rules;
     }
 
-    public function findWithEmail(\Cake\ORM\Query $query, array $options)
+    public function findWithEmail(Query $query, array $options)
     {
-        $user = $this->getUser('email', $options['username']);
+        $user = $this->_getUser('email', $options['username']);
         $user && $this->checkJWT($user);
         
         $query
@@ -177,9 +191,9 @@ class UsersTable extends Table
         return $query;
     }
     
-    public function findWithId(\Cake\ORM\Query $query, array $options)
+    public function findWithId(Query $query, array $options)
     {
-        $user = $this->getUser('id', $options['username']);
+        $user = $this->_getUser('id', $options['username']);
         $user && $this->checkJWT($user);
 
         $query
@@ -188,7 +202,7 @@ class UsersTable extends Table
         return $query;
     }
 
-    protected function getUser($field, $value) {
+    protected function _getUser($field, $value) {
         $_field = 'Users.' . $field;
 
         return $this
