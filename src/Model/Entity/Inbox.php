@@ -31,6 +31,7 @@ class Inbox extends Entity
         'user_id' => true,
         '_from' => true,
         '_read' => true,
+        '_to' => true,
         'message' => true,
         'created' => true,
         'modified' => true,

@@ -26,6 +26,7 @@ use Cake\Core\Configure;
 use Cake\Event\Event;
 use Cake\Http\Exception\ForbiddenException;
 use Cake\Http\Exception\NotFoundException;
+use Cake\Log\Log;
 use Cake\Mailer\Email;
 use Cake\ORM\TableRegistry;
 
@@ -221,6 +222,10 @@ class MailsController extends AppController
                     ->where(['Users.email' => $value])
                     ->first();
 
+                Log::debug('$user');
+                Log::debug($user);
+                Log::debug('$value');
+                Log::debug($value);
                 if ($user) {
                     $inboxTable = TableRegistry::getTableLocator()->get('Inboxes');
                     $newInbox = $inboxTable->newEntity([
@@ -230,7 +235,8 @@ class MailsController extends AppController
                         '_read' => 0,
                         'message' => $entity->get('message'),
                     ]);
-                    $inboxTable->save($newInbox);
+                    $saved = $inboxTable->save($newInbox);
+                    Log::debug($saved);
                 }
             }
         });

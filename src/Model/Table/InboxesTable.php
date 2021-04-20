@@ -66,6 +66,12 @@ class InboxesTable extends Table
             ->notEmptyString('_from');
 
         $validator
+            ->scalar('_to')
+            ->maxLength('_to', 256)
+            ->requirePresence('_to', 'create')
+            ->notEmptyString('_to');
+
+        $validator
             ->boolean('_read')
             ->requirePresence('_read', 'create')
             ->notEmptyString('_read');
