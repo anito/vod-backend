@@ -226,6 +226,8 @@ class MailsController extends AppController
                 Log::debug($user);
                 Log::debug('$value');
                 Log::debug($value);
+                Log::debug('$message');
+                Log::debug($entity->get('message'));
                 if ($user) {
                     $inboxTable = TableRegistry::getTableLocator()->get('Inboxes');
                     $newInbox = $inboxTable->newEntity([
