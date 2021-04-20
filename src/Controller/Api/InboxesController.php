@@ -22,17 +22,12 @@
 namespace App\Controller\Api;
 
 use App\Controller\Api\AppController;
-use Cake\Core\Configure;
-use Cake\Event\Event;
-use Cake\Http\Exception\ForbiddenException;
-use Cake\Log\Log;
-use Cake\Mailer\Email;
-use Cake\ORM\Entity;
-use Cake\ORM\TableRegistry;
 
-class InboxesController extends AppController {
+class InboxesController extends AppController
+{
 
-    function initialize() {
+    public function initialize()
+    {
         parent::initialize();
 
         $this->Auth->allow([]);
@@ -54,20 +49,22 @@ class InboxesController extends AppController {
         $this->Crud->addListener('relatedModels', 'Crud.RelatedModels');
     }
 
-    public function index() {
+    public function index()
+    {
 
         $mails = $this->Inboxes->find('all');
 
         $this->set([
             'success' => true,
             'data' => [
-                'mails' => $mails
+                'mails' => $mails,
             ],
-            '_serialize' => ['success', 'data']
+            '_serialize' => ['success', 'data'],
         ]);
     }
 
-    public function get($id) {
+    public function get($id)
+    {
 
         $received = $this->Inboxes->find('byIdOrEmail', ['field' => $id]);
 

@@ -200,7 +200,7 @@ class MailsController extends AppController
                 '_to' => implode(';', array_keys($to)),
                 '_from' => implode(';', array_keys($from)),
                 '_read' => 0,
-                'message' => $message,
+                'message' => json_encode($message),
             ]));
 
             $this->set([
