@@ -47,15 +47,15 @@ class UsersController extends AppController
             $query = $event->getSubject()->query;
             if (!$this->_isAdmin($authUser)) {
                 $query
-                    // limit user query to only contain itself
-                    ->where(['Users.id' => $authUser["id"]]);
+                // limit user query to only contain itself
+                ->where(['Users.id' => $authUser["id"]]);
                 $this->paginate($query);
             } else {
                 $query
-                    // we must force "hasMany" relations manually, although Crud.relatedModels Listener is set
-                    // belongsTo, hasOne and belongsToMany work just fine
-                    // this seems to be a bug in crud plugin
-                    ->order(['Users.name' => 'ASC']);
+                // we must force "hasMany" relations manually, although Crud.relatedModels Listener is set
+                // belongsTo, hasOne and belongsToMany work just fine
+                // this seems to be a bug in crud plugin
+                ->order(['Users.name' => 'ASC']);
                 $this->paginate($query);
             }
         });
@@ -221,11 +221,14 @@ class UsersController extends AppController
     public function login()
     {
         $renewed = false;
-        /*
-         * Form login: based on findWithEmail
-         *             which includes a token check against database and JWT verification
+        /**
+         * Form login:
+         * using findWithEmail finder
+         * - JWT verification
+         * - token check against database
          *
-         * Token login: generally based on JWT verification
+         * Token login:
+         * - JWT verification
          */
         $loggedinUser = $this->Auth->identify();
 
@@ -290,6 +293,7 @@ class UsersController extends AppController
                 'user' => $user,
                 'groups' => $this->_getGroups(),
                 'renewed' => $renewed,
+                'wait' => 2000,
             ],
             '_serialize' => ['success', 'data'],
         ]);
