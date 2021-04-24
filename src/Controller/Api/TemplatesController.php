@@ -31,7 +31,7 @@ class TemplatesController extends AppController
                 'Crud.View',
                 'Crud.Add',
                 'edit' => [
-                    'className' => 'Crud.edit',
+                    'className' => 'Crud.Edit',
                     'relatedModels' => true,
                 ],
                 'Crud.Delete',
