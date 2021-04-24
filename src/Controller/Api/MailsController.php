@@ -139,8 +139,14 @@ class MailsController extends AppController
              *  template to be used
              */
             if (!isset($template)) {
-                $template = isset($data['template']['slug']) && $data['template']['slug'] === 'magic-link' ? 'magic-link' : 'general';
-                $template = !isset($template) && 'general';
+                if (isset($data['template']['slug'])) {
+                    $template = $data['template']['slug'] === 'magic-link' ? 'magic-link' : 'general';
+                }
+
+                if (!isset($template)) {
+                    $template = 'general';
+                }
+
                 $templateData = isset($data['template']['data']) ? $data['template']['data'] : '';
             }
             if (!isset($templateData)) {
@@ -156,15 +162,15 @@ class MailsController extends AppController
              */
             $logo = Configure::read('Site.logo');
             $subject = isset($data['subject']) ? $data['subject'] : $defaultSubject;
-            $beforeContent = isset($data['before_content']) ? $data['before_content'] : '';
+            $beforeContent = isset($data['before-content']) ? $data['before-content'] : '';
             $content = isset($data['content']) ? $data['content'] : '';
-            $afterContent = isset($data['after_content']) ? $data['after_content'] : '';
-            $beforeSitename = isset($data['before_sitename']) ? $data['before_sitename'] : '';
+            $afterContent = isset($data['after-content']) ? $data['after-content'] : '';
+            $beforeSitename = isset($data['before-sitename']) ? $data['before-sitename'] : '';
             $sitename = $sitename = Configure::check('Site.name') ? Configure::read('Site.name') : __('You should specify a sitename');
-            $afterSitename = isset($data['after_sitename']) ? $data['after_sitename'] : '';
-            $beforeFooter = isset($data['before_footer']) ? $data['before_footer'] : '';
+            $afterSitename = isset($data['after-sitename']) ? $data['after-sitename'] : '';
+            $beforeFooter = isset($data['before-footer']) ? $data['before-footer'] : '';
             $footer = isset($data['footer']) ? $data['footer'] : '';
-            $afterFooter = isset($data['after_footer']) ? $data['after_footer'] : '';
+            $afterFooter = isset($data['after-footer']) ? $data['after-footer'] : '';
 
             $viewVars = compact([
                 'logo',
