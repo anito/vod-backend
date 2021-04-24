@@ -82,6 +82,27 @@ class TemplatesController extends AppController
 
     }
 
+    public function add()
+    {
+
+        $this->Crud->on('afterSave', function (Event $event) {
+            $entity = $event->getSubject()->entity;
+
+            $this->set([
+                'success' => true,
+                'data' => [
+                    'id' => $entity->id,
+                    'items' => $entity->items,
+                ],
+                '_serialize' => ['success', 'data'],
+            ]);
+
+        });
+
+        return $this->Crud->execute();
+
+    }
+
     public function delete()
     {
         $this->Crud->on('beforeDelete', function (Event $event) {
