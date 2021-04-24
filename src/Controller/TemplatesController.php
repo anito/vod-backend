@@ -34,7 +34,7 @@ class TemplatesController extends AppController
     public function view($id = null)
     {
         $template = $this->Templates->get($id, [
-            'contain' => ['Emails'],
+            'contain' => ['Items'],
         ]);
 
         $this->set('template', $template);

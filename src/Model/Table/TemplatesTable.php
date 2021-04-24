@@ -8,7 +8,7 @@ use Cake\Validation\Validator;
 /**
  * Templates Model
  *
- * @property \App\Model\Table\EmailTemplatesTable&\Cake\ORM\Association\HasMany $EmailTemplates
+ * @property \App\Model\Table\ItemsTable&\Cake\ORM\Association\HasMany $Items
  *
  * @method \App\Model\Entity\Template get($primaryKey, $options = [])
  * @method \App\Model\Entity\Template newEntity($data = null, array $options = [])
@@ -34,13 +34,14 @@ class TemplatesTable extends Table
         parent::initialize($config);
 
         $this->setTable('templates');
-        $this->setDisplayField('slug');
+        $this->setDisplayField('name');
         $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
 
-        $this->hasMany('EmailTemplates', [
+        $this->hasMany('Items', [
             'foreignKey' => 'template_id',
+            'dependant' => true,
         ]);
     }
 
@@ -61,7 +62,17 @@ class TemplatesTable extends Table
             ->scalar('slug')
             ->maxLength('slug', 50)
             ->requirePresence('slug', 'create')
-            ->notEmptyString('slug');
+            ->notEmptyString('slug')
+            ->add('slug', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
+
+        $validator
+            ->scalar('name')
+            ->maxLength('name', 50)
+            ->allowEmptyString('name');
+
+        $validator
+            ->boolean('protected')
+            ->notEmptyString('protected');
 
         return $validator;
     }
@@ -76,6 +87,7 @@ class TemplatesTable extends Table
     public function buildRules(RulesChecker $rules)
     {
         $rules->add($rules->isUnique(['id']));
+        $rules->add($rules->isUnique(['slug']));
 
         return $rules;
     }

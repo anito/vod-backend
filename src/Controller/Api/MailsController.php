@@ -139,7 +139,8 @@ class MailsController extends AppController
              *  template to be used
              */
             if (!isset($template)) {
-                $template = isset($data['template']['slug']) ? $data['template']['slug'] : 'general';
+                $template = isset($data['template']['slug']) && $data['template']['slug'] === 'magic-link' ? 'magic-link' : 'general';
+                $template = !isset($template) && 'general';
                 $templateData = isset($data['template']['data']) ? $data['template']['data'] : '';
             }
             if (!isset($templateData)) {

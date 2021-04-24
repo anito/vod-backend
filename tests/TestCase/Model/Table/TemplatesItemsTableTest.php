@@ -1,21 +1,21 @@
 <?php
 namespace App\Test\TestCase\Model\Table;
 
-use App\Model\Table\TemplatesTable;
+use App\Model\Table\TemplatesItemsTable;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
 
 /**
- * App\Model\Table\TemplatesTable Test Case
+ * App\Model\Table\TemplatesItemsTable Test Case
  */
-class TemplatesTableTest extends TestCase
+class TemplatesItemsTableTest extends TestCase
 {
     /**
      * Test subject
      *
-     * @var \App\Model\Table\TemplatesTable
+     * @var \App\Model\Table\TemplatesItemsTable
      */
-    public $Templates;
+    public $TemplatesItems;
 
     /**
      * Fixtures
@@ -23,8 +23,8 @@ class TemplatesTableTest extends TestCase
      * @var array
      */
     public $fixtures = [
+        'app.TemplatesItems',
         'app.Templates',
-        'app.EmailTemplatesbak',
         'app.Items',
     ];
 
@@ -36,8 +36,8 @@ class TemplatesTableTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $config = TableRegistry::getTableLocator()->exists('Templates') ? [] : ['className' => TemplatesTable::class];
-        $this->Templates = TableRegistry::getTableLocator()->get('Templates', $config);
+        $config = TableRegistry::getTableLocator()->exists('TemplatesItems') ? [] : ['className' => TemplatesItemsTable::class];
+        $this->TemplatesItems = TableRegistry::getTableLocator()->get('TemplatesItems', $config);
     }
 
     /**
@@ -47,7 +47,7 @@ class TemplatesTableTest extends TestCase
      */
     public function tearDown()
     {
-        unset($this->Templates);
+        unset($this->TemplatesItems);
 
         parent::tearDown();
     }

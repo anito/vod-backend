@@ -4,19 +4,16 @@ namespace App\Model\Entity;
 use Cake\ORM\Entity;
 
 /**
- * Template Entity
+ * Field Entity
  *
  * @property string $id
- * @property string $slug
- * @property string|null $name
- * @property bool $protected
+ * @property string $name
  * @property \Cake\I18n\FrozenTime $created
  * @property \Cake\I18n\FrozenTime $modified
  *
- * @property \App\Model\Entity\EmailTemplatesbak[] $email_templatesbak
  * @property \App\Model\Entity\Item[] $items
  */
-class Template extends Entity
+class Field extends Entity
 {
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
@@ -29,12 +26,9 @@ class Template extends Entity
      */
     protected $_accessible = [
         'id' => true,
-        'slug' => true,
         'name' => true,
-        'protected' => true,
         'created' => true,
         'modified' => true,
-        'email_templatesbak' => true,
         'items' => true,
     ];
 }

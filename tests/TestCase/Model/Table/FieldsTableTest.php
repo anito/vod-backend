@@ -1,21 +1,21 @@
 <?php
 namespace App\Test\TestCase\Model\Table;
 
-use App\Model\Table\TemplatesTable;
+use App\Model\Table\FieldsTable;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
 
 /**
- * App\Model\Table\TemplatesTable Test Case
+ * App\Model\Table\FieldsTable Test Case
  */
-class TemplatesTableTest extends TestCase
+class FieldsTableTest extends TestCase
 {
     /**
      * Test subject
      *
-     * @var \App\Model\Table\TemplatesTable
+     * @var \App\Model\Table\FieldsTable
      */
-    public $Templates;
+    public $Fields;
 
     /**
      * Fixtures
@@ -23,8 +23,7 @@ class TemplatesTableTest extends TestCase
      * @var array
      */
     public $fixtures = [
-        'app.Templates',
-        'app.EmailTemplatesbak',
+        'app.Fields',
         'app.Items',
     ];
 
@@ -36,8 +35,8 @@ class TemplatesTableTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $config = TableRegistry::getTableLocator()->exists('Templates') ? [] : ['className' => TemplatesTable::class];
-        $this->Templates = TableRegistry::getTableLocator()->get('Templates', $config);
+        $config = TableRegistry::getTableLocator()->exists('Fields') ? [] : ['className' => FieldsTable::class];
+        $this->Fields = TableRegistry::getTableLocator()->get('Fields', $config);
     }
 
     /**
@@ -47,7 +46,7 @@ class TemplatesTableTest extends TestCase
      */
     public function tearDown()
     {
-        unset($this->Templates);
+        unset($this->Fields);
 
         parent::tearDown();
     }
@@ -68,16 +67,6 @@ class TemplatesTableTest extends TestCase
      * @return void
      */
     public function testValidationDefault()
-    {
-        $this->markTestIncomplete('Not implemented yet.');
-    }
-
-    /**
-     * Test buildRules method
-     *
-     * @return void
-     */
-    public function testBuildRules()
     {
         $this->markTestIncomplete('Not implemented yet.');
     }

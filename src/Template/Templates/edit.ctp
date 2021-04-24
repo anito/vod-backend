@@ -14,8 +14,8 @@
             )
         ?></li>
         <li><?= $this->Html->link(__('List Templates'), ['action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('List Email Templates'), ['controller' => 'EmailTemplates', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Email Template'), ['controller' => 'EmailTemplates', 'action' => 'add']) ?></li>
+        <li><?= $this->Html->link(__('List Items'), ['controller' => 'Items', 'action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('New Item'), ['controller' => 'Items', 'action' => 'add']) ?></li>
     </ul>
 </nav>
 <div class="templates form large-9 medium-8 columns content">
@@ -24,6 +24,8 @@
         <legend><?= __('Edit Template') ?></legend>
         <?php
             echo $this->Form->control('slug');
+            echo $this->Form->control('name');
+            echo $this->Form->control('protected');
         ?>
     </fieldset>
     <?= $this->Form->button(__('Submit')) ?>
