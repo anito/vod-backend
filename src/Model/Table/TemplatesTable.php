@@ -41,7 +41,7 @@ class TemplatesTable extends Table
 
         $this->hasMany('Items', [
             'foreignKey' => 'template_id',
-            'dependant' => true,
+            'dependent' => true,
         ]);
     }
 
