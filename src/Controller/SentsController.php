@@ -4,13 +4,13 @@ namespace App\Controller;
 use App\Controller\AppController;
 
 /**
- * Mails Controller
+ * Sents Controller
  *
- * @property \App\Model\Table\MailsTable $Mails
+ * @property \App\Model\Table\SentsTable $Sents
  *
- * @method \App\Model\Entity\Mail[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
+ * @method \App\Model\Entity\Sent[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
  */
-class MailsController extends AppController
+class SentsController extends AppController
 {
     /**
      * Index method
@@ -22,25 +22,25 @@ class MailsController extends AppController
         $this->paginate = [
             'contain' => ['Users'],
         ];
-        $mails = $this->paginate($this->Mails);
+        $sents = $this->paginate($this->Sents);
 
-        $this->set(compact('mails'));
+        $this->set(compact('sents'));
     }
 
     /**
      * View method
      *
-     * @param string|null $id Mail id.
+     * @param string|null $id Sent id.
      * @return \Cake\Http\Response|null
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function view($id = null)
     {
-        $mail = $this->Mails->get($id, [
+        $sent = $this->Sents->get($id, [
             'contain' => ['Users'],
         ]);
 
-        $this->set('mail', $mail);
+        $this->set('sent', $sent);
     }
 
     /**
@@ -50,60 +50,60 @@ class MailsController extends AppController
      */
     public function add()
     {
-        $mail = $this->Mails->newEntity();
+        $sent = $this->Sents->newEntity();
         if ($this->request->is('post')) {
-            $mail = $this->Mails->patchEntity($mail, $this->request->getData());
-            if ($this->Mails->save($mail)) {
-                $this->Flash->success(__('The mail has been saved.'));
+            $sent = $this->Sents->patchEntity($sent, $this->request->getData());
+            if ($this->Sents->save($sent)) {
+                $this->Flash->success(__('The sent has been saved.'));
 
                 return $this->redirect(['action' => 'index']);
             }
-            $this->Flash->error(__('The mail could not be saved. Please, try again.'));
+            $this->Flash->error(__('The sent could not be saved. Please, try again.'));
         }
-        $users = $this->Mails->Users->find('list', ['limit' => 200]);
-        $this->set(compact('mail', 'users'));
+        $users = $this->Sents->Users->find('list', ['limit' => 200]);
+        $this->set(compact('sent', 'users'));
     }
 
     /**
      * Edit method
      *
-     * @param string|null $id Mail id.
+     * @param string|null $id Sent id.
      * @return \Cake\Http\Response|null Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function edit($id = null)
     {
-        $mail = $this->Mails->get($id, [
+        $sent = $this->Sents->get($id, [
             'contain' => [],
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $mail = $this->Mails->patchEntity($mail, $this->request->getData());
-            if ($this->Mails->save($mail)) {
-                $this->Flash->success(__('The mail has been saved.'));
+            $sent = $this->Sents->patchEntity($sent, $this->request->getData());
+            if ($this->Sents->save($sent)) {
+                $this->Flash->success(__('The sent has been saved.'));
 
                 return $this->redirect(['action' => 'index']);
             }
-            $this->Flash->error(__('The mail could not be saved. Please, try again.'));
+            $this->Flash->error(__('The sent could not be saved. Please, try again.'));
         }
-        $users = $this->Mails->Users->find('list', ['limit' => 200]);
-        $this->set(compact('mail', 'users'));
+        $users = $this->Sents->Users->find('list', ['limit' => 200]);
+        $this->set(compact('sent', 'users'));
     }
 
     /**
      * Delete method
      *
-     * @param string|null $id Mail id.
+     * @param string|null $id Sent id.
      * @return \Cake\Http\Response|null Redirects to index.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function delete($id = null)
     {
         $this->request->allowMethod(['post', 'delete']);
-        $mail = $this->Mails->get($id);
-        if ($this->Mails->delete($mail)) {
-            $this->Flash->success(__('The mail has been deleted.'));
+        $sent = $this->Sents->get($id);
+        if ($this->Sents->delete($sent)) {
+            $this->Flash->success(__('The sent has been deleted.'));
         } else {
-            $this->Flash->error(__('The mail could not be deleted. Please, try again.'));
+            $this->Flash->error(__('The sent could not be deleted. Please, try again.'));
         }
 
         return $this->redirect(['action' => 'index']);

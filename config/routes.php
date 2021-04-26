@@ -78,7 +78,7 @@ Router::scope('/', function (RouteBuilder $routes) {
         $routes->resources('Images');
         $routes->resources('Tokens');
         $routes->resources('Avatars');
-        $routes->resources('Mails');
+        $routes->resources('Sents');
         $routes->resources('Inboxes');
         $routes->resources('Templates');
         $routes->resources('EmailTemplates');

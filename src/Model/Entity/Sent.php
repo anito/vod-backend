@@ -4,7 +4,7 @@ namespace App\Model\Entity;
 use Cake\ORM\Entity;
 
 /**
- * Mail Entity
+ * Sent Entity
  *
  * @property string $id
  * @property string $user_id
@@ -16,7 +16,7 @@ use Cake\ORM\Entity;
  *
  * @property \App\Model\Entity\User $user
  */
-class Mail extends Entity
+class Sent extends Entity
 {
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().

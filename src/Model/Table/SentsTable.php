@@ -7,22 +7,22 @@ use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
 /**
- * Mails Model
+ * Sents Model
  *
  * @property \App\Model\Table\UsersTable&\Cake\ORM\Association\BelongsTo $Users
  *
- * @method \App\Model\Entity\Mail get($primaryKey, $options = [])
- * @method \App\Model\Entity\Mail newEntity($data = null, array $options = [])
- * @method \App\Model\Entity\Mail[] newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\Mail|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\Mail saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\Mail patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method \App\Model\Entity\Mail[] patchEntities($entities, array $data, array $options = [])
- * @method \App\Model\Entity\Mail findOrCreate($search, callable $callback = null, $options = [])
+ * @method \App\Model\Entity\Sent get($primaryKey, $options = [])
+ * @method \App\Model\Entity\Sent newEntity($data = null, array $options = [])
+ * @method \App\Model\Entity\Sent[] newEntities(array $data, array $options = [])
+ * @method \App\Model\Entity\Sent|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Sent saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Sent patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
+ * @method \App\Model\Entity\Sent[] patchEntities($entities, array $data, array $options = [])
+ * @method \App\Model\Entity\Sent findOrCreate($search, callable $callback = null, $options = [])
  *
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
  */
-class MailsTable extends Table
+class SentsTable extends Table
 {
     /**
      * Initialize method
@@ -34,7 +34,7 @@ class MailsTable extends Table
     {
         parent::initialize($config);
 
-        $this->setTable('mails');
+        $this->setTable('sents');
         $this->setDisplayField('id');
         $this->setPrimaryKey('id');
 
@@ -98,8 +98,8 @@ class MailsTable extends Table
         $query
             ->where([
                 'OR' => [
-                    'Mails.user_id' => $options['field'],
-                    'Mails._from' => $options['field']],
+                    'Sents.user_id' => $options['field'],
+                    'Sents._from' => $options['field']],
             ])
             ->toArray();
 

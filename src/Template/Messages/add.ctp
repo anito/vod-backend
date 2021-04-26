@@ -6,24 +6,24 @@
 ?>
 <nav class="large-3 medium-4 columns" id="actions-sidebar">
     <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Html->link(__('List Messages'), ['action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('List Inboxes'), ['controller' => 'Inboxes', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Inbox'), ['controller' => 'Inboxes', 'action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Mails'), ['controller' => 'Mails', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Mail'), ['controller' => 'Mails', 'action' => 'add']) ?></li>
+        <li class="heading"><?=__('Actions')?></li>
+        <li><?=$this->Html->link(__('List Messages'), ['action' => 'index'])?></li>
+        <li><?=$this->Html->link(__('List Inboxes'), ['controller' => 'Inboxes', 'action' => 'index'])?></li>
+        <li><?=$this->Html->link(__('New Inbox'), ['controller' => 'Inboxes', 'action' => 'add'])?></li>
+        <li><?=$this->Html->link(__('List Sents'), ['controller' => 'Sents', 'action' => 'index'])?></li>
+        <li><?=$this->Html->link(__('New Sent'), ['controller' => 'Sents', 'action' => 'add'])?></li>
     </ul>
 </nav>
 <div class="messages form large-9 medium-8 columns content">
-    <?= $this->Form->create($message) ?>
+    <?=$this->Form->create($message)?>
     <fieldset>
-        <legend><?= __('Add Message') ?></legend>
+        <legend><?=__('Add Message')?></legend>
         <?php
-            echo $this->Form->control('message');
-            echo $this->Form->control('inbox_id', ['options' => $inboxes]);
-            echo $this->Form->control('mail_id', ['options' => $mails]);
-        ?>
+echo $this->Form->control('message');
+echo $this->Form->control('inbox_id', ['options' => $inboxes]);
+echo $this->Form->control('mail_id', ['options' => $mails]);
+?>
     </fieldset>
-    <?= $this->Form->button(__('Submit')) ?>
-    <?= $this->Form->end() ?>
+    <?=$this->Form->button(__('Submit'))?>
+    <?=$this->Form->end()?>
 </div>

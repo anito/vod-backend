@@ -6,37 +6,37 @@
 ?>
 <nav class="large-3 medium-4 columns" id="actions-sidebar">
     <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Html->link(__('List Users'), ['action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('List Groups'), ['controller' => 'Groups', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Group'), ['controller' => 'Groups', 'action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Avatars'), ['controller' => 'Avatars', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Avatar'), ['controller' => 'Avatars', 'action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Tokens'), ['controller' => 'Tokens', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Token'), ['controller' => 'Tokens', 'action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Inboxes'), ['controller' => 'Inboxes', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Inbox'), ['controller' => 'Inboxes', 'action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Mails'), ['controller' => 'Mails', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Mail'), ['controller' => 'Mails', 'action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Videos'), ['controller' => 'Videos', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Video'), ['controller' => 'Videos', 'action' => 'add']) ?></li>
+        <li class="heading"><?=__('Actions')?></li>
+        <li><?=$this->Html->link(__('List Users'), ['action' => 'index'])?></li>
+        <li><?=$this->Html->link(__('List Groups'), ['controller' => 'Groups', 'action' => 'index'])?></li>
+        <li><?=$this->Html->link(__('New Group'), ['controller' => 'Groups', 'action' => 'add'])?></li>
+        <li><?=$this->Html->link(__('List Avatars'), ['controller' => 'Avatars', 'action' => 'index'])?></li>
+        <li><?=$this->Html->link(__('New Avatar'), ['controller' => 'Avatars', 'action' => 'add'])?></li>
+        <li><?=$this->Html->link(__('List Tokens'), ['controller' => 'Tokens', 'action' => 'index'])?></li>
+        <li><?=$this->Html->link(__('New Token'), ['controller' => 'Tokens', 'action' => 'add'])?></li>
+        <li><?=$this->Html->link(__('List Inboxes'), ['controller' => 'Inboxes', 'action' => 'index'])?></li>
+        <li><?=$this->Html->link(__('New Inbox'), ['controller' => 'Inboxes', 'action' => 'add'])?></li>
+        <li><?=$this->Html->link(__('List Sents'), ['controller' => 'Sents', 'action' => 'index'])?></li>
+        <li><?=$this->Html->link(__('New Sent'), ['controller' => 'Sents', 'action' => 'add'])?></li>
+        <li><?=$this->Html->link(__('List Videos'), ['controller' => 'Videos', 'action' => 'index'])?></li>
+        <li><?=$this->Html->link(__('New Video'), ['controller' => 'Videos', 'action' => 'add'])?></li>
     </ul>
 </nav>
 <div class="users form large-9 medium-8 columns content">
-    <?= $this->Form->create($user) ?>
+    <?=$this->Form->create($user)?>
     <fieldset>
-        <legend><?= __('Add User') ?></legend>
+        <legend><?=__('Add User')?></legend>
         <?php
-            echo $this->Form->control('name');
-            echo $this->Form->control('email');
-            echo $this->Form->control('password');
-            echo $this->Form->control('active');
-            echo $this->Form->control('protected');
-            echo $this->Form->control('group_id', ['options' => $groups, 'empty' => true]);
-            echo $this->Form->control('last_login', ['empty' => true]);
-            echo $this->Form->control('videos._ids', ['options' => $videos]);
-        ?>
+echo $this->Form->control('name');
+echo $this->Form->control('email');
+echo $this->Form->control('password');
+echo $this->Form->control('active');
+echo $this->Form->control('protected');
+echo $this->Form->control('group_id', ['options' => $groups, 'empty' => true]);
+echo $this->Form->control('last_login', ['empty' => true]);
+echo $this->Form->control('videos._ids', ['options' => $videos]);
+?>
     </fieldset>
-    <?= $this->Form->button(__('Submit')) ?>
-    <?= $this->Form->end() ?>
+    <?=$this->Form->button(__('Submit'))?>
+    <?=$this->Form->end()?>
 </div>

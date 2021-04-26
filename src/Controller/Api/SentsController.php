@@ -29,7 +29,7 @@ use Cake\Http\Exception\NotFoundException;
 use Cake\Mailer\Email;
 use Cake\ORM\TableRegistry;
 
-class MailsController extends AppController
+class SentsController extends AppController
 {
 
     public function initialize()
@@ -58,7 +58,7 @@ class MailsController extends AppController
     public function index()
     {
 
-        $mails = $this->Mails->find('all');
+        $mails = $this->Sents->find('all');
 
         $this->set([
             'success' => true,
@@ -107,7 +107,7 @@ class MailsController extends AppController
                 $defaultSubject = __('New Client Request');
                 $template = 'new-user';
             } else if (isset($authUser)) {
-                $user = $this->Mails->Users->find()
+                $user = $this->Sents->Users->find()
                     ->where(['Users.email' => $data['email']])
                     ->toArray();
 
@@ -202,7 +202,7 @@ class MailsController extends AppController
              * save mail to database
              */
             $message['subject'] = $subject;
-            $this->Mails->patchEntity($entity, array_merge($patched, [
+            $this->Sents->patchEntity($entity, array_merge($patched, [
                 '_to' => implode(';', array_keys($to)),
                 '_from' => implode(';', array_keys($from)),
                 '_read' => 0,
@@ -222,7 +222,7 @@ class MailsController extends AppController
             $_to = explode(';', $entity->get('_to'));
 
             foreach ($_to as $key => $value) {
-                $user = $this->Mails->Users
+                $user = $this->Sents->Users
                     ->find()
                     ->select(['id'])
                     ->where(['Users.email' => $value])
@@ -248,7 +248,7 @@ class MailsController extends AppController
     public function get($id)
     {
 
-        $received = $this->Mails->find('byIdOrEmail', ['field' => $id]);
+        $received = $this->Sents->find('byIdOrEmail', ['field' => $id]);
 
         $this->set([
             'success' => true,
