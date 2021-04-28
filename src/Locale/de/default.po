@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "POT-Creation-Date: 2021-04-28 15:52+0200\n"
-"PO-Revision-Date: 2021-04-28 17:10+0200\n"
+"PO-Revision-Date: 2021-04-28 17:23+0200\n"
 "Last-Translator: \n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
 "Language: de\n"
@@ -1121,7 +1121,7 @@ msgstr "Vorlage bearbeiten"
 
 #: Template/Templates/index.ctp:16
 msgid "Templates"
-msgstr "Vorlage nicht gefunden"
+msgstr "Vorlagen"
 
 #: Template/Templates/view.ctp:11
 msgid "Delete Template"
