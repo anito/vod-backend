@@ -124,7 +124,7 @@ $content = explode("\n", $content);
             "
       >
         <div style="margin-left: 20px; margin-right: 20px">
-          <div style="line-height: 40px; font-size: 1px">&nbsp;</div>
+          <div style="line-height: 30px; font-size: 1px">&nbsp;</div>
         </div>
         <div class="content">
           <div class="starter"><?php echo 'Hallo ' . $name . ',' ?></div>

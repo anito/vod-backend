@@ -80,7 +80,7 @@ class SentsController extends AppController
             $patched = [];
             $authUser = $this->_getAuthUser();
             $sitename = Configure::check('Site.name') ? Configure::read('Site.name') : __('My website');
-            $defaultSubject = __('Mail from {0}', $sitename);
+            $defaultSubject = __('General Information');
 
             /**
              * distinguish between different types of mail
@@ -96,7 +96,7 @@ class SentsController extends AppController
                 }
 
                 /**
-                 * check if the user already exists to prevent autocreation
+                 * check if the user already exists to prevent user autocreation
                  */
                 $user = $this->Sents->Users->find()
                     ->where(['Users.email' => $data['user']['email']])
@@ -112,7 +112,9 @@ class SentsController extends AppController
 
                     $from = [$user['email'] => $user['name']];
                     $name = $user['name'];
-                    $subject = __('User {0}: {1}', $name, isset($data['subject']) ? $data['subject'] : '');
+                    $subject = __('Message from: {0}', $name);
+                    $data['before-content'] = isset($data['subject']) ? $data['subject'] : '';
+
                 } else {
                     /**
                      * new user will be autocreated
@@ -120,7 +122,8 @@ class SentsController extends AppController
                      */
                     $from = [$data['user']['email'] => $data['user']['name']];
                     $name = $data['user']['name'];
-                    $subject = __('New User {0}: {1}', $name, isset($data['subject']) ? $data['subject'] : '');
+                    $subject = __('New User: {0}', $name);
+                    $data['before-content'] = isset($data['subject']) ? $data['subject'] : '';
 
                     /**
                      * give the new user a password and role
@@ -137,15 +140,13 @@ class SentsController extends AppController
                 $template = 'from-user';
             } else if (isset($authUser)) {
                 /**
-                 * check if recipient exists
+                 * Recipient
                  */
                 $user = $this->Sents->Users->find()
                     ->where(['Users.email' => $data['email']])
-                    ->toArray();
+                    ->first();
 
-                if (!empty($user)) {
-                    $username = $user[0]->name;
-                } else {
+                if (!isset($user)) {
                     throw new NotFoundException();
                 }
 
@@ -153,9 +154,9 @@ class SentsController extends AppController
                  * mail created from authenticated user
                  */
                 $from = [$authUser['email'] => $authUser['name']];
-                $to = [$data['email'] => $username];
-                $name = $username;
-                $subject = isset($data['subject']) ? $data['subject'] : __('General Information');
+                $to = [$data['email'] => $user->name];
+                $name = $user->name;
+                $subject = isset($data['subject']) ? $data['subject'] : $defaultSubject;
 
                 $patched = array_merge($patched, [
                     'user_id' => $authUser['id'],
@@ -193,7 +194,6 @@ class SentsController extends AppController
              *  View Vars
              */
             $logo = Configure::read('Site.logo');
-            $subject = isset($subject) ? $subject : $defaultSubject;
             $beforeContent = isset($data['before-content']) ? $data['before-content'] : '';
             $content = isset($data['content']) ? $data['content'] : __('No message');
             $afterContent = isset($data['after-content']) ? $data['after-content'] : '';
@@ -222,7 +222,7 @@ class SentsController extends AppController
             $message = $mail
                 ->setFrom($from)
                 ->setTo($to)
-                ->setSubject($subject)
+                ->setSubject('[' . $sitename . '] ' . $subject)
                 ->setEmailFormat('html')
                 ->setViewVars($viewVars)
                 ->send();

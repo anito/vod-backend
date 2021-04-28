@@ -13,7 +13,7 @@
  * @license       https://opensource.org/licenses/mit-license.php MIT License
  */
 
-$content = explode("\n", $content);
+$content = !empty($content) ? explode("\n", $content) : $content;
 
 ?>
 
@@ -124,15 +124,22 @@ $content = explode("\n", $content);
             "
       >
         <div style="margin-left: 20px; margin-right: 20px">
-          <div style="line-height: 40px; font-size: 1px">&nbsp;</div>
+          <div style="line-height: 30px; font-size: 1px">&nbsp;</div>
         </div>
         <div class="content">
-          <div class="starter"><?php echo 'Hallo ' . $sitename . ' Team,' ?></div>
+          <p style="margin-top: 0; margin-bottom: 30">
+            <?php if (!empty($beforeContent)): ?>
+              <p><i><?php echo __('Option') ?>: <?php echo $beforeContent ?></i></p>
+            <?php endif;?>
+          </p>
+            <?php if (!empty($content)): ?>
+              <p><strong><?php echo __('Message') ?></strong></p>
           <?php
 foreach ($content as $line):
     echo '<p> ' . $line . "</p>";
 endforeach;
 ?>
+            <?php endif;?>
         </div>
         <div style="margin-left: 20px; margin-right: 20px">
           <div style="line-height: 40px; font-size: 1px">&nbsp;</div>
@@ -175,7 +182,7 @@ endforeach;
         <div style="margin-left: 20px; margin-right: 20px">
           <div style="vertical-align: middle">
           <?php if (!empty($name)): ?>
-            <p style="margin-top: 0; margin-bottom: 0">Herzlichst, <?php echo $name ?></p>
+            <p style="margin-top: 0; margin-bottom: 0"><?php echo $name ?></p>
           <?php endif;?>
           </div>
         </div>
