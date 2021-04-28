@@ -79,6 +79,8 @@ class SentsController extends AppController
             $entity = $event->getSubject()->entity;
             $patched = [];
             $authUser = $this->_getAuthUser();
+            $sitename = Configure::check('Site.name') ? Configure::read('Site.name') : __('My website');
+            $defaultSubject = __('Mail from {0}', $sitename);
 
             /**
              * distinguish between different types of mail
@@ -86,27 +88,57 @@ class SentsController extends AppController
             if (!isset($authUser) && isset($data['user'])) {
                 /**
                  * mail sent from landing page form AND unauthenticated user
-                 * will auto create a new user since the condition is met
+                 * will auto create a new user since $data['user'] exists
                  */
                 $admins = [];
                 foreach ($this->_getAdmins() as $admin) {
                     $admins[$admin['email']] = $admin['name'];
                 }
 
-                $from = [$data['user']['email'] => $data['user']['name']];
+                /**
+                 * check if the user already exists to prevent autocreation
+                 */
+                $user = $this->Sents->Users->find()
+                    ->where(['Users.email' => $data['user']['email']])
+                    ->first();
+
+                if (isset($user)) {
+                    /**
+                     * user exists
+                     * modify entity in order to stop autocreation
+                     */
+                    $entity->get('user')->isNew(false);
+                    $entity->set('user', $user);
+
+                    $from = [$user['email'] => $user['name']];
+                    $name = $user['name'];
+                    $subject = __('User {0}: {1}', $name, isset($data['subject']) ? $data['subject'] : '');
+                } else {
+                    /**
+                     * new user will be autocreated
+                     *
+                     */
+                    $from = [$data['user']['email'] => $data['user']['name']];
+                    $name = $data['user']['name'];
+                    $subject = __('New User {0}: {1}', $name, isset($data['subject']) ? $data['subject'] : '');
+
+                    /**
+                     * give the new user a password and role
+                     *
+                     */
+                    $patched = array_merge($patched, [
+                        'user' => [
+                            'password' => randomString(),
+                            'group_id' => $this->_getRoleIdFromName(),
+                        ],
+                    ]);
+                }
                 $to = $admins;
-                $name = $data['user']['name'];
-
-                $patched = array_merge($patched, [
-                    'user' => [
-                        'password' => randomString(),
-                        'group_id' => $this->_getRoleIdFromName(),
-                    ],
-                ]);
-
-                $defaultSubject = __('New Client Request');
-                $template = 'new-user';
+                $template = 'from-user';
             } else if (isset($authUser)) {
+                /**
+                 * check if recipient exists
+                 */
                 $user = $this->Sents->Users->find()
                     ->where(['Users.email' => $data['email']])
                     ->toArray();
@@ -123,7 +155,7 @@ class SentsController extends AppController
                 $from = [$authUser['email'] => $authUser['name']];
                 $to = [$data['email'] => $username];
                 $name = $username;
-                $defaultSubject = __('General Information');
+                $subject = isset($data['subject']) ? $data['subject'] : __('General Information');
 
                 $patched = array_merge($patched, [
                     'user_id' => $authUser['id'],
@@ -161,12 +193,11 @@ class SentsController extends AppController
              *  View Vars
              */
             $logo = Configure::read('Site.logo');
-            $subject = isset($data['subject']) ? $data['subject'] : $defaultSubject;
+            $subject = isset($subject) ? $subject : $defaultSubject;
             $beforeContent = isset($data['before-content']) ? $data['before-content'] : '';
-            $content = isset($data['content']) ? $data['content'] : '';
+            $content = isset($data['content']) ? $data['content'] : __('No message');
             $afterContent = isset($data['after-content']) ? $data['after-content'] : '';
             $beforeSitename = isset($data['before-sitename']) ? $data['before-sitename'] : '';
-            $sitename = $sitename = Configure::check('Site.name') ? Configure::read('Site.name') : __('You should specify a sitename');
             $afterSitename = isset($data['after-sitename']) ? $data['after-sitename'] : '';
             $beforeFooter = isset($data['before-footer']) ? $data['before-footer'] : '';
             $footer = isset($data['footer']) ? $data['footer'] : '';
@@ -209,14 +240,13 @@ class SentsController extends AppController
                 'message' => json_encode($message),
             ]));
 
-            $this->set([
-                'success' => true,
-                'data' => [],
-                '_serialize' => ['success', 'data'],
-            ]);
         });
 
         $this->Crud->on('afterSave', function (Event $event) {
+
+            if (!$event->getSubject()->success) {
+                return;
+            }
 
             $entity = $event->getSubject()->entity;
             $_to = explode(';', $entity->get('_to'));

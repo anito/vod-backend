@@ -128,17 +128,11 @@ $content = explode("\n", $content);
         </div>
         <div class="content">
           <div class="starter"><?php echo 'Hallo ' . $sitename . ' Team,' ?></div>
-          <?php if (!empty($beforeContent)): ?>
-            <p style="margin-top: 0; margin-bottom: 30"><?php echo $beforeContent ?></p>
-          <?php endif;?>
           <?php
 foreach ($content as $line):
     echo '<p> ' . $line . "</p>";
 endforeach;
 ?>
-          <?php if (!empty($afterContent)): ?>
-            <p style="margin-top: 0; margin-bottom: 0"><?php echo $afterContent ?></p>
-          <?php endif;?>
         </div>
         <div style="margin-left: 20px; margin-right: 20px">
           <div style="line-height: 40px; font-size: 1px">&nbsp;</div>

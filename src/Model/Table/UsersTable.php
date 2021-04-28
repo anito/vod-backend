@@ -17,7 +17,7 @@ use Firebase\JWT\JWT;
  * @property \App\Model\Table\GroupsTable&\Cake\ORM\Association\BelongsTo $Groups
  * @property \App\Model\Table\AvatarsTable&\Cake\ORM\Association\HasMany $Avatars
  * @property \App\Model\Table\InboxesTable&\Cake\ORM\Association\HasMany $Inboxes
- * @property \App\Model\Table\MailsTable&\Cake\ORM\Association\HasMany $Mails
+ * @property \App\Model\Table\SentsTable&\Cake\ORM\Association\HasMany $Sents
  * @property \App\Model\Table\TokensTable&\Cake\ORM\Association\HasOne $Tokens
  * @property \App\Model\Table\VideosTable&\Cake\ORM\Association\BelongsToMany $Videos
  *
@@ -63,7 +63,7 @@ class UsersTable extends Table
             'dependent' => true,
             'cascadeCallbacks' => true, // triggers core events on the foreign model (when also dependent set to true)
         ]);
-        $this->hasMany('Mails', [
+        $this->hasMany('Sents', [
             'foreignKey' => 'user_id',
             'dependent' => true,
             'cascadeCallbacks' => true, // triggers core events on the foreign model (when also dependent set to true)

@@ -4,9 +4,8 @@ namespace App\Model\Entity;
 use Authentication\PasswordHasher\DefaultPasswordHasher;
 use Cake\Log\Log;
 use Cake\ORM\Entity;
-use Firebase\JWT\JWT;
-use Cake\Core\Configure;
 use Cake\Utility\Security;
+use Firebase\JWT\JWT;
 
 /**
  * User Entity
@@ -25,14 +24,15 @@ use Cake\Utility\Security;
  * @property \App\Model\Entity\Group $group
  * @property \App\Model\Entity\Avatar[] $avatars
  * @property \App\Model\Entity\Inbox[] $inboxes
- * @property \App\Model\Entity\Mail[] $mails
+ * @property \App\Model\Entity\Mail[] $sents
  * @property \App\Model\Entity\Token[] $tokens
  * @property \App\Model\Entity\Video[] $videos
  */
 class User extends Entity
 {
 
-    protected function _setPassword($password) {
+    protected function _setPassword($password)
+    {
         if (strlen($password)) {
             $hasher = new DefaultPasswordHasher();
 
@@ -62,7 +62,7 @@ class User extends Entity
         'group' => true,
         'avatar' => true,
         'inboxes' => true,
-        'mails' => true,
+        'sents' => true,
         'token' => true,
         'videos' => true,
     ];
@@ -77,12 +77,12 @@ class User extends Entity
     ];
 
     protected $_virtual = [
-        'expires'
+        'expires',
     ];
 
     protected function _getExpires()
     {
-        if(isset($this->token)) {
+        if (isset($this->token)) {
             $jwt = $this->token->token;
 
             $tks = \explode('.', $jwt);
