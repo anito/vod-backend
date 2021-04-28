@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "POT-Creation-Date: 2021-04-28 15:52+0200\n"
-"PO-Revision-Date: 2021-04-28 15:57+0200\n"
+"PO-Revision-Date: 2021-04-28 17:10+0200\n"
 "Last-Translator: \n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
 "Language: de\n"
@@ -716,7 +716,7 @@ msgstr "Feld bearbeiten"
 #: Template/Items/add.ctp:12 Template/Items/edit.ctp:18
 #: Template/Items/index.ctp:12 Template/Items/view.ctp:15
 msgid "New Field"
-msgstr "Feld verfassen"
+msgstr "Neues Feld"
 
 #: Template/Fields/index.ctp:16
 msgid "Fields"
