@@ -25,6 +25,7 @@
         <?php
             echo $this->Form->control('user_id', ['options' => $users]);
             echo $this->Form->control('_from');
+            echo $this->Form->control('_to');
             echo $this->Form->control('_read');
             echo $this->Form->control('message');
         ?>

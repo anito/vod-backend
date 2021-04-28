@@ -20,8 +20,8 @@
                 <th scope="col"><?= $this->Paginator->sort('id') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('user_id') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('_from') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('_to') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('_read') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('message') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('created') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('modified') ?></th>
                 <th scope="col" class="actions"><?= __('Actions') ?></th>
@@ -33,10 +33,8 @@
                 <td><?= h($inbox->id) ?></td>
                 <td><?= $inbox->has('user') ? $this->Html->link($inbox->user->name, ['controller' => 'Users', 'action' => 'view', $inbox->user->id]) : '' ?></td>
                 <td><?= h($inbox->_from) ?></td>
+                <td><?= h($inbox->_to) ?></td>
                 <td><?= h($inbox->_read) ?></td>
-                <td>
-                    <iframe id="<?= h($inbox->id)?>" src="" frameborder="0" data-html="<?= h($inbox->message['message'])?>" ></iframe>
-                </td>
                 <td><?= h($inbox->created) ?></td>
                 <td><?= h($inbox->modified) ?></td>
                 <td class="actions">
@@ -59,16 +57,3 @@
         <p><?= $this->Paginator->counter(['format' => __('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')]) ?></p>
     </div>
 </div>
-
-<script>
-  window.addEventListener('load', () => {
-    let iFrames = document.documentElement.getElementsByTagName('iframe');
-    for(let iFrame of iFrames) {
-      if(iFrame.dataset.html) {
-          iFrame.contentDocument.open();
-          iFrame.contentDocument.write(iFrame.dataset.html);
-          iFrame.contentDocument.close();
-      }
-    }
-  })
-</script>

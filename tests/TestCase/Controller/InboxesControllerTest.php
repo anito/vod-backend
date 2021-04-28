@@ -22,7 +22,6 @@ class InboxesControllerTest extends TestCase
     public $fixtures = [
         'app.Inboxes',
         'app.Users',
-        'app.Messages',
     ];
 
     /**

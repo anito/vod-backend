@@ -31,10 +31,8 @@
             <td><?= h($inbox->_from) ?></td>
         </tr>
         <tr>
-            <th scope="row"><?= __('Message') ?></th>
-            <td>
-                <iframe id="<?= h($inbox->id)?>" src="" frameborder="0" data-html="<?= h($inbox->message['message'])?>" ></iframe>
-            </td>
+            <th scope="row"><?= __(' To') ?></th>
+            <td><?= h($inbox->_to) ?></td>
         </tr>
         <tr>
             <th scope="row"><?= __('Created') ?></th>
@@ -49,17 +47,8 @@
             <td><?= $inbox->_read ? __('Yes') : __('No'); ?></td>
         </tr>
     </table>
+    <div class="row">
+        <h4><?= __('Message') ?></h4>
+        <?= $this->Text->autoParagraph(h($inbox->message)); ?>
+    </div>
 </div>
-
-<script>
-  window.addEventListener('load', () => {
-    let iFrames = document.documentElement.getElementsByTagName('iframe');
-    for(let iFrame of iFrames) {
-      if(iFrame.dataset.html) {
-          iFrame.contentDocument.open();
-          iFrame.contentDocument.write(iFrame.dataset.html);
-          iFrame.contentDocument.close();
-      }
-    }
-  })
-</script>
