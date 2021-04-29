@@ -14,16 +14,18 @@ use Cake\ORM\TableRegistry;
 class UsersController extends AppController
 {
 
-    public function initialize() {
+    public function initialize()
+    {
         parent::initialize();
         // $this->Auth->allow(['add', 'view', 'edit']);
     }
 
-    public function login() {
+    public function login()
+    {
 
         if ($this->request->is('post')) {
             $user = $this->Auth->identify();
-            
+
             if ($user) {
                 $this->Auth->setUser($user);
                 $id = $user['id'];
@@ -41,7 +43,8 @@ class UsersController extends AppController
 
     }
 
-    public function logout() {
+    public function logout()
+    {
         $this->Flash->success('You are now logged out.');
         return $this->redirect($this->Auth->logout());
     }
@@ -71,7 +74,7 @@ class UsersController extends AppController
     public function view($id = null)
     {
         $user = $this->Users->get($id, [
-            'contain' => ['Groups', 'Videos', 'Avatars', 'Tokens', 'Inboxes', 'Mails'],
+            'contain' => ['Groups', 'Videos', 'Avatars', 'Tokens', 'Inboxes', 'Sents'],
         ]);
 
         $this->set('user', $user);
