@@ -45,6 +45,32 @@
     </table>
     <div class="row">
         <h4><?=__('Message')?></h4>
-        <?=$this->Text->autoParagraph(h($sent->message));?>
+        <div class="iframe-container">
+            <iframe id="<?=h($sent->id)?>" data-id="<?=h($sent->id)?>" src="" frameborder="0" data-message="<?=h($sent->message)?>" ></iframe>
+        </div>
     </div>
 </div>
+
+<style>
+    .iframe-container {
+        display: flex;
+    }
+    iframe {
+        flex: 1;
+        height: 500px;
+    }
+</style>
+
+<script>
+    window.addEventListener('load', () => {
+    let iFrames = document.documentElement.getElementsByTagName('iframe');
+    for(let iFrame of iFrames) {
+      if(iFrame.dataset.id === iFrame.getAttribute('id')) {
+          let html = JSON.parse(iFrame.dataset.message).message;
+          iFrame.contentDocument.open();
+          iFrame.contentDocument.write(html);
+          iFrame.contentDocument.close();
+      }
+    }
+  })
+</script>
