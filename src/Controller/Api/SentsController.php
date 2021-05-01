@@ -83,7 +83,12 @@ class SentsController extends AppController
             $defaultSubject = __('General Information');
 
             /**
-             * distinguish between different types of mail
+             * distinguish between different types of mail/users sending the mail:
+             * admins: sending a token, if authenticated we can assume they are of role admin
+             * non-admin: not sending a token
+             * although a non-admin (role user) could be logged in and send the form,
+             * he won't be authenticated (since the missing token)
+             * - non-admins should have a $data['user'] object in their payload
              */
             if (!isset($authUser) && isset($data['user'])) {
                 /**
