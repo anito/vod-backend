@@ -93,7 +93,7 @@ class UsersTable extends Table
         $validator
         // dont use uuid validation as long as there are still any scalar user ids
         // ->uuid('id', 'No valid UUID')
-        ->scalar('id')
+            ->scalar('id')
             ->allowEmptyString('id', null, 'create')
             ->add('id', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
 
