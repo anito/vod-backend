@@ -6,12 +6,6 @@ use App\Controller\Api\AppController;
 use Cake\Core\App;
 use Cake\Event\Event;
 use Cake\ORM\TableRegistry;
-use Cake\Http\Exception\UnauthorizedException;
-use Cake\Http\Session;
-use Cake\I18n\Time;
-use Cake\Utility\Text;
-use Cake\Log\Log;
-use Cake\ORM\Locator\LocatorInterface;
 use DateTime;
 
 /**
@@ -23,7 +17,7 @@ use DateTime;
 class TokensController extends AppController
 {
 
-    public function initialize()
+    public function initialize(): void
     {
         parent::initialize();
         $this->Auth->allow([]);
@@ -34,12 +28,12 @@ class TokensController extends AppController
                 'Crud.View',
                 'Crud.Add',
                 'Crud.Edit',
-                'Crud.Delete'
+                'Crud.Delete',
             ],
             'listeners' => [
                 'Crud.Api',
                 'Crud.ApiPagination',
-            ]
+            ],
         ]);
 
         $this->Crud->addListener('relatedModels', 'Crud.RelatedModels');
@@ -58,15 +52,15 @@ class TokensController extends AppController
 
             // get the latest video subscription to adjust the tokens expiration time
             $videosTable = TableRegistry::getTableLocator()->get('Videos');
-            $latestVideo = $videosTable->find('latestVideo', ['uid' => $uid]);
+            $latestVideo = $videosTable->find('latestVideo', ['uid' => $uid])->first();
 
-            if(!empty($latestVideo)) {
+            if (!empty($latestVideo)) {
                 $end = $latestVideo->_matchingData['UsersVideos']->end;
                 $end = $end->i18nFormat('yyyy-MM-dd HH:mm:ss');
 
                 // tokens expiration time normally equals last's videos subscription time -
-                // so in normal cases this (the token) would not change as long as the videos end date doesn't change 
-                // in case of tampered or stolen tokens however, we NEED to regenerate the token 
+                // so in normal cases this (the token) would not change as long as the videos end date doesn't change
+                // in case of tampered or stolen tokens however, we NEED to regenerate the token
                 // solution here is to add a timespan (now - time ellapsed today)
                 // which should be differ from second to second, hence gives us a new token different from the previous one
                 $startOfDayTimestamp = (new DateTime())->setTime(0, 0, 0)->getTimestamp();
@@ -77,25 +71,23 @@ class TokensController extends AppController
             }
 
             $jwt = $this->createToken($uid, $timestamp);
-            $entity->token = $jwt;
-            
-            $this->Tokens->patchEntity($entity, [$entity]);
+            $this->Tokens->patchEntity($entity, ['token' => $jwt]);
 
             // since we must use POST (PUT contains no body to hold our data?)
             // and eventhough we might only want to update the token,
             // we now have to remove all older tokens belonging to the same user
             $oldies = $this->Tokens->find()
-              ->where(['user_id' => $uid, 'token !=' => $jwt])
-              ->toList();
+                ->where(['user_id' => $uid, 'token !=' => $jwt])
+                ->toList();
 
             foreach ($oldies as $oldie) {
-              // trigger events
-              $this->Tokens->delete($oldie);
+                // trigger events
+                $this->Tokens->delete($oldie);
             }
         });
 
         // normally we would return the newly created token
-        // but in this case we want the (updated) user being sent back to the client
+        // but in this case we want the updated user being sent back to the client
         $this->Crud->on('afterSave', function (Event $event) use ($uid) {
 
             $usersTable = TableRegistry::getTableLocator()->get('Users');
@@ -105,21 +97,21 @@ class TokensController extends AppController
             ]);
 
             $this->set([
-                'success' => true,
                 'data' => $user,
                 'message' => __('Token created'),
-                '_serialize' => ['success', 'message', 'data'],
             ]);
+            $this->Crud->action()->serialize(['data', 'message']);
         });
 
         return $this->Crud->execute();
 
     }
 
-    public function delete($id) {
+    public function delete($id)
+    {
 
-        $this->Crud->on('afterDelete', function(Event $event) {
-            
+        $this->Crud->on('afterDelete', function (Event $event) {
+
             // return the full stacked user
             $uid = $event->getSubject()->entity->user_id;
 
@@ -129,12 +121,10 @@ class TokensController extends AppController
             ]);
 
             $this->set([
-                'success' => true,
                 'data' => $user,
                 'message' => __('Token removed'),
-                '_serialize' => ['success', 'message', 'data'],
             ]);
-
+            $this->Crud->action()->serialize(['data', 'message']);
         });
 
         return $this->Crud->execute();

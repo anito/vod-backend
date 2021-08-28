@@ -50,7 +50,7 @@ class VideosController extends AppController
      */
     public function add()
     {
-        $video = $this->Videos->newEntity();
+        $video = $this->Videos->newEmptyEntity();
         if ($this->request->is('post')) {
             $video = $this->Videos->patchEntity($video, $this->request->getData());
             if ($this->Videos->save($video)) {

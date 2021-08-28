@@ -47,7 +47,7 @@ class ImagesController extends AppController
      */
     public function add()
     {
-        $image = $this->Images->newEntity();
+        $image = $this->Images->newEmptyEntity();
         if ($this->request->is('post')) {
             $image = $this->Images->patchEntity($image, $this->request->getData());
             if ($this->Images->save($image)) {

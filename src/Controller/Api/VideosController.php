@@ -4,13 +4,8 @@ namespace App\Controller\Api;
 
 use App\Controller\Api\AppController;
 use Cake\Core\App;
-use Cake\Database\Expression\QueryExpression;
-use Cake\Database\Query as DatabaseQuery;
 use Cake\Event\Event;
-use Cake\Log\Log;
 use Cake\ORM\Query;
-use Cake\I18n\Time;
-use DateTime;
 
 /**
  * Videos Controller
@@ -21,7 +16,7 @@ use DateTime;
 class VideosController extends AppController
 {
 
-    public function initialize()
+    public function initialize(): void
     {
         parent::initialize();
 
@@ -45,37 +40,35 @@ class VideosController extends AppController
             'listeners' => [
                 'Crud.Api',
                 'Crud.ApiPagination',
-                'CrudJsonApi.JsonApi',
-                'CrudJsonApi.Pagination', // Pagination != ApiPagination
-                // 'Crud.ApiQueryLog',
             ],
         ]);
 
         $this->Crud->addListener('relatedModels', 'Crud.RelatedModels');
     }
 
-    public function index() {
+    public function index()
+    {
 
         $authUser = $this->_getAuthUser();
-        
+
         $role = $this->_getUserRoleName($authUser);
 
-        switch($role) {
+        switch ($role) {
 
             case 'Administrator':
                 $data = $this->Videos->find()
                     ->toArray();
                 break;
-            
+
             case 'Manager':
             case 'User':
             case 'Guest':
                 $data = $this->Videos->find()
-                    // see https://book.cakephp.org/3/en/orm/retrieving-data-and-resultsets.html#filtering-by-associated-data
-                    // see https: //stackoverflow.com/questions/26799094/how-to-filter-by-conditions-for-associated-models
-                    // see https: //stackoverflow.com/questions/10154717/php-cakephp-datetime-compare
-                    ->matching('Users', function(Query $q) use($authUser) {
-                        
+                // see https://book.cakephp.org/3/en/orm/retrieving-data-and-resultsets.html#filtering-by-associated-data
+                // see https: //stackoverflow.com/questions/26799094/how-to-filter-by-conditions-for-associated-models
+                // see https: //stackoverflow.com/questions/10154717/php-cakephp-datetime-compare
+                    ->matching('Users', function (Query $q) use ($authUser) {
+
                         $now = date('Y-m-d H:i:s');
 
                         $condition = [
@@ -83,12 +76,12 @@ class VideosController extends AppController
                             'UsersVideos.start <=' => $now,
                             'UsersVideos.end >=' => $now,
                         ];
-                        
+
                         return $q
                             ->where($condition);
                     })
                     ->toArray();
-    
+
         }
 
         $this->set([
@@ -101,14 +94,13 @@ class VideosController extends AppController
 
     public function add()
     {
-        $files = $this->request->getData('Files');
-        if (!empty($files)) {
-            
+        if (!empty($files = $this->request->getData('Files'))) {
+
             // make shure single uploads are handled correctly
-            if (!empty($files['tmp_name'])) {
+            if (!is_array($files)) {
                 $files = [$files];
             }
-            
+
             if (!empty($videos = $this->Upload->saveAs(VIDEOS, $files))) {
 
                 $videos = $this->Videos->newEntities($videos);
@@ -134,30 +126,27 @@ class VideosController extends AppController
 
                 $this->set([
                     'success' => false,
-                    'data' => [],
                     'message' => __('An Error occurred while uploading your files'),
-                    '_serialize' => ['success', 'data', 'message'],
+                    '_serialize' => ['success', 'message'],
                 ]);
             }
         }
     }
 
-    public function edit($id) {
+    public function edit($id)
+    {
         $this->Crud->on('afterSave', function (Event $event) {
-            if($event->getSubject()->success) {
+            if ($event->getSubject()->success) {
                 $this->set([
-                    'success' => true,
                     'message' => __('Video saved'),
-                    '_serialize' => ['success', 'message'],
                 ]);
             } else {
                 $this->set([
-                    'success' => false,
                     'message' => __('Video could not be saved'),
-                    '_serialize' => ['success', 'data', 'message'],
                 ]);
 
             }
+            $this->Crud->action()->serialize(['message']);
         });
 
         return $this->Crud->execute();
@@ -180,9 +169,15 @@ class VideosController extends AppController
 
                 if (!empty($oldies) && $oldies && !unlink($oldies[0])) {
                     $event->stopPropagation();
+
+                    $this->set([
+                        'message' => __('Video could not be deleted'),
+                    ]);
+
                 } else {
                     $this->File->rmdirr($path);
                 }
+                $this->Crud->action()->serialize(['message']);
             }
         });
 
@@ -190,19 +185,10 @@ class VideosController extends AppController
 
             if ($event->getSubject()->success) {
                 $this->set([
-                    'success' => true,
                     'message' => __('Video deleted'),
-                    '_serialize' => ['success', 'message'],
                 ]);
-            } else {
-                $this->set([
-                    'success' => false,
-                    'message' => __('Video could not be deleted'),
-                    '_serialize' => ['success', 'message'],
-                ]);
-
             }
-
+            $this->Crud->action()->serialize(['message']);
         });
 
         return $this->Crud->execute();
@@ -211,14 +197,14 @@ class VideosController extends AppController
     public function uri($id)
     {
         $data = [];
-        
+
         $params = $this->getRequest()->getQuery();
         $lg_path = VIDEOS . DS . $id . DS . 'lg';
         $files = glob($lg_path . DS . '*.*');
         if (!empty($files)) {
             $fn = basename($files[0]);
             $type = "videos";
-        
+
             $options = array_merge(compact(array('fn', 'id', 'type')), $params);
             $p = $this->Director->p($options);
             $json = json_encode($params);
@@ -247,7 +233,6 @@ class VideosController extends AppController
             );
             // die;
         }
-        
 
     }
 

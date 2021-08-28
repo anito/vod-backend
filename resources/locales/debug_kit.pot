@@ -1,0 +1,501 @@
+# LANGUAGE translation of CakePHP Application
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2020-12-06 16:54+0100\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/DebugTimer.php:135
+msgid "Core Processing (Derived from $_SERVER[\"REQUEST_TIME\"])"
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Controller/ComposerController.php:57
+msgid "You have to be connected to the internet"
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Controller/MailPreviewController.php:75
+msgid "No emails found in this request"
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Controller/MailPreviewController.php:137
+msgid "Email part ''{0}'' not found in email"
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Controller/MailPreviewController.php:260
+msgid "Mailer preview {0}::{1} not found"
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Controller/ToolbarController.php:47
+msgid "Invalid cache engine name."
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Controller/Component/ToolbarComponent.php:42
+msgid "{0} is now loaded through plugin bootstrapping. Make sure you have {1} in your application's {2}."
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Model/Table/PanelsTable.php:58
+msgid "Missing request id in {0}."
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Panel/PanelRegistry.php:63
+msgid "Unable to find ''{0}'' panel."
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Panel/VariablesPanel.php:78
+msgid "Could not retrieve debug info - {0}. Error: {1} in {2}, line {3}"
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Panel/VariablesPanel.php:176
+msgid "Unserializable object - {0}. Error: {1} in {2}, line {3}"
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Panel/VariablesPanel.php:179
+msgid "Unserializable Error: {1} in {2}, line {3}"
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Shell/BenchmarkShell.php:42
+msgid "-> Testing :url"
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Shell/BenchmarkShell.php:69
+msgid "Total Requests made: :requests"
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Shell/BenchmarkShell.php:70
+msgid "Total Time elapsed: :duration (seconds)"
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Shell/BenchmarkShell.php:74
+msgid "Requests/Second: :rps req/sec"
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Shell/BenchmarkShell.php:78
+msgid "Average request time: :average-time seconds"
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Shell/BenchmarkShell.php:82
+msgid "Standard deviation of average request time: :std-dev"
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Shell/BenchmarkShell.php:86
+msgid "Longest/shortest request: :longest sec/:shortest sec"
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Shell/BenchmarkShell.php:144
+msgid "Allows you to obtain some rough benchmarking statisticsabout a fully qualified URL."
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Shell/BenchmarkShell.php:150
+msgid "The URL to request."
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Shell/BenchmarkShell.php:155
+msgid "Number of iterations to perform."
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Shell/BenchmarkShell.php:159
+msgid "Maximum total time for all iterations, in seconds.If a single iteration takes more than the timeout, only one request will be made"
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Shell/BenchmarkShell.php:165
+msgid "Example Use: `cake benchmark --n 10 --t 100 http://localhost/testsite`. <info>Note:</info> this benchmark does not include browser render times."
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Shell/WhitespaceShell.php:98
+msgid "Absolute path or relative to {0}."
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Template/Dashboard/index.ctp:6
+msgid "Debug Kit Dashboard"
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Template/Dashboard/index.ctp:8
+msgid "Database"
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Template/Dashboard/index.ctp:10
+msgid "Driver"
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Template/Dashboard/index.ctp:12
+msgid "Requests"
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Template/Dashboard/index.ctp:17
+msgid "Reset database"
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Template/Dashboard/index.ctp:25
+msgid "Mail Preview"
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Template/Element/cache_panel.ctp:21
+msgid "There were no cache operations this request."
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Template/Element/cache_panel.ctp:25
+msgid "{0} Metrics"
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Template/Element/cache_panel.ctp:26
+msgid "Clear {0} cache"
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Template/Element/cache_panel.ctp:31
+msgid "Metric"
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Template/Element/cache_panel.ctp:32
+msgid "Total"
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Template/Element/cache_panel.ctp:73
+msgid "cache cleared."
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Template/Element/cache_panel.ctp:75
+msgid "cache could not be cleared."
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Template/Element/environment_panel.ctp:28
+msgid "Application Constants"
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Template/Element/environment_panel.ctp:34
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Template/Element/environment_panel.ctp:59
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Template/Element/environment_panel.ctp:135
+msgid "Constant"
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Template/Element/environment_panel.ctp:35
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Template/Element/environment_panel.ctp:60
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Template/Element/environment_panel.ctp:110
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Template/Element/environment_panel.ctp:136
+msgid "Value"
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Template/Element/environment_panel.ctp:49
+msgid "No application environment available."
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Template/Element/environment_panel.ctp:53
+msgid "CakePHP Constants"
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Template/Element/environment_panel.ctp:74
+msgid "CakePHP environment unavailable."
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Template/Element/environment_panel.ctp:78
+msgid "INI Environment"
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Template/Element/environment_panel.ctp:99
+msgid "ini environment unavailable."
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Template/Element/environment_panel.ctp:103
+msgid "PHP Environment"
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Template/Element/environment_panel.ctp:109
+msgid "Environment Variable"
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Template/Element/environment_panel.ctp:124
+msgid "PHP environment unavailable."
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Template/Element/environment_panel.ctp:129
+msgid "Hidef Environment"
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Template/Element/environment_panel.ctp:150
+msgid "No Hidef environment available."
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Template/Element/history_panel.ctp:23
+msgid "No previous requests logged."
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Template/Element/history_panel.ctp:25
+msgid "previous requests available"
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Template/Element/history_panel.ctp:29
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Template/Element/history_panel.ctp:53
+msgid "Back to current request"
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Template/Element/include_panel.ctp:30
+msgid "Include Paths"
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Template/Element/include_panel.ctp:33
+msgid "Included Files"
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Template/Element/log_panel.ctp:21
+msgid "There were no log entries made this request"
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Template/Element/log_panel.ctp:24
+msgid "{0} Messages"
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Template/Element/log_panel.ctp:28
+msgid "Time"
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Template/Element/log_panel.ctp:29
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Template/Element/timer_panel.ctp:32
+msgid "Message"
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Template/Element/mail_panel.ctp:2
+msgid "Why not test your emails interactively instead? Go to the {0}"
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Template/Element/mail_panel.ctp:4
+msgid "Email previews page"
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Template/Element/mail_panel.ctp:8
+msgid "No emails were sent during this request"
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Template/Element/mail_panel.ctp:17
+msgid "Subject"
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Template/Element/packages_panel.ctp:22
+msgid "{0} not found"
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Template/Element/packages_panel.ctp:26
+msgid "Check for Updates"
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Template/Element/packages_panel.ctp:27
+msgid "Direct dependencies only"
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Template/Element/packages_panel.ctp:32
+msgid "Requirements ({0})"
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Template/Element/packages_panel.ctp:36
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Template/Element/packages_panel.ctp:62
+msgid "Name"
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Template/Element/packages_panel.ctp:37
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Template/Element/packages_panel.ctp:63
+msgid "Version"
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Template/Element/packages_panel.ctp:58
+msgid "Dev Requirements ({0})"
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Template/Element/packages_panel.ctp:99
+msgid "Loading"
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Template/Element/request_panel.ctp:30
+msgid "Warning"
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Template/Element/request_panel.ctp:31
+msgid "Headers already sent at file {0} and line {1}."
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Template/Element/request_panel.ctp:34
+msgid "Routing Params"
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Template/Element/request_panel.ctp:37
+msgid "Post data"
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Template/Element/request_panel.ctp:40
+msgid "No post data."
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Template/Element/request_panel.ctp:49
+msgid "No querystring data."
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Template/Element/request_panel.ctp:59
+msgid "No Cookie data."
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Template/Element/request_panel.ctp:63
+msgid "Matched Route"
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Template/Element/routes_panel.ctp:11
+msgid "Toggle debugkit internal routes"
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Template/Element/routes_panel.ctp:16
+msgid "Route name"
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Template/Element/routes_panel.ctp:17
+msgid "URI template"
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Template/Element/routes_panel.ctp:18
+msgid "Defaults"
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Template/Element/sql_log_panel.ctp:35
+msgid "Generated Models"
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Template/Element/sql_log_panel.ctp:36
+msgid "The following Table objects used {0} instead of a concrete class:"
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Template/Element/sql_log_panel.ctp:58
+msgid "Total Time: {0} ms &mdash; Total Queries: {1} &mdash; Total Rows: {2}"
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Template/Element/sql_log_panel.ctp:71
+msgid "Query"
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Template/Element/sql_log_panel.ctp:72
+msgid "Rows"
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Template/Element/sql_log_panel.ctp:73
+msgid "Took (ms)"
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Template/Element/sql_log_panel.ctp:91
+msgid "No active database connections"
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Template/Element/timer_panel.ctp:23
+msgid "Memory"
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Template/Element/timer_panel.ctp:25
+msgid "Peak Memory Use:"
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Template/Element/timer_panel.ctp:33
+msgid "Memory Use"
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Template/Element/timer_panel.ctp:48
+msgid "Timers"
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Template/Element/timer_panel.ctp:50
+msgid "Total Request Time:"
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Template/Element/timer_panel.ctp:57
+msgid "Event"
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Template/Element/timer_panel.ctp:58
+msgid "Time in ms"
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Template/Element/timer_panel.ctp:59
+msgid "Timeline"
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Template/Element/variables_panel.ctp:28
+msgid "Sort variables by name"
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Template/Element/variables_panel.ctp:34
+msgid "Validation errors"
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Template/Layout/dashboard.ctp:6
+msgid "DebugKit Dashboard"
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Template/Layout/mailer.ctp:6
+msgid "Mailer Previews"
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Template/MailPreview/email.ctp:24
+msgid "You are trying to preview an email that does not have any content."
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Template/MailPreview/index.ctp:29
+msgid "How to use this feature?"
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Template/MailPreview/index.ctp:30
+msgid "Testing emails can be very time consuming"
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Template/MailPreview/index.ctp:31
+msgid "Specially when you need to click a bunch of times on an interface to trigger them."
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Template/MailPreview/index.ctp:32
+msgid "Wouldn't it be better to just change the templates and refresh the browser to see the result?"
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Template/MailPreview/index.ctp:33
+msgid "Just the way you work on the web interface!"
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Template/MailPreview/index.ctp:35
+msgid "Example"
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Template/MailPreview/index.ctp:36
+msgid "{0} integrates with CakePHP’s {1} class. Here's an example of such a mailer:"
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Template/MailPreview/index.ctp:50
+msgid "Returning the chain is a good idea"
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Template/MailPreview/index.ctp:53
+msgid "By default template with same name as method name is used."
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Template/MailPreview/index.ctp:61
+msgid "Now you create a {0} class where you can pass some dummy values."
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Template/MailPreview/index.ctp:87
+msgid "Note that the function MUST return the UserMailer object at the end."
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Template/MailPreview/index.ctp:88
+msgid "Since {0} have a fluent interface, you just need to return the result of the chain of calls."
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/Template/MailPreview/index.ctp:89
+msgid "That's it, now refresh this page!"
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/View/Helper/SimpleGraphHelper.php:76
+msgid "Starting {0}ms into the request, taking {1}ms"
+msgstr ""
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/debug_kit/src/View/Helper/TidyHelper.php:111
+msgid "No markup errors found"
+msgstr ""
+

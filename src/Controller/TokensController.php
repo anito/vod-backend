@@ -50,7 +50,7 @@ class TokensController extends AppController
      */
     public function add()
     {
-        $token = $this->Tokens->newEntity();
+        $token = $this->Tokens->newEmptyEntity();
         if ($this->request->is('post')) {
             $token = $this->Tokens->patchEntity($token, $this->request->getData());
             if ($this->Tokens->save($token)) {

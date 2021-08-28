@@ -50,7 +50,7 @@ class SentsController extends AppController
      */
     public function add()
     {
-        $sent = $this->Sents->newEntity();
+        $sent = $this->Sents->newEmptyEntity();
         if ($this->request->is('post')) {
             $sent = $this->Sents->patchEntity($sent, $this->request->getData());
             if ($this->Sents->save($sent)) {

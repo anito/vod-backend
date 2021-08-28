@@ -23,11 +23,12 @@ namespace App\Controller\Api;
 
 use App\Controller\Api\AppController;
 use Cake\Core\Configure;
-use Cake\Log\Log;
 
-class SettingsController extends AppController {
+class SettingsController extends AppController
+{
 
-    function initialize() {
+    public function initialize(): void
+    {
         parent::initialize();
 
         $this->Auth->allow(['index']);
@@ -43,7 +44,8 @@ class SettingsController extends AppController {
         ]);
     }
 
-    public function index() {
+    public function index()
+    {
 
         $allowed = ['Session', 'Site'];
         $settings = Configure::read();
@@ -52,9 +54,9 @@ class SettingsController extends AppController {
         $this->set([
             'success' => true,
             'data' => [
-                'settings' => $settings
+                'settings' => $settings,
             ],
-            '_serialize' => ['success', 'data']
+            '_serialize' => ['success', 'data'],
         ]);
     }
 }

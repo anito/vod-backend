@@ -43,55 +43,58 @@ use Cake\Routing\Route\DashedRoute;
  * constructor in your `src/Application.php` file to change this behavior.
  *
  */
-Router::defaultRouteClass(DashedRoute::class);
+$routes->setRouteClass(DashedRoute::class);
 
-Router::scope('/', function (RouteBuilder $routes) {
+// Router::scope('/', function (RouteBuilder $routes) {
+$routes->scope('/', function (RouteBuilder $builder) {
     // Register scoped middleware for in scopes.
-    $routes->registerMiddleware('csrf', new CsrfProtectionMiddleware());
+    $builder->registerMiddleware('csrf', new CsrfProtectionMiddleware());
 
     /**
      * Apply a middleware to the current route scope.
      * Requires middleware to be registered via `Application::routes()` with `registerMiddleware()`
      */
-    // $routes->applyMiddleware('csrf');
+    // $builder->applyMiddleware('csrf');
 
     /**
      * Here, we are connecting '/' (base path) to a controller called 'Pages',
      * its action called 'display', and we pass a param to select the view file
      * to use (in this case, src/Template/Pages/home.ctp)...
      */
-    $routes->connect('/', ['controller' => 'Pages', 'action' => 'display', 'home']);
+    $builder->connect('/', ['controller' => 'Pages', 'action' => 'display', 'home']);
 
     /**
      * ...and connect the rest of 'Pages' controller's URLs.
      */
-    $routes->connect('/pages/*', ['controller' => 'Pages', 'action' => 'display']);
-    $routes->connect('/login', array('controller' => 'Users', 'action' => 'login'));
-    $routes->connect('/logout', array('controller' => 'Users', 'action' => 'logout'));
-    $routes->connect('/register', array('controller' => 'Users', 'action' => 'add'));
+    $builder->connect('/pages/*', ['controller' => 'Pages', 'action' => 'display']);
+    $builder->connect('/login', array('controller' => 'Users', 'action' => 'login'));
+    $builder->connect('/logout', array('controller' => 'Users', 'action' => 'logout'));
+    $builder->connect('/register', array('controller' => 'Users', 'action' => 'add'));
 
-    Router::prefix('api', function ($routes) {
+    $builder->prefix('Api', function (RouteBuilder $builder) {
         // Only controllers explicitly enabled for API use will be accessible through API
-        $routes->setExtensions(['json', 'xml']);
-        $routes->resources('Users');
-        $routes->resources('Videos');
-        $routes->resources('Images');
-        $routes->resources('Tokens');
-        $routes->resources('Avatars');
-        $routes->resources('Sents');
-        $routes->resources('Inboxes');
-        $routes->resources('Templates');
-        $routes->resources('EmailTemplates');
+        $builder->setExtensions(['json', 'xml']);
 
-        Router::connect('/api/register', ['controller' => 'Users', 'action' => 'add', 'prefix' => 'api']);
-        Router::connect('/api/login', ['controller' => 'Users', 'action' => 'login', 'prefix' => 'api']);
-        Router::connect('/api/logout', ['controller' => 'Users', 'action' => 'logout', 'prefix' => 'api']);
-        Router::connect('/api/u/v/*', ['controller' => 'Videos', 'action' => 'uri', 'prefix' => 'api']);
-        Router::connect('/api/u/i/*', ['controller' => 'Images', 'action' => 'uri', 'prefix' => 'api']);
-        Router::connect('/api/u/a/*', ['controller' => 'Avatars', 'action' => 'uri', 'prefix' => 'api']);
-        Router::connect('/api/q/:crypt/:timestamp/*', ['controller' => 'Kodaks', 'action' => 'process', 'prefix' => 'api']);
+        $builder->resources('Avatars');
+        $builder->resources('EmailTemplates');
+        $builder->resources('Images');
+        $builder->resources('Inboxes');
+        $builder->resources('Sents');
+        $builder->resources('Settings');
+        $builder->resources('Tokens');
+        $builder->resources('Templates');
+        $builder->resources('Users');
+        $builder->resources('Videos');
 
-        $routes->fallbacks('InflectedRoute');
+        $builder->connect('/login', ['controller' => 'Users', 'action' => 'login']);
+        $builder->connect('/logout', ['controller' => 'Users', 'action' => 'logout']);
+        $builder->connect('/q/:crypt/:timestamp/*', ['controller' => 'Kodaks', 'action' => 'process']);
+        $builder->connect('/register', ['controller' => 'Users', 'action' => 'add']);
+        $builder->connect('/u/v/*', ['controller' => 'Videos', 'action' => 'uri']);
+        $builder->connect('/u/i/*', ['controller' => 'Images', 'action' => 'uri']);
+        $builder->connect('/u/a/*', ['controller' => 'Avatars', 'action' => 'uri']);
+
+        $builder->fallbacks(DashedRoute::class);
     });
 
     /**
@@ -113,7 +116,7 @@ Router::scope('/', function (RouteBuilder $routes) {
      * You can remove these routes once you've connected the
      * routes you want in your application.
      */
-    $routes->fallbacks(DashedRoute::class);
+    $builder->fallbacks(DashedRoute::class);
 });
 
 /**

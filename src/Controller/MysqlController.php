@@ -2,11 +2,8 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
-use Cake\Routing\Router;
-use Cake\Utility\Security;
-use Cake\Core\Configure;
 use Cake\Cache\Cache;
-use Cake\Log\Log;
+use Cake\Routing\Router;
 
 /**
  * Mysql Controller
@@ -18,7 +15,8 @@ use Cake\Log\Log;
 class MysqlController extends AppController
 {
 
-    function initialize() {
+    public function initialize(): void
+    {
         parent::initialize();
 
         // $this->autoRender = false;
@@ -54,7 +52,7 @@ class MysqlController extends AppController
     public function view($id = null)
     {
         $mysql = $this->Mysql->get($id, [
-            'contain' => []
+            'contain' => [],
         ]);
 
         $this->set('mysql', $mysql);
@@ -67,7 +65,7 @@ class MysqlController extends AppController
      */
     public function add()
     {
-        $mysql = $this->Mysql->newEntity();
+        $mysql = $this->Mysql->newEmptyEntity();
         if ($this->request->is('post')) {
             $mysql = $this->Mysql->patchEntity($mysql, $this->request->getData());
             if ($this->Mysql->save($mysql)) {
@@ -90,7 +88,7 @@ class MysqlController extends AppController
     public function edit($id = null)
     {
         $mysql = $this->Mysql->get($id, [
-            'contain' => []
+            'contain' => [],
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $mysql = $this->Mysql->patchEntity($mysql, $this->request->getData());
@@ -124,7 +122,8 @@ class MysqlController extends AppController
         return $this->redirect(['action' => 'index']);
     }
 
-    public function uri() {
+    public function uri()
+    {
         $this->autoRender = false;
 
         $json = array();
@@ -134,7 +133,7 @@ class MysqlController extends AppController
 
             if (!empty($this->data)) {
                 foreach ($this->data as $data) {
-                    if(!empty($data['fn'])) {
+                    if (!empty($data['fn'])) {
                         $fn = $data['fn'];
                     }
                 }
@@ -144,24 +143,25 @@ class MysqlController extends AppController
             $fn = basename($files[0]);
             $redirect = $this->request->getParam('redirect');
 
-            if(!empty($files[0])) {
+            if (!empty($files[0])) {
                 $options = compact(array('uid', 'fn'));
                 $file = p($this, $options);
             } else {
                 $message = 'kein Download verfügbar';
                 $result = 'error';
-                header("Location: http://" . $_SERVER['HTTP_HOST'] . str_replace('//', '/', '/' . BASE_URL . '/pages/response?m=' . urlencode( $message ) . '&c=' . $result . '&redirect=' . urlencode($redirect) ));
+                header("Location: http://" . $_SERVER['HTTP_HOST'] . str_replace('//', '/', '/' . BASE_URL . '/pages/response?m=' . urlencode($message) . '&c=' . $result . '&redirect=' . urlencode($redirect)));
                 die;
             }
         } else {
             header('HTTP/1.1 403 Forbidden');
             die;
         }
-        header("Location: $file" );
+        header("Location: $file");
         die;
     }
 
-    function getFile() {
+    public function getFile()
+    {
         $this->autoRender = false;
 
         $val = $this->request->getParam('named.a');

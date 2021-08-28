@@ -5,7 +5,6 @@ use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
-use Cake\Log\Log;
 
 /**
  * Videos Model
@@ -32,7 +31,7 @@ class VideosTable extends Table
      * @param array $config The configuration for the Table.
      * @return void
      */
-    public function initialize(array $config)
+    public function initialize(array $config): void
     {
         parent::initialize($config);
 
@@ -58,7 +57,7 @@ class VideosTable extends Table
      * @param \Cake\Validation\Validator $validator Validator instance.
      * @return \Cake\Validation\Validator
      */
-    public function validationDefault(Validator $validator)
+    public function validationDefault(Validator $validator): \Cake\Validation\Validator
     {
         $validator
             ->scalar('id')
@@ -99,7 +98,7 @@ class VideosTable extends Table
      * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
      * @return \Cake\ORM\RulesChecker
      */
-    public function buildRules(RulesChecker $rules)
+    public function buildRules(RulesChecker $rules): \Cake\ORM\RulesChecker
     {
         $rules->add($rules->existsIn(['image_id'], 'Images'));
 
@@ -110,20 +109,21 @@ class VideosTable extends Table
     {
         $query = $this->find('all')
             ->contain('Images');
-        
+
         return $query;
     }
 
-    public function findLatestVideo(Query $query, $options) {
-        
+    public function findLatestVideo(Query $query, $options)
+    {
+
         $uid = $options['uid'];
         return $query
-            ->matching('Users', function(Query $q) use($uid) {
+            ->matching('Users', function (Query $q) use ($uid) {
                 $now = date('Y-m-d H:i:s');
 
                 $condition = [
                     'Users.id' => $uid,
-                    'UsersVideos.end >' => $now
+                    'UsersVideos.end >' => $now,
                 ];
 
                 return $q
@@ -131,12 +131,11 @@ class VideosTable extends Table
             })
             ->select([
                 'UsersVideos.user_id',
-                'UsersVideos.end'
+                'UsersVideos.end',
             ])
             ->order([
-                'UsersVideos.end' => 'DESC'
-            ])
-            ->first();
-
+                'UsersVideos.end' => 'DESC',
+            ]);
+        // ->first();
     }
 }

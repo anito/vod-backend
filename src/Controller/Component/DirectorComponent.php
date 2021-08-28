@@ -10,7 +10,7 @@ class DirectorComponent extends Component
 
     public $components = ['Salt', 'File'];
 
-    public function startup(Event $event)
+    public function startup(\Cake\Event\EventInterface $event)
     {
 
         /** @var \Cake\Controller\Controller $controller */
@@ -19,7 +19,7 @@ class DirectorComponent extends Component
 
     }
 
-    public function initialize(array $config)
+    public function initialize(array $config): void
     {
         // Execute any other additional setup
     }

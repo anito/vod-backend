@@ -13,7 +13,7 @@ use Firebase\JWT\JWT;
 
 class UsersController extends AppController
 {
-    public function initialize()
+    public function initialize(): void
     {
         parent::initialize();
         $this->Auth->allow(['token', 'logout', 'login']);
@@ -75,10 +75,10 @@ class UsersController extends AppController
 
             $user = $event->getSubject()->query
                 ->contain(
-                    'Mails', function (Query $q) {
+                    'Sents', function (Query $q) {
                         return $q
                             ->select([
-                                'Mails.user_id',
+                                'Sents.user_id',
                                 'total' => $q->func()->count('*'),
                             ]);
                     })
@@ -88,7 +88,7 @@ class UsersController extends AppController
                             ->select([
                                 'Inboxes.user_id',
                                 'total' => $q->func()->count('*'),
-                                'read' => $q->func()->sum('Inboxes._read'),
+                                'readings' => $q->func()->sum('Inboxes._read'),
                             ]);
                     })
                 ->contain(['Groups', 'Avatars', 'Videos', 'Tokens'])
@@ -98,7 +98,7 @@ class UsersController extends AppController
 
         });
 
-        // $this->Crud->action()->config('serialize.data', 'data');
+        $this->Crud->action()->serialize(['data']);
 
         return $this->Crud->execute();
 
@@ -108,7 +108,7 @@ class UsersController extends AppController
     {
         $this->Crud->on('afterSave', function (Event $event) {
             if ($event->getSubject()->entity->hasErrors()) {
-                $errors = $event->getSubject()->entity->errors();
+                $errors = $event->getSubject()->entity->getErrors();
                 $field = array_key_first($errors);
                 $type = array_key_first($errors[$field]);
 
@@ -118,15 +118,19 @@ class UsersController extends AppController
 
             if ($event->getSubject()->created) {
                 $id = $event->getSubject()->entity->id;
-                $this->set('data', [
-                    'id' => $id,
-                    'message' => __('User created'),
-                    'token' => JWT::encode([
-                        'sub' => $id,
-                        'exp' => time() + Configure::read('Token.lifetime'),
+                $this->set([
+                    'data' => [
+                        'id' => $id,
+                        'token' => JWT::encode([
+                            'sub' => $id,
+                            'exp' => time() + Configure::read('Token.lifetime'),
+                        ],
+                            Security::getSalt()),
                     ],
-                        Security::getSalt()),
-                ]);
+                    'message' => __('User created'),
+                ]
+                );
+                $this->Crud->action()->serialize(['data', 'message']);
             }
         });
         return $this->Crud->execute();
@@ -152,9 +156,9 @@ class UsersController extends AppController
             $this->set([
                 'data' => $user,
                 'message' => $message,
-                '_serialize' => ['success', 'data', 'message'],
             ]);
 
+            $this->Crud->action()->serialize(['data', 'message']);
         });
         return $this->Crud->execute();
     }
@@ -182,9 +186,12 @@ class UsersController extends AppController
                 throw new ForbiddenException($message);
             }
             $message = __('User deleted');
-            $this->set('data', [
+            $this->set([
+                'data' => [],
                 'message' => $message,
             ]);
+
+            $this->Crud->action()->serialize(['data', 'message']);
 
         });
         return $this->Crud->execute();

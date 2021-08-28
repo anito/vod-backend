@@ -3,7 +3,6 @@ namespace App\Controller\Api;
 
 use App\Controller\Api\AppController;
 use Cake\Cache\Cache;
-use Cake\Log\Log;
 use Exception as GlobalException;
 
 class NonExistentFileException extends \RuntimeException
@@ -12,55 +11,56 @@ class NonExistentFileException extends \RuntimeException
 class KodaksController extends AppController
 {
 
-    public function initialize() {
+    public function initialize(): void
+    {
         parent::initialize();
         define('USE_X_SEND', false);
         Cache::disable();
         $this->Auth->allow([]);
-        $this->loadComponent( 'File' );
-        $this->loadComponent( 'Salt' );
-        $this->loadComponent( 'Director' );
+        $this->loadComponent('File');
+        $this->loadComponent('Salt');
+        $this->loadComponent('Director');
     }
 
-    private function n($a, $index, $default = NULL) {
+    private function n($a, $index, $default = null)
+    {
         $var = $this->isArrayAt($a, $index);
         $var = trim($var);
         if (is_numeric($var)) {
             return $var;
-        } else if ( isset( $default ) ) {
+        } else if (isset($default)) {
             return $default;
         } else {
             exit;
         }
     }
 
-    private function isArrayAt($a, $index) {
-        if(!isset($a[$index])) {
+    private function isArrayAt($a, $index)
+    {
+        if (!isset($a[$index])) {
             throw new GlobalException(__('No Index Found Error'));
         }
         return $a[$index];
     }
 
-    public function process() {
+    public function process()
+    {
 
-        $val = $this->getRequest()->getParam( 'crypt' );
-        $timestamp = $this->getRequest()->getParam( 'timestamp' );
+        $val = $this->getRequest()->getParam('crypt');
+        $timestamp = $this->getRequest()->getParam('timestamp');
         $isVideo = false;
 
-        if ( strpos( $val, 'http://' ) !== false || substr($val, 0, 1) == '/' ) {
+        if (strpos($val, 'http://') !== false || substr($val, 0, 1) == '/') {
             header('Location: ' . $val);
             exit;
         } else {
             $val = str_replace(' ', '.2B', $val);
         }
 
-
-        $val = str_replace( ' ', '.2B', $val );
-        $crypt = $this->Salt->convert( $val, false ); // decrypt
-        // Log::debug('crypt:');
-        // Log::debug($crypt);
+        $val = str_replace(' ', '.2B', $val);
+        $crypt = $this->Salt->convert($val, false); // decrypt
         $a = explode(',', $crypt);
-        
+
         $file = $fn = basename($a[0]);
 
         // Make sure supplied filename contains only approved chars
@@ -69,18 +69,18 @@ class KodaksController extends AppController
             exit;
         }
 
-        $id     = $this->isArrayAt($a, 1);
-        $w      = $this->n($a, 2);
-        $h      = $this->n($a, 3);
-        $sq     = $this->n($a, 4, 2);
-        $q      = $this->n($a, 5, 100);
-        $sh     = $this->n($a, 6, 0);
-        $x      = $this->n($a, 7, 50);
-        $y      = $this->n($a, 8, 50);
-        $force  = $this->n($a, 9, 0);
-        $type   = $this->isArrayAt($a, 10);
+        $id = $this->isArrayAt($a, 1);
+        $w = $this->n($a, 2);
+        $h = $this->n($a, 3);
+        $sq = $this->n($a, 4, 2);
+        $q = $this->n($a, 5, 75);
+        $sh = $this->n($a, 6, 0);
+        $x = $this->n($a, 7, 50);
+        $y = $this->n($a, 8, 50);
+        $force = $this->n($a, 9, 0);
+        $type = $this->isArrayAt($a, 10);
 
-        $ext = $this->File->returnExt( $file );
+        $ext = $this->File->returnExt($file);
 
         if (!defined('PATH')) {
             define('PATH', $this->Director->getPathConstant($type));
@@ -93,7 +93,7 @@ class KodaksController extends AppController
             $isVideo = true;
         }
 
-        if ( $sq==2 ) {
+        if ($sq == 2) {
             $base_dir = PATH . DS . $id . DS . 'lg';
             $path_to_cache = $original;
         } else {
@@ -123,8 +123,10 @@ class KodaksController extends AppController
                 copy($original, $path_to_cache);
             } else {
                 if (!defined('MAGICK_PATH')) {
-                    if (!defined('MAGICK_PATH_FINAL'))
+                    if (!defined('MAGICK_PATH_FINAL')) {
                         define('MAGICK_PATH_FINAL', 'convert');
+                    }
+
                 } else if (strpos(strtolower(MAGICK_PATH), 'c:\\') !== false) {
                     define('MAGICK_PATH_FINAL', '"' . MAGICK_PATH . '"');
                 } else {
@@ -140,14 +142,14 @@ class KodaksController extends AppController
                     umask($old);
                 }
 
-                $this->loadComponent( 'Darkroom' );
+                $this->loadComponent('Darkroom');
                 $this->Darkroom->develop($original, $path_to_cache, $w, $h, $sq, $q, $x, $y, $force);
             }
         }
 
         $mtime = filemtime($path_to_cache);
         $etag = md5($path_to_cache . $mtime);
-        $content_type = mime_content_type( $path_to_cache);
+        $content_type = mime_content_type($path_to_cache);
 
         if (!$noob) {
             if (isset($_SERVER['HTTP_IF_NONE_MATCH']) && ($_SERVER['HTTP_IF_NONE_MATCH'] == $etag)) {
@@ -169,7 +171,7 @@ class KodaksController extends AppController
             header('Last-Modified: ' . gmdate('D, d M Y H:i:s', $mtime));
             header('ETag: ' . $etag);
         }
-        if(!$isVideo) {
+        if (!$isVideo) {
             header('Content-Length: ' . filesize($path_to_cache));
             header('Content-Type: ' . $content_type);
             die(file_get_contents($path_to_cache));
@@ -183,5 +185,5 @@ class KodaksController extends AppController
         }
 
     }
-    
+
 }

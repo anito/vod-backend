@@ -1,0 +1,1644 @@
+# LANGUAGE translation of CakePHP Application
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2021-08-25 16:49+0200\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: Controller/Api/AppController.php:27
+msgid "Not Authorized"
+msgstr ""
+
+#: Controller/Api/ImagesController.php:66
+msgid "Image saved"
+msgstr ""
+
+#: Controller/Api/ImagesController.php:74
+msgid "An error occurred saving your image data"
+msgstr ""
+
+#: Controller/Api/ImagesController.php:83
+#: Controller/Api/VideosController.php:138
+msgid "An Error occurred while uploading your files"
+msgstr ""
+
+#: Controller/Api/ImagesController.php:109
+#: Controller/Api/ImagesController.php:130
+msgid "Image could not be deleted"
+msgstr ""
+
+#: Controller/Api/ImagesController.php:124
+msgid "Image deleted"
+msgstr ""
+
+#: Controller/Api/KodaksController.php:39
+msgid "No Index Found Error"
+msgstr ""
+
+#: Controller/Api/SentsController.php:82
+msgid "My website"
+msgstr ""
+
+#: Controller/Api/SentsController.php:83
+msgid "General Information"
+msgstr ""
+
+#: Controller/Api/SentsController.php:120
+msgid "Message from: {0}"
+msgstr ""
+
+#: Controller/Api/SentsController.php:130
+msgid "New User: {0}"
+msgstr ""
+
+#: Controller/Api/SentsController.php:203
+msgid "No message"
+msgstr ""
+
+#: Controller/Api/TemplatesController.php:91
+msgid "Template created"
+msgstr ""
+
+#: Controller/Api/TemplatesController.php:95
+msgid "Template could not be created"
+msgstr ""
+
+#: Controller/Api/TemplatesController.php:123
+msgid "Template deleted"
+msgstr ""
+
+#: Controller/Api/TemplatesController.php:127
+msgid "Template could not be deleted"
+msgstr ""
+
+#: Controller/Api/TokensController.php:110
+msgid "Token created"
+msgstr ""
+
+#: Controller/Api/TokensController.php:134
+msgid "Token removed"
+msgstr ""
+
+#: Controller/Api/UploadsController.php:50
+#: Controller/Api/UsersController.php:204
+#: Controller/Api/UsersController.php:242
+msgid "Invalid username or password"
+msgstr ""
+
+#: Controller/Api/UsersController.php:130
+msgid "User created"
+msgstr ""
+
+#: Controller/Api/UsersController.php:149
+msgid "User updated"
+msgstr ""
+
+#: Controller/Api/UsersController.php:151
+msgid "User could not be updated"
+msgstr ""
+
+#: Controller/Api/UsersController.php:173
+msgid "Protected users can not be deleted"
+msgstr ""
+
+#: Controller/Api/UsersController.php:188
+msgid "User deleted"
+msgstr ""
+
+#: Controller/Api/UsersController.php:245
+msgid "Invalid Token"
+msgstr ""
+
+#: Controller/Api/UsersController.php:296
+msgid "Login successful"
+msgstr ""
+
+#: Controller/Api/UsersController.php:311
+msgid "You're logged out"
+msgstr ""
+
+#: Controller/Api/VideosController.php:121
+#: Controller/Api/VideosController.php:150
+msgid "Video saved"
+msgstr ""
+
+#: Controller/Api/VideosController.php:129
+#: Controller/Api/VideosController.php:156
+msgid "Video could not be saved"
+msgstr ""
+
+#: Controller/Api/VideosController.php:194
+msgid "Video deleted"
+msgstr ""
+
+#: Controller/Api/VideosController.php:200
+msgid "Video could not be deleted"
+msgstr ""
+
+#: Controller/AvatarsController.php:57
+#: Controller/AvatarsController.php:82
+msgid "The avatar has been saved."
+msgstr ""
+
+#: Controller/AvatarsController.php:61
+#: Controller/AvatarsController.php:86
+msgid "The avatar could not be saved. Please, try again."
+msgstr ""
+
+#: Controller/AvatarsController.php:104
+msgid "The avatar has been deleted."
+msgstr ""
+
+#: Controller/AvatarsController.php:106
+msgid "The avatar could not be deleted. Please, try again."
+msgstr ""
+
+#: Controller/Component/FileComponent.php:230
+msgid "[#Set the locale to use for date translations. (http://php.net/setlocale) You can specify as many locales as you like and Director will use the first available from your list. Example: es_MX,es_ES,es_AR#]en_US"
+msgstr ""
+
+#: Controller/FieldsController.php:54
+#: Controller/FieldsController.php:78
+msgid "The field has been saved."
+msgstr ""
+
+#: Controller/FieldsController.php:58
+#: Controller/FieldsController.php:82
+msgid "The field could not be saved. Please, try again."
+msgstr ""
+
+#: Controller/FieldsController.php:99
+msgid "The field has been deleted."
+msgstr ""
+
+#: Controller/FieldsController.php:101
+msgid "The field could not be deleted. Please, try again."
+msgstr ""
+
+#: Controller/GroupsController.php:57
+#: Controller/GroupsController.php:81
+msgid "The group has been saved."
+msgstr ""
+
+#: Controller/GroupsController.php:61
+#: Controller/GroupsController.php:85
+msgid "The group could not be saved. Please, try again."
+msgstr ""
+
+#: Controller/GroupsController.php:102
+msgid "The group has been deleted."
+msgstr ""
+
+#: Controller/GroupsController.php:104
+msgid "The group could not be deleted. Please, try again."
+msgstr ""
+
+#: Controller/ImagesController.php:54
+#: Controller/ImagesController.php:78
+msgid "The image has been saved."
+msgstr ""
+
+#: Controller/ImagesController.php:58
+#: Controller/ImagesController.php:82
+msgid "The image could not be saved. Please, try again."
+msgstr ""
+
+#: Controller/ImagesController.php:99
+msgid "The image has been deleted."
+msgstr ""
+
+#: Controller/ImagesController.php:101
+msgid "The image could not be deleted. Please, try again."
+msgstr ""
+
+#: Controller/InboxesController.php:57
+#: Controller/InboxesController.php:82
+msgid "The inbox has been saved."
+msgstr ""
+
+#: Controller/InboxesController.php:61
+#: Controller/InboxesController.php:86
+msgid "The inbox could not be saved. Please, try again."
+msgstr ""
+
+#: Controller/InboxesController.php:104
+msgid "The inbox has been deleted."
+msgstr ""
+
+#: Controller/InboxesController.php:106
+msgid "The inbox could not be deleted. Please, try again."
+msgstr ""
+
+#: Controller/ItemsController.php:57
+#: Controller/ItemsController.php:83
+msgid "The item has been saved."
+msgstr ""
+
+#: Controller/ItemsController.php:61
+#: Controller/ItemsController.php:87
+msgid "The item could not be saved. Please, try again."
+msgstr ""
+
+#: Controller/ItemsController.php:106
+msgid "The item has been deleted."
+msgstr ""
+
+#: Controller/ItemsController.php:108
+msgid "The item could not be deleted. Please, try again."
+msgstr ""
+
+#: Controller/MysqlController.php:74
+#: Controller/MysqlController.php:98
+msgid "The mysql has been saved."
+msgstr ""
+
+#: Controller/MysqlController.php:78
+#: Controller/MysqlController.php:102
+msgid "The mysql could not be saved. Please, try again."
+msgstr ""
+
+#: Controller/MysqlController.php:119
+msgid "The mysql has been deleted."
+msgstr ""
+
+#: Controller/MysqlController.php:121
+msgid "The mysql could not be deleted. Please, try again."
+msgstr ""
+
+#: Controller/SentsController.php:57
+#: Controller/SentsController.php:82
+msgid "The sent has been saved."
+msgstr ""
+
+#: Controller/SentsController.php:61
+#: Controller/SentsController.php:86
+msgid "The sent could not be saved. Please, try again."
+msgstr ""
+
+#: Controller/SentsController.php:104
+msgid "The sent has been deleted."
+msgstr ""
+
+#: Controller/SentsController.php:106
+msgid "The sent could not be deleted. Please, try again."
+msgstr ""
+
+#: Controller/TemplatesController.php:54
+#: Controller/TemplatesController.php:78
+msgid "The template has been saved."
+msgstr ""
+
+#: Controller/TemplatesController.php:58
+#: Controller/TemplatesController.php:82
+msgid "The template could not be saved. Please, try again."
+msgstr ""
+
+#: Controller/TemplatesController.php:99
+msgid "The template has been deleted."
+msgstr ""
+
+#: Controller/TemplatesController.php:101
+msgid "The template could not be deleted. Please, try again."
+msgstr ""
+
+#: Controller/TokensController.php:57
+#: Controller/TokensController.php:82
+msgid "The token has been saved."
+msgstr ""
+
+#: Controller/TokensController.php:61
+#: Controller/TokensController.php:86
+msgid "The token could not be saved. Please, try again."
+msgstr ""
+
+#: Controller/TokensController.php:104
+msgid "The token has been deleted."
+msgstr ""
+
+#: Controller/TokensController.php:106
+msgid "The token could not be deleted. Please, try again."
+msgstr ""
+
+#: Controller/UsersController.php:94
+#: Controller/UsersController.php:120
+msgid "The user has been saved."
+msgstr ""
+
+#: Controller/UsersController.php:98
+#: Controller/UsersController.php:124
+msgid "The user could not be saved. Please, try again."
+msgstr ""
+
+#: Controller/UsersController.php:143
+msgid "The user has been deleted."
+msgstr ""
+
+#: Controller/UsersController.php:145
+msgid "The user could not be deleted. Please, try again."
+msgstr ""
+
+#: Controller/VideosController.php:57
+#: Controller/VideosController.php:83
+msgid "The video has been saved."
+msgstr ""
+
+#: Controller/VideosController.php:61
+#: Controller/VideosController.php:87
+msgid "The video could not be saved. Please, try again."
+msgstr ""
+
+#: Controller/VideosController.php:106
+msgid "The video has been deleted."
+msgstr ""
+
+#: Controller/VideosController.php:108
+msgid "The video could not be deleted. Please, try again."
+msgstr ""
+
+#: Model/Table/TokensTable.php:79
+msgid "Token did not change."
+msgstr ""
+
+#: Model/Table/UsersTable.php:82
+msgid "This user is protected and cannot be changed"
+msgstr ""
+
+#: Model/Table/UsersTable.php:160
+msgid "Fields are protected and cannot be changed"
+msgstr ""
+
+#: Model/Table/UsersTable.php:224
+#: Model/Table/UsersTable.php:236
+msgid "Invalid token"
+msgstr ""
+
+#: Avatars/add.php:9
+#: Avatars/edit.php:9
+#: Avatars/index.php:9
+#: Avatars/index.php:26
+#: Avatars/view.php:9
+#: Fields/add.php:9
+#: Fields/edit.php:9
+#: Fields/index.php:9
+#: Fields/index.php:24
+#: Fields/view.php:9
+#: Fields/view.php:47
+#: Groups/add.php:9
+#: Groups/edit.php:9
+#: Groups/index.php:9
+#: Groups/index.php:22
+#: Groups/view.php:9
+#: Groups/view.php:40
+#: Images/add.php:9
+#: Images/edit.php:9
+#: Images/index.php:9
+#: Images/index.php:34
+#: Images/view.php:9
+#: Images/view.php:96
+#: Inboxes/add.php:9
+#: Inboxes/edit.php:9
+#: Inboxes/index.php:9
+#: Inboxes/index.php:27
+#: Inboxes/view.php:9
+#: Items/add.php:9
+#: Items/edit.php:9
+#: Items/index.php:9
+#: Items/index.php:25
+#: Items/view.php:9
+#: Messages/add.php:9
+#: Messages/edit.php:9
+#: Messages/index.php:9
+#: Messages/index.php:28
+#: Messages/view.php:9
+#: Mysql/add.php:9
+#: Mysql/edit.php:9
+#: Mysql/index.php:9
+#: Mysql/index.php:23
+#: Mysql/view.php:9
+#: Sents/add.php:9
+#: Sents/edit.php:9
+#: Sents/index.php:9
+#: Sents/index.php:26
+#: Sents/view.php:9
+#: Templates/add.php:9
+#: Templates/edit.php:9
+#: Templates/index.php:9
+#: Templates/index.php:26
+#: Templates/view.php:9
+#: Templates/view.php:55
+#: Tokens/add.php:9
+#: Tokens/edit.php:9
+#: Tokens/index.php:9
+#: Tokens/index.php:24
+#: Tokens/view.php:9
+#: Users/add.php:9
+#: Users/edit.php:9
+#: Users/index.php:9
+#: Users/index.php:40
+#: Users/view.php:9
+#: Users/view.php:94
+#: Users/view.php:130
+#: Users/view.php:166
+#: UsersVideos/add.php:9
+#: UsersVideos/edit.php:9
+#: UsersVideos/index.php:9
+#: UsersVideos/index.php:27
+#: UsersVideos/view.php:9
+#: Videos/add.php:9
+#: Videos/edit.php:9
+#: Videos/index.php:9
+#: Videos/index.php:31
+#: Videos/view.php:9
+#: Videos/view.php:74
+msgid "Actions"
+msgstr ""
+
+#: Avatars/add.php:10
+#: Avatars/edit.php:16
+#: Avatars/view.php:12
+#: Users/add.php:13
+#: Users/edit.php:19
+#: Users/index.php:13
+#: Users/view.php:16
+msgid "List Avatars"
+msgstr ""
+
+#: Avatars/add.php:11
+#: Avatars/edit.php:17
+#: Avatars/index.php:11
+#: Avatars/view.php:14
+#: Groups/add.php:11
+#: Groups/edit.php:17
+#: Groups/index.php:11
+#: Groups/view.php:14
+#: Inboxes/add.php:11
+#: Inboxes/edit.php:17
+#: Inboxes/index.php:11
+#: Inboxes/view.php:14
+#: Sents/add.php:11
+#: Sents/edit.php:17
+#: Sents/index.php:11
+#: Sents/view.php:14
+#: Tokens/add.php:11
+#: Tokens/edit.php:17
+#: Tokens/index.php:11
+#: Tokens/view.php:14
+#: Users/add.php:10
+#: Users/edit.php:16
+#: Users/view.php:12
+#: UsersVideos/add.php:11
+#: UsersVideos/edit.php:17
+#: UsersVideos/index.php:11
+#: UsersVideos/view.php:14
+#: Videos/add.php:13
+#: Videos/edit.php:19
+#: Videos/index.php:13
+#: Videos/view.php:16
+msgid "List Users"
+msgstr ""
+
+#: Avatars/add.php:12
+#: Avatars/edit.php:18
+#: Avatars/index.php:12
+#: Avatars/view.php:15
+#: Groups/add.php:12
+#: Groups/edit.php:18
+#: Groups/index.php:12
+#: Groups/view.php:15
+#: Inboxes/add.php:12
+#: Inboxes/edit.php:18
+#: Inboxes/index.php:12
+#: Inboxes/view.php:15
+#: Sents/add.php:12
+#: Sents/edit.php:18
+#: Sents/index.php:12
+#: Sents/view.php:15
+#: Tokens/add.php:12
+#: Tokens/edit.php:18
+#: Tokens/index.php:12
+#: Tokens/view.php:15
+#: Users/index.php:10
+#: Users/view.php:13
+#: UsersVideos/add.php:12
+#: UsersVideos/edit.php:18
+#: UsersVideos/index.php:12
+#: UsersVideos/view.php:15
+#: Videos/add.php:14
+#: Videos/edit.php:20
+#: Videos/index.php:14
+#: Videos/view.php:17
+msgid "New User"
+msgstr ""
+
+#: Avatars/add.php:18
+msgid "Add Avatar"
+msgstr ""
+
+#: Avatars/add.php:25
+#: Avatars/edit.php:31
+#: Fields/add.php:23
+#: Fields/edit.php:29
+#: Groups/add.php:23
+#: Groups/edit.php:29
+#: Images/add.php:34
+#: Images/edit.php:40
+#: Inboxes/add.php:27
+#: Inboxes/edit.php:33
+#: Items/add.php:27
+#: Items/edit.php:33
+#: Messages/add.php:27
+#: Messages/edit.php:33
+#: Mysql/add.php:22
+#: Mysql/edit.php:28
+#: Sents/add.php:26
+#: Sents/edit.php:32
+#: Templates/add.php:25
+#: Templates/edit.php:31
+#: Tokens/add.php:24
+#: Tokens/edit.php:30
+#: Users/add.php:40
+#: Users/edit.php:46
+#: UsersVideos/add.php:28
+#: UsersVideos/edit.php:34
+#: Videos/add.php:31
+#: Videos/edit.php:37
+msgid "Submit"
+msgstr ""
+
+#: Avatars/edit.php:11
+#: Avatars/index.php:41
+#: Fields/edit.php:11
+#: Fields/index.php:37
+#: Fields/view.php:58
+#: Groups/edit.php:11
+#: Groups/index.php:33
+#: Groups/view.php:52
+#: Images/edit.php:11
+#: Images/index.php:57
+#: Images/view.php:112
+#: Inboxes/edit.php:11
+#: Inboxes/index.php:43
+#: Items/edit.php:11
+#: Items/index.php:37
+#: Messages/edit.php:11
+#: Messages/index.php:45
+#: Mysql/edit.php:11
+#: Mysql/index.php:37
+#: Sents/edit.php:11
+#: Sents/index.php:41
+#: Templates/edit.php:11
+#: Templates/index.php:41
+#: Templates/view.php:66
+#: Tokens/edit.php:11
+#: Tokens/index.php:37
+#: Users/edit.php:11
+#: Users/index.php:59
+#: Users/view.php:110
+#: Users/view.php:147
+#: Users/view.php:182
+#: UsersVideos/edit.php:11
+#: UsersVideos/index.php:41
+#: Videos/edit.php:11
+#: Videos/index.php:49
+#: Videos/view.php:90
+msgid "Delete"
+msgstr ""
+
+#: Avatars/edit.php:13
+#: Avatars/index.php:41
+#: Avatars/view.php:11
+#: Fields/edit.php:13
+#: Fields/index.php:37
+#: Fields/view.php:11
+#: Fields/view.php:58
+#: Groups/edit.php:13
+#: Groups/index.php:33
+#: Groups/view.php:11
+#: Groups/view.php:52
+#: Images/edit.php:13
+#: Images/index.php:57
+#: Images/view.php:11
+#: Images/view.php:112
+#: Inboxes/edit.php:13
+#: Inboxes/index.php:43
+#: Inboxes/view.php:11
+#: Items/edit.php:13
+#: Items/index.php:37
+#: Items/view.php:11
+#: Messages/edit.php:13
+#: Messages/index.php:45
+#: Messages/view.php:11
+#: Mysql/edit.php:13
+#: Mysql/index.php:37
+#: Mysql/view.php:11
+#: Sents/edit.php:13
+#: Sents/index.php:41
+#: Sents/view.php:11
+#: Templates/edit.php:13
+#: Templates/index.php:41
+#: Templates/view.php:11
+#: Templates/view.php:66
+#: Tokens/edit.php:13
+#: Tokens/index.php:37
+#: Tokens/view.php:11
+#: Users/edit.php:13
+#: Users/index.php:59
+#: Users/view.php:11
+#: Users/view.php:110
+#: Users/view.php:147
+#: Users/view.php:182
+#: UsersVideos/edit.php:13
+#: UsersVideos/index.php:41
+#: UsersVideos/view.php:11
+#: Videos/edit.php:13
+#: Videos/index.php:49
+#: Videos/view.php:11
+#: Videos/view.php:90
+msgid "Are you sure you want to delete # {0}?"
+msgstr ""
+
+#: Avatars/edit.php:24
+#: Avatars/view.php:10
+msgid "Edit Avatar"
+msgstr ""
+
+#: Avatars/index.php:10
+#: Avatars/view.php:13
+#: Users/add.php:14
+#: Users/edit.php:20
+#: Users/index.php:14
+#: Users/view.php:17
+msgid "New Avatar"
+msgstr ""
+
+#: Avatars/index.php:16
+msgid "Avatars"
+msgstr ""
+
+#: Avatars/index.php:39
+#: Fields/index.php:35
+#: Fields/view.php:56
+#: Groups/index.php:31
+#: Groups/view.php:50
+#: Images/index.php:55
+#: Images/view.php:110
+#: Inboxes/index.php:41
+#: Items/index.php:35
+#: Messages/index.php:43
+#: Mysql/index.php:35
+#: Sents/index.php:39
+#: Templates/index.php:39
+#: Templates/view.php:64
+#: Tokens/index.php:35
+#: Users/index.php:57
+#: Users/view.php:108
+#: Users/view.php:145
+#: Users/view.php:180
+#: UsersVideos/index.php:39
+#: Videos/index.php:47
+#: Videos/view.php:88
+msgid "View"
+msgstr ""
+
+#: Avatars/index.php:40
+#: Fields/index.php:36
+#: Fields/view.php:57
+#: Groups/index.php:32
+#: Groups/view.php:51
+#: Images/index.php:56
+#: Images/view.php:111
+#: Inboxes/index.php:42
+#: Items/index.php:36
+#: Messages/index.php:44
+#: Mysql/index.php:36
+#: Sents/index.php:40
+#: Templates/index.php:40
+#: Templates/view.php:65
+#: Tokens/index.php:36
+#: Users/index.php:58
+#: Users/view.php:109
+#: Users/view.php:146
+#: Users/view.php:181
+#: UsersVideos/index.php:40
+#: Videos/index.php:48
+#: Videos/view.php:89
+msgid "Edit"
+msgstr ""
+
+#: Avatars/index.php:49
+#: Fields/index.php:45
+#: Groups/index.php:41
+#: Images/index.php:65
+#: Inboxes/index.php:51
+#: Items/index.php:45
+#: Messages/index.php:53
+#: Mysql/index.php:45
+#: Sents/index.php:49
+#: Templates/index.php:49
+#: Tokens/index.php:45
+#: Users/index.php:67
+#: UsersVideos/index.php:49
+#: Videos/index.php:57
+msgid "first"
+msgstr ""
+
+#: Avatars/index.php:50
+#: Fields/index.php:46
+#: Groups/index.php:42
+#: Images/index.php:66
+#: Inboxes/index.php:52
+#: Items/index.php:46
+#: Messages/index.php:54
+#: Mysql/index.php:46
+#: Sents/index.php:50
+#: Templates/index.php:50
+#: Tokens/index.php:46
+#: Users/index.php:68
+#: UsersVideos/index.php:50
+#: Videos/index.php:58
+msgid "previous"
+msgstr ""
+
+#: Avatars/index.php:52
+#: Fields/index.php:48
+#: Groups/index.php:44
+#: Images/index.php:68
+#: Inboxes/index.php:54
+#: Items/index.php:48
+#: Messages/index.php:56
+#: Mysql/index.php:48
+#: Sents/index.php:52
+#: Templates/index.php:52
+#: Tokens/index.php:48
+#: Users/index.php:70
+#: UsersVideos/index.php:52
+#: Videos/index.php:60
+msgid "next"
+msgstr ""
+
+#: Avatars/index.php:53
+#: Fields/index.php:49
+#: Groups/index.php:45
+#: Images/index.php:69
+#: Inboxes/index.php:55
+#: Items/index.php:49
+#: Messages/index.php:57
+#: Mysql/index.php:49
+#: Sents/index.php:53
+#: Templates/index.php:53
+#: Tokens/index.php:49
+#: Users/index.php:71
+#: UsersVideos/index.php:53
+#: Videos/index.php:61
+msgid "last"
+msgstr ""
+
+#: Avatars/index.php:55
+#: Fields/index.php:51
+#: Groups/index.php:47
+#: Images/index.php:71
+#: Inboxes/index.php:57
+#: Items/index.php:51
+#: Messages/index.php:59
+#: Mysql/index.php:51
+#: Sents/index.php:55
+#: Templates/index.php:55
+#: Tokens/index.php:51
+#: Users/index.php:73
+#: UsersVideos/index.php:55
+#: Videos/index.php:63
+msgid "Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total"
+msgstr ""
+
+#: Avatars/view.php:11
+msgid "Delete Avatar"
+msgstr ""
+
+#: Avatars/view.php:22
+#: Fields/view.php:22
+#: Fields/view.php:43
+#: Groups/view.php:26
+#: Groups/view.php:35
+#: Images/view.php:22
+#: Images/view.php:87
+#: Inboxes/view.php:22
+#: Items/view.php:24
+#: Messages/view.php:24
+#: Mysql/view.php:28
+#: Sents/view.php:22
+#: Templates/view.php:22
+#: Templates/view.php:51
+#: Tokens/view.php:22
+#: Users/view.php:32
+#: Users/view.php:85
+#: Users/view.php:122
+#: Users/view.php:159
+#: UsersVideos/view.php:32
+#: Videos/view.php:24
+#: Videos/view.php:65
+msgid "Id"
+msgstr ""
+
+#: Avatars/view.php:26
+#: Images/view.php:58
+#: Images/view.php:91
+#: Users/view.php:89
+#: Videos/view.php:40
+msgid "Src"
+msgstr ""
+
+#: Avatars/view.php:30
+#: Inboxes/view.php:26
+#: Sents/view.php:26
+#: Tokens/view.php:26
+#: UsersVideos/view.php:24
+msgid "User"
+msgstr ""
+
+#: Avatars/view.php:34
+#: Images/view.php:62
+#: Images/view.php:92
+#: Users/view.php:90
+#: Videos/view.php:44
+msgid "Filesize"
+msgstr ""
+
+#: Avatars/view.php:38
+#: Fields/view.php:30
+#: Images/view.php:70
+#: Images/view.php:93
+#: Inboxes/view.php:38
+#: Messages/view.php:42
+#: Mysql/view.php:32
+#: Sents/view.php:38
+#: Templates/view.php:34
+#: Tokens/view.php:30
+#: Users/view.php:64
+#: Users/view.php:91
+#: Users/view.php:128
+#: Users/view.php:164
+#: Videos/view.php:52
+#: Videos/view.php:72
+msgid "Created"
+msgstr ""
+
+#: Avatars/view.php:42
+#: Fields/view.php:34
+#: Images/view.php:74
+#: Images/view.php:94
+#: Inboxes/view.php:42
+#: Messages/view.php:46
+#: Mysql/view.php:36
+#: Sents/view.php:42
+#: Templates/view.php:38
+#: Tokens/view.php:34
+#: Users/view.php:68
+#: Users/view.php:92
+#: Users/view.php:129
+#: Users/view.php:165
+#: Videos/view.php:56
+#: Videos/view.php:73
+msgid "Modified"
+msgstr ""
+
+#: Error/error400.php:34
+msgid "Your are not allowed to view this content"
+msgstr ""
+
+#: Fields/add.php:10
+#: Fields/edit.php:16
+#: Fields/view.php:12
+#: Items/add.php:11
+#: Items/edit.php:17
+#: Items/index.php:11
+#: Items/view.php:14
+msgid "List Fields"
+msgstr ""
+
+#: Fields/add.php:11
+#: Fields/edit.php:17
+#: Fields/index.php:11
+#: Fields/view.php:14
+#: Items/add.php:10
+#: Items/edit.php:16
+#: Items/view.php:12
+#: Templates/add.php:11
+#: Templates/edit.php:17
+#: Templates/index.php:11
+#: Templates/view.php:14
+msgid "List Items"
+msgstr ""
+
+#: Fields/add.php:12
+#: Fields/edit.php:18
+#: Fields/index.php:12
+#: Fields/view.php:15
+#: Items/index.php:10
+#: Items/view.php:13
+#: Templates/add.php:12
+#: Templates/edit.php:18
+#: Templates/index.php:12
+#: Templates/view.php:15
+msgid "New Item"
+msgstr ""
+
+#: Fields/add.php:18
+msgid "Add Field"
+msgstr ""
+
+#: Fields/edit.php:24
+#: Fields/view.php:10
+msgid "Edit Field"
+msgstr ""
+
+#: Fields/index.php:10
+#: Fields/view.php:13
+#: Items/add.php:12
+#: Items/edit.php:18
+#: Items/index.php:12
+#: Items/view.php:15
+msgid "New Field"
+msgstr ""
+
+#: Fields/index.php:16
+msgid "Fields"
+msgstr ""
+
+#: Fields/view.php:11
+msgid "Delete Field"
+msgstr ""
+
+#: Fields/view.php:26
+#: Groups/view.php:22
+#: Templates/view.php:30
+#: Users/view.php:36
+#: Videos/view.php:66
+msgid "Name"
+msgstr ""
+
+#: Fields/view.php:39
+#: Templates/view.php:47
+msgid "Related Items"
+msgstr ""
+
+#: Fields/view.php:44
+#: Items/view.php:37
+#: Templates/view.php:52
+msgid "Content"
+msgstr ""
+
+#: Fields/view.php:45
+#: Templates/view.php:53
+msgid "Field Id"
+msgstr ""
+
+#: Fields/view.php:46
+#: Templates/view.php:54
+msgid "Template Id"
+msgstr ""
+
+#: Groups/add.php:10
+#: Groups/edit.php:16
+#: Groups/view.php:12
+#: Users/add.php:11
+#: Users/edit.php:17
+#: Users/index.php:11
+#: Users/view.php:14
+msgid "List Groups"
+msgstr ""
+
+#: Groups/add.php:18
+msgid "Add Group"
+msgstr ""
+
+#: Groups/edit.php:24
+#: Groups/view.php:10
+msgid "Edit Group"
+msgstr ""
+
+#: Groups/index.php:10
+#: Groups/view.php:13
+#: Users/add.php:12
+#: Users/edit.php:18
+#: Users/index.php:12
+#: Users/view.php:15
+msgid "New Group"
+msgstr ""
+
+#: Groups/index.php:16
+msgid "Groups"
+msgstr ""
+
+#: Groups/view.php:11
+msgid "Delete Group"
+msgstr ""
+
+#: Groups/view.php:31
+#: Videos/view.php:61
+msgid "Related Users"
+msgstr ""
+
+#: Groups/view.php:36
+#: Users/view.php:40
+#: Videos/view.php:67
+msgid "Email"
+msgstr ""
+
+#: Groups/view.php:37
+#: Users/view.php:72
+#: Videos/view.php:69
+msgid "Active"
+msgstr ""
+
+#: Groups/view.php:38
+#: Videos/view.php:70
+msgid "Group Id"
+msgstr ""
+
+#: Groups/view.php:39
+#: Users/view.php:60
+#: Videos/view.php:71
+msgid "Last Login"
+msgstr ""
+
+#: Images/add.php:10
+#: Images/edit.php:16
+#: Images/view.php:12
+#: Videos/add.php:11
+#: Videos/edit.php:17
+#: Videos/index.php:11
+#: Videos/view.php:14
+msgid "List Images"
+msgstr ""
+
+#: Images/add.php:11
+#: Images/edit.php:17
+#: Images/index.php:11
+#: Images/view.php:14
+#: Users/add.php:21
+#: Users/edit.php:27
+#: Users/index.php:21
+#: Users/view.php:24
+#: UsersVideos/add.php:13
+#: UsersVideos/edit.php:19
+#: UsersVideos/index.php:13
+#: UsersVideos/view.php:16
+#: Videos/add.php:10
+#: Videos/edit.php:16
+#: Videos/view.php:12
+msgid "List Videos"
+msgstr ""
+
+#: Images/add.php:12
+#: Images/edit.php:18
+#: Images/index.php:12
+#: Images/view.php:15
+#: Users/add.php:22
+#: Users/edit.php:28
+#: Users/index.php:22
+#: Users/view.php:25
+#: UsersVideos/add.php:14
+#: UsersVideos/edit.php:20
+#: UsersVideos/index.php:14
+#: UsersVideos/view.php:17
+#: Videos/index.php:10
+#: Videos/view.php:13
+msgid "New Video"
+msgstr ""
+
+#: Images/add.php:18
+msgid "Add Image"
+msgstr ""
+
+#: Images/edit.php:24
+#: Images/view.php:10
+msgid "Edit Image"
+msgstr ""
+
+#: Images/index.php:10
+#: Images/view.php:13
+#: Videos/add.php:12
+#: Videos/edit.php:18
+#: Videos/index.php:12
+#: Videos/view.php:15
+msgid "New Image"
+msgstr ""
+
+#: Images/index.php:16
+msgid "Images"
+msgstr ""
+
+#: Images/view.php:11
+msgid "Delete Image"
+msgstr ""
+
+#: Images/view.php:26
+msgid "Iso"
+msgstr ""
+
+#: Images/view.php:30
+msgid "Longitude"
+msgstr ""
+
+#: Images/view.php:34
+msgid "Aperture"
+msgstr ""
+
+#: Images/view.php:38
+msgid "Make"
+msgstr ""
+
+#: Images/view.php:42
+msgid "Model"
+msgstr ""
+
+#: Images/view.php:46
+#: Images/view.php:89
+#: Users/view.php:87
+#: Videos/view.php:32
+msgid "Title"
+msgstr ""
+
+#: Images/view.php:50
+msgid "Exposure"
+msgstr ""
+
+#: Images/view.php:54
+msgid "Software"
+msgstr ""
+
+#: Images/view.php:66
+msgid "Captured"
+msgstr ""
+
+#: Images/view.php:79
+#: Images/view.php:90
+#: Mysql/view.php:24
+#: Users/view.php:88
+#: Videos/view.php:36
+msgid "Description"
+msgstr ""
+
+#: Images/view.php:83
+#: Users/view.php:81
+msgid "Related Videos"
+msgstr ""
+
+#: Images/view.php:88
+#: Users/view.php:86
+msgid "Image Id"
+msgstr ""
+
+#: Images/view.php:95
+#: Users/view.php:93
+#: Videos/view.php:48
+msgid "Sequence"
+msgstr ""
+
+#: Inboxes/add.php:10
+#: Inboxes/edit.php:16
+#: Inboxes/view.php:12
+#: Messages/add.php:11
+#: Messages/edit.php:17
+#: Messages/index.php:11
+#: Messages/view.php:14
+#: Users/add.php:17
+#: Users/edit.php:23
+#: Users/index.php:17
+#: Users/view.php:20
+msgid "List Inboxes"
+msgstr ""
+
+#: Inboxes/add.php:18
+msgid "Add Inbox"
+msgstr ""
+
+#: Inboxes/edit.php:24
+#: Inboxes/view.php:10
+msgid "Edit Inbox"
+msgstr ""
+
+#: Inboxes/index.php:10
+#: Inboxes/view.php:13
+#: Messages/add.php:12
+#: Messages/edit.php:18
+#: Messages/index.php:12
+#: Messages/view.php:15
+#: Users/add.php:18
+#: Users/edit.php:24
+#: Users/index.php:18
+#: Users/view.php:21
+msgid "New Inbox"
+msgstr ""
+
+#: Inboxes/index.php:16
+msgid "Inboxes"
+msgstr ""
+
+#: Inboxes/view.php:11
+msgid "Delete Inbox"
+msgstr ""
+
+#: Inboxes/view.php:30
+#: Sents/view.php:34
+#: Users/view.php:124
+#: Users/view.php:162
+msgid " From"
+msgstr ""
+
+#: Inboxes/view.php:34
+#: Sents/view.php:30
+#: Users/view.php:125
+#: Users/view.php:161
+msgid " To"
+msgstr ""
+
+#: Inboxes/view.php:46
+#: Users/view.php:126
+msgid " Read"
+msgstr ""
+
+#: Inboxes/view.php:47
+#: Templates/view.php:43
+#: Users/view.php:73
+#: Users/view.php:77
+msgid "Yes"
+msgstr ""
+
+#: Inboxes/view.php:47
+#: Templates/view.php:43
+#: Users/view.php:73
+#: Users/view.php:77
+msgid "No"
+msgstr ""
+
+#: Inboxes/view.php:51
+#: Messages/view.php:28
+#: Sents/view.php:47
+#: Users/view.php:127
+#: Users/view.php:163
+#: email/html/from_user.php:136
+msgid "Message"
+msgstr ""
+
+#: Items/add.php:13
+#: Items/edit.php:19
+#: Items/index.php:13
+#: Items/view.php:16
+#: Templates/add.php:10
+#: Templates/edit.php:16
+#: Templates/view.php:12
+msgid "List Templates"
+msgstr ""
+
+#: Items/add.php:14
+#: Items/edit.php:20
+#: Items/index.php:14
+#: Items/view.php:17
+#: Templates/index.php:10
+#: Templates/view.php:13
+msgid "New Template"
+msgstr ""
+
+#: Items/add.php:20
+msgid "Add Item"
+msgstr ""
+
+#: Items/edit.php:26
+#: Items/view.php:10
+msgid "Edit Item"
+msgstr ""
+
+#: Items/index.php:18
+msgid "Items"
+msgstr ""
+
+#: Items/view.php:11
+msgid "Delete Item"
+msgstr ""
+
+#: Items/view.php:28
+msgid "Field"
+msgstr ""
+
+#: Items/view.php:32
+msgid "Template"
+msgstr ""
+
+#: Messages/add.php:10
+#: Messages/edit.php:16
+#: Messages/view.php:12
+msgid "List Messages"
+msgstr ""
+
+#: Messages/add.php:13
+#: Messages/edit.php:19
+#: Messages/index.php:13
+#: Messages/view.php:16
+#: Sents/add.php:10
+#: Sents/edit.php:16
+#: Sents/view.php:12
+#: Users/add.php:19
+#: Users/edit.php:25
+#: Users/index.php:19
+#: Users/view.php:22
+msgid "List Sents"
+msgstr ""
+
+#: Messages/add.php:14
+#: Messages/edit.php:20
+#: Messages/index.php:14
+#: Messages/view.php:17
+#: Sents/index.php:10
+#: Sents/view.php:13
+#: Users/add.php:20
+#: Users/edit.php:26
+#: Users/index.php:20
+#: Users/view.php:23
+msgid "New Sent"
+msgstr ""
+
+#: Messages/add.php:20
+msgid "Add Message"
+msgstr ""
+
+#: Messages/edit.php:26
+#: Messages/view.php:10
+msgid "Edit Message"
+msgstr ""
+
+#: Messages/index.php:10
+#: Messages/view.php:13
+msgid "New Message"
+msgstr ""
+
+#: Messages/index.php:18
+msgid "Messages"
+msgstr ""
+
+#: Messages/view.php:11
+msgid "Delete Message"
+msgstr ""
+
+#: Messages/view.php:34
+msgid "Inbox"
+msgstr ""
+
+#: Messages/view.php:38
+msgid "Sent"
+msgstr ""
+
+#: Mysql/add.php:10
+#: Mysql/edit.php:16
+#: Mysql/view.php:12
+msgid "List Mysql"
+msgstr ""
+
+#: Mysql/add.php:16
+msgid "Add Mysql"
+msgstr ""
+
+#: Mysql/edit.php:22
+#: Mysql/view.php:10
+msgid "Edit Mysql"
+msgstr ""
+
+#: Mysql/index.php:10
+#: Mysql/view.php:13
+msgid "New Mysql"
+msgstr ""
+
+#: Mysql/index.php:14
+msgid "Mysql"
+msgstr ""
+
+#: Mysql/view.php:11
+msgid "Delete Mysql"
+msgstr ""
+
+#: Mysql/view.php:20
+msgid "Filename"
+msgstr ""
+
+#: Sents/add.php:18
+msgid "Add Sent"
+msgstr ""
+
+#: Sents/edit.php:24
+#: Sents/view.php:10
+msgid "Edit Sent"
+msgstr ""
+
+#: Sents/index.php:16
+msgid "Sents"
+msgstr ""
+
+#: Sents/view.php:11
+msgid "Delete Sent"
+msgstr ""
+
+#: Templates/add.php:18
+msgid "Add Template"
+msgstr ""
+
+#: Templates/edit.php:24
+#: Templates/view.php:10
+msgid "Edit Template"
+msgstr ""
+
+#: Templates/index.php:16
+msgid "Templates"
+msgstr ""
+
+#: Templates/view.php:11
+msgid "Delete Template"
+msgstr ""
+
+#: Templates/view.php:26
+msgid "Slug"
+msgstr ""
+
+#: Templates/view.php:42
+#: Users/view.php:76
+msgid "Protected"
+msgstr ""
+
+#: Tokens/add.php:10
+#: Tokens/edit.php:16
+#: Tokens/view.php:12
+#: Users/add.php:15
+#: Users/edit.php:21
+#: Users/index.php:15
+#: Users/view.php:18
+msgid "List Tokens"
+msgstr ""
+
+#: Tokens/add.php:18
+msgid "Add Token"
+msgstr ""
+
+#: Tokens/edit.php:24
+#: Tokens/view.php:10
+msgid "Edit Token"
+msgstr ""
+
+#: Tokens/index.php:10
+#: Tokens/view.php:13
+#: Users/add.php:16
+#: Users/edit.php:22
+#: Users/index.php:16
+#: Users/view.php:19
+msgid "New Token"
+msgstr ""
+
+#: Tokens/index.php:16
+msgid "Tokens"
+msgstr ""
+
+#: Tokens/view.php:11
+msgid "Delete Token"
+msgstr ""
+
+#: Tokens/view.php:39
+#: Users/view.php:56
+msgid "Token"
+msgstr ""
+
+#: Users/add.php:28
+msgid "Add User"
+msgstr ""
+
+#: Users/edit.php:34
+#: Users/view.php:10
+msgid "Edit User"
+msgstr ""
+
+#: Users/index.php:26
+msgid "Users"
+msgstr ""
+
+#: Users/login.php:10
+msgid "Please enter your email and password"
+msgstr ""
+
+#: Users/login.php:14
+#: layout/default.php:49
+msgid "Login"
+msgstr ""
+
+#: Users/view.php:11
+msgid "Delete User"
+msgstr ""
+
+#: Users/view.php:44
+#: Videos/view.php:68
+msgid "Password"
+msgstr ""
+
+#: Users/view.php:48
+msgid "Group"
+msgstr ""
+
+#: Users/view.php:52
+msgid "Avatar"
+msgstr ""
+
+#: Users/view.php:118
+msgid "Related Inboxes"
+msgstr ""
+
+#: Users/view.php:123
+#: Users/view.php:160
+msgid "User Id"
+msgstr ""
+
+#: Users/view.php:155
+msgid "Related Sents"
+msgstr ""
+
+#: UsersVideos/add.php:10
+#: UsersVideos/edit.php:16
+#: UsersVideos/view.php:12
+msgid "List Users Videos"
+msgstr ""
+
+#: UsersVideos/add.php:20
+msgid "Add Users Video"
+msgstr ""
+
+#: UsersVideos/edit.php:26
+#: UsersVideos/view.php:10
+msgid "Edit Users Video"
+msgstr ""
+
+#: UsersVideos/index.php:10
+#: UsersVideos/view.php:13
+msgid "New Users Video"
+msgstr ""
+
+#: UsersVideos/index.php:18
+msgid "Users Videos"
+msgstr ""
+
+#: UsersVideos/view.php:11
+msgid "Delete Users Video"
+msgstr ""
+
+#: UsersVideos/view.php:28
+msgid "Video"
+msgstr ""
+
+#: UsersVideos/view.php:36
+msgid "Start"
+msgstr ""
+
+#: UsersVideos/view.php:40
+msgid "End"
+msgstr ""
+
+#: Videos/add.php:20
+msgid "Add Video"
+msgstr ""
+
+#: Videos/edit.php:26
+#: Videos/view.php:10
+msgid "Edit Video"
+msgstr ""
+
+#: Videos/index.php:18
+msgid "Videos"
+msgstr ""
+
+#: Videos/view.php:11
+msgid "Delete Video"
+msgstr ""
+
+#: Videos/view.php:28
+msgid "Image"
+msgstr ""
+
+#: email/html/from_user.php:132
+msgid "Option"
+msgstr ""
+
+#: layout/default.php:47
+msgid "Logout"
+msgstr ""
+
+#: layout/error.php:35
+msgid ":("
+msgstr ""
+
+#: layout/error.php:43
+msgid "Back"
+msgstr ""
+

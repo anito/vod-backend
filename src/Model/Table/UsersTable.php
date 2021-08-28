@@ -40,7 +40,7 @@ class UsersTable extends Table
      * @param array $config The configuration for the Table.
      * @return void
      */
-    public function initialize(array $config)
+    public function initialize(array $config): void
     {
         parent::initialize($config);
 
@@ -88,12 +88,12 @@ class UsersTable extends Table
      * @param \Cake\Validation\Validator $validator Validator instance.
      * @return \Cake\Validation\Validator
      */
-    public function validationDefault(Validator $validator)
+    public function validationDefault(Validator $validator): \Cake\Validation\Validator
     {
         $validator
         // dont use uuid validation as long as there are still any scalar user ids
         // ->uuid('id', 'No valid UUID')
-            ->scalar('id')
+        ->scalar('id')
             ->allowEmptyString('id', null, 'create')
             ->add('id', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
 
@@ -169,7 +169,7 @@ class UsersTable extends Table
      * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
      * @return \Cake\ORM\RulesChecker
      */
-    public function buildRules(RulesChecker $rules)
+    public function buildRules(RulesChecker $rules): \Cake\ORM\RulesChecker
     {
         $rules->add($rules->isUnique(['email']));
         $rules->add($rules->isUnique(['id']));
@@ -233,7 +233,7 @@ class UsersTable extends Table
                     $allowed_algs
                 );
             } catch (Exception $e) {
-                // throw new UnauthorizedException(__('Invalid token'));
+                throw new UnauthorizedException(__('Invalid token'));
                 throw $e;
             }
         }

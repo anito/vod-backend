@@ -14,7 +14,7 @@ class AppController extends Controller
 {
     use \Crud\Controller\ControllerTrait;
 
-    public function initialize()
+    public function initialize(): void
     {
 
         parent::initialize();
@@ -46,9 +46,9 @@ class AppController extends Controller
                     'queryDatasource' => true,
                 ],
             ],
-            'unauthorizedRedirect' => true,
+            'unauthorizedRedirect' => false,
             'checkAuthIn' => 'Controller.initialize',
-            'loginAction' => false,
+            'loginAction' => '',
         ]);
 
         if (array_key_exists('lang', $this->getRequest()->getQuery())) {
@@ -135,7 +135,7 @@ class AppController extends Controller
         return $res;
     }
 
-    protected function _getUserRoleName(array $user)
+    protected function _getUserRoleName(array $user = [])
     {
         if (isset($user['sub'])) {
             $user = $this->_getUser($user['sub']);
