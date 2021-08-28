@@ -98,7 +98,7 @@ class UsersController extends AppController
 
         });
 
-        $this->Crud->action()->config('serialize.data', 'data');
+        // $this->Crud->action()->config('serialize.data', 'data');
 
         return $this->Crud->execute();
 
@@ -127,7 +127,6 @@ class UsersController extends AppController
                     ],
                         Security::getSalt()),
                 ]);
-                $this->Crud->action()->config('serialize.data', 'data');
             }
         });
         return $this->Crud->execute();
@@ -156,7 +155,6 @@ class UsersController extends AppController
                 '_serialize' => ['success', 'data', 'message'],
             ]);
 
-            $this->Crud->action()->config('serialize.data', 'data');
         });
         return $this->Crud->execute();
     }
@@ -188,7 +186,6 @@ class UsersController extends AppController
                 'message' => $message,
             ]);
 
-            $this->Crud->action()->config('serialize.data', 'data');
         });
         return $this->Crud->execute();
     }

@@ -14,19 +14,18 @@
  */
 namespace App;
 
-use Authentication\AuthenticationServiceProviderInterface;
 use Authentication\AuthenticationService;
+use Authentication\AuthenticationServiceProviderInterface;
 use Authentication\Middleware\AuthenticationMiddleware;
-use Psr\Http\Message\ServerRequestInterface;
-
 use Cake\Core\Configure;
 use Cake\Core\Exception\MissingPluginException;
 use Cake\Error\Middleware\ErrorHandlerMiddleware;
 use Cake\Http\BaseApplication;
+use Cake\Http\Middleware\CsrfProtectionMiddleware;
 use Cake\Routing\Middleware\AssetMiddleware;
 use Cake\Routing\Middleware\RoutingMiddleware;
-use Cake\Http\Middleware\CsrfProtectionMiddleware;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * Application setup class.
@@ -96,7 +95,7 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
 
         $fields = [
             'username' => 'email',
-            'password' => 'password'
+            'password' => 'password',
         ];
 
         // Load identifiers
@@ -106,7 +105,7 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
         $service->loadAuthenticator('Authentication.Session');
         $service->loadAuthenticator('Authentication.Form', [
             'fields' => $fields,
-            'loginUrl' => '/users/login'
+            'loginUrl' => '/users/login',
         ]);
 
         return $service;
@@ -122,29 +121,30 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
     {
 
         $middlewareQueue
-            // Catch any exceptions in the lower layers,
-            // and make an error page/response
-            ->add(new ErrorHandlerMiddleware(null, Configure::read('Error')))
+        // Catch any exceptions in the lower layers,
+        // and make an error page/response
+        ->add(new ErrorHandlerMiddleware(null, Configure::read('Error')))
 
-            // Handle plugin/theme assets like CakePHP normally does.
+        // Handle plugin/theme assets like CakePHP normally does.
             ->add(new AssetMiddleware([
-                'cacheTime' => Configure::read('Asset.cacheTime')
+                'cacheTime' => Configure::read('Asset.cacheTime'),
             ]))
 
-            // Add routing middleware.
-            // Routes collection cache enabled by default, to disable route caching
-            // pass null as cacheConfig, example: `new RoutingMiddleware($this)`
-            // you might want to disable this cache in case your routing is extremely simple
+        // Add routing middleware.
+        // Routes collection cache enabled by default, to disable route caching
+        // pass null as cacheConfig, example: `new RoutingMiddleware($this)`
+        // you might want to disable this cache in case your routing is extremely simple
             ->add(new RoutingMiddleware($this, '_cake_routes_'))
 
-            // Authentication should be added *after* RoutingMiddleware.
-            // So that subdirectory information and routes are loaded.
+        // Authentication should be added *after* RoutingMiddleware.
+        // So that subdirectory information and routes are loaded.
             ->add(new AuthenticationMiddleware($this));
 
         return $middlewareQueue;
     }
 
-    public function routes($routes) {
+    public function routes($routes)
+    {
         // $_defaultConfig = [
         //     'cookieName' => 'csrfToken',
         //     'expiry' => 0,

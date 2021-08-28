@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2021-04-28 15:52+0200\n"
-"PO-Revision-Date: 2021-04-28 17:23+0200\n"
+"POT-Creation-Date: 2021-08-25 16:49+0200\n"
+"PO-Revision-Date: 2021-08-25 17:11+0200\n"
 "Last-Translator: \n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
 "Language: de\n"
@@ -13,7 +13,137 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.4.2\n"
+"X-Generator: Poedit 3.0\n"
+
+#: Controller/Api/AppController.php:27
+msgid "Not Authorized"
+msgstr "Keine Berechtigung"
+
+#: Controller/Api/ImagesController.php:66
+msgid "Image saved"
+msgstr "Bild gespeichert"
+
+#: Controller/Api/ImagesController.php:74
+msgid "An error occurred saving your image data"
+msgstr "Fehler beim speichern des Bildes"
+
+#: Controller/Api/ImagesController.php:83
+#: Controller/Api/VideosController.php:138
+msgid "An Error occurred while uploading your files"
+msgstr "Fehler beim hochladen der Dateien"
+
+#: Controller/Api/ImagesController.php:109
+#: Controller/Api/ImagesController.php:130
+msgid "Image could not be deleted"
+msgstr "Bild konnte nicht aktualisiert werden"
+
+#: Controller/Api/ImagesController.php:124
+msgid "Image deleted"
+msgstr "Bild wurde gelöscht"
+
+#: Controller/Api/KodaksController.php:39
+msgid "No Index Found Error"
+msgstr "Index nicht gefunden"
+
+#: Controller/Api/SentsController.php:82
+msgid "My website"
+msgstr "Meine Webseite"
+
+#: Controller/Api/SentsController.php:83
+msgid "General Information"
+msgstr "Allgemeine Information"
+
+#: Controller/Api/SentsController.php:120
+msgid "Message from: {0}"
+msgstr "Mitteilung von: {0}"
+
+#: Controller/Api/SentsController.php:130
+msgid "New User: {0}"
+msgstr "Neuer Benutzer: {0}"
+
+#: Controller/Api/SentsController.php:203
+msgid "No message"
+msgstr "Keine Mitteilung"
+
+#: Controller/Api/TemplatesController.php:91
+msgid "Template created"
+msgstr "Vorlage erstellt"
+
+#: Controller/Api/TemplatesController.php:95
+msgid "Template could not be created"
+msgstr "Vorlage konnte nicht erstellt werden"
+
+#: Controller/Api/TemplatesController.php:123
+msgid "Template deleted"
+msgstr "Vorlage entfernt"
+
+#: Controller/Api/TemplatesController.php:127
+msgid "Template could not be deleted"
+msgstr "Vorlage konnte nicht entfernt werden"
+
+#: Controller/Api/TokensController.php:110
+msgid "Token created"
+msgstr "Token wurde generiert"
+
+#: Controller/Api/TokensController.php:134
+msgid "Token removed"
+msgstr "Token wurde gelöscht"
+
+#: Controller/Api/UploadsController.php:50
+#: Controller/Api/UsersController.php:204
+#: Controller/Api/UsersController.php:242
+msgid "Invalid username or password"
+msgstr "Ungültiger Benutzername oder Passwort"
+
+#: Controller/Api/UsersController.php:130
+msgid "User created"
+msgstr "Benutzer erstellt"
+
+#: Controller/Api/UsersController.php:149
+msgid "User updated"
+msgstr "Benutzer aktualisiert"
+
+#: Controller/Api/UsersController.php:151
+msgid "User could not be updated"
+msgstr "Benutzer konnte nicht aktualisiert werden"
+
+#: Controller/Api/UsersController.php:173
+msgid "Protected users can not be deleted"
+msgstr "Änderungen an diesem Benutzer sind nicht zulässig"
+
+#: Controller/Api/UsersController.php:188
+msgid "User deleted"
+msgstr "Benutzer gelöscht"
+
+#: Controller/Api/UsersController.php:245
+msgid "Invalid Token"
+msgstr "Ungültiger Token"
+
+#: Controller/Api/UsersController.php:296
+msgid "Login successful"
+msgstr "Sie wurden angemeldet"
+
+#: Controller/Api/UsersController.php:311
+msgid "You're logged out"
+msgstr "Sie wurden abgemeldet"
+
+#: Controller/Api/VideosController.php:121
+#: Controller/Api/VideosController.php:150
+msgid "Video saved"
+msgstr "Video gespeichert"
+
+#: Controller/Api/VideosController.php:129
+#: Controller/Api/VideosController.php:156
+msgid "Video could not be saved"
+msgstr "Video konnte nicht gesichert werden"
+
+#: Controller/Api/VideosController.php:194
+msgid "Video deleted"
+msgstr "Video gelöscht"
+
+#: Controller/Api/VideosController.php:200
+msgid "Video could not be deleted"
+msgstr "Video konnte nicht gelöscht werden"
 
 #: Controller/AvatarsController.php:57 Controller/AvatarsController.php:82
 msgid "The avatar has been saved."
@@ -32,6 +162,13 @@ msgstr "Der Avatar wurde gelöscht."
 msgid "The avatar could not be deleted. Please, try again."
 msgstr ""
 "Der Avatar konnte nicht gelöscht werden. Bitte versuchen Sie es erneut."
+
+#: Controller/Component/FileComponent.php:230
+msgid ""
+"[#Set the locale to use for date translations. (http://php.net/setlocale) "
+"You can specify as many locales as you like and Director will use the first "
+"available from your list. Example: es_MX,es_ES,es_AR#]en_US"
+msgstr ""
 
 #: Controller/FieldsController.php:54 Controller/FieldsController.php:78
 msgid "The field has been saved."
@@ -180,20 +317,20 @@ msgstr "Der Token wurde gelöscht."
 msgid "The token could not be deleted. Please, try again."
 msgstr "Der Token konnte nicht gelöscht werden. Bitte versuche es erneut."
 
-#: Controller/UsersController.php:91 Controller/UsersController.php:117
+#: Controller/UsersController.php:94 Controller/UsersController.php:120
 msgid "The user has been saved."
 msgstr "Der Benutzer wurde gespeichert."
 
-#: Controller/UsersController.php:95 Controller/UsersController.php:121
+#: Controller/UsersController.php:98 Controller/UsersController.php:124
 msgid "The user could not be saved. Please, try again."
 msgstr ""
 "Der Benutzer konnte nicht gespeichert werden. Bitte versuche es erneut."
 
-#: Controller/UsersController.php:140
+#: Controller/UsersController.php:143
 msgid "The user has been deleted."
 msgstr "Der Benutzer wurde gelöscht."
 
-#: Controller/UsersController.php:142
+#: Controller/UsersController.php:145
 msgid "The user could not be deleted. Please, try again."
 msgstr "Der Benutzer konnte nicht gelöscht werden. Bitte versuche es erneut."
 
@@ -213,135 +350,6 @@ msgstr "Das Video wurde gelöscht."
 msgid "The video could not be deleted. Please, try again."
 msgstr "Das Video konnte nicht gelöscht werden. Bitte versuche es erneut."
 
-#: Controller/Api/AppController.php:27
-msgid "Not Authorized"
-msgstr "Keine Berechtigung"
-
-#: Controller/Api/ImagesController.php:66
-msgid "Image saved"
-msgstr "Bild gespeichert"
-
-#: Controller/Api/ImagesController.php:74
-msgid "An error occurred saving your image data"
-msgstr "Fehler beim speichern des Bildes"
-
-#: Controller/Api/ImagesController.php:83
-#: Controller/Api/VideosController.php:138
-msgid "An Error occurred while uploading your files"
-msgstr "Fehler beim hochladen der Dateien"
-
-#: Controller/Api/ImagesController.php:109
-#: Controller/Api/ImagesController.php:130
-msgid "Image could not be deleted"
-msgstr "Bild konnte nicht aktualisiert werden"
-
-#: Controller/Api/ImagesController.php:124
-msgid "Image deleted"
-msgstr "Bild wurde gelöscht"
-
-#: Controller/Api/KodaksController.php:39
-msgid "No Index Found Error"
-msgstr "Index nicht gefunden"
-
-#: Controller/Api/SentsController.php:82
-msgid "My website"
-msgstr "Meine Webseite"
-
-#: Controller/Api/SentsController.php:83
-msgid "General Information"
-msgstr "Allgemeine Information"
-
-#: Controller/Api/SentsController.php:115
-msgid "Message from: {0}"
-msgstr "Mitteilung von: {0}"
-
-#: Controller/Api/SentsController.php:125
-msgid "New User: {0}"
-msgstr "Neuer Benutzer: {0}"
-
-#: Controller/Api/SentsController.php:198
-msgid "No message"
-msgstr "Keine Mitteilung"
-
-#: Controller/Api/TemplatesController.php:121
-msgid "Template deleted"
-msgstr "Vorlage gelöscht"
-
-#: Controller/Api/TemplatesController.php:127
-msgid "Template could not be deleted"
-msgstr "Vorlage konnte nicht aktualisiert werden"
-
-#: Controller/Api/TokensController.php:110
-msgid "Token created"
-msgstr "Token wurde generiert"
-
-#: Controller/Api/TokensController.php:134
-msgid "Token removed"
-msgstr "Token wurde gelöscht"
-
-#: Controller/Api/UploadsController.php:50
-#: Controller/Api/UsersController.php:200
-#: Controller/Api/UsersController.php:238
-msgid "Invalid username or password"
-msgstr "Ungültiger Benutzername oder Passwort"
-
-#: Controller/Api/UsersController.php:123
-msgid "User created"
-msgstr "Benutzer erstellt"
-
-#: Controller/Api/UsersController.php:146
-msgid "User updated"
-msgstr "Benutzer aktualisiert"
-
-#: Controller/Api/UsersController.php:148
-msgid "User could not be updated"
-msgstr "Benutzer konnte nicht aktualisiert werden"
-
-#: Controller/Api/UsersController.php:171
-msgid "Protected users can not be deleted"
-msgstr "Änderungen an diesem Benutzer sind nicht zulässig"
-
-#: Controller/Api/UsersController.php:186
-msgid "User deleted"
-msgstr "Benutzer gelöscht"
-
-#: Controller/Api/UsersController.php:241
-msgid "Invalid Token"
-msgstr "Ungültiger Token"
-
-#: Controller/Api/UsersController.php:292
-msgid "Login successful"
-msgstr "Sie wurden angemeldet"
-
-#: Controller/Api/UsersController.php:307
-msgid "You're logged out"
-msgstr "Sie wurden abgemeldet"
-
-#: Controller/Api/VideosController.php:121
-#: Controller/Api/VideosController.php:150
-msgid "Video saved"
-msgstr "Video gespeichert"
-
-#: Controller/Api/VideosController.php:129
-#: Controller/Api/VideosController.php:156
-msgid "Video could not be saved"
-msgstr "Video konnte nicht gesichert werden"
-
-#: Controller/Api/VideosController.php:194
-msgid "Video deleted"
-msgstr "Video gelöscht"
-
-#: Controller/Api/VideosController.php:200
-msgid "Video could not be deleted"
-msgstr "Video konnte nicht gelöscht werden"
-
-#: Controller/Component/FileComponent.php:230
-msgid ""
-"[#Set the locale to use for date translations. (http://php.net/setlocale) "
-"You can specify as many locales as you like and Director will use the first "
-"available from your list. Example: es_MX,es_ES,es_AR#]en_US"
-msgstr ""
-
 #: Model/Table/TokensTable.php:79
 msgid "Token did not change."
 msgstr "Der Token wurde nicht geändert."
@@ -354,920 +362,783 @@ msgstr "Dieser Benutzer ist schreibgeschützt"
 msgid "Fields are protected and cannot be changed"
 msgstr "Die Felder sind schreibgeschützt"
 
-#: Model/Table/UsersTable.php:224
+#: Model/Table/UsersTable.php:224 Model/Table/UsersTable.php:236
 msgid "Invalid token"
 msgstr "Ungültiger Token"
 
-#: Template/Avatars/add.ctp:9 Template/Avatars/edit.ctp:9
-#: Template/Avatars/index.ctp:9 Template/Avatars/index.ctp:26
-#: Template/Avatars/view.ctp:9 Template/Fields/add.ctp:9
-#: Template/Fields/edit.ctp:9 Template/Fields/index.ctp:9
-#: Template/Fields/index.ctp:24 Template/Fields/view.ctp:9
-#: Template/Fields/view.ctp:47 Template/Groups/add.ctp:9
-#: Template/Groups/edit.ctp:9 Template/Groups/index.ctp:9
-#: Template/Groups/index.ctp:22 Template/Groups/view.ctp:9
-#: Template/Groups/view.ctp:40 Template/Images/add.ctp:9
-#: Template/Images/edit.ctp:9 Template/Images/index.ctp:9
-#: Template/Images/index.ctp:34 Template/Images/view.ctp:9
-#: Template/Images/view.ctp:96 Template/Inboxes/add.ctp:9
-#: Template/Inboxes/edit.ctp:9 Template/Inboxes/index.ctp:9
-#: Template/Inboxes/index.ctp:27 Template/Inboxes/view.ctp:9
-#: Template/Items/add.ctp:9 Template/Items/edit.ctp:9
-#: Template/Items/index.ctp:9 Template/Items/index.ctp:25
-#: Template/Items/view.ctp:9 Template/Messages/add.ctp:9
-#: Template/Messages/edit.ctp:9 Template/Messages/index.ctp:9
-#: Template/Messages/index.ctp:28 Template/Messages/view.ctp:9
-#: Template/Mysql/add.ctp:9 Template/Mysql/edit.ctp:9
-#: Template/Mysql/index.ctp:9 Template/Mysql/index.ctp:23
-#: Template/Mysql/view.ctp:9 Template/Sents/add.ctp:9 Template/Sents/edit.ctp:9
-#: Template/Sents/index.ctp:9 Template/Sents/index.ctp:26
-#: Template/Sents/view.ctp:9 Template/Templates/add.ctp:9
-#: Template/Templates/edit.ctp:9 Template/Templates/index.ctp:9
-#: Template/Templates/index.ctp:26 Template/Templates/view.ctp:9
-#: Template/Templates/view.ctp:55 Template/Tokens/add.ctp:9
-#: Template/Tokens/edit.ctp:9 Template/Tokens/index.ctp:9
-#: Template/Tokens/index.ctp:24 Template/Tokens/view.ctp:9
-#: Template/Users/add.ctp:9 Template/Users/edit.ctp:9
-#: Template/Users/index.ctp:9 Template/Users/index.ctp:40
-#: Template/Users/view.ctp:9 Template/Users/view.ctp:94
-#: Template/Users/view.ctp:129 Template/Users/view.ctp:164
-#: Template/UsersVideos/add.ctp:9 Template/UsersVideos/edit.ctp:9
-#: Template/UsersVideos/index.ctp:9 Template/UsersVideos/index.ctp:27
-#: Template/UsersVideos/view.ctp:9 Template/Videos/add.ctp:9
-#: Template/Videos/edit.ctp:9 Template/Videos/index.ctp:9
-#: Template/Videos/index.ctp:31 Template/Videos/view.ctp:9
-#: Template/Videos/view.ctp:74
+#: Avatars/add.php:9 Avatars/edit.php:9 Avatars/index.php:9
+#: Avatars/index.php:26 Avatars/view.php:9 Fields/add.php:9 Fields/edit.php:9
+#: Fields/index.php:9 Fields/index.php:24 Fields/view.php:9 Fields/view.php:47
+#: Groups/add.php:9 Groups/edit.php:9 Groups/index.php:9 Groups/index.php:22
+#: Groups/view.php:9 Groups/view.php:40 Images/add.php:9 Images/edit.php:9
+#: Images/index.php:9 Images/index.php:34 Images/view.php:9 Images/view.php:96
+#: Inboxes/add.php:9 Inboxes/edit.php:9 Inboxes/index.php:9
+#: Inboxes/index.php:27 Inboxes/view.php:9 Items/add.php:9 Items/edit.php:9
+#: Items/index.php:9 Items/index.php:25 Items/view.php:9 Messages/add.php:9
+#: Messages/edit.php:9 Messages/index.php:9 Messages/index.php:28
+#: Messages/view.php:9 Mysql/add.php:9 Mysql/edit.php:9 Mysql/index.php:9
+#: Mysql/index.php:23 Mysql/view.php:9 Sents/add.php:9 Sents/edit.php:9
+#: Sents/index.php:9 Sents/index.php:26 Sents/view.php:9 Templates/add.php:9
+#: Templates/edit.php:9 Templates/index.php:9 Templates/index.php:26
+#: Templates/view.php:9 Templates/view.php:55 Tokens/add.php:9
+#: Tokens/edit.php:9 Tokens/index.php:9 Tokens/index.php:24 Tokens/view.php:9
+#: Users/add.php:9 Users/edit.php:9 Users/index.php:9 Users/index.php:40
+#: Users/view.php:9 Users/view.php:94 Users/view.php:130 Users/view.php:166
+#: UsersVideos/add.php:9 UsersVideos/edit.php:9 UsersVideos/index.php:9
+#: UsersVideos/index.php:27 UsersVideos/view.php:9 Videos/add.php:9
+#: Videos/edit.php:9 Videos/index.php:9 Videos/index.php:31 Videos/view.php:9
+#: Videos/view.php:74
 msgid "Actions"
 msgstr "Aktionen"
 
-#: Template/Avatars/add.ctp:10 Template/Avatars/edit.ctp:16
-#: Template/Avatars/view.ctp:12 Template/Users/add.ctp:13
-#: Template/Users/edit.ctp:19 Template/Users/index.ctp:13
-#: Template/Users/view.ctp:16
+#: Avatars/add.php:10 Avatars/edit.php:16 Avatars/view.php:12 Users/add.php:13
+#: Users/edit.php:19 Users/index.php:13 Users/view.php:16
 msgid "List Avatars"
 msgstr "Avatars auflisten"
 
-#: Template/Avatars/add.ctp:11 Template/Avatars/edit.ctp:17
-#: Template/Avatars/index.ctp:11 Template/Avatars/view.ctp:14
-#: Template/Groups/add.ctp:11 Template/Groups/edit.ctp:17
-#: Template/Groups/index.ctp:11 Template/Groups/view.ctp:14
-#: Template/Inboxes/add.ctp:11 Template/Inboxes/edit.ctp:17
-#: Template/Inboxes/index.ctp:11 Template/Inboxes/view.ctp:14
-#: Template/Sents/add.ctp:11 Template/Sents/edit.ctp:17
-#: Template/Sents/index.ctp:11 Template/Sents/view.ctp:14
-#: Template/Tokens/add.ctp:11 Template/Tokens/edit.ctp:17
-#: Template/Tokens/index.ctp:11 Template/Tokens/view.ctp:14
-#: Template/Users/add.ctp:10 Template/Users/edit.ctp:16
-#: Template/Users/view.ctp:12 Template/UsersVideos/add.ctp:11
-#: Template/UsersVideos/edit.ctp:17 Template/UsersVideos/index.ctp:11
-#: Template/UsersVideos/view.ctp:14 Template/Videos/add.ctp:13
-#: Template/Videos/edit.ctp:19 Template/Videos/index.ctp:13
-#: Template/Videos/view.ctp:16
+#: Avatars/add.php:11 Avatars/edit.php:17 Avatars/index.php:11
+#: Avatars/view.php:14 Groups/add.php:11 Groups/edit.php:17 Groups/index.php:11
+#: Groups/view.php:14 Inboxes/add.php:11 Inboxes/edit.php:17
+#: Inboxes/index.php:11 Inboxes/view.php:14 Sents/add.php:11 Sents/edit.php:17
+#: Sents/index.php:11 Sents/view.php:14 Tokens/add.php:11 Tokens/edit.php:17
+#: Tokens/index.php:11 Tokens/view.php:14 Users/add.php:10 Users/edit.php:16
+#: Users/view.php:12 UsersVideos/add.php:11 UsersVideos/edit.php:17
+#: UsersVideos/index.php:11 UsersVideos/view.php:14 Videos/add.php:13
+#: Videos/edit.php:19 Videos/index.php:13 Videos/view.php:16
 msgid "List Users"
 msgstr "Benutzer auflisten"
 
-#: Template/Avatars/add.ctp:12 Template/Avatars/edit.ctp:18
-#: Template/Avatars/index.ctp:12 Template/Avatars/view.ctp:15
-#: Template/Groups/add.ctp:12 Template/Groups/edit.ctp:18
-#: Template/Groups/index.ctp:12 Template/Groups/view.ctp:15
-#: Template/Inboxes/add.ctp:12 Template/Inboxes/edit.ctp:18
-#: Template/Inboxes/index.ctp:12 Template/Inboxes/view.ctp:15
-#: Template/Sents/add.ctp:12 Template/Sents/edit.ctp:18
-#: Template/Sents/index.ctp:12 Template/Sents/view.ctp:15
-#: Template/Tokens/add.ctp:12 Template/Tokens/edit.ctp:18
-#: Template/Tokens/index.ctp:12 Template/Tokens/view.ctp:15
-#: Template/Users/index.ctp:10 Template/Users/view.ctp:13
-#: Template/UsersVideos/add.ctp:12 Template/UsersVideos/edit.ctp:18
-#: Template/UsersVideos/index.ctp:12 Template/UsersVideos/view.ctp:15
-#: Template/Videos/add.ctp:14 Template/Videos/edit.ctp:20
-#: Template/Videos/index.ctp:14 Template/Videos/view.ctp:17
+#: Avatars/add.php:12 Avatars/edit.php:18 Avatars/index.php:12
+#: Avatars/view.php:15 Groups/add.php:12 Groups/edit.php:18 Groups/index.php:12
+#: Groups/view.php:15 Inboxes/add.php:12 Inboxes/edit.php:18
+#: Inboxes/index.php:12 Inboxes/view.php:15 Sents/add.php:12 Sents/edit.php:18
+#: Sents/index.php:12 Sents/view.php:15 Tokens/add.php:12 Tokens/edit.php:18
+#: Tokens/index.php:12 Tokens/view.php:15 Users/index.php:10 Users/view.php:13
+#: UsersVideos/add.php:12 UsersVideos/edit.php:18 UsersVideos/index.php:12
+#: UsersVideos/view.php:15 Videos/add.php:14 Videos/edit.php:20
+#: Videos/index.php:14 Videos/view.php:17
 msgid "New User"
 msgstr "Neuer Benutzer"
 
-#: Template/Avatars/add.ctp:18
+#: Avatars/add.php:18
 msgid "Add Avatar"
 msgstr "Avatar hinzufügen"
 
-#: Template/Avatars/add.ctp:25 Template/Avatars/edit.ctp:31
-#: Template/Fields/add.ctp:23 Template/Fields/edit.ctp:29
-#: Template/Groups/add.ctp:23 Template/Groups/edit.ctp:29
-#: Template/Images/add.ctp:34 Template/Images/edit.ctp:40
-#: Template/Inboxes/add.ctp:26 Template/Inboxes/edit.ctp:32
-#: Template/Items/add.ctp:27 Template/Items/edit.ctp:33
-#: Template/Messages/add.ctp:27 Template/Messages/edit.ctp:33
-#: Template/Mysql/add.ctp:22 Template/Mysql/edit.ctp:28
-#: Template/Sents/add.ctp:26 Template/Sents/edit.ctp:32
-#: Template/Templates/add.ctp:25 Template/Templates/edit.ctp:31
-#: Template/Tokens/add.ctp:24 Template/Tokens/edit.ctp:30
-#: Template/Users/add.ctp:40 Template/Users/edit.ctp:46
-#: Template/UsersVideos/add.ctp:28 Template/UsersVideos/edit.ctp:34
-#: Template/Videos/add.ctp:31 Template/Videos/edit.ctp:37
+#: Avatars/add.php:25 Avatars/edit.php:31 Fields/add.php:23 Fields/edit.php:29
+#: Groups/add.php:23 Groups/edit.php:29 Images/add.php:34 Images/edit.php:40
+#: Inboxes/add.php:27 Inboxes/edit.php:33 Items/add.php:27 Items/edit.php:33
+#: Messages/add.php:27 Messages/edit.php:33 Mysql/add.php:22 Mysql/edit.php:28
+#: Sents/add.php:26 Sents/edit.php:32 Templates/add.php:25
+#: Templates/edit.php:31 Tokens/add.php:24 Tokens/edit.php:30 Users/add.php:40
+#: Users/edit.php:46 UsersVideos/add.php:28 UsersVideos/edit.php:34
+#: Videos/add.php:31 Videos/edit.php:37
 msgid "Submit"
 msgstr "Speichern"
 
-#: Template/Avatars/edit.ctp:11 Template/Avatars/index.ctp:41
-#: Template/Fields/edit.ctp:11 Template/Fields/index.ctp:37
-#: Template/Fields/view.ctp:58 Template/Groups/edit.ctp:11
-#: Template/Groups/index.ctp:33 Template/Groups/view.ctp:52
-#: Template/Images/edit.ctp:11 Template/Images/index.ctp:57
-#: Template/Images/view.ctp:112 Template/Inboxes/edit.ctp:11
-#: Template/Inboxes/index.ctp:45 Template/Items/edit.ctp:11
-#: Template/Items/index.ctp:37 Template/Messages/edit.ctp:11
-#: Template/Messages/index.ctp:45 Template/Mysql/edit.ctp:11
-#: Template/Mysql/index.ctp:37 Template/Sents/edit.ctp:11
-#: Template/Sents/index.ctp:41 Template/Templates/edit.ctp:11
-#: Template/Templates/index.ctp:41 Template/Templates/view.ctp:66
-#: Template/Tokens/edit.ctp:11 Template/Tokens/index.ctp:37
-#: Template/Users/edit.ctp:11 Template/Users/index.ctp:59
-#: Template/Users/view.ctp:110 Template/Users/view.ctp:145
-#: Template/Users/view.ctp:180 Template/UsersVideos/edit.ctp:11
-#: Template/UsersVideos/index.ctp:41 Template/Videos/edit.ctp:11
-#: Template/Videos/index.ctp:49 Template/Videos/view.ctp:90
+#: Avatars/edit.php:11 Avatars/index.php:41 Fields/edit.php:11
+#: Fields/index.php:37 Fields/view.php:58 Groups/edit.php:11
+#: Groups/index.php:33 Groups/view.php:52 Images/edit.php:11
+#: Images/index.php:57 Images/view.php:112 Inboxes/edit.php:11
+#: Inboxes/index.php:43 Items/edit.php:11 Items/index.php:37
+#: Messages/edit.php:11 Messages/index.php:45 Mysql/edit.php:11
+#: Mysql/index.php:37 Sents/edit.php:11 Sents/index.php:41
+#: Templates/edit.php:11 Templates/index.php:41 Templates/view.php:66
+#: Tokens/edit.php:11 Tokens/index.php:37 Users/edit.php:11 Users/index.php:59
+#: Users/view.php:110 Users/view.php:147 Users/view.php:182
+#: UsersVideos/edit.php:11 UsersVideos/index.php:41 Videos/edit.php:11
+#: Videos/index.php:49 Videos/view.php:90
 msgid "Delete"
 msgstr "Löschen"
 
-#: Template/Avatars/edit.ctp:13 Template/Avatars/index.ctp:41
-#: Template/Avatars/view.ctp:11 Template/Fields/edit.ctp:13
-#: Template/Fields/index.ctp:37 Template/Fields/view.ctp:11
-#: Template/Fields/view.ctp:58 Template/Groups/edit.ctp:13
-#: Template/Groups/index.ctp:33 Template/Groups/view.ctp:11
-#: Template/Groups/view.ctp:52 Template/Images/edit.ctp:13
-#: Template/Images/index.ctp:57 Template/Images/view.ctp:11
-#: Template/Images/view.ctp:112 Template/Inboxes/edit.ctp:13
-#: Template/Inboxes/index.ctp:45 Template/Inboxes/view.ctp:11
-#: Template/Items/edit.ctp:13 Template/Items/index.ctp:37
-#: Template/Items/view.ctp:11 Template/Messages/edit.ctp:13
-#: Template/Messages/index.ctp:45 Template/Messages/view.ctp:11
-#: Template/Mysql/edit.ctp:13 Template/Mysql/index.ctp:37
-#: Template/Mysql/view.ctp:11 Template/Sents/edit.ctp:13
-#: Template/Sents/index.ctp:41 Template/Sents/view.ctp:11
-#: Template/Templates/edit.ctp:13 Template/Templates/index.ctp:41
-#: Template/Templates/view.ctp:11 Template/Templates/view.ctp:66
-#: Template/Tokens/edit.ctp:13 Template/Tokens/index.ctp:37
-#: Template/Tokens/view.ctp:11 Template/Users/edit.ctp:13
-#: Template/Users/index.ctp:59 Template/Users/view.ctp:11
-#: Template/Users/view.ctp:110 Template/Users/view.ctp:145
-#: Template/Users/view.ctp:180 Template/UsersVideos/edit.ctp:13
-#: Template/UsersVideos/index.ctp:41 Template/UsersVideos/view.ctp:11
-#: Template/Videos/edit.ctp:13 Template/Videos/index.ctp:49
-#: Template/Videos/view.ctp:11 Template/Videos/view.ctp:90
+#: Avatars/edit.php:13 Avatars/index.php:41 Avatars/view.php:11
+#: Fields/edit.php:13 Fields/index.php:37 Fields/view.php:11 Fields/view.php:58
+#: Groups/edit.php:13 Groups/index.php:33 Groups/view.php:11 Groups/view.php:52
+#: Images/edit.php:13 Images/index.php:57 Images/view.php:11
+#: Images/view.php:112 Inboxes/edit.php:13 Inboxes/index.php:43
+#: Inboxes/view.php:11 Items/edit.php:13 Items/index.php:37 Items/view.php:11
+#: Messages/edit.php:13 Messages/index.php:45 Messages/view.php:11
+#: Mysql/edit.php:13 Mysql/index.php:37 Mysql/view.php:11 Sents/edit.php:13
+#: Sents/index.php:41 Sents/view.php:11 Templates/edit.php:13
+#: Templates/index.php:41 Templates/view.php:11 Templates/view.php:66
+#: Tokens/edit.php:13 Tokens/index.php:37 Tokens/view.php:11 Users/edit.php:13
+#: Users/index.php:59 Users/view.php:11 Users/view.php:110 Users/view.php:147
+#: Users/view.php:182 UsersVideos/edit.php:13 UsersVideos/index.php:41
+#: UsersVideos/view.php:11 Videos/edit.php:13 Videos/index.php:49
+#: Videos/view.php:11 Videos/view.php:90
 msgid "Are you sure you want to delete # {0}?"
 msgstr "Soll # {0} wirklich gelöscht werden?"
 
-#: Template/Avatars/edit.ctp:24 Template/Avatars/view.ctp:10
+#: Avatars/edit.php:24 Avatars/view.php:10
 msgid "Edit Avatar"
 msgstr "Avatar bearbeiten"
 
-#: Template/Avatars/index.ctp:10 Template/Avatars/view.ctp:13
-#: Template/Users/add.ctp:14 Template/Users/edit.ctp:20
-#: Template/Users/index.ctp:14 Template/Users/view.ctp:17
+#: Avatars/index.php:10 Avatars/view.php:13 Users/add.php:14 Users/edit.php:20
+#: Users/index.php:14 Users/view.php:17
 msgid "New Avatar"
 msgstr "Neuer Avatar"
 
-#: Template/Avatars/index.ctp:16
+#: Avatars/index.php:16
 msgid "Avatars"
 msgstr "Avatare"
 
-#: Template/Avatars/index.ctp:39 Template/Fields/index.ctp:35
-#: Template/Fields/view.ctp:56 Template/Groups/index.ctp:31
-#: Template/Groups/view.ctp:50 Template/Images/index.ctp:55
-#: Template/Images/view.ctp:110 Template/Inboxes/index.ctp:43
-#: Template/Items/index.ctp:35 Template/Messages/index.ctp:43
-#: Template/Mysql/index.ctp:35 Template/Sents/index.ctp:39
-#: Template/Templates/index.ctp:39 Template/Templates/view.ctp:64
-#: Template/Tokens/index.ctp:35 Template/Users/index.ctp:57
-#: Template/Users/view.ctp:108 Template/Users/view.ctp:143
-#: Template/Users/view.ctp:178 Template/UsersVideos/index.ctp:39
-#: Template/Videos/index.ctp:47 Template/Videos/view.ctp:88
+#: Avatars/index.php:39 Fields/index.php:35 Fields/view.php:56
+#: Groups/index.php:31 Groups/view.php:50 Images/index.php:55
+#: Images/view.php:110 Inboxes/index.php:41 Items/index.php:35
+#: Messages/index.php:43 Mysql/index.php:35 Sents/index.php:39
+#: Templates/index.php:39 Templates/view.php:64 Tokens/index.php:35
+#: Users/index.php:57 Users/view.php:108 Users/view.php:145 Users/view.php:180
+#: UsersVideos/index.php:39 Videos/index.php:47 Videos/view.php:88
 msgid "View"
 msgstr "Ansehen"
 
-#: Template/Avatars/index.ctp:40 Template/Fields/index.ctp:36
-#: Template/Fields/view.ctp:57 Template/Groups/index.ctp:32
-#: Template/Groups/view.ctp:51 Template/Images/index.ctp:56
-#: Template/Images/view.ctp:111 Template/Inboxes/index.ctp:44
-#: Template/Items/index.ctp:36 Template/Messages/index.ctp:44
-#: Template/Mysql/index.ctp:36 Template/Sents/index.ctp:40
-#: Template/Templates/index.ctp:40 Template/Templates/view.ctp:65
-#: Template/Tokens/index.ctp:36 Template/Users/index.ctp:58
-#: Template/Users/view.ctp:109 Template/Users/view.ctp:144
-#: Template/Users/view.ctp:179 Template/UsersVideos/index.ctp:40
-#: Template/Videos/index.ctp:48 Template/Videos/view.ctp:89
+#: Avatars/index.php:40 Fields/index.php:36 Fields/view.php:57
+#: Groups/index.php:32 Groups/view.php:51 Images/index.php:56
+#: Images/view.php:111 Inboxes/index.php:42 Items/index.php:36
+#: Messages/index.php:44 Mysql/index.php:36 Sents/index.php:40
+#: Templates/index.php:40 Templates/view.php:65 Tokens/index.php:36
+#: Users/index.php:58 Users/view.php:109 Users/view.php:146 Users/view.php:181
+#: UsersVideos/index.php:40 Videos/index.php:48 Videos/view.php:89
 msgid "Edit"
 msgstr "Bearbeiten"
 
-#: Template/Avatars/index.ctp:49 Template/Fields/index.ctp:45
-#: Template/Groups/index.ctp:41 Template/Images/index.ctp:65
-#: Template/Inboxes/index.ctp:53 Template/Items/index.ctp:45
-#: Template/Messages/index.ctp:53 Template/Mysql/index.ctp:45
-#: Template/Sents/index.ctp:49 Template/Templates/index.ctp:49
-#: Template/Tokens/index.ctp:45 Template/Users/index.ctp:67
-#: Template/UsersVideos/index.ctp:49 Template/Videos/index.ctp:57
+#: Avatars/index.php:49 Fields/index.php:45 Groups/index.php:41
+#: Images/index.php:65 Inboxes/index.php:51 Items/index.php:45
+#: Messages/index.php:53 Mysql/index.php:45 Sents/index.php:49
+#: Templates/index.php:49 Tokens/index.php:45 Users/index.php:67
+#: UsersVideos/index.php:49 Videos/index.php:57
 msgid "first"
 msgstr "Erster"
 
-#: Template/Avatars/index.ctp:50 Template/Fields/index.ctp:46
-#: Template/Groups/index.ctp:42 Template/Images/index.ctp:66
-#: Template/Inboxes/index.ctp:54 Template/Items/index.ctp:46
-#: Template/Messages/index.ctp:54 Template/Mysql/index.ctp:46
-#: Template/Sents/index.ctp:50 Template/Templates/index.ctp:50
-#: Template/Tokens/index.ctp:46 Template/Users/index.ctp:68
-#: Template/UsersVideos/index.ctp:50 Template/Videos/index.ctp:58
+#: Avatars/index.php:50 Fields/index.php:46 Groups/index.php:42
+#: Images/index.php:66 Inboxes/index.php:52 Items/index.php:46
+#: Messages/index.php:54 Mysql/index.php:46 Sents/index.php:50
+#: Templates/index.php:50 Tokens/index.php:46 Users/index.php:68
+#: UsersVideos/index.php:50 Videos/index.php:58
 msgid "previous"
 msgstr "Vorherige"
 
-#: Template/Avatars/index.ctp:52 Template/Fields/index.ctp:48
-#: Template/Groups/index.ctp:44 Template/Images/index.ctp:68
-#: Template/Inboxes/index.ctp:56 Template/Items/index.ctp:48
-#: Template/Messages/index.ctp:56 Template/Mysql/index.ctp:48
-#: Template/Sents/index.ctp:52 Template/Templates/index.ctp:52
-#: Template/Tokens/index.ctp:48 Template/Users/index.ctp:70
-#: Template/UsersVideos/index.ctp:52 Template/Videos/index.ctp:60
+#: Avatars/index.php:52 Fields/index.php:48 Groups/index.php:44
+#: Images/index.php:68 Inboxes/index.php:54 Items/index.php:48
+#: Messages/index.php:56 Mysql/index.php:48 Sents/index.php:52
+#: Templates/index.php:52 Tokens/index.php:48 Users/index.php:70
+#: UsersVideos/index.php:52 Videos/index.php:60
 msgid "next"
 msgstr "Nächste"
 
-#: Template/Avatars/index.ctp:53 Template/Fields/index.ctp:49
-#: Template/Groups/index.ctp:45 Template/Images/index.ctp:69
-#: Template/Inboxes/index.ctp:57 Template/Items/index.ctp:49
-#: Template/Messages/index.ctp:57 Template/Mysql/index.ctp:49
-#: Template/Sents/index.ctp:53 Template/Templates/index.ctp:53
-#: Template/Tokens/index.ctp:49 Template/Users/index.ctp:71
-#: Template/UsersVideos/index.ctp:53 Template/Videos/index.ctp:61
+#: Avatars/index.php:53 Fields/index.php:49 Groups/index.php:45
+#: Images/index.php:69 Inboxes/index.php:55 Items/index.php:49
+#: Messages/index.php:57 Mysql/index.php:49 Sents/index.php:53
+#: Templates/index.php:53 Tokens/index.php:49 Users/index.php:71
+#: UsersVideos/index.php:53 Videos/index.php:61
 msgid "last"
 msgstr "Letzte"
 
-#: Template/Avatars/index.ctp:55 Template/Fields/index.ctp:51
-#: Template/Groups/index.ctp:47 Template/Images/index.ctp:71
-#: Template/Inboxes/index.ctp:59 Template/Items/index.ctp:51
-#: Template/Messages/index.ctp:59 Template/Mysql/index.ctp:51
-#: Template/Sents/index.ctp:55 Template/Templates/index.ctp:55
-#: Template/Tokens/index.ctp:51 Template/Users/index.ctp:73
-#: Template/UsersVideos/index.ctp:55 Template/Videos/index.ctp:63
+#: Avatars/index.php:55 Fields/index.php:51 Groups/index.php:47
+#: Images/index.php:71 Inboxes/index.php:57 Items/index.php:51
+#: Messages/index.php:59 Mysql/index.php:51 Sents/index.php:55
+#: Templates/index.php:55 Tokens/index.php:51 Users/index.php:73
+#: UsersVideos/index.php:55 Videos/index.php:63
 msgid ""
 "Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} "
 "total"
 msgstr "Seite {{page}} von {{pages}}, {{current}} von {{count}} Datensätzen"
 
-#: Template/Avatars/view.ctp:11
+#: Avatars/view.php:11
 msgid "Delete Avatar"
 msgstr "Avatar löschen"
 
-#: Template/Avatars/view.ctp:22 Template/Fields/view.ctp:22
-#: Template/Fields/view.ctp:43 Template/Groups/view.ctp:26
-#: Template/Groups/view.ctp:35 Template/Images/view.ctp:22
-#: Template/Images/view.ctp:87 Template/Inboxes/view.ctp:22
-#: Template/Items/view.ctp:24 Template/Messages/view.ctp:24
-#: Template/Mysql/view.ctp:28 Template/Sents/view.ctp:22
-#: Template/Templates/view.ctp:22 Template/Templates/view.ctp:51
-#: Template/Tokens/view.ctp:22 Template/Users/view.ctp:32
-#: Template/Users/view.ctp:85 Template/Users/view.ctp:122
-#: Template/Users/view.ctp:157 Template/UsersVideos/view.ctp:32
-#: Template/Videos/view.ctp:24 Template/Videos/view.ctp:65
+#: Avatars/view.php:22 Fields/view.php:22 Fields/view.php:43 Groups/view.php:26
+#: Groups/view.php:35 Images/view.php:22 Images/view.php:87 Inboxes/view.php:22
+#: Items/view.php:24 Messages/view.php:24 Mysql/view.php:28 Sents/view.php:22
+#: Templates/view.php:22 Templates/view.php:51 Tokens/view.php:22
+#: Users/view.php:32 Users/view.php:85 Users/view.php:122 Users/view.php:159
+#: UsersVideos/view.php:32 Videos/view.php:24 Videos/view.php:65
 msgid "Id"
 msgstr "ID"
 
-#: Template/Avatars/view.ctp:26 Template/Images/view.ctp:58
-#: Template/Images/view.ctp:91 Template/Users/view.ctp:89
-#: Template/Videos/view.ctp:40
+#: Avatars/view.php:26 Images/view.php:58 Images/view.php:91 Users/view.php:89
+#: Videos/view.php:40
 msgid "Src"
 msgstr "Quelle"
 
-#: Template/Avatars/view.ctp:30 Template/Inboxes/view.ctp:26
-#: Template/Sents/view.ctp:26 Template/Tokens/view.ctp:26
-#: Template/UsersVideos/view.ctp:24
+#: Avatars/view.php:30 Inboxes/view.php:26 Sents/view.php:26 Tokens/view.php:26
+#: UsersVideos/view.php:24
 msgid "User"
 msgstr "Benutzer"
 
-#: Template/Avatars/view.ctp:34 Template/Images/view.ctp:62
-#: Template/Images/view.ctp:92 Template/Users/view.ctp:90
-#: Template/Videos/view.ctp:44
+#: Avatars/view.php:34 Images/view.php:62 Images/view.php:92 Users/view.php:90
+#: Videos/view.php:44
 msgid "Filesize"
 msgstr "Dateingröße"
 
-#: Template/Avatars/view.ctp:38 Template/Fields/view.ctp:30
-#: Template/Images/view.ctp:70 Template/Images/view.ctp:93
-#: Template/Inboxes/view.ctp:40 Template/Messages/view.ctp:42
-#: Template/Mysql/view.ctp:32 Template/Sents/view.ctp:38
-#: Template/Templates/view.ctp:34 Template/Tokens/view.ctp:30
-#: Template/Users/view.ctp:64 Template/Users/view.ctp:91
-#: Template/Users/view.ctp:127 Template/Users/view.ctp:162
-#: Template/Videos/view.ctp:52 Template/Videos/view.ctp:72
+#: Avatars/view.php:38 Fields/view.php:30 Images/view.php:70 Images/view.php:93
+#: Inboxes/view.php:38 Messages/view.php:42 Mysql/view.php:32 Sents/view.php:38
+#: Templates/view.php:34 Tokens/view.php:30 Users/view.php:64 Users/view.php:91
+#: Users/view.php:128 Users/view.php:164 Videos/view.php:52 Videos/view.php:72
 msgid "Created"
 msgstr "Erstellt"
 
-#: Template/Avatars/view.ctp:42 Template/Fields/view.ctp:34
-#: Template/Images/view.ctp:74 Template/Images/view.ctp:94
-#: Template/Inboxes/view.ctp:44 Template/Messages/view.ctp:46
-#: Template/Mysql/view.ctp:36 Template/Sents/view.ctp:42
-#: Template/Templates/view.ctp:38 Template/Tokens/view.ctp:34
-#: Template/Users/view.ctp:68 Template/Users/view.ctp:92
-#: Template/Users/view.ctp:128 Template/Users/view.ctp:163
-#: Template/Videos/view.ctp:56 Template/Videos/view.ctp:73
+#: Avatars/view.php:42 Fields/view.php:34 Images/view.php:74 Images/view.php:94
+#: Inboxes/view.php:42 Messages/view.php:46 Mysql/view.php:36 Sents/view.php:42
+#: Templates/view.php:38 Tokens/view.php:34 Users/view.php:68 Users/view.php:92
+#: Users/view.php:129 Users/view.php:165 Videos/view.php:56 Videos/view.php:73
 msgid "Modified"
 msgstr "Geändert"
 
-#: Template/Email/html/from_user.ctp:132
-msgid "Option"
-msgstr "Option"
-
-#: Template/Email/html/from_user.ctp:136 Template/Inboxes/view.ctp:34
-#: Template/Messages/view.ctp:28 Template/Sents/view.ctp:47
-#: Template/Users/view.ctp:126 Template/Users/view.ctp:161
-msgid "Message"
-msgstr "Mitteilung"
-
-#: Template/Error/error400.ctp:37
+#: Error/error400.php:34
 msgid "Your are not allowed to view this content"
 msgstr "Sie sind nicht berechtigt diesen Inhalt zu ändern"
 
-#: Template/Fields/add.ctp:10 Template/Fields/edit.ctp:16
-#: Template/Fields/view.ctp:12 Template/Items/add.ctp:11
-#: Template/Items/edit.ctp:17 Template/Items/index.ctp:11
-#: Template/Items/view.ctp:14
+#: Fields/add.php:10 Fields/edit.php:16 Fields/view.php:12 Items/add.php:11
+#: Items/edit.php:17 Items/index.php:11 Items/view.php:14
 msgid "List Fields"
 msgstr "Felder auflisten"
 
-#: Template/Fields/add.ctp:11 Template/Fields/edit.ctp:17
-#: Template/Fields/index.ctp:11 Template/Fields/view.ctp:14
-#: Template/Items/add.ctp:10 Template/Items/edit.ctp:16
-#: Template/Items/view.ctp:12 Template/Templates/add.ctp:11
-#: Template/Templates/edit.ctp:17 Template/Templates/index.ctp:11
-#: Template/Templates/view.ctp:14
+#: Fields/add.php:11 Fields/edit.php:17 Fields/index.php:11 Fields/view.php:14
+#: Items/add.php:10 Items/edit.php:16 Items/view.php:12 Templates/add.php:11
+#: Templates/edit.php:17 Templates/index.php:11 Templates/view.php:14
 msgid "List Items"
 msgstr "Elemente auflisten"
 
-#: Template/Fields/add.ctp:12 Template/Fields/edit.ctp:18
-#: Template/Fields/index.ctp:12 Template/Fields/view.ctp:15
-#: Template/Items/index.ctp:10 Template/Items/view.ctp:13
-#: Template/Templates/add.ctp:12 Template/Templates/edit.ctp:18
-#: Template/Templates/index.ctp:12 Template/Templates/view.ctp:15
+#: Fields/add.php:12 Fields/edit.php:18 Fields/index.php:12 Fields/view.php:15
+#: Items/index.php:10 Items/view.php:13 Templates/add.php:12
+#: Templates/edit.php:18 Templates/index.php:12 Templates/view.php:15
 msgid "New Item"
 msgstr "Neues Element"
 
-#: Template/Fields/add.ctp:18
+#: Fields/add.php:18
 msgid "Add Field"
 msgstr "Feld erstellen"
 
-#: Template/Fields/edit.ctp:24 Template/Fields/view.ctp:10
+#: Fields/edit.php:24 Fields/view.php:10
 msgid "Edit Field"
 msgstr "Feld bearbeiten"
 
-#: Template/Fields/index.ctp:10 Template/Fields/view.ctp:13
-#: Template/Items/add.ctp:12 Template/Items/edit.ctp:18
-#: Template/Items/index.ctp:12 Template/Items/view.ctp:15
+#: Fields/index.php:10 Fields/view.php:13 Items/add.php:12 Items/edit.php:18
+#: Items/index.php:12 Items/view.php:15
 msgid "New Field"
 msgstr "Neues Feld"
 
-#: Template/Fields/index.ctp:16
+#: Fields/index.php:16
 msgid "Fields"
 msgstr "Felder"
 
-#: Template/Fields/view.ctp:11
+#: Fields/view.php:11
 msgid "Delete Field"
 msgstr "Feld löschen"
 
-#: Template/Fields/view.ctp:26 Template/Groups/view.ctp:22
-#: Template/Templates/view.ctp:30 Template/Users/view.ctp:36
-#: Template/Videos/view.ctp:66
+#: Fields/view.php:26 Groups/view.php:22 Templates/view.php:30
+#: Users/view.php:36 Videos/view.php:66
 msgid "Name"
 msgstr "Name"
 
-#: Template/Fields/view.ctp:39 Template/Templates/view.ctp:47
+#: Fields/view.php:39 Templates/view.php:47
 msgid "Related Items"
 msgstr "Zugehörige Elemente"
 
-#: Template/Fields/view.ctp:44 Template/Items/view.ctp:37
-#: Template/Templates/view.ctp:52
+#: Fields/view.php:44 Items/view.php:37 Templates/view.php:52
 msgid "Content"
 msgstr "Inhalt"
 
-#: Template/Fields/view.ctp:45 Template/Templates/view.ctp:53
+#: Fields/view.php:45 Templates/view.php:53
 msgid "Field Id"
 msgstr "Feld ID"
 
-#: Template/Fields/view.ctp:46 Template/Templates/view.ctp:54
+#: Fields/view.php:46 Templates/view.php:54
 msgid "Template Id"
-msgstr "Vorlagen ID"
+msgstr "Vorlage ID"
 
-#: Template/Groups/add.ctp:10 Template/Groups/edit.ctp:16
-#: Template/Groups/view.ctp:12 Template/Users/add.ctp:11
-#: Template/Users/edit.ctp:17 Template/Users/index.ctp:11
-#: Template/Users/view.ctp:14
+#: Groups/add.php:10 Groups/edit.php:16 Groups/view.php:12 Users/add.php:11
+#: Users/edit.php:17 Users/index.php:11 Users/view.php:14
 msgid "List Groups"
 msgstr "Gruppen auflisten"
 
-#: Template/Groups/add.ctp:18
+#: Groups/add.php:18
 msgid "Add Group"
 msgstr "Neue Gruppe"
 
-#: Template/Groups/edit.ctp:24 Template/Groups/view.ctp:10
+#: Groups/edit.php:24 Groups/view.php:10
 msgid "Edit Group"
 msgstr "Gruppe bearbeiten"
 
-#: Template/Groups/index.ctp:10 Template/Groups/view.ctp:13
-#: Template/Users/add.ctp:12 Template/Users/edit.ctp:18
-#: Template/Users/index.ctp:12 Template/Users/view.ctp:15
+#: Groups/index.php:10 Groups/view.php:13 Users/add.php:12 Users/edit.php:18
+#: Users/index.php:12 Users/view.php:15
 msgid "New Group"
 msgstr "Neue Gruppe"
 
-#: Template/Groups/index.ctp:16
+#: Groups/index.php:16
 msgid "Groups"
 msgstr "Gruppen"
 
-#: Template/Groups/view.ctp:11
+#: Groups/view.php:11
 msgid "Delete Group"
 msgstr "Gruppe löschen"
 
-#: Template/Groups/view.ctp:31 Template/Videos/view.ctp:61
+#: Groups/view.php:31 Videos/view.php:61
 msgid "Related Users"
 msgstr "Zugehörige Benutzer"
 
-#: Template/Groups/view.ctp:36 Template/Users/view.ctp:40
-#: Template/Videos/view.ctp:67
+#: Groups/view.php:36 Users/view.php:40 Videos/view.php:67
 msgid "Email"
 msgstr "Email"
 
-#: Template/Groups/view.ctp:37 Template/Users/view.ctp:72
-#: Template/Videos/view.ctp:69
+#: Groups/view.php:37 Users/view.php:72 Videos/view.php:69
 msgid "Active"
 msgstr "Aktiv"
 
-#: Template/Groups/view.ctp:38 Template/Videos/view.ctp:70
+#: Groups/view.php:38 Videos/view.php:70
 msgid "Group Id"
 msgstr "Gruppen ID"
 
-#: Template/Groups/view.ctp:39 Template/Users/view.ctp:60
-#: Template/Videos/view.ctp:71
+#: Groups/view.php:39 Users/view.php:60 Videos/view.php:71
 msgid "Last Login"
 msgstr "Letzte Anmeldung"
 
-#: Template/Images/add.ctp:10 Template/Images/edit.ctp:16
-#: Template/Images/view.ctp:12 Template/Videos/add.ctp:11
-#: Template/Videos/edit.ctp:17 Template/Videos/index.ctp:11
-#: Template/Videos/view.ctp:14
+#: Images/add.php:10 Images/edit.php:16 Images/view.php:12 Videos/add.php:11
+#: Videos/edit.php:17 Videos/index.php:11 Videos/view.php:14
 msgid "List Images"
 msgstr "Bilder auflisten"
 
-#: Template/Images/add.ctp:11 Template/Images/edit.ctp:17
-#: Template/Images/index.ctp:11 Template/Images/view.ctp:14
-#: Template/Users/add.ctp:21 Template/Users/edit.ctp:27
-#: Template/Users/index.ctp:21 Template/Users/view.ctp:24
-#: Template/UsersVideos/add.ctp:13 Template/UsersVideos/edit.ctp:19
-#: Template/UsersVideos/index.ctp:13 Template/UsersVideos/view.ctp:16
-#: Template/Videos/add.ctp:10 Template/Videos/edit.ctp:16
-#: Template/Videos/view.ctp:12
+#: Images/add.php:11 Images/edit.php:17 Images/index.php:11 Images/view.php:14
+#: Users/add.php:21 Users/edit.php:27 Users/index.php:21 Users/view.php:24
+#: UsersVideos/add.php:13 UsersVideos/edit.php:19 UsersVideos/index.php:13
+#: UsersVideos/view.php:16 Videos/add.php:10 Videos/edit.php:16
+#: Videos/view.php:12
 msgid "List Videos"
 msgstr "Videos auflisten"
 
-#: Template/Images/add.ctp:12 Template/Images/edit.ctp:18
-#: Template/Images/index.ctp:12 Template/Images/view.ctp:15
-#: Template/Users/add.ctp:22 Template/Users/edit.ctp:28
-#: Template/Users/index.ctp:22 Template/Users/view.ctp:25
-#: Template/UsersVideos/add.ctp:14 Template/UsersVideos/edit.ctp:20
-#: Template/UsersVideos/index.ctp:14 Template/UsersVideos/view.ctp:17
-#: Template/Videos/index.ctp:10 Template/Videos/view.ctp:13
+#: Images/add.php:12 Images/edit.php:18 Images/index.php:12 Images/view.php:15
+#: Users/add.php:22 Users/edit.php:28 Users/index.php:22 Users/view.php:25
+#: UsersVideos/add.php:14 UsersVideos/edit.php:20 UsersVideos/index.php:14
+#: UsersVideos/view.php:17 Videos/index.php:10 Videos/view.php:13
 msgid "New Video"
 msgstr "Neues Video"
 
-#: Template/Images/add.ctp:18
+#: Images/add.php:18
 msgid "Add Image"
 msgstr "Bild hinzufügen"
 
-#: Template/Images/edit.ctp:24 Template/Images/view.ctp:10
+#: Images/edit.php:24 Images/view.php:10
 msgid "Edit Image"
 msgstr "Bild bearbeiten"
 
-#: Template/Images/index.ctp:10 Template/Images/view.ctp:13
-#: Template/Videos/add.ctp:12 Template/Videos/edit.ctp:18
-#: Template/Videos/index.ctp:12 Template/Videos/view.ctp:15
+#: Images/index.php:10 Images/view.php:13 Videos/add.php:12 Videos/edit.php:18
+#: Videos/index.php:12 Videos/view.php:15
 msgid "New Image"
 msgstr "Neues Bild"
 
-#: Template/Images/index.ctp:16
+#: Images/index.php:16
 msgid "Images"
 msgstr "Bilder"
 
-#: Template/Images/view.ctp:11
+#: Images/view.php:11
 msgid "Delete Image"
 msgstr "Bild löschen"
 
-#: Template/Images/view.ctp:26
+#: Images/view.php:26
 msgid "Iso"
 msgstr "ISO"
 
-#: Template/Images/view.ctp:30
+#: Images/view.php:30
 msgid "Longitude"
 msgstr "Längengrad"
 
-#: Template/Images/view.ctp:34
+#: Images/view.php:34
 msgid "Aperture"
 msgstr "Blende"
 
-#: Template/Images/view.ctp:38
+#: Images/view.php:38
 msgid "Make"
 msgstr "Hersteller"
 
-#: Template/Images/view.ctp:42
+#: Images/view.php:42
 msgid "Model"
 msgstr "Modell"
 
-#: Template/Images/view.ctp:46 Template/Images/view.ctp:89
-#: Template/Users/view.ctp:87 Template/Videos/view.ctp:32
+#: Images/view.php:46 Images/view.php:89 Users/view.php:87 Videos/view.php:32
 msgid "Title"
 msgstr "Titel"
 
-#: Template/Images/view.ctp:50
+#: Images/view.php:50
 msgid "Exposure"
 msgstr "Belichtung"
 
-#: Template/Images/view.ctp:54
+#: Images/view.php:54
 msgid "Software"
 msgstr "Software"
 
-#: Template/Images/view.ctp:66
+#: Images/view.php:66
 msgid "Captured"
 msgstr "Aufgenommen am"
 
-#: Template/Images/view.ctp:79 Template/Images/view.ctp:90
-#: Template/Mysql/view.ctp:24 Template/Users/view.ctp:88
-#: Template/Videos/view.ctp:36
+#: Images/view.php:79 Images/view.php:90 Mysql/view.php:24 Users/view.php:88
+#: Videos/view.php:36
 msgid "Description"
 msgstr "Beschreibung"
 
-#: Template/Images/view.ctp:83 Template/Users/view.ctp:81
+#: Images/view.php:83 Users/view.php:81
 msgid "Related Videos"
 msgstr "Zugehörige Videos"
 
-#: Template/Images/view.ctp:88 Template/Users/view.ctp:86
+#: Images/view.php:88 Users/view.php:86
 msgid "Image Id"
 msgstr "Bild ID"
 
-#: Template/Images/view.ctp:95 Template/Users/view.ctp:93
-#: Template/Videos/view.ctp:48
+#: Images/view.php:95 Users/view.php:93 Videos/view.php:48
 msgid "Sequence"
 msgstr "Reihenfolge"
 
-#: Template/Inboxes/add.ctp:10 Template/Inboxes/edit.ctp:16
-#: Template/Inboxes/view.ctp:12 Template/Messages/add.ctp:11
-#: Template/Messages/edit.ctp:17 Template/Messages/index.ctp:11
-#: Template/Messages/view.ctp:14 Template/Users/add.ctp:17
-#: Template/Users/edit.ctp:23 Template/Users/index.ctp:17
-#: Template/Users/view.ctp:20
+#: Inboxes/add.php:10 Inboxes/edit.php:16 Inboxes/view.php:12
+#: Messages/add.php:11 Messages/edit.php:17 Messages/index.php:11
+#: Messages/view.php:14 Users/add.php:17 Users/edit.php:23 Users/index.php:17
+#: Users/view.php:20
 msgid "List Inboxes"
 msgstr "Posteingänge auflisten"
 
-#: Template/Inboxes/add.ctp:18
+#: Inboxes/add.php:18
 msgid "Add Inbox"
 msgstr "Posteingang hinzufügen"
 
-#: Template/Inboxes/edit.ctp:24 Template/Inboxes/view.ctp:10
+#: Inboxes/edit.php:24 Inboxes/view.php:10
 msgid "Edit Inbox"
 msgstr "Posteingang bearbeiten"
 
-#: Template/Inboxes/index.ctp:10 Template/Inboxes/view.ctp:13
-#: Template/Messages/add.ctp:12 Template/Messages/edit.ctp:18
-#: Template/Messages/index.ctp:12 Template/Messages/view.ctp:15
-#: Template/Users/add.ctp:18 Template/Users/edit.ctp:24
-#: Template/Users/index.ctp:18 Template/Users/view.ctp:21
+#: Inboxes/index.php:10 Inboxes/view.php:13 Messages/add.php:12
+#: Messages/edit.php:18 Messages/index.php:12 Messages/view.php:15
+#: Users/add.php:18 Users/edit.php:24 Users/index.php:18 Users/view.php:21
 msgid "New Inbox"
 msgstr "Neuer Posteinagng"
 
-#: Template/Inboxes/index.ctp:16
+#: Inboxes/index.php:16
 msgid "Inboxes"
 msgstr "Posteingänge"
 
-#: Template/Inboxes/view.ctp:11
+#: Inboxes/view.php:11
 msgid "Delete Inbox"
 msgstr "Posteingang löschen"
 
-#: Template/Inboxes/view.ctp:30 Template/Sents/view.ctp:34
-#: Template/Users/view.ctp:124 Template/Users/view.ctp:160
+#: Inboxes/view.php:30 Sents/view.php:34 Users/view.php:124 Users/view.php:162
 msgid " From"
-msgstr "Von"
+msgstr " Von"
 
-#: Template/Inboxes/view.ctp:48 Template/Users/view.ctp:125
+#: Inboxes/view.php:34 Sents/view.php:30 Users/view.php:125 Users/view.php:161
+msgid " To"
+msgstr " An"
+
+#: Inboxes/view.php:46 Users/view.php:126
 msgid " Read"
-msgstr "Gelesen"
+msgstr " Gelesen"
 
-#: Template/Inboxes/view.ctp:49 Template/Templates/view.ctp:43
-#: Template/Users/view.ctp:73 Template/Users/view.ctp:77
+#: Inboxes/view.php:47 Templates/view.php:43 Users/view.php:73
+#: Users/view.php:77
 msgid "Yes"
 msgstr "Ja"
 
-#: Template/Inboxes/view.ctp:49 Template/Templates/view.ctp:43
-#: Template/Users/view.ctp:73 Template/Users/view.ctp:77
+#: Inboxes/view.php:47 Templates/view.php:43 Users/view.php:73
+#: Users/view.php:77
 msgid "No"
 msgstr "Nein"
 
-#: Template/Items/add.ctp:13 Template/Items/edit.ctp:19
-#: Template/Items/index.ctp:13 Template/Items/view.ctp:16
-#: Template/Templates/add.ctp:10 Template/Templates/edit.ctp:16
-#: Template/Templates/view.ctp:12
+#: Inboxes/view.php:51 Messages/view.php:28 Sents/view.php:47
+#: Users/view.php:127 Users/view.php:163 email/html/from_user.php:136
+msgid "Message"
+msgstr "Mitteilung"
+
+#: Items/add.php:13 Items/edit.php:19 Items/index.php:13 Items/view.php:16
+#: Templates/add.php:10 Templates/edit.php:16 Templates/view.php:12
 msgid "List Templates"
 msgstr "Vorlagen auflisten"
 
-#: Template/Items/add.ctp:14 Template/Items/edit.ctp:20
-#: Template/Items/index.ctp:14 Template/Items/view.ctp:17
-#: Template/Templates/index.ctp:10 Template/Templates/view.ctp:13
+#: Items/add.php:14 Items/edit.php:20 Items/index.php:14 Items/view.php:17
+#: Templates/index.php:10 Templates/view.php:13
 msgid "New Template"
 msgstr "Neue Vorlage"
 
-#: Template/Items/add.ctp:20
+#: Items/add.php:20
 msgid "Add Item"
 msgstr "Element hinzufügen"
 
-#: Template/Items/edit.ctp:26 Template/Items/view.ctp:10
+#: Items/edit.php:26 Items/view.php:10
 msgid "Edit Item"
 msgstr "Element bearbeiten"
 
-#: Template/Items/index.ctp:18
+#: Items/index.php:18
 msgid "Items"
 msgstr "Elemente"
 
-#: Template/Items/view.ctp:11
+#: Items/view.php:11
 msgid "Delete Item"
 msgstr "Element löschen"
 
-#: Template/Items/view.ctp:28
+#: Items/view.php:28
 msgid "Field"
 msgstr "Feld"
 
-#: Template/Items/view.ctp:32
+#: Items/view.php:32
 msgid "Template"
 msgstr "Vorlage"
 
-#: Template/Layout/default.ctp:46
-msgid "Logout"
-msgstr "Abmelden"
-
-#: Template/Layout/default.ctp:48 Template/Users/login.ctp:14
-msgid "Login"
-msgstr "Anmelden"
-
-#: Template/Layout/error.ctp:35
-msgid ":("
-msgstr ""
-
-#: Template/Layout/error.ctp:43
-msgid "Back"
-msgstr "Zurück"
-
-#: Template/Messages/add.ctp:10 Template/Messages/edit.ctp:16
-#: Template/Messages/view.ctp:12
+#: Messages/add.php:10 Messages/edit.php:16 Messages/view.php:12
 msgid "List Messages"
 msgstr "Mitteilungen auflisten"
 
-#: Template/Messages/add.ctp:13 Template/Messages/edit.ctp:19
-#: Template/Messages/index.ctp:13 Template/Messages/view.ctp:16
-#: Template/Sents/add.ctp:10 Template/Sents/edit.ctp:16
-#: Template/Sents/view.ctp:12 Template/Users/add.ctp:19
-#: Template/Users/edit.ctp:25 Template/Users/index.ctp:19
-#: Template/Users/view.ctp:22
+#: Messages/add.php:13 Messages/edit.php:19 Messages/index.php:13
+#: Messages/view.php:16 Sents/add.php:10 Sents/edit.php:16 Sents/view.php:12
+#: Users/add.php:19 Users/edit.php:25 Users/index.php:19 Users/view.php:22
 msgid "List Sents"
 msgstr "Gesendete Objekte auflisten"
 
-#: Template/Messages/add.ctp:14 Template/Messages/edit.ctp:20
-#: Template/Messages/index.ctp:14 Template/Messages/view.ctp:17
-#: Template/Sents/index.ctp:10 Template/Sents/view.ctp:13
-#: Template/Users/add.ctp:20 Template/Users/edit.ctp:26
-#: Template/Users/index.ctp:20 Template/Users/view.ctp:23
+#: Messages/add.php:14 Messages/edit.php:20 Messages/index.php:14
+#: Messages/view.php:17 Sents/index.php:10 Sents/view.php:13 Users/add.php:20
+#: Users/edit.php:26 Users/index.php:20 Users/view.php:23
 msgid "New Sent"
 msgstr "Neues Gesendetes Objekt"
 
-#: Template/Messages/add.ctp:20
+#: Messages/add.php:20
 msgid "Add Message"
 msgstr "Mitteilung hinzufügen"
 
-#: Template/Messages/edit.ctp:26 Template/Messages/view.ctp:10
+#: Messages/edit.php:26 Messages/view.php:10
 msgid "Edit Message"
 msgstr "Mitteilung bearbeiten"
 
-#: Template/Messages/index.ctp:10 Template/Messages/view.ctp:13
+#: Messages/index.php:10 Messages/view.php:13
 msgid "New Message"
 msgstr "Neue Mitteilung"
 
-#: Template/Messages/index.ctp:18
+#: Messages/index.php:18
 msgid "Messages"
 msgstr "Mitteilungen"
 
-#: Template/Messages/view.ctp:11
+#: Messages/view.php:11
 msgid "Delete Message"
 msgstr "Mitteilung löschen"
 
-#: Template/Messages/view.ctp:34
+#: Messages/view.php:34
 msgid "Inbox"
 msgstr "Posteingang"
 
-#: Template/Messages/view.ctp:38
+#: Messages/view.php:38
 msgid "Sent"
 msgstr "Gesendet"
 
-#: Template/Mysql/add.ctp:10 Template/Mysql/edit.ctp:16
-#: Template/Mysql/view.ctp:12
+#: Mysql/add.php:10 Mysql/edit.php:16 Mysql/view.php:12
 msgid "List Mysql"
 msgstr "Mysql auflisten"
 
-#: Template/Mysql/add.ctp:16
+#: Mysql/add.php:16
 msgid "Add Mysql"
 msgstr "Mysql erstellen"
 
-#: Template/Mysql/edit.ctp:22 Template/Mysql/view.ctp:10
+#: Mysql/edit.php:22 Mysql/view.php:10
 msgid "Edit Mysql"
 msgstr "Mysql bearbeiten"
 
-#: Template/Mysql/index.ctp:10 Template/Mysql/view.ctp:13
+#: Mysql/index.php:10 Mysql/view.php:13
 msgid "New Mysql"
 msgstr "Mysql erstellen"
 
-#: Template/Mysql/index.ctp:14
+#: Mysql/index.php:14
 msgid "Mysql"
 msgstr "Mysql"
 
-#: Template/Mysql/view.ctp:11
+#: Mysql/view.php:11
 msgid "Delete Mysql"
 msgstr "Mysql löschen"
 
-#: Template/Mysql/view.ctp:20
+#: Mysql/view.php:20
 msgid "Filename"
 msgstr "Dateiname"
 
-#: Template/Sents/add.ctp:18
+#: Sents/add.php:18
 msgid "Add Sent"
 msgstr "Gesendetes Objekt hinzufügen"
 
-#: Template/Sents/edit.ctp:24 Template/Sents/view.ctp:10
+#: Sents/edit.php:24 Sents/view.php:10
 msgid "Edit Sent"
 msgstr "Gesendetes Objekt bearbeiten"
 
-#: Template/Sents/index.ctp:16
+#: Sents/index.php:16
 msgid "Sents"
 msgstr "Gesendete Objekte"
 
-#: Template/Sents/view.ctp:11
+#: Sents/view.php:11
 msgid "Delete Sent"
 msgstr "Gesendetes Objekt löschen"
 
-#: Template/Sents/view.ctp:30 Template/Users/view.ctp:159
-msgid " To"
-msgstr "An"
-
-#: Template/Templates/add.ctp:18
+#: Templates/add.php:18
 msgid "Add Template"
-msgstr "Vorlage hinzufügen"
+msgstr "Vorlage erstellen"
 
-#: Template/Templates/edit.ctp:24 Template/Templates/view.ctp:10
+#: Templates/edit.php:24 Templates/view.php:10
 msgid "Edit Template"
 msgstr "Vorlage bearbeiten"
 
-#: Template/Templates/index.ctp:16
+#: Templates/index.php:16
 msgid "Templates"
 msgstr "Vorlagen"
 
-#: Template/Templates/view.ctp:11
+#: Templates/view.php:11
 msgid "Delete Template"
 msgstr "Vorlage löschen"
 
-#: Template/Templates/view.ctp:26
+#: Templates/view.php:26
 msgid "Slug"
 msgstr "Slug"
 
-#: Template/Templates/view.ctp:42 Template/Users/view.ctp:76
+#: Templates/view.php:42 Users/view.php:76
 msgid "Protected"
 msgstr "Geschützt"
 
-#: Template/Tokens/add.ctp:10 Template/Tokens/edit.ctp:16
-#: Template/Tokens/view.ctp:12 Template/Users/add.ctp:15
-#: Template/Users/edit.ctp:21 Template/Users/index.ctp:15
-#: Template/Users/view.ctp:18
+#: Tokens/add.php:10 Tokens/edit.php:16 Tokens/view.php:12 Users/add.php:15
+#: Users/edit.php:21 Users/index.php:15 Users/view.php:18
 msgid "List Tokens"
 msgstr "Token auflisten"
 
-#: Template/Tokens/add.ctp:18
+#: Tokens/add.php:18
 msgid "Add Token"
 msgstr "Token hinzufügen"
 
-#: Template/Tokens/edit.ctp:24 Template/Tokens/view.ctp:10
+#: Tokens/edit.php:24 Tokens/view.php:10
 msgid "Edit Token"
 msgstr "Token bearbeiten"
 
-#: Template/Tokens/index.ctp:10 Template/Tokens/view.ctp:13
-#: Template/Users/add.ctp:16 Template/Users/edit.ctp:22
-#: Template/Users/index.ctp:16 Template/Users/view.ctp:19
+#: Tokens/index.php:10 Tokens/view.php:13 Users/add.php:16 Users/edit.php:22
+#: Users/index.php:16 Users/view.php:19
 msgid "New Token"
 msgstr "Neuer Token"
 
-#: Template/Tokens/index.ctp:16
+#: Tokens/index.php:16
 msgid "Tokens"
 msgstr "Token"
 
-#: Template/Tokens/view.ctp:11
+#: Tokens/view.php:11
 msgid "Delete Token"
 msgstr "Token löschen"
 
-#: Template/Tokens/view.ctp:39 Template/Users/view.ctp:56
+#: Tokens/view.php:39 Users/view.php:56
 msgid "Token"
 msgstr "Token"
 
-#: Template/Users/add.ctp:28
+#: Users/add.php:28
 msgid "Add User"
 msgstr "Benutzer erstellen"
 
-#: Template/Users/edit.ctp:34 Template/Users/view.ctp:10
+#: Users/edit.php:34 Users/view.php:10
 msgid "Edit User"
 msgstr "Benutzer bearbeiten"
 
-#: Template/Users/index.ctp:26
+#: Users/index.php:26
 msgid "Users"
 msgstr "Benutzer"
 
-#: Template/Users/login.ctp:10
+#: Users/login.php:10
 msgid "Please enter your email and password"
 msgstr "Bitte Email und Passwort eingeben"
 
-#: Template/Users/view.ctp:11
+#: Users/login.php:14 layout/default.php:49
+msgid "Login"
+msgstr "Anmelden"
+
+#: Users/view.php:11
 msgid "Delete User"
 msgstr "Benutzer löschen"
 
-#: Template/Users/view.ctp:44 Template/Videos/view.ctp:68
+#: Users/view.php:44 Videos/view.php:68
 msgid "Password"
 msgstr "Passwort"
 
-#: Template/Users/view.ctp:48
+#: Users/view.php:48
 msgid "Group"
 msgstr "Gruppe"
 
-#: Template/Users/view.ctp:52
+#: Users/view.php:52
 msgid "Avatar"
 msgstr "Avatar"
 
-#: Template/Users/view.ctp:118
+#: Users/view.php:118
 msgid "Related Inboxes"
 msgstr "Zugehöriger Posteingang"
 
-#: Template/Users/view.ctp:123 Template/Users/view.ctp:158
+#: Users/view.php:123 Users/view.php:160
 msgid "User Id"
 msgstr "Benutzer ID"
 
-#: Template/Users/view.ctp:153
+#: Users/view.php:155
 msgid "Related Sents"
 msgstr "Zugehörige Gesendete Objekte"
 
-#: Template/UsersVideos/add.ctp:10 Template/UsersVideos/edit.ctp:16
-#: Template/UsersVideos/view.ctp:12
+#: UsersVideos/add.php:10 UsersVideos/edit.php:16 UsersVideos/view.php:12
 msgid "List Users Videos"
 msgstr "Benutzer Videos auflisten"
 
-#: Template/UsersVideos/add.ctp:20
+#: UsersVideos/add.php:20
 msgid "Add Users Video"
 msgstr "Benutzer Videos hinzufügen"
 
-#: Template/UsersVideos/edit.ctp:26 Template/UsersVideos/view.ctp:10
+#: UsersVideos/edit.php:26 UsersVideos/view.php:10
 msgid "Edit Users Video"
 msgstr "Benutzer Videos bearbeiten"
 
-#: Template/UsersVideos/index.ctp:10 Template/UsersVideos/view.ctp:13
+#: UsersVideos/index.php:10 UsersVideos/view.php:13
 msgid "New Users Video"
 msgstr "Neues Benutzer Video"
 
-#: Template/UsersVideos/index.ctp:18
+#: UsersVideos/index.php:18
 msgid "Users Videos"
 msgstr "Benutzer Videos"
 
-#: Template/UsersVideos/view.ctp:11
+#: UsersVideos/view.php:11
 msgid "Delete Users Video"
 msgstr "Benutzer Video löschen"
 
-#: Template/UsersVideos/view.ctp:28
+#: UsersVideos/view.php:28
 msgid "Video"
 msgstr "Video"
 
-#: Template/UsersVideos/view.ctp:36
+#: UsersVideos/view.php:36
 msgid "Start"
 msgstr "Beginn"
 
-#: Template/UsersVideos/view.ctp:40
+#: UsersVideos/view.php:40
 msgid "End"
 msgstr "Ende"
 
-#: Template/Videos/add.ctp:20
+#: Videos/add.php:20
 msgid "Add Video"
 msgstr "Video hinzufügen"
 
-#: Template/Videos/edit.ctp:26 Template/Videos/view.ctp:10
+#: Videos/edit.php:26 Videos/view.php:10
 msgid "Edit Video"
 msgstr "Video bearbeiten"
 
-#: Template/Videos/index.ctp:18
+#: Videos/index.php:18
 msgid "Videos"
 msgstr "Videos"
 
-#: Template/Videos/view.ctp:11
+#: Videos/view.php:11
 msgid "Delete Video"
 msgstr "Video löschen"
 
-#: Template/Videos/view.ctp:28
+#: Videos/view.php:28
 msgid "Image"
 msgstr "Bild"
+
+#: email/html/from_user.php:132
+msgid "Option"
+msgstr "Option"
+
+#: layout/default.php:47
+msgid "Logout"
+msgstr "Abmelden"
+
+#: layout/error.php:35
+msgid ":("
+msgstr ""
+
+#: layout/error.php:43
+msgid "Back"
+msgstr "Zurück"
 
 #~ msgid "Useraccount locked"
 #~ msgstr "Benutzerkonto gesperrt"

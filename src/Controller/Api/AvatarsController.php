@@ -34,7 +34,7 @@ class AvatarsController extends AppController
                 'Crud.View',
                 'Crud.Add',
                 'Crud.Edit',
-                'Crud.Delete'
+                'Crud.Delete',
             ],
             'listeners' => [
                 'Crud.Api',
@@ -42,11 +42,10 @@ class AvatarsController extends AppController
                 'CrudJsonApi.JsonApi',
                 'CrudJsonApi.Pagination', // Pagination != ApiPagination
                 // 'Crud.ApiQueryLog'
-            ]
+            ],
         ]);
 
         $this->Crud->addListener('relatedModels', 'Crud.RelatedModels');
-
 
     }
 
@@ -56,23 +55,23 @@ class AvatarsController extends AppController
          * we can not use PUT (alias edit method) for altering data
          * because $_FILES is only available in POST (alias add method),
          * so we have to first add the new and then remove the old entity
-         */ 
+         */
         $files = $this->getRequest()->getData('Files');
         $uid = $this->getRequest()->getData('user_id');
 
         $this->Crud->on('beforeSave', function (Event $event) use ($files, $uid) {
-            
+
             $entity = $event->getSubject()->entity;
             $newEntities = $this->addUpload($files);
 
-            if(!empty($newEntities)) {
+            if (!empty($newEntities)) {
 
                 // remove the former avatar (that with the same user_id) manually
                 $oldEntities = $this->Avatars->find()
                     ->where(['user_id' => $uid])
                     ->toList();
 
-                foreach($oldEntities as $oldie) {
+                foreach ($oldEntities as $oldie) {
                     // this triggers necessary events
                     $this->Avatars->delete($oldie);
                 }
@@ -96,7 +95,7 @@ class AvatarsController extends AppController
             $user = $usersTable->get($uid, [
                 'contain' => ['Groups', 'Videos', 'Avatars', 'Tokens'],
             ]);
-    
+
             // normally we would send the new avatar
             // but in this case we need the (updated) user sent back to the client
             $this->set([
@@ -127,13 +126,13 @@ class AvatarsController extends AppController
                 '_serialize' => ['success', 'data'],
             ]);
 
-
         });
         return $this->Crud->execute();
     }
 
-    protected function addUpload($files) {
-       
+    protected function addUpload($files)
+    {
+
         // make shure single uploads are handled correctly
         if (!empty($files['tmp_name'])) {
             $files = [$files];
@@ -149,14 +148,14 @@ class AvatarsController extends AppController
     public function uri($id)
     {
         $data = [];
-        
+
         $params = $this->getRequest()->getQuery();
         $lg_path = AVATARS . DS . $id . DS . 'lg';
         $files = glob($lg_path . DS . '*.*');
         if (!empty($files)) {
             $fn = basename($files[0]);
             $type = "avatars";
-        
+
             $options = array_merge(compact(array('fn', 'id', 'type')), $params);
             $p = $this->Director->p($options);
             $json = json_encode($params);
@@ -164,9 +163,9 @@ class AvatarsController extends AppController
             $data = array(
                 'id' => $id,
                 'url' => $p,
-                'params' => $stringified
+                'params' => $stringified,
             );
-            
+
             $this->set(
                 [
                     'success' => true,

@@ -5,6 +5,7 @@ namespace App\Controller\Api;
 use App\Controller\Api\AppController;
 use Cake\Core\App;
 use Cake\Event\Event;
+use Cake\Log\Log;
 use Cake\ORM\Entity;
 use Cake\ORM\Query;
 
@@ -51,10 +52,14 @@ class TemplatesController extends AppController
         $templates = $this->Templates->find()
             ->select(['id', 'slug', 'name', 'protected'])
             ->contain('Items', function (Query $query) {
-                return $query->select(['id', 'content', 'template_id', 'field_id']);
+                $q = $query->select(['id', 'content', 'template_id', 'field_id']);
+                Log::debug($q);
+                return $q;
             })
             ->contain('Items.Fields', function (Query $query) {
-                return $query->select(['id', 'name']);
+                $q = $query->select(['id', 'name']);
+                Log::debug($q);
+                return $q;
             });
 
         $this->set([

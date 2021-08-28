@@ -34,7 +34,6 @@ class Template extends Entity
         'protected' => true,
         'created' => true,
         'modified' => true,
-        'email_templatesbak' => true,
         'items' => true,
     ];
 }
