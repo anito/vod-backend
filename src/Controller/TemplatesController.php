@@ -47,7 +47,7 @@ class TemplatesController extends AppController
      */
     public function add()
     {
-        $template = $this->Templates->newEntity();
+        $template = $this->Templates->newEmptyEntity();
         if ($this->request->is('post')) {
             $template = $this->Templates->patchEntity($template, $this->request->getData());
             if ($this->Templates->save($template)) {

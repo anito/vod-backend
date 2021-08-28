@@ -9,7 +9,7 @@ class DarkroomComponent extends Component
 
     public $components = ['File'];
 
-    public function startup(Event $event)
+    public function startup(\Cake\Event\EventInterface $event)
     {
 
         /** @var \Cake\Controller\Controller $controller */
@@ -18,7 +18,7 @@ class DarkroomComponent extends Component
 
     }
 
-    public function initialize(array $config)
+    public function initialize(array $config): void
     {
         // Execute any other additional setup
     }
@@ -128,7 +128,7 @@ class DarkroomComponent extends Component
         }
 
         if ($gd != 2) {
-            $dst_img_one = imagecreate($thumb_w, $thumb_h);
+            $dst_img_one = imagecreatetruecolor($thumb_w, $thumb_h);
             imagecopyresized($dst_img_one, $src_img, 0, 0, 0, 0, $thumb_w, $thumb_h, $old_x, $old_y);
         } else {
             if ($type == 'png') {
@@ -143,7 +143,7 @@ class DarkroomComponent extends Component
 
         if ($square) {
             if ($gd != 2) {
-                $dst_img = imagecreate($new_w, $new_h);
+                $dst_img = imagecreatetruecolor($new_w, $new_h);
                 imagecopyresized($dst_img, $dst_img_one, 0, 0, $crop_x, $crop_y, $new_w, $new_h, $new_w, $new_h);
             } else {
                 if ($type == 'png') {
@@ -166,6 +166,7 @@ class DarkroomComponent extends Component
         } elseif ($type == 'gif') {
             imagegif($dst_img, $filename);
         } else {
+            settype($quality, 'int');
             imagejpeg($dst_img, $filename, $quality);
         }
 

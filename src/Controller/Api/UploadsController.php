@@ -31,7 +31,7 @@ use Cake\Log\Log;
 
 class UploadsController extends AppController {
 
-    function initialize() {
+    function initialize(): void {
         parent::initialize();
         Cache::disable();
         $this->autoRender = false;
@@ -86,7 +86,7 @@ class UploadsController extends AppController {
                         $lg_path = $path . DS . 'lg' . DS . $file_name;
                         $lg_temp = $lg_path . '.tmp';
 
-                        
+
 
                         if( $this->File->makeDir( $path ) &&
                             $this->File->setFolderPerms( $user_id ) &&
@@ -98,7 +98,7 @@ class UploadsController extends AppController {
 
                             list( $meta, $captured ) = $this->File->imageMetadata( $lg_path );
 
-                            
+
 
                             $file['exposure'] = $this->File->parseMetaTags('exif:exposure', $meta);
                             $file['iso'] = $this->File->parseMetaTags('exif:iso', $meta);

@@ -50,7 +50,7 @@ class InboxesController extends AppController
      */
     public function add()
     {
-        $inbox = $this->Inboxes->newEntity();
+        $inbox = $this->Inboxes->newEmptyEntity();
         if ($this->request->is('post')) {
             $inbox = $this->Inboxes->patchEntity($inbox, $this->request->getData());
             if ($this->Inboxes->save($inbox)) {

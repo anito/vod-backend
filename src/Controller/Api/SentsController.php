@@ -32,7 +32,7 @@ use Cake\ORM\TableRegistry;
 class SentsController extends AppController
 {
 
-    public function initialize()
+    public function initialize(): void
     {
         parent::initialize();
 

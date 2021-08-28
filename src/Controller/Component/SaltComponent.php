@@ -29,7 +29,7 @@ class SaltComponent extends Component
         parent::__construct($registry, $config);
     }
 
-    function startup(Event $event)
+    function startup(\Cake\Event\EventInterface $event)
     {
 
         /** @var \Cake\Controller\Controller $controller */

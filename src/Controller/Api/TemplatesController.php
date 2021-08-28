@@ -5,7 +5,6 @@ namespace App\Controller\Api;
 use App\Controller\Api\AppController;
 use Cake\Core\App;
 use Cake\Event\Event;
-use Cake\Log\Log;
 use Cake\ORM\Entity;
 use Cake\ORM\Query;
 
@@ -18,7 +17,7 @@ use Cake\ORM\Query;
 class TemplatesController extends AppController
 {
 
-    public function initialize()
+    public function initialize(): void
     {
         parent::initialize();
         $this->Auth->allow([]);
@@ -49,26 +48,17 @@ class TemplatesController extends AppController
 
     public function index()
     {
-        $templates = $this->Templates->find()
-            ->select(['id', 'slug', 'name', 'protected'])
-            ->contain('Items', function (Query $query) {
-                $q = $query->select(['id', 'content', 'template_id', 'field_id']);
-                Log::debug($q);
-                return $q;
-            })
-            ->contain('Items.Fields', function (Query $query) {
-                $q = $query->select(['id', 'name']);
-                Log::debug($q);
-                return $q;
-            });
-
-        $this->set([
-            'success' => true,
-            'data' => $templates,
-            '_serialize' => ['success', 'data'],
-        ]);
-
         $this->Crud->on('beforePaginate', function (Event $event) {
+            $query = $event->getSubject()->query;
+
+            $query
+                ->select(['id', 'slug', 'name', 'protected'])
+                ->contain('Items', function (Query $query) {
+                    return $query->select(['id', 'content', 'template_id', 'field_id']);
+                })
+                ->contain('Items.Fields', function (Query $query) {
+                    return $query->select(['id', 'name']);
+                });
 
         });
 
@@ -79,8 +69,26 @@ class TemplatesController extends AppController
     public function edit($id)
     {
 
-        $this->Crud->on('beforeSave', function (Event $event) {
-            $data = $this->getRequest()->getData();
+        $this->Crud->on('afterSave', function (Event $event) {
+            $entity = $event->getSubject()->entity;
+
+            if ($event->getSubject()->success) {
+                $data = [
+                    'id' => $entity->id,
+                    'items' => $entity->items,
+                ];
+                $message = __('Template saved');
+
+            } else {
+                $data = [];
+                $message = __('Template could not be saved');
+
+            }
+
+            $this->set(compact('data', 'message'));
+
+            $this->Crud->action()->serialize(['data', 'message']);
+
         });
 
         return $this->Crud->execute();
@@ -93,14 +101,22 @@ class TemplatesController extends AppController
         $this->Crud->on('afterSave', function (Event $event) {
             $entity = $event->getSubject()->entity;
 
-            $this->set([
-                'success' => true,
-                'data' => [
+            if ($event->getSubject()->success) {
+                $data = [
                     'id' => $entity->id,
                     'items' => $entity->items,
-                ],
-                '_serialize' => ['success', 'data'],
-            ]);
+                ];
+                $message = __('Template created');
+
+            } else {
+                $data = [];
+                $message = __('Template could not be created');
+
+            }
+
+            $this->set(compact('data', 'message'));
+
+            $this->Crud->action()->serialize(['data', 'message']);
 
         });
 
@@ -122,18 +138,17 @@ class TemplatesController extends AppController
 
             if ($event->getSubject()->success) {
                 $this->set([
-                    'success' => true,
                     'message' => __('Template deleted'),
-                    '_serialize' => ['success', 'message'],
                 ]);
             } else {
                 $this->set([
-                    'success' => false,
                     'message' => __('Template could not be deleted'),
-                    '_serialize' => ['success', 'message'],
                 ]);
 
             }
+
+            $this->Crud->action()->serialize(['message']);
+
         });
 
         return $this->Crud->execute();

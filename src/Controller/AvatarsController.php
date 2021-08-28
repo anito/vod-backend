@@ -50,7 +50,7 @@ class AvatarsController extends AppController
      */
     public function add()
     {
-        $avatar = $this->Avatars->newEntity();
+        $avatar = $this->Avatars->newEmptyEntity();
         if ($this->request->is('post')) {
             $avatar = $this->Avatars->patchEntity($avatar, $this->request->getData());
             if ($this->Avatars->save($avatar)) {

@@ -12,7 +12,8 @@ use App\Controller\AppController;
  */
 class GroupsController extends AppController
 {
-    public function initialize() {
+    public function initialize(): void
+    {
         parent::initialize();
     }
     /**
@@ -37,7 +38,7 @@ class GroupsController extends AppController
     public function view($id = null)
     {
         $group = $this->Groups->get($id, [
-            'contain' => ['Users']
+            'contain' => ['Users'],
         ]);
 
         $this->set('group', $group);
@@ -50,7 +51,7 @@ class GroupsController extends AppController
      */
     public function add()
     {
-        $group = $this->Groups->newEntity();
+        $group = $this->Groups->newEmptyEntity();
         if ($this->request->is('post')) {
             $group = $this->Groups->patchEntity($group, $this->request->getData());
             if ($this->Groups->save($group)) {
@@ -73,7 +74,7 @@ class GroupsController extends AppController
     public function edit($id = null)
     {
         $group = $this->Groups->get($id, [
-            'contain' => []
+            'contain' => [],
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $group = $this->Groups->patchEntity($group, $this->request->getData());

@@ -15,10 +15,10 @@ use Cake\Event\Event;
 class ImagesController extends AppController
 {
 
-    public function initialize()
+    public function initialize(): void
     {
         parent::initialize();
-        $this->Auth->allow([]);
+        $this->Auth->allow();
         $this->loadComponent('File');
         $this->loadComponent('Director');
         $this->loadComponent('Upload');
@@ -50,7 +50,7 @@ class ImagesController extends AppController
         if (!empty($files = $this->request->getData('Files'))) {
 
             // make shure single uploads are handled correctly
-            if (!empty($files['tmp_name'])) {
+            if (!is_array($files)) {
                 $files = [$files];
             }
 
@@ -59,7 +59,6 @@ class ImagesController extends AppController
                 $images = $this->Images->newEntities($images);
 
                 if ($data = $this->Images->saveMany($images)) {
-
                     $this->set([
                         'success' => true,
                         'data' => $data,
@@ -67,21 +66,17 @@ class ImagesController extends AppController
                         '_serialize' => ['success', 'data', 'message'],
                     ]);
                 } else {
-
                     $this->set([
                         'success' => false,
-                        'data' => [],
                         'message' => __('An error occurred saving your image data'),
-                        '_serialize' => ['success', 'data', 'message'],
+                        '_serialize' => ['success', 'message'],
                     ]);
                 }
             } else {
-
                 $this->set([
                     'success' => false,
-                    'data' => [],
                     'message' => __('An Error occurred while uploading your files'),
-                    '_serialize' => ['success', 'data', 'message'],
+                    '_serialize' => ['success', 'message'],
                 ]);
             }
         }
@@ -105,14 +100,12 @@ class ImagesController extends AppController
                     $event->stopPropagation();
 
                     $this->set([
-                        'success' => false,
                         'message' => __('Image could not be deleted'),
-                        '_serialize' => ['success', 'message'],
                     ]);
-
                 } else {
                     $this->File->rmdirr($path);
                 }
+                $this->Crud->action()->serialize(['message']);
             }
         });
 
@@ -120,18 +113,10 @@ class ImagesController extends AppController
 
             if ($event->getSubject()->success) {
                 $this->set([
-                    'success' => true,
                     'message' => __('Image deleted'),
-                    '_serialize' => ['success', 'message'],
                 ]);
-            } else {
-                $this->set([
-                    'success' => false,
-                    'message' => __('Image could not be deleted'),
-                    '_serialize' => ['success', 'message'],
-                ]);
-
             }
+            $this->Crud->action()->serialize(['message']);
         });
 
         return $this->Crud->execute();

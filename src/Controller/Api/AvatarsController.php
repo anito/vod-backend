@@ -16,10 +16,10 @@ use Cake\ORM\TableRegistry;
 class AvatarsController extends AppController
 {
 
-    public function initialize()
+    public function initialize(): void
     {
         parent::initialize();
-        $this->Auth->allow([]);
+        $this->Auth->allow();
         $this->loadComponent('File');
         $this->loadComponent('Director');
         $this->loadComponent('Upload');
@@ -39,8 +39,6 @@ class AvatarsController extends AppController
             'listeners' => [
                 'Crud.Api',
                 'Crud.ApiPagination',
-                'CrudJsonApi.JsonApi',
-                'CrudJsonApi.Pagination', // Pagination != ApiPagination
                 // 'Crud.ApiQueryLog'
             ],
         ]);
@@ -78,15 +76,17 @@ class AvatarsController extends AppController
 
                 // overwrite request data with data returned from $this->addUpload
                 $this->Avatars->patchEntity($entity, $newEntities[0]);
+
             } else {
+                $event->stopPropagation();
                 $this->set([
                     'success' => false,
                     'data' => [],
                     'message' => 'An Error occurred while uploading your files',
-                    '_serialize' => ['success', 'data', 'message'],
+                    // '_serialize' => ['success', 'data', 'message'],
                 ]);
             }
-
+            $this->Crud->action()->serialize(['success', 'data', 'message']);
         });
 
         $this->Crud->on('afterSave', function (Event $event) use ($uid) {
@@ -97,12 +97,12 @@ class AvatarsController extends AppController
             ]);
 
             // normally we would send the new avatar
-            // but in this case we need the (updated) user sent back to the client
+            // but in this case we need the updated user sent back to the client
             $this->set([
-                'success' => true,
                 'data' => $user,
-                '_serialize' => ['success', 'data'],
+                'message' => __('Avatar saved'),
             ]);
+            $this->Crud->action()->serialize(['data', 'message']);
         });
 
         return $this->Crud->execute();
@@ -121,11 +121,10 @@ class AvatarsController extends AppController
             ]);
 
             $this->set([
-                'success' => true,
                 'data' => $user,
-                '_serialize' => ['success', 'data'],
+                'message' => __('Avatar deleted'),
             ]);
-
+            $this->Crud->action()->serialize(['data', 'message']);
         });
         return $this->Crud->execute();
     }
@@ -134,7 +133,7 @@ class AvatarsController extends AppController
     {
 
         // make shure single uploads are handled correctly
-        if (!empty($files['tmp_name'])) {
+        if (!is_array($files)) {
             $files = [$files];
         }
 
@@ -147,8 +146,6 @@ class AvatarsController extends AppController
 
     public function uri($id)
     {
-        $data = [];
-
         $params = $this->getRequest()->getQuery();
         $lg_path = AVATARS . DS . $id . DS . 'lg';
         $files = glob($lg_path . DS . '*.*');
@@ -170,15 +167,16 @@ class AvatarsController extends AppController
                 [
                     'success' => true,
                     'data' => $data,
-                    '_serialize' => ['success', 'data'],
+                    '_serialize' => ['success', 'data', 'message'],
                 ]
             );
         } else {
             $this->set(
                 [
                     'success' => false,
-                    'data' => $data,
-                    '_serialize' => ['success', 'data'],
+                    'data' => [],
+                    'message' => __('An error occurred saving your avatar'),
+                    '_serialize' => ['success', 'data', 'message'],
                 ]
             );
         }

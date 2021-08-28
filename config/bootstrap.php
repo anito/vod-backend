@@ -16,7 +16,7 @@
 /*
  * Configure paths required to find CakePHP + general filepath constants
  */
-require __DIR__ . '/paths.php';
+require __DIR__ . DIRECTORY_SEPARATOR . 'paths.php';
 
 /*
  * Bootstrap CakePHP.
@@ -30,18 +30,18 @@ require __DIR__ . '/paths.php';
 require CORE_PATH . 'config' . DS . 'bootstrap.php';
 
 use Cake\Cache\Cache;
-use Cake\Console\ConsoleErrorHandler;
 use Cake\Core\Configure;
 use Cake\Core\Configure\Engine\PhpConfig;
-use Cake\Core\Plugin;
 use Cake\Database\Type;
 use Cake\Datasource\ConnectionManager;
+use Cake\Error\ConsoleErrorHandler;
 use Cake\Error\ErrorHandler;
 use Cake\Http\ServerRequest;
 use Cake\Log\Log;
 use Cake\Mailer\Email;
 use Cake\Mailer\TransportFactory;
 use Cake\Utility\Security;
+use Detection\MobileDetect;
 
 /**
  * Uncomment block of code below if you want to use `.env` file during development.
@@ -80,7 +80,9 @@ try {
  * You can use a file like app_local.php to provide local overrides to your
  * shared configuration.
  */
-//Configure::load('app_local', 'default');
+if (file_exists(CONFIG . 'app_local.php')) {
+    Configure::load('app_local', 'default');
+}
 
 /*
  * When debug = true the metadata cache should only last
@@ -90,7 +92,7 @@ if (Configure::read('debug')) {
     Configure::write('Cache._cake_model_.duration', '+2 minutes');
     Configure::write('Cache._cake_core_.duration', '+2 minutes');
     // disable router cache during development
-    Configure::write('Cache._cake_routes_.duration', '+2 minutes');
+    Configure::write('Cache._cake_routes_.duration', '+2 seconds');
     Cache::disable();
 }
 
@@ -165,12 +167,12 @@ Security::setSalt(Configure::consume('Security.salt'));
  * Setup detectors for mobile and tablet.
  */
 ServerRequest::addDetector('mobile', function ($request) {
-    $detector = new \Detection\MobileDetect();
+    $detector = new MobileDetect();
 
     return $detector->isMobile();
 });
 ServerRequest::addDetector('tablet', function ($request) {
-    $detector = new \Detection\MobileDetect();
+    $detector = new MobileDetect();
 
     return $detector->isTablet();
 });

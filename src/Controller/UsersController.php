@@ -14,7 +14,7 @@ use Cake\ORM\TableRegistry;
 class UsersController extends AppController
 {
 
-    public function initialize()
+    public function initialize(): void
     {
         parent::initialize();
         // $this->Auth->allow(['add', 'view', 'edit']);
@@ -87,7 +87,7 @@ class UsersController extends AppController
      */
     public function add()
     {
-        $user = $this->Users->newEntity();
+        $user = $this->Users->newEmptyEntity();
         if ($this->request->is('post')) {
             $user = $this->Users->patchEntity($user, $this->request->getData());
             if ($this->Users->save($user)) {

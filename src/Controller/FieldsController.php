@@ -47,7 +47,7 @@ class FieldsController extends AppController
      */
     public function add()
     {
-        $field = $this->Fields->newEntity();
+        $field = $this->Fields->newEmptyEntity();
         if ($this->request->is('post')) {
             $field = $this->Fields->patchEntity($field, $this->request->getData());
             if ($this->Fields->save($field)) {

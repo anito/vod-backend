@@ -26,7 +26,7 @@ use App\Controller\Api\AppController;
 class InboxesController extends AppController
 {
 
-    public function initialize()
+    public function initialize(): void
     {
         parent::initialize();
 

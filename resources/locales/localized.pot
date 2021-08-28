@@ -1,0 +1,54 @@
+# LANGUAGE translation of CakePHP Application
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2020-12-06 16:54+0100\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/localized/src/Validation/AtValidation.php:48
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/localized/src/Validation/AtValidation.php:60
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/localized/src/Validation/AuValidation.php:62
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/localized/src/Validation/BdValidation.php:48
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/localized/src/Validation/BdValidation.php:60
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/localized/src/Validation/BeValidation.php:48
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/localized/src/Validation/BeValidation.php:59
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/localized/src/Validation/CaValidation.php:48
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/localized/src/Validation/CaValidation.php:59
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/localized/src/Validation/ChValidation.php:50
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/localized/src/Validation/ChValidation.php:62
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/localized/src/Validation/CzValidation.php:48
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/localized/src/Validation/CzValidation.php:60
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/localized/src/Validation/DeValidation.php:96
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/localized/src/Validation/FiValidation.php:52
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/localized/src/Validation/GbValidation.php:46
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/localized/src/Validation/GbValidation.php:58
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/localized/src/Validation/HrValidation.php:47
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/localized/src/Validation/HrValidation.php:59
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/localized/src/Validation/IdValidation.php:61
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/localized/src/Validation/IdValidation.php:73
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/localized/src/Validation/InValidation.php:60
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/localized/src/Validation/ItValidation.php:100
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/localized/src/Validation/JpValidation.php:152
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/localized/src/Validation/LvValidation.php:37
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/localized/src/Validation/LvValidation.php:50
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/localized/src/Validation/MxValidation.php:61
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/localized/src/Validation/PtValidation.php:48
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/localized/src/Validation/PtValidation.php:60
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/localized/src/Validation/RoValidation.php:48
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/localized/src/Validation/RoValidation.php:60
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/localized/src/Validation/RsValidation.php:121
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/localized/src/Validation/SkValidation.php:48
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/localized/src/Validation/SkValidation.php:60
+#: /Library/Server/Web/Data/Sites/physio.mbp/vendor/cakephp/localized/src/Validation/TrValidation.php:79
+msgid "%s Not implemented yet."
+msgstr ""
+
