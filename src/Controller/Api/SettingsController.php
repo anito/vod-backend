@@ -53,10 +53,8 @@ class SettingsController extends AppController
 
         $this->set([
             'success' => true,
-            'data' => [
-                'settings' => $settings,
-            ],
-            '_serialize' => ['success', 'data'],
+            'data' => $settings,
         ]);
+        $this->viewBuilder()->setOption('serialize', ['success', 'data']);
     }
 }

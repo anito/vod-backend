@@ -217,9 +217,8 @@ class UsersController extends AppController
             'data' => [
                 'token' => $token,
             ],
-            '_serialize' => ['success', 'data'],
         ]);
-
+        $this->viewBuilder()->setOption('serialize', ['success', 'data']);
     }
 
     public function login()
@@ -293,14 +292,14 @@ class UsersController extends AppController
         $this->set([
             'success' => true,
             'data' => [
-                'message' => __('Login successful'),
                 'user' => $user,
                 'groups' => $this->_getGroups(),
                 'renewed' => $renewed,
                 'wait' => 2000,
             ],
-            '_serialize' => ['success', 'data'],
+            'message' => __('Login successful'),
         ]);
+        $this->viewBuilder()->setOption('serialize', ['success', 'data', 'message']);
     }
 
     public function logout()
@@ -309,8 +308,8 @@ class UsersController extends AppController
         $this->set([
             'success' => true,
             'message' => __('You\'re logged out'),
-            '_serialize' => ['success', 'message'],
         ]);
+        $this->viewBuilder()->setOption('serialize', ['success', 'message']);
     }
 
     protected function _isValidToken($identifiedUser = null)

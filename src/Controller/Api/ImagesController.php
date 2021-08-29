@@ -63,22 +63,23 @@ class ImagesController extends AppController
                         'success' => true,
                         'data' => $data,
                         'message' => __('Image saved'),
-                        '_serialize' => ['success', 'data', 'message'],
                     ]);
                 } else {
                     $this->set([
                         'success' => false,
+                        'data' => [],
                         'message' => __('An error occurred saving your image data'),
-                        '_serialize' => ['success', 'message'],
                     ]);
                 }
             } else {
                 $this->set([
                     'success' => false,
+                    'data' => [],
                     'message' => __('An Error occurred while uploading your files'),
-                    '_serialize' => ['success', 'message'],
                 ]);
             }
+            $this->viewBuilder()->setOption('serialize', ['success', 'data', 'message']);
+
         }
     }
 
@@ -148,7 +149,6 @@ class ImagesController extends AppController
                 [
                     'success' => true,
                     'data' => $data,
-                    '_serialize' => ['success', 'data'],
                 ]
             );
         } else {
@@ -156,11 +156,12 @@ class ImagesController extends AppController
                 [
                     'success' => false,
                     'data' => $data,
-                    '_serialize' => ['success', 'data'],
                 ]
             );
             // die;
         }
+        $this->viewBuilder()->setOption('serialize', ['success', 'data']);
+
     }
 
 }

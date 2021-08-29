@@ -65,8 +65,8 @@ class SentsController extends AppController
             'data' => [
                 'mails' => $mails,
             ],
-            '_serialize' => ['success', 'data'],
         ]);
+        $this->viewBuilder()->setOption('serialize', ['success', 'data']);
     }
 
     public function add()
@@ -288,9 +288,8 @@ class SentsController extends AppController
         $this->set([
             'success' => true,
             'data' => $received,
-            '_serialize' => ['success', 'data'],
         ]);
-
+        $this->viewBuilder()->setOption('serialize', ['success', 'data']);
     }
 
 }

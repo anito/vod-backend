@@ -1,7 +1,9 @@
 <?php
 namespace App\Error;
 
+use Cake\Http\Response;
 use Crud\Error\ExceptionRenderer as ErrorExceptionRenderer;
+use Crud\Error\Exception\ValidationException;
 use Exception;
 
 /**
@@ -19,7 +21,7 @@ class AppExceptionRenderer extends ErrorExceptionRenderer
      * @param \Crud\Error\Exception\ValidationException $error Exception instance
      * @return \Cake\Http\Response
      */
-    public function validation($error)
+    public function validation(ValidationException $error): Response
     {
         $url = $this->controller->request->getRequestTarget();
         $status = $code = $error->getCode();
@@ -37,13 +39,13 @@ class AppExceptionRenderer extends ErrorExceptionRenderer
             'error' => $error,
             'errorCount' => $error->getValidationErrorCount(),
             'errors' => $error->getValidationErrors(),
-            '_serialize' => ['code', 'url', 'message', 'errorCount', 'errors'],
         ];
         $this->controller->set($sets);
+        $this->controller->viewBuilder()->setOption('serialize', ['code', 'url', 'message', 'errorCount', 'errors']);
 
         return $this->_outputMessage('error400');
     }
-    
+
     public function expired($error)
     {
         $status = $code = $error->getCode();
@@ -57,9 +59,9 @@ class AppExceptionRenderer extends ErrorExceptionRenderer
         $sets = [
             'code' => $code,
             'message' => $error->getMessage(),
-            '_serialize' => ['code', 'message'],
         ];
         $this->controller->set($sets);
+        $this->controller->viewBuilder()->setOption('serialize', ['code', 'message']);
 
         return $this->_outputMessage('error400');
 
@@ -78,9 +80,9 @@ class AppExceptionRenderer extends ErrorExceptionRenderer
         $sets = [
             'code' => $code,
             'message' => $error->getMessage(),
-            '_serialize' => ['code', 'message'],
         ];
         $this->controller->set($sets);
+        $this->controller->viewBuilder()->setOption('serialize', ['code', 'message']);
 
         return $this->_outputMessage('error400');
 
@@ -99,9 +101,9 @@ class AppExceptionRenderer extends ErrorExceptionRenderer
         $sets = [
             'code' => $code,
             'message' => $error->getMessage(),
-            '_serialize' => ['code', 'message'],
         ];
         $this->controller->set($sets);
+        $this->controller->viewBuilder()->setOption('serialize', ['code', 'message']);
 
         return $this->_outputMessage('error400');
     }
@@ -119,13 +121,13 @@ class AppExceptionRenderer extends ErrorExceptionRenderer
         $sets = [
             'code' => $code,
             'message' => $error->getMessage(),
-            '_serialize' => ['code', 'message'],
         ];
         $this->controller->set($sets);
+        $this->controller->viewBuilder()->setOption('serialize', ['code', 'message']);
 
         return $this->_outputMessage('error400');
     }
-    
+
     public function signatureInvalid($error)
     {
         $status = $code = $error->getCode();
@@ -139,9 +141,9 @@ class AppExceptionRenderer extends ErrorExceptionRenderer
         $sets = [
             'code' => $code,
             'message' => $error->getMessage(),
-            '_serialize' => ['code', 'message'],
         ];
         $this->controller->set($sets);
+        $this->controller->viewBuilder()->setOption('serialize', ['code', 'message']);
 
         return $this->_outputMessage('error400');
     }
@@ -159,9 +161,9 @@ class AppExceptionRenderer extends ErrorExceptionRenderer
         $sets = [
             'code' => $code,
             'message' => $error->getMessage(),
-            '_serialize' => ['code', 'message'],
         ];
         $this->controller->set($sets);
+        $this->controller->viewBuilder()->setOption('serialize', ['code', 'message']);
 
         return $this->_outputMessage('error400');
     }

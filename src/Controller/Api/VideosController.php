@@ -87,9 +87,8 @@ class VideosController extends AppController
         $this->set([
             'success' => true,
             'data' => $data,
-            '_serialize' => ['success', 'data'],
         ]);
-
+        $this->viewBuilder()->setOption('serialize', ['success', 'data']);
     }
 
     public function add()
@@ -111,7 +110,6 @@ class VideosController extends AppController
                         'success' => true,
                         'data' => $data,
                         'message' => __('Video saved'),
-                        '_serialize' => ['success', 'data', 'message'],
                     ]);
                 } else {
 
@@ -119,17 +117,17 @@ class VideosController extends AppController
                         'success' => false,
                         'data' => [],
                         'message' => __('Video could not be saved'),
-                        '_serialize' => ['success', 'data', 'message'],
                     ]);
                 }
             } else {
 
                 $this->set([
                     'success' => false,
+                    'data' => [],
                     'message' => __('An Error occurred while uploading your files'),
-                    '_serialize' => ['success', 'message'],
                 ]);
             }
+            $this->viewBuilder()->setOption('serialize', ['success', 'data', 'message']);
         }
     }
 
@@ -220,7 +218,6 @@ class VideosController extends AppController
                 [
                     'success' => true,
                     'data' => $data,
-                    '_serialize' => ['success', 'data'],
                 ]
             );
         } else {
@@ -228,11 +225,11 @@ class VideosController extends AppController
                 [
                     'success' => false,
                     'data' => $data,
-                    '_serialize' => ['success', 'data'],
                 ]
             );
             // die;
         }
+        $this->viewBuilder()->setOption('serialize', ['success', 'data']);
 
     }
 

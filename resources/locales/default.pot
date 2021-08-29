@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2021-08-25 16:49+0200\n"
+"POT-Creation-Date: 2021-08-29 05:33+0200\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -18,29 +18,36 @@ msgstr ""
 msgid "Not Authorized"
 msgstr ""
 
-#: Controller/Api/ImagesController.php:66
+#: Controller/Api/AvatarsController.php:96
+msgid "Avatar saved"
+msgstr ""
+
+#: Controller/Api/AvatarsController.php:118
+msgid "Avatar deleted"
+msgstr ""
+
+#: Controller/Api/ImagesController.php:65
 msgid "Image saved"
 msgstr ""
 
-#: Controller/Api/ImagesController.php:74
+#: Controller/Api/ImagesController.php:71
 msgid "An error occurred saving your image data"
 msgstr ""
 
-#: Controller/Api/ImagesController.php:83
-#: Controller/Api/VideosController.php:138
+#: Controller/Api/ImagesController.php:78
+#: Controller/Api/VideosController.php:127
 msgid "An Error occurred while uploading your files"
 msgstr ""
 
-#: Controller/Api/ImagesController.php:109
-#: Controller/Api/ImagesController.php:130
+#: Controller/Api/ImagesController.php:104
 msgid "Image could not be deleted"
 msgstr ""
 
-#: Controller/Api/ImagesController.php:124
+#: Controller/Api/ImagesController.php:117
 msgid "Image deleted"
 msgstr ""
 
-#: Controller/Api/KodaksController.php:39
+#: Controller/Api/KodaksController.php:41
 msgid "No Index Found Error"
 msgstr ""
 
@@ -64,34 +71,36 @@ msgstr ""
 msgid "No message"
 msgstr ""
 
-#: Controller/Api/TemplatesController.php:91
+#: Controller/Api/TemplatesController.php:80
+msgid "Template saved"
+msgstr ""
+
+#: Controller/Api/TemplatesController.php:84
+msgid "Template could not be saved"
+msgstr ""
+
+#: Controller/Api/TemplatesController.php:109
 msgid "Template created"
 msgstr ""
 
-#: Controller/Api/TemplatesController.php:95
+#: Controller/Api/TemplatesController.php:113
 msgid "Template could not be created"
 msgstr ""
 
-#: Controller/Api/TemplatesController.php:123
+#: Controller/Api/TemplatesController.php:141
 msgid "Template deleted"
 msgstr ""
 
-#: Controller/Api/TemplatesController.php:127
+#: Controller/Api/TemplatesController.php:145
 msgid "Template could not be deleted"
 msgstr ""
 
-#: Controller/Api/TokensController.php:110
+#: Controller/Api/TokensController.php:101
 msgid "Token created"
 msgstr ""
 
-#: Controller/Api/TokensController.php:134
+#: Controller/Api/TokensController.php:125
 msgid "Token removed"
-msgstr ""
-
-#: Controller/Api/UploadsController.php:50
-#: Controller/Api/UsersController.php:204
-#: Controller/Api/UsersController.php:242
-msgid "Invalid username or password"
 msgstr ""
 
 #: Controller/Api/UsersController.php:130
@@ -114,34 +123,39 @@ msgstr ""
 msgid "User deleted"
 msgstr ""
 
-#: Controller/Api/UsersController.php:245
+#: Controller/Api/UsersController.php:204
+#: Controller/Api/UsersController.php:241
+msgid "Invalid username or password"
+msgstr ""
+
+#: Controller/Api/UsersController.php:244
 msgid "Invalid Token"
 msgstr ""
 
-#: Controller/Api/UsersController.php:296
+#: Controller/Api/UsersController.php:300
 msgid "Login successful"
 msgstr ""
 
-#: Controller/Api/UsersController.php:311
+#: Controller/Api/UsersController.php:310
 msgid "You're logged out"
 msgstr ""
 
-#: Controller/Api/VideosController.php:121
-#: Controller/Api/VideosController.php:150
+#: Controller/Api/VideosController.php:112
+#: Controller/Api/VideosController.php:139
 msgid "Video saved"
 msgstr ""
 
-#: Controller/Api/VideosController.php:129
-#: Controller/Api/VideosController.php:156
+#: Controller/Api/VideosController.php:119
+#: Controller/Api/VideosController.php:143
 msgid "Video could not be saved"
 msgstr ""
 
-#: Controller/Api/VideosController.php:194
-msgid "Video deleted"
+#: Controller/Api/VideosController.php:172
+msgid "Video could not be deleted"
 msgstr ""
 
-#: Controller/Api/VideosController.php:200
-msgid "Video could not be deleted"
+#: Controller/Api/VideosController.php:186
+msgid "Video deleted"
 msgstr ""
 
 #: Controller/AvatarsController.php:57
@@ -184,21 +198,21 @@ msgstr ""
 msgid "The field could not be deleted. Please, try again."
 msgstr ""
 
-#: Controller/GroupsController.php:57
-#: Controller/GroupsController.php:81
+#: Controller/GroupsController.php:58
+#: Controller/GroupsController.php:82
 msgid "The group has been saved."
 msgstr ""
 
-#: Controller/GroupsController.php:61
-#: Controller/GroupsController.php:85
+#: Controller/GroupsController.php:62
+#: Controller/GroupsController.php:86
 msgid "The group could not be saved. Please, try again."
 msgstr ""
 
-#: Controller/GroupsController.php:102
+#: Controller/GroupsController.php:103
 msgid "The group has been deleted."
 msgstr ""
 
-#: Controller/GroupsController.php:104
+#: Controller/GroupsController.php:105
 msgid "The group could not be deleted. Please, try again."
 msgstr ""
 
@@ -256,21 +270,21 @@ msgstr ""
 msgid "The item could not be deleted. Please, try again."
 msgstr ""
 
-#: Controller/MysqlController.php:74
-#: Controller/MysqlController.php:98
+#: Controller/MysqlController.php:72
+#: Controller/MysqlController.php:96
 msgid "The mysql has been saved."
 msgstr ""
 
-#: Controller/MysqlController.php:78
-#: Controller/MysqlController.php:102
+#: Controller/MysqlController.php:76
+#: Controller/MysqlController.php:100
 msgid "The mysql could not be saved. Please, try again."
 msgstr ""
 
-#: Controller/MysqlController.php:119
+#: Controller/MysqlController.php:117
 msgid "The mysql has been deleted."
 msgstr ""
 
-#: Controller/MysqlController.php:121
+#: Controller/MysqlController.php:119
 msgid "The mysql could not be deleted. Please, try again."
 msgstr ""
 
@@ -1531,7 +1545,7 @@ msgid "Please enter your email and password"
 msgstr ""
 
 #: Users/login.php:14
-#: layout/default.php:49
+#: layout/default.php:50
 msgid "Login"
 msgstr ""
 
@@ -1630,7 +1644,7 @@ msgstr ""
 msgid "Option"
 msgstr ""
 
-#: layout/default.php:47
+#: layout/default.php:48
 msgid "Logout"
 msgstr ""
 

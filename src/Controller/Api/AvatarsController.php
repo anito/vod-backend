@@ -79,14 +79,7 @@ class AvatarsController extends AppController
 
             } else {
                 $event->stopPropagation();
-                $this->set([
-                    'success' => false,
-                    'data' => [],
-                    'message' => 'An Error occurred while uploading your files',
-                    // '_serialize' => ['success', 'data', 'message'],
-                ]);
             }
-            $this->Crud->action()->serialize(['success', 'data', 'message']);
         });
 
         $this->Crud->on('afterSave', function (Event $event) use ($uid) {
@@ -167,7 +160,6 @@ class AvatarsController extends AppController
                 [
                     'success' => true,
                     'data' => $data,
-                    '_serialize' => ['success', 'data', 'message'],
                 ]
             );
         } else {
@@ -175,11 +167,10 @@ class AvatarsController extends AppController
                 [
                     'success' => false,
                     'data' => [],
-                    'message' => __('An error occurred saving your avatar'),
-                    '_serialize' => ['success', 'data', 'message'],
                 ]
             );
         }
+        $this->viewBuilder()->setOption('serialize', ['success', 'data']);
     }
 
 }
