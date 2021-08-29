@@ -296,10 +296,10 @@ class UsersController extends AppController
                 'groups' => $this->_getGroups(),
                 'renewed' => $renewed,
                 'wait' => 2000,
+                'message' => __('Login successful'),
             ],
-            'message' => __('Login successful'),
         ]);
-        $this->viewBuilder()->setOption('serialize', ['success', 'data', 'message']);
+        $this->viewBuilder()->setOption('serialize', ['success', 'data']);
     }
 
     public function logout()
