@@ -34,6 +34,7 @@ class UsersController extends AppController
                 'Crud.ApiPagination',
             ],
         ]);
+        $this->loadComponent('Paginator');
 
         $this->Crud->addListener('relatedModels', 'Crud.RelatedModels');
     }
@@ -47,19 +48,23 @@ class UsersController extends AppController
             $query = $event->getSubject()->query;
             if (!$this->_isAdmin($authUser)) {
                 $query
-                // limit user query to only contain itself
+                // query the authenticated user only
                 ->where(['Users.id' => $authUser["id"]]);
-                $this->paginate($query);
+                $users = $this->paginate($query);
             } else {
-                $query
-                // we must force "hasMany" relations manually, although Crud.relatedModels Listener is set
-                // belongsTo, hasOne and belongsToMany work just fine
-                // this seems to be a bug in crud plugin
-                ->order(['Users.name' => 'ASC']);
-                $this->paginate($query);
+                // limit defaults to 20
+                // maxLimit defaults to 100
+                // augmented by the sort, direction, limit, and page parameters when passed in from the URL
+                $settings = [
+                    'limit' => 100, 
+                ];
+                $query->order(['Users.name' => 'ASC']);
+                $users = $this->paginate($query, $settings);
             }
+            $this->set('data', $users);
         });
 
+        $this->Crud->action()->serialize(['data']);
         return $this->Crud->execute();
     }
 
