@@ -40,6 +40,7 @@ class Video extends Entity
         'created' => true,
         'modified' => true,
         'sequence' => true,
+        'playhead' => true,
         'image' => true,
         'users' => true,
     ];

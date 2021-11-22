@@ -64,9 +64,9 @@ class VideosController extends AppController
             case 'User':
             case 'Guest':
                 $data = $this->Videos->find()
-                // see https://book.cakephp.org/3/en/orm/retrieving-data-and-resultsets.html#filtering-by-associated-data
-                // see https: //stackoverflow.com/questions/26799094/how-to-filter-by-conditions-for-associated-models
-                // see https: //stackoverflow.com/questions/10154717/php-cakephp-datetime-compare
+                    // see https://book.cakephp.org/3/en/orm/retrieving-data-and-resultsets.html#filtering-by-associated-data
+                    // see https: //stackoverflow.com/questions/26799094/how-to-filter-by-conditions-for-associated-models
+                    // see https: //stackoverflow.com/questions/10154717/php-cakephp-datetime-compare
                     ->matching('Users', function (Query $q) use ($authUser) {
 
                         $now = date('Y-m-d H:i:s');
@@ -81,7 +81,6 @@ class VideosController extends AppController
                             ->where($condition);
                     })
                     ->toArray();
-
         }
 
         $this->set([
@@ -142,13 +141,11 @@ class VideosController extends AppController
                 $this->set([
                     'message' => __('Video could not be saved'),
                 ]);
-
             }
             $this->Crud->action()->serialize(['message']);
         });
 
         return $this->Crud->execute();
-
     }
 
     public function delete()
@@ -171,7 +168,6 @@ class VideosController extends AppController
                     $this->set([
                         'message' => __('Video could not be deleted'),
                     ]);
-
                 } else {
                     $this->File->rmdirr($path);
                 }
@@ -230,7 +226,5 @@ class VideosController extends AppController
             // die;
         }
         $this->viewBuilder()->setOption('serialize', ['success', 'data']);
-
     }
-
 }
