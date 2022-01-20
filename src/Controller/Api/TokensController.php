@@ -70,7 +70,7 @@ class TokensController extends AppController
                 $timestamp = strtotime($end) + $diff;
             }
 
-            $jwt = $this->createToken($uid, $timestamp);
+            $jwt = $this->_createToken($uid, $timestamp);
             $this->Tokens->patchEntity($entity, ['token' => $jwt]);
 
             // since we must use POST (PUT contains no body to hold our data?)

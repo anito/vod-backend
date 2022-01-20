@@ -49,9 +49,9 @@ class VideosController extends AppController
     public function index()
     {
 
-        $authUser = $this->_getAuthUser();
+        $user = $this->_getAuthUser();
 
-        $role = $this->_getUserRoleName($authUser);
+        $role = $this->_getUserRoleName($user);
 
         switch ($role) {
 
@@ -67,12 +67,12 @@ class VideosController extends AppController
                     // see https://book.cakephp.org/3/en/orm/retrieving-data-and-resultsets.html#filtering-by-associated-data
                     // see https: //stackoverflow.com/questions/26799094/how-to-filter-by-conditions-for-associated-models
                     // see https: //stackoverflow.com/questions/10154717/php-cakephp-datetime-compare
-                    ->matching('Users', function (Query $q) use ($authUser) {
+                    ->matching('Users', function (Query $q) use ($user) {
 
                         $now = date('Y-m-d H:i:s');
 
                         $condition = [
-                            'Users.id' => $authUser['id'],
+                            'Users.id' => $user['id'],
                             'UsersVideos.start <=' => $now,
                             'UsersVideos.end >=' => $now,
                         ];

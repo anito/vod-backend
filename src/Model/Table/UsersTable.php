@@ -181,7 +181,7 @@ class UsersTable extends Table
     public function findWithEmail(Query $query, array $options)
     {
         $user = $this->_getUser('email', $options['username']);
-        $user && $this->checkJWT($user);
+        $user && $this->_checkJWT($user);
 
         $query
             ->where(['Users.active' => 1]);
@@ -192,12 +192,14 @@ class UsersTable extends Table
     public function findWithId(Query $query, array $options)
     {
         $user = $this->_getUser('id', $options['username']);
-        $user && $this->checkJWT($user);
+        $isGoogle = $user && $this->_isGoogle($user);
+        $isAdmin = $user->group->name !== "Administrator";
 
-        $query
+        (!$isAdmin || !$isGoogle) && $this->_checkJWT($user);
+
+
+        return $query
             ->where(['Users.active' => 1]);
-
-        return $query;
     }
 
     protected function _getUser($field, $value)
@@ -211,31 +213,33 @@ class UsersTable extends Table
             ->first();
     }
 
-    protected function checkJWT(Entity $user)
+    protected function _isGoogle(Entity $user) {
+        return !empty($user->google);
+    }
+
+    protected function _checkJWT(Entity $user)
     {
         if (!$user instanceof Entity) {
             return;
         }
-        if ($user->group->name !== "Administrator") {
 
-            $token = isset($user->token) ? $user->token->token : null;
+        $token = isset($user->token) ? $user->token->token : null;
 
-            if (!$token) {
-                throw new UnauthorizedException(__('Invalid token'));
-            }
+        if (!$token) {
+            throw new UnauthorizedException(__('Invalid token'));
+        }
 
-            // Token found in database, check it's validity
-            $allowed_algs = ['HS256'];
-            try {
-                JWT::decode(
-                    $token,
-                    Security::getSalt(),
-                    $allowed_algs
-                );
-            } catch (Exception $e) {
-                throw new UnauthorizedException(__('Invalid token'));
-                throw $e;
-            }
+        // Token found in database, check it's validity
+        $allowed_algs = ['HS256'];
+        try {
+            JWT::decode(
+                $token,
+                Security::getSalt(),
+                $allowed_algs
+            );
+        } catch (Exception $e) {
+            throw new UnauthorizedException(__('Invalid token'));
+            throw $e;
         }
     }
 }

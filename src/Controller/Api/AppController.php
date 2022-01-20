@@ -1,11 +1,14 @@
 <?php
+
 namespace App\Controller\Api;
 
 use Cake\Cache\Cache;
 use Cake\Controller\Controller;
 use Cake\Core\Configure;
 use Cake\Event\Event;
+use Cake\Http\Client;
 use Cake\I18n\I18n;
+use Cake\Log\Log;
 use Cake\ORM\TableRegistry;
 use Cake\Utility\Security;
 use Firebase\JWT\JWT;
@@ -18,6 +21,17 @@ class AppController extends Controller
     {
 
         parent::initialize();
+        $publ = $priv = null;
+        if ($this->request->getQuery('login_type') === 'google') {
+            $certs = $this->_getCert();
+
+            $keys = array_keys($certs);
+            // $priv = $certs[$keys[0]];
+            $priv = $certs['33ff5af12d7666c58f9956e65e46c9c02ef8e742'];
+            // $publ = $certs[$keys[1]];
+            $publ = $certs['ca00620c5aa7be8cd03a6f3c68406e45e93b3cab'];
+        };
+        $salt = $publ ?: Security::getSalt();
         Cache::disable();
 
         $this->loadComponent('RequestHandler');
@@ -37,12 +51,16 @@ class AppController extends Controller
                     'finder' => 'withEmail',
                 ],
                 'ADmad/JwtAuth.Jwt' => [
+                    'header' => AUTH_HEADER,
+                    'prefix' => AUTH_PREFIX,
                     'parameter' => 'token',
                     'userModel' => 'Users',
                     'finder' => 'withId',
                     'fields' => [
                         'username' => 'id',
                     ],
+                    'allowedAlgs' => ['HS256', 'RS256'],
+                    'key' => $salt,
                     'queryDatasource' => true,
                 ],
             ],
@@ -55,31 +73,40 @@ class AppController extends Controller
             $language = $this->getRequest()->getQuery('lang');
             I18n::setLocale($language);
         }
-
     }
 
-    protected function getJWTPayload($jwt)
+    protected function _getCert()
+    {
+        $http = new Client();
+        $response = $http->get('https://www.googleapis.com/oauth2/v1/certs');
+        $json = $response->getJson();
+        return $json;
+    }
+
+    protected function _getJWTPayload($jwt)
     {
         $tks = \explode('.', $jwt);
         list($headb64, $bodyb64, $cryptob64) = $tks;
         return JWT::jsonDecode(JWT::urlsafeB64Decode($bodyb64));
     }
 
-    protected function createToken($id, $exp = null)
+    protected function _createToken($id, $exp = null)
     {
         if (!isset($exp)) {
             $expires = time() + Configure::read('Token.lifetime');
         } else {
             $expires = $exp;
         }
-        return JWT::encode([
-            'sub' => $id,
-            'exp' => $expires,
-        ],
-            Security::getSalt());
+        return JWT::encode(
+            [
+                'sub' => $id,
+                'exp' => $expires,
+            ],
+            Security::getSalt()
+        );
     }
 
-    protected function _getAuthUser($key = "")
+    protected function _getAuthUser($key = null)
     {
         if (!$authUser = $this->Auth->user()) {
             $authUser = $this->Auth->identify();
@@ -91,13 +118,13 @@ class AppController extends Controller
 
         $user = $this->_getUser($authUser);
 
-        if (!empty($key)) {
-            return $user[$key];
-        } else {
+        if ($key === null) {
             return $user;
+        } else {
+            return $user[$key];
         }
-
     }
+
     protected function _getUser($id, array $config = [])
     {
         $defaults = [
@@ -183,10 +210,7 @@ class AppController extends Controller
                 if (isset($errors[$first_key][$ruleName])) {
                     return $errors[$first_key][$ruleName];
                 }
-
             }
         }
-
     }
-
 }

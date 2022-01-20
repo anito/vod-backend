@@ -18,6 +18,8 @@ Configure::write('Session.timeout', Configure::read('Session.lifetime') / 60);
 
 Time::setDefaultLocale('de-DE');
 
+define('AUTH_HEADER', 'authorization');
+define('AUTH_PREFIX', 'bearer');
 define('FIXTURE', [15, 24]);
 
 if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') {

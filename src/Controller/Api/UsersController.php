@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controller\Api;
 
 use Cake\Core\Configure;
@@ -16,7 +17,7 @@ class UsersController extends AppController
     public function initialize(): void
     {
         parent::initialize();
-        $this->Auth->allow(['token', 'logout', 'login']);
+        $this->Auth->allow(['token', 'logout', 'login', 'googleLogin']);
 
         $this->loadComponent('Crud.Crud', [
             'actions' => [
@@ -48,15 +49,15 @@ class UsersController extends AppController
             $query = $event->getSubject()->query;
             if (!$this->_isAdmin($authUser)) {
                 $query
-                // query the authenticated user only
-                ->where(['Users.id' => $authUser["id"]]);
+                    // query the authenticated user only
+                    ->where(['Users.id' => $authUser["id"]]);
                 $users = $this->paginate($query);
             } else {
                 // limit defaults to 20
                 // maxLimit defaults to 100
                 // augmented by the sort, direction, limit, and page parameters when passed in from the URL
                 $settings = [
-                    'limit' => 100, 
+                    'limit' => 100,
                 ];
                 $query->order(['Users.name' => 'ASC']);
                 $users = $this->paginate($query, $settings);
@@ -80,33 +81,35 @@ class UsersController extends AppController
 
             $user = $event->getSubject()->query
                 ->contain(
-                    'Sents', function (Query $q) {
+                    'Sents',
+                    function (Query $q) {
                         return $q
                             ->select([
                                 'Sents.user_id',
                                 'total' => $q->func()->count('*'),
                             ]);
-                    })
+                    }
+                )
                 ->contain(
-                    'Inboxes', function (Query $q) {
+                    'Inboxes',
+                    function (Query $q) {
                         return $q
                             ->select([
                                 'Inboxes.user_id',
                                 'total' => $q->func()->count('*'),
                                 'readings' => $q->func()->sum('Inboxes._read'),
                             ]);
-                    })
+                    }
+                )
                 ->contain(['Groups', 'Avatars', 'Videos', 'Tokens'])
                 ->first();
 
             $this->set('data', $user);
-
         });
 
         $this->Crud->action()->serialize(['data']);
 
         return $this->Crud->execute();
-
     }
 
     public function add()
@@ -123,17 +126,20 @@ class UsersController extends AppController
 
             if ($event->getSubject()->created) {
                 $id = $event->getSubject()->entity->id;
-                $this->set([
-                    'data' => [
-                        'id' => $id,
-                        'token' => JWT::encode([
-                            'sub' => $id,
-                            'exp' => time() + Configure::read('Token.lifetime'),
+                $this->set(
+                    [
+                        'data' => [
+                            'id' => $id,
+                            'token' => JWT::encode(
+                                [
+                                    'sub' => $id,
+                                    'exp' => time() + Configure::read('Token.lifetime'),
+                                ],
+                                Security::getSalt()
+                            ),
                         ],
-                            Security::getSalt()),
-                    ],
-                    'message' => __('User created'),
-                ]
+                        'message' => __('User created'),
+                    ]
                 );
                 $this->Crud->action()->serialize(['data', 'message']);
             }
@@ -197,7 +203,6 @@ class UsersController extends AppController
             ]);
 
             $this->Crud->action()->serialize(['data', 'message']);
-
         });
         return $this->Crud->execute();
     }
@@ -211,11 +216,13 @@ class UsersController extends AppController
 
         $id = $authUser["id"];
 
-        $token = JWT::encode([
-            'sub' => $id,
-            'exp' => time() + 604800,
-        ],
-            Security::getSalt());
+        $token = JWT::encode(
+            [
+                'sub' => $id,
+                'exp' => time() + 604800,
+            ],
+            Security::getSalt()
+        );
 
         $this->set([
             'success' => true,
@@ -224,6 +231,16 @@ class UsersController extends AppController
             ],
         ]);
         $this->viewBuilder()->setOption('serialize', ['success', 'data']);
+    }
+
+    public function googleLogin() {
+
+        $header = $this->request->getHeaderLine(AUTH_HEADER);
+        if ($header && stripos($header, AUTH_PREFIX) === 0) {
+            $token = str_ireplace(AUTH_PREFIX . ' ', '', $header);
+        }
+        $payload = $this->_getJWTPayload($token);
+        return $payload;
     }
 
     public function login()
@@ -241,15 +258,14 @@ class UsersController extends AppController
         $loggedinUser = $this->Auth->identify();
 
         if (!$loggedinUser) {
-            // invalid form login or
-            // invalid token
+            // invalid form login or invalid token
             throw new UnauthorizedException(__('Invalid username or password'));
         } elseif (!$this->_isValidToken($loggedinUser)) {
             // Token valid but didn't pass database check
             throw new UnauthorizedException(__('Invalid Token'));
         }
 
-        // user logged in by form or token, so checking for id or sub
+        // user is logged in either by form (id) or token (sub)
         if (isset($loggedinUser['sub'])) {
             $id = $loggedinUser['sub'];
         } else {
@@ -261,6 +277,7 @@ class UsersController extends AppController
         $_user->last_login = date("Y-m-d H:i:s");
         $this->Users->save($_user);
 
+        // for admins extend token vality if expired
         if ($this->_isAdmin($loggedinUser)) {
             $expires = TableRegistry::getTableLocator()->get('Users')
                 ->find()
@@ -270,7 +287,7 @@ class UsersController extends AppController
                 ->expires;
 
             if (time() > $expires) {
-                $jwt = $this->createToken($id, time() + 30 * 24 * 3600); // 30*24 hours (30 days)
+                $jwt = $this->_createToken($id, time() + 30 * 24 * 3600); // 30*24 hours (30 days)
 
                 $tokenTable = TableRegistry::getTableLocator()->get('Tokens');
                 $token = $tokenTable
@@ -346,6 +363,5 @@ class UsersController extends AppController
         } else {
             return true;
         }
-
     }
 }
