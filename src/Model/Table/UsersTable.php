@@ -192,10 +192,10 @@ class UsersTable extends Table
     public function findWithId(Query $query, array $options)
     {
         $user = $this->_getUser('id', $options['username']);
-        $isGoogle = $user && $this->_isGoogle($user);
-        $isAdmin = $user->group->name !== "Administrator";
-
-        (!$isAdmin || !$isGoogle) && $this->_checkJWT($user);
+        // $isGoogle = $user && $this->_isGoogle($user);
+        // $isAdmin = $user->group->name !== "Administrator";
+        // (!$isAdmin || !$isGoogle) && $this->_checkJWT($user);
+        // $this->_checkJWT($user);
 
 
         return $query

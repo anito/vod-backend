@@ -39,13 +39,17 @@ class TokensController extends AppController
         $this->Crud->addListener('relatedModels', 'Crud.RelatedModels');
     }
 
-    // there is no such thing like altering a token, so when regenerating a token,
-    // we actually have to add a new token and remove the old one that previously belonged to that user
+    /**
+     * There is no such thing like altering a token with PUT (PUT contains no body to hold our data)
+     * So when regenerating a token we actually have to
+     * add a new token and remove the old one (that previously belonged to that user)
+     **/
     public function add()
     {
         $uid = $this->getRequest()->getData('user_id');
+        $constrained = $this->getRequest()->getData('constrained'); // should expire with latest video
 
-        $this->Crud->on('beforeSave', function (Event $event) use ($uid) {
+        $this->Crud->on('beforeSave', function (Event $event) use ($uid, $constrained) {
 
             $entity = $event->getSubject()->entity;
             $timestamp = null;
@@ -54,7 +58,7 @@ class TokensController extends AppController
             $videosTable = TableRegistry::getTableLocator()->get('Videos');
             $latestVideo = $videosTable->find('latestVideo', ['uid' => $uid])->first();
 
-            if (!empty($latestVideo)) {
+            if ($constrained && !empty($latestVideo)) {
                 $end = $latestVideo->_matchingData['UsersVideos']->end;
                 $end = $end->i18nFormat('yyyy-MM-dd HH:mm:ss');
 
@@ -73,17 +77,10 @@ class TokensController extends AppController
             $jwt = $this->_createToken($uid, $timestamp);
             $this->Tokens->patchEntity($entity, ['token' => $jwt]);
 
-            // since we must use POST (PUT contains no body to hold our data?)
+            // since we must use POST (PUT contains no body to hold our data)
             // and eventhough we might only want to update the token,
             // we now have to remove all older tokens belonging to the same user
-            $oldies = $this->Tokens->find()
-                ->where(['user_id' => $uid, 'token !=' => $jwt])
-                ->toList();
-
-            foreach ($oldies as $oldie) {
-                // trigger events
-                $this->Tokens->delete($oldie);
-            }
+            $this->Tokens->rebuild($uid, $jwt);
         });
 
         // normally we would return the newly created token

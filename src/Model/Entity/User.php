@@ -15,7 +15,6 @@ use Firebase\JWT\JWT;
  * @property string|null $email
  * @property string|null $password
  * @property bool|null $active
- * @property bool|null $google
  * @property bool|null $protected
  * @property int|null $group_id
  * @property \Cake\I18n\FrozenTime|null $last_login
@@ -55,9 +54,9 @@ class User extends Entity
         'email' => true,
         'password' => true,
         'active' => true,
-        'google' => true,
         'protected' => true,
         'group_id' => true,
+        'token_id' => false,
         'last_login' => true,
         'created' => true,
         'modified' => true,

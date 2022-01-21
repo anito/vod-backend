@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Model\Table;
 
 use Cake\ORM\Query;
@@ -80,5 +81,17 @@ class TokensTable extends Table
         $rules->add($rules->existsIn(['user_id'], 'Users'));
 
         return $rules;
+    }
+
+    public function rebuild($uid, $jwt)
+    {
+        $oldies = $this->find()
+            ->where(['user_id' => $uid, 'token !=' => $jwt])
+            ->toList();
+
+        foreach ($oldies as $oldie) {
+            // trigger events
+            $this->delete($oldie);
+        }
     }
 }

@@ -233,14 +233,52 @@ class UsersController extends AppController
         $this->viewBuilder()->setOption('serialize', ['success', 'data']);
     }
 
-    public function googleLogin() {
+    public function googleLogin()
+    {
 
         $header = $this->request->getHeaderLine(AUTH_HEADER);
         if ($header && stripos($header, AUTH_PREFIX) === 0) {
             $token = str_ireplace(AUTH_PREFIX . ' ', '', $header);
         }
-        $payload = $this->_getJWTPayload($token);
-        return $payload;
+        $payloadStdClass = $this->_getJWTPayload($token);
+        $payload = json_decode(json_encode($payloadStdClass), true);
+
+        $user = $this->Users->find()
+            ->contain(['Groups', 'Avatars', 'Videos', 'Tokens'])
+            ->where(['Users.id' => $payload['sub']])
+            ->first();
+
+        if (empty($user)) {
+            $tokenTable = TableRegistry::getTableLocator()->get('Tokens');
+            $jwt = $this->_createToken($payload['sub']);
+
+
+            $token = $tokenTable->newEntity([
+                'token' => $jwt,
+                'user_id' => $payload['sub'],
+            ]);
+            $user = $this->Users->newEntity([
+                'id' => $payload['sub'],
+                'email' => $payload['email'],
+                'password' => randomString(),
+                'name' => $payload['name'],
+                'active' => 1,
+                'group_id' => $this->_getRoleIdFromName(),
+            ]);
+            $user->token = $token;
+            $saved = $this->Users->save($user);
+        } else {
+            $jwt = $user->token->token;
+        }
+
+        $this->set([
+            'success' => !empty($user),
+            'data' => [
+                'token' => !empty($user) ? $jwt : '',
+                'message' => !empty($user) ? __('Google Login successful') : __('Google Login failed'),
+            ],
+        ]);
+        $this->viewBuilder()->setOption('serialize', ['success', 'data']);
     }
 
     public function login()

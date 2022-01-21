@@ -84,7 +84,7 @@ class SentsController extends AppController
 
             /**
              * distinguish between different types of mail/users sending the mail:
-             * admins: sending a token, if authenticated we can assume they are of role admin
+             * only admins sending a token, if authenticated we can assume they are of role admin
              * non-admin: not sending a token
              * although a non-admin (role user) could be logged in and send the form,
              * he won't be authenticated (since the missing token)
@@ -93,7 +93,7 @@ class SentsController extends AppController
             if (!isset($authUser) && isset($data['user'])) {
                 /**
                  * mail sent from landing page form AND unauthenticated user
-                 * will auto create a new user since $data['user'] exists
+                 * will auto create a new user from $data['user'] information
                  */
                 $admins = [];
                 foreach ($this->_getAdmins() as $admin) {
@@ -111,6 +111,7 @@ class SentsController extends AppController
                     /**
                      * user exists
                      * modify entity in order to stop autocreation
+                     * 
                      */
                     $entity->get('user')->isNew(false);
                     $entity->set('user', $user);
@@ -122,7 +123,7 @@ class SentsController extends AppController
 
                 } else {
                     /**
-                     * new user will be autocreated
+                     * a new user will be autocreated
                      *
                      */
                     $from = [$data['user']['email'] => $data['user']['name']];
