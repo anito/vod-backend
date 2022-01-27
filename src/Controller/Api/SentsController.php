@@ -232,7 +232,7 @@ class SentsController extends AppController
                 ->setSubject('[' . $sitename . '] ' . $subject)
                 ->setEmailFormat('html')
                 ->setViewVars($viewVars)
-                ->send();
+                ->deliver();
 
             /**
              * Cake creates mail with header and message properties
