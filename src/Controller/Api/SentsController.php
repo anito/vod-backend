@@ -226,6 +226,7 @@ class SentsController extends AppController
             ]);
 
             $message = $mail
+                ->setSender($from)
                 ->setFrom($from)
                 ->setTo($to)
                 ->setSubject('[' . $sitename . '] ' . $subject)
