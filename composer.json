@@ -15,6 +15,7 @@
         "friendsofcake/crud-json-api": "^1.0",
         "kaz29/cakephp-cors-middleware-plugin": "^1.0",
         "mobiledetect/mobiledetectlib": "^2.8",
+        "muffin/footprint": "^2.0",
         "ozee31/cakephp-cors": "^2.0"
     },
     "require-dev": {

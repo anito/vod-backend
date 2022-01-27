@@ -83,7 +83,7 @@ class KodaksController extends AppController
         $ext = $this->File->returnExt($file);
 
         if (!defined('PATH')) {
-            define('PATH', $this->Director->getPathConstant($type));
+            define('PATH', $this->Director->getMediaBasePath($type));
         }
 
         $original = PATH . DS . $id . DS . 'lg' . DS . $file;

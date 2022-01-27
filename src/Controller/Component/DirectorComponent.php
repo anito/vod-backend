@@ -2,8 +2,6 @@
 namespace App\Controller\Component;
 
 use Cake\Controller\Component;
-use Cake\Event\Event;
-use Cake\Log\Log;
 
 class DirectorComponent extends Component
 {
@@ -41,11 +39,10 @@ class DirectorComponent extends Component
         );
 
         $params = array_merge($defaults, $options);
-        // Log::debug($params);
         $args = join(',', $params);
 
         if(!defined('PATH')) {
-            define('PATH', $this->getPathConstant($params['type']));
+            define('PATH', $this->getMediaBasePath($params['type']));
         }
 
         $crypt = $this->Salt->convert($args); //encode
@@ -92,7 +89,7 @@ class DirectorComponent extends Component
         return array($x, $y);
     }
 
-    public function getPathConstant($path)
+    public function getMediaBasePath($path)
     {
         return UPLOADS . DS . $path;
     }

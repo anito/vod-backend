@@ -1,7 +1,12 @@
 <?php
 namespace App\Model\Table;
 
+use Cake\Datasource\EntityInterface;
+use Cake\Error\Debugger;
+use Cake\Event\EventInterface;
+use Cake\Http\Exception\ForbiddenException;
 use Cake\Http\Exception\UnauthorizedException;
+use Cake\Log\Log;
 use Cake\ORM\Entity;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
@@ -49,6 +54,7 @@ class UsersTable extends Table
         $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
+        $this->addBehavior('Muffin/Footprint.Footprint');
 
         $this->belongsTo('Groups', [
             'foreignKey' => 'group_id',
@@ -79,7 +85,7 @@ class UsersTable extends Table
             'joinTable' => 'users_videos',
         ]);
 
-        $this->notAllowedMessage = __('This user is protected and cannot be changed');
+        $this->notAllowedMessage = __('This user is protected');
     }
 
     /**
@@ -100,11 +106,11 @@ class UsersTable extends Table
         $validator
             ->scalar('name')
             ->maxLength('name', 255)
-            ->allowEmptyString('name');
-
-        $validator
+            ->notEmptyString('name', __('Name can not be empty'));
+            
+            $validator
             ->email('email')
-            ->allowEmptyString('email');
+            ->notEmptyString('email', __('Email can not be empty'));
 
         $validator
             ->scalar('password')
@@ -124,40 +130,54 @@ class UsersTable extends Table
             ->allowEmptyDateTime('last_login');
 
         $validator
-            ->add('active', 'checkProtected', [
-                'rule' => [$this, 'protectedUser'],
+            ->add('active', '_protected', [
+                'rule' => [$this, 'unprotected'],
                 'message' => $this->notAllowedMessage,
             ])
-            ->add('name', 'checkProtected', [
-                'rule' => [$this, 'protectedUser'],
+            ->add('name', '_protected', [
+                'rule' => [$this, 'unprotected'],
                 'message' => $this->notAllowedMessage,
             ])
-            ->add('email', 'checkProtected', [
-                'rule' => [$this, 'protectedUser'],
+            ->add('email', '_protected', [
+                'rule' => [$this, 'unprotected'],
                 'message' => $this->notAllowedMessage,
             ])
-            ->add('group_id', 'checkProtected', [
-                'rule' => [$this, 'protectedUser'],
+            ->add('group_id', '_protected', [
+                'rule' => [$this, 'unprotected'],
                 'message' => $this->notAllowedMessage,
             ])
-            ->add('password', 'checkProtected', [
-                'rule' => [$this, 'protectedUser'],
+            ->add('password', '_protected', [
+                'rule' => [$this, 'unprotected'],
                 'message' => $this->notAllowedMessage,
             ]);
 
         return $validator;
     }
 
-    public function protectedUser($value, $context)
+    public function beforeSave(EventInterface $event, EntityInterface $entity, $options)
+    {
+        if(!empty($options['_footprint'])) {
+            // Log::write(LOG_DEBUG, 'autUser ID {foo}',['foo' => $options['_footprint']['id']]);
+            // Log::write(LOG_DEBUG, 'user ID {foo}',['foo' => $entity->id]);
+            // Log::write(LOG_DEBUG, 'active {foo}',['foo' => $entity->active]);
+            $authId = $options['_footprint']['id'];
+            $userId = $entity->id;
+            $active = $entity->active;
+            if($authId === $userId && !$active) {
+                throw new ForbiddenException(__('You can not deactivate your own profile'));
+            }
+        } else {
+            throw new ForbiddenException(__('Not Authorized'));
+        }
+    }
+
+    public function unprotected($value, $context)
     {
         if (isset($context['data']['id'])) {
             $id = $context['data']['id'];
-        } else {
-            return true;
-        }
-        $index = array_search($id, FIXTURE);
-        if (is_int($index)) {
-            return __('Fields are protected and cannot be changed');
+            if (in_array($id, FIXTURE)) {
+                return false;
+            }
         }
         return true;
     }
@@ -189,15 +209,8 @@ class UsersTable extends Table
         return $query;
     }
 
-    public function findWithId(Query $query, array $options)
+    public function findWithId(Query $query)
     {
-        $user = $this->_getUser('id', $options['username']);
-        // $isGoogle = $user && $this->_isGoogle($user);
-        // $isAdmin = $user->group->name !== "Administrator";
-        // (!$isAdmin || !$isGoogle) && $this->_checkJWT($user);
-        // $this->_checkJWT($user);
-
-
         return $query
             ->where(['Users.active' => 1]);
     }
@@ -211,10 +224,6 @@ class UsersTable extends Table
             ->contain(['Groups', 'Tokens'])
             ->where([$_field => $value])
             ->first();
-    }
-
-    protected function _isGoogle(Entity $user) {
-        return !empty($user->google);
     }
 
     protected function _checkJWT(Entity $user)

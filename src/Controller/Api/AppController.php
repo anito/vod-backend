@@ -8,7 +8,6 @@ use Cake\Core\Configure;
 use Cake\Event\Event;
 use Cake\Http\Client;
 use Cake\I18n\I18n;
-use Cake\Log\Log;
 use Cake\ORM\TableRegistry;
 use Cake\Utility\Security;
 use Firebase\JWT\JWT;
@@ -16,6 +15,7 @@ use Firebase\JWT\JWT;
 class AppController extends Controller
 {
     use \Crud\Controller\ControllerTrait;
+    use \Muffin\Footprint\Auth\FootprintAwareTrait;
 
     public function initialize(): void
     {
@@ -25,10 +25,8 @@ class AppController extends Controller
         if ($this->request->getQuery('login_type') === 'google') {
             $certs = $this->_getCert();
 
-            $keys = array_keys($certs);
-            // $priv = $certs[$keys[0]];
+            // $keys = array_keys($certs);
             $priv = $certs['33ff5af12d7666c58f9956e65e46c9c02ef8e742'];
-            // $publ = $certs[$keys[1]];
             $publ = $certs['ca00620c5aa7be8cd03a6f3c68406e45e93b3cab'];
         };
         $salt = $publ ?: Security::getSalt();
@@ -200,15 +198,16 @@ class AppController extends Controller
         return $_groups;
     }
 
-    protected function _getCustomValidationErrorMessage(Event $event, $ruleName)
+    protected function _checkValidationErrors(Event $event)
     {
         if ($event->getSubject()->entity->hasErrors()) {
             $errors = $event->getSubject()->entity->getErrors();
 
             if (!empty($errors)) {
-                $first_key = array_key_first($errors);
-                if (isset($errors[$first_key][$ruleName])) {
-                    return $errors[$first_key][$ruleName];
+                $field = array_key_first($errors);
+                if (isset($errors[$field])) {
+                    $rule = array_key_first($errors[$field]);
+                    return $errors[$field][$rule];
                 }
             }
         }

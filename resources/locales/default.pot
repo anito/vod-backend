@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2021-08-29 05:33+0200\n"
+"POT-Creation-Date: 2022-01-27 15:19+0100\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -14,7 +14,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: Controller/Api/AppController.php:27
+#: Controller/Api/AppController.php:39
+#: Model/Table/UsersTable.php:170
 msgid "Not Authorized"
 msgstr ""
 
@@ -35,7 +36,7 @@ msgid "An error occurred saving your image data"
 msgstr ""
 
 #: Controller/Api/ImagesController.php:78
-#: Controller/Api/VideosController.php:127
+#: Controller/Api/VideosController.php:126
 msgid "An Error occurred while uploading your files"
 msgstr ""
 
@@ -59,15 +60,15 @@ msgstr ""
 msgid "General Information"
 msgstr ""
 
-#: Controller/Api/SentsController.php:120
+#: Controller/Api/SentsController.php:121
 msgid "Message from: {0}"
 msgstr ""
 
-#: Controller/Api/SentsController.php:130
+#: Controller/Api/SentsController.php:131
 msgid "New User: {0}"
 msgstr ""
 
-#: Controller/Api/SentsController.php:203
+#: Controller/Api/SentsController.php:204
 msgid "No message"
 msgstr ""
 
@@ -95,66 +96,74 @@ msgstr ""
 msgid "Template could not be deleted"
 msgstr ""
 
-#: Controller/Api/TokensController.php:101
+#: Controller/Api/TokensController.php:98
 msgid "Token created"
 msgstr ""
 
-#: Controller/Api/TokensController.php:125
+#: Controller/Api/TokensController.php:122
 msgid "Token removed"
 msgstr ""
 
-#: Controller/Api/UsersController.php:130
+#: Controller/Api/UsersController.php:141
 msgid "User created"
 msgstr ""
 
-#: Controller/Api/UsersController.php:149
+#: Controller/Api/UsersController.php:160
 msgid "User updated"
 msgstr ""
 
-#: Controller/Api/UsersController.php:151
+#: Controller/Api/UsersController.php:162
 msgid "User could not be updated"
 msgstr ""
 
-#: Controller/Api/UsersController.php:173
+#: Controller/Api/UsersController.php:184
 msgid "Protected users can not be deleted"
 msgstr ""
 
-#: Controller/Api/UsersController.php:188
+#: Controller/Api/UsersController.php:199
 msgid "User deleted"
 msgstr ""
 
-#: Controller/Api/UsersController.php:204
-#: Controller/Api/UsersController.php:241
+#: Controller/Api/UsersController.php:214
+#: Controller/Api/UsersController.php:300
 msgid "Invalid username or password"
 msgstr ""
 
-#: Controller/Api/UsersController.php:244
+#: Controller/Api/UsersController.php:278
+msgid "Google Login successful"
+msgstr ""
+
+#: Controller/Api/UsersController.php:278
+msgid "Google Login failed"
+msgstr ""
+
+#: Controller/Api/UsersController.php:303
 msgid "Invalid Token"
 msgstr ""
 
-#: Controller/Api/UsersController.php:300
+#: Controller/Api/UsersController.php:359
 msgid "Login successful"
 msgstr ""
 
-#: Controller/Api/UsersController.php:310
+#: Controller/Api/UsersController.php:370
 msgid "You're logged out"
 msgstr ""
 
-#: Controller/Api/VideosController.php:112
-#: Controller/Api/VideosController.php:139
+#: Controller/Api/VideosController.php:111
+#: Controller/Api/VideosController.php:138
 msgid "Video saved"
 msgstr ""
 
-#: Controller/Api/VideosController.php:119
-#: Controller/Api/VideosController.php:143
+#: Controller/Api/VideosController.php:118
+#: Controller/Api/VideosController.php:142
 msgid "Video could not be saved"
 msgstr ""
 
-#: Controller/Api/VideosController.php:172
+#: Controller/Api/VideosController.php:169
 msgid "Video could not be deleted"
 msgstr ""
 
-#: Controller/Api/VideosController.php:186
+#: Controller/Api/VideosController.php:182
 msgid "Video deleted"
 msgstr ""
 
@@ -378,20 +387,28 @@ msgstr ""
 msgid "The video could not be deleted. Please, try again."
 msgstr ""
 
-#: Model/Table/TokensTable.php:79
+#: Model/Table/TokensTable.php:80
 msgid "Token did not change."
 msgstr ""
 
-#: Model/Table/UsersTable.php:82
-msgid "This user is protected and cannot be changed"
+#: Model/Table/UsersTable.php:88
+msgid "This user is protected"
 msgstr ""
 
-#: Model/Table/UsersTable.php:160
-msgid "Fields are protected and cannot be changed"
+#: Model/Table/UsersTable.php:109
+msgid "Name can not be empty"
 msgstr ""
 
-#: Model/Table/UsersTable.php:224
-#: Model/Table/UsersTable.php:236
+#: Model/Table/UsersTable.php:113
+msgid "Email can not be empty"
+msgstr ""
+
+#: Model/Table/UsersTable.php:167
+msgid "You can not deactivate your own profile"
+msgstr ""
+
+#: Model/Table/UsersTable.php:238
+#: Model/Table/UsersTable.php:250
 msgid "Invalid token"
 msgstr ""
 

@@ -48,6 +48,12 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
         // Call parent to load bootstrap from files.
         parent::bootstrap();
 
+        /**
+         * passes the currently logged in user info to the model layer
+         * see: https://github.com/UseMuffin/Footprint
+         */ 
+        $this->addPlugin('Muffin/Footprint');
+
         $this->addPlugin('Authentication');
 
         $this->addPlugin('Crud');
