@@ -26,7 +26,7 @@ use Cake\Core\Configure;
 use Cake\Event\Event;
 use Cake\Http\Exception\ForbiddenException;
 use Cake\Http\Exception\NotFoundException;
-use Cake\Mailer\Email;
+use Cake\Mailer\Mailer;
 use Cake\ORM\TableRegistry;
 
 class SentsController extends AppController
@@ -192,7 +192,7 @@ class SentsController extends AppController
                 $templateData = '';
             }
 
-            $mail = new Email();
+            $mail = new Mailer();
             $mail->viewBuilder()->setTemplate($template);
             $mail->viewBuilder()->setLayout('physio-layout');
 
