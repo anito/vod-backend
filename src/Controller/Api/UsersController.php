@@ -7,6 +7,7 @@ use Cake\Event\Event;
 use Cake\Http\Exception\ForbiddenException;
 use Cake\Http\Exception\UnauthorizedException;
 use Cake\I18n\Date;
+use Cake\Log\Log;
 use Cake\ORM\Query;
 use Cake\ORM\TableRegistry;
 use Cake\Utility\Security;
@@ -240,35 +241,61 @@ class UsersController extends AppController
         if ($header && stripos($header, AUTH_PREFIX) === 0) {
             $token = str_ireplace(AUTH_PREFIX . ' ', '', $header);
         }
-        $payloadStdClass = $this->_getJWTPayload($token);
-        $payload = json_decode(json_encode($payloadStdClass), true);
+        $payload = $this->_getJWTPayload($token);
 
         $user = $this->Users->find()
             ->contain(['Groups', 'Avatars', 'Videos', 'Tokens'])
-            ->where(['Users.id' => $payload['sub']])
+            ->where(['Users.id' => $payload->sub])
             ->first();
 
+        $tokenTable = TableRegistry::getTableLocator()->get('Tokens');
+        $avatarTable = TableRegistry::getTableLocator()->get('Avatars');
+
         if (empty($user)) {
-            $tokenTable = TableRegistry::getTableLocator()->get('Tokens');
-            $jwt = $this->_createToken($payload['sub']);
+            
+            $jwt = $this->_createToken($payload->sub);
 
 
             $token = $tokenTable->newEntity([
                 'token' => $jwt,
-                'user_id' => $payload['sub'],
+                'user_id' => $payload->sub,
+            ]);
+            $avatar = $avatarTable->newEntity([
+                'src' => $payload->picture,
+                'user_id' => $payload->sub
             ]);
             $user = $this->Users->newEntity([
-                'id' => $payload['sub'],
-                'email' => $payload['email'],
+                'id' => $payload->sub,
+                'email' => $payload->email,
                 'password' => randomString(),
-                'name' => $payload['name'],
+                'name' => $payload->name,
                 'active' => 1,
                 'group_id' => $this->_getRoleIdFromName(),
             ]);
+
             $user->token = $token;
+            $user->avatar = $avatar;
             $saved = $this->Users->save($user);
         } else {
             $jwt = $user->token->token;
+            if(isset($user->avatar)) {
+                $avatar= $user->avatar;
+                if($avatar->src !== $payload->picture) {
+                    $this->Users->Avatars->patchEntity($avatar, [
+                        'src' => $payload->picture,
+                        'user_id' => $user->id
+                    ]);
+                    $user->avatar = $avatar;
+                    $this->Users->save($user);
+                }
+            } else {
+                $avatar = $avatarTable->newEntity([
+                    'user_id' => $user->id,
+                    'src' => $payload->picture,
+                ]);
+                $user->avatar = $avatar;
+                $this->Users->save($user);
+            }
         }
 
         $this->set([

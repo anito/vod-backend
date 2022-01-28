@@ -166,8 +166,6 @@ class UsersTable extends Table
             if($authId === $userId && !$active) {
                 throw new ForbiddenException(__('You can not deactivate your own profile'));
             }
-        } else {
-            throw new ForbiddenException(__('Not Authorized'));
         }
     }
 
