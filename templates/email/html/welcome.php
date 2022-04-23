@@ -142,7 +142,7 @@ endforeach;
           <?php if (!empty($templateData)): ?>
             <p style="line-height: 40px; font-size: 1px">&nbsp;</p>
             <div class="content magic-link">
-              <a href="<?php echo $templateData["href"] ?>" target="_blank" title="<?php echo $templateData["label"] ?>"><?php echo $templateData["label"] ?></a>
+            <a href="<?php echo $templateData["href"] ?>" target="_blank" title="<?php echo $templateData["label"] ?>"><?php echo $templateData["label"] ?></a>
             </div>
             <p style="line-height: 40px; font-size: 1px">&nbsp;</p>
           <?php endif;?>

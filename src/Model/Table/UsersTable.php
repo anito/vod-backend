@@ -3,6 +3,7 @@ namespace App\Model\Table;
 
 use Cake\Datasource\EntityInterface;
 use Cake\Error\Debugger;
+use Cake\Event\Event;
 use Cake\Event\EventInterface;
 use Cake\Http\Exception\ForbiddenException;
 use Cake\Http\Exception\UnauthorizedException;
@@ -166,6 +167,11 @@ class UsersTable extends Table
             if($authId === $userId && !$active) {
                 throw new ForbiddenException(__('You can not deactivate your own profile'));
             }
+        }
+
+        if($entity->isNew()) {
+            $event = new Event('User.registration', $this, ['user' => $entity]);
+            $this->getEventManager()->dispatch($event);
         }
     }
 
