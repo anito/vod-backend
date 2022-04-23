@@ -16,7 +16,6 @@
 use Cake\Core\Configure;
 
 $content = explode("\n", $content);
-$magicLinkLabel = Configure::check('Site.magic-link-label') ? Configure::read('Site.magic-link-label') : 'Magic Link';
 
 ?>
 
