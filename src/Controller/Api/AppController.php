@@ -10,23 +10,22 @@ use Cake\Http\Client;
 use Cake\I18n\I18n;
 use Cake\ORM\TableRegistry;
 use Cake\Utility\Security;
+use Crud\Controller\ControllerTrait;
 use Firebase\JWT\JWT;
 
 class AppController extends Controller
 {
-  use \Crud\Controller\ControllerTrait;
-  use \Muffin\Footprint\Auth\FootprintAwareTrait;
+  use ControllerTrait;
 
   public function initialize(): void
   {
 
     parent::initialize();
-    $publ = $priv = null;
+    $publ = null;
     if ($this->request->getQuery('login_type') === 'google') {
       $certs = $this->_getCert();
 
       // $keys = array_keys($certs);
-      $priv = $certs['33ff5af12d7666c58f9956e65e46c9c02ef8e742'];
       $publ = $certs['ca00620c5aa7be8cd03a6f3c68406e45e93b3cab'];
     };
     $salt = $publ ?: Security::getSalt();
@@ -34,38 +33,7 @@ class AppController extends Controller
 
     $this->loadComponent('RequestHandler');
 
-    $this->loadComponent('Auth', [
-      'storage' => 'Memory',
-      'authError' => __('Not Authorized'),
-      'authenticate' => [
-        'Form' => [
-          'fields' => [
-            'username' => 'email',
-            'password' => 'password',
-          ],
-          /*
-                     * 'withEmail' includes a token check against database and a JWT verification
-                     */
-          'finder' => 'withEmail',
-        ],
-        'ADmad/JwtAuth.Jwt' => [
-          'header' => AUTH_HEADER,
-          'prefix' => AUTH_PREFIX,
-          'parameter' => 'token',
-          'userModel' => 'Users',
-          'finder' => 'withId',
-          'fields' => [
-            'username' => 'id',
-          ],
-          'allowedAlgs' => ['HS256', 'RS256'],
-          'key' => $salt,
-          'queryDatasource' => true,
-        ],
-      ],
-      'unauthorizedRedirect' => false,
-      'checkAuthIn' => 'Controller.initialize',
-      'loginAction' => '',
-    ]);
+    $this->loadComponent('Authentication.Authentication');
 
     if (array_key_exists('lang', $this->getRequest()->getQuery())) {
       $language = $this->getRequest()->getQuery('lang');
@@ -106,15 +74,16 @@ class AppController extends Controller
 
   protected function _getAuthUser($key = null)
   {
-    if (!$authUser = $this->Auth->user()) {
-      $authUser = $this->Auth->identify();
+    $result = $this->Authentication->getResult();
+    if ($result->isValid()) {
+      $uid = $this->Authentication->getIdentity()->getIdentifier();
     }
 
-    if (!$authUser) {
+    if (!isset($uid)) {
       return;
     }
 
-    $user = $this->_getUser($authUser);
+    $user = $this->_getUser($uid);
 
     if ($key === null) {
       return $user;

@@ -17,28 +17,27 @@ class UsersController extends AppController
     public function initialize(): void
     {
         parent::initialize();
-        // $this->Auth->allow(['add', 'view', 'edit']);
+        // Configure the login action to not require authentication, preventing
+        // the infinite redirect loop issue
+        $this->Authentication->addUnauthenticatedActions(['login']);
     }
 
     public function login()
     {
 
-        if ($this->request->is('post')) {
-            $user = $this->Auth->identify();
-
-            if ($user) {
-                $this->Auth->setUser($user);
-                $id = $user['id'];
-
-                $_user = $this->Users->get($id);
-                $_user->last_login = date("Y-m-d H:i:s");
-
-                $usersTable = TableRegistry::getTableLocator()->get('Users');
-                $usersTable->save($_user);
-
-                return $this->redirect($this->Auth->redirectUrl());
+        $this->request->allowMethod(['get', 'post']);
+        if($this->request->is('post')) {
+            $result = $this->Authentication->getResult();
+            if ($result->isValid()) {
+                $user = $this->Authentication->getIdentity();
+    
+                $user = $this->Users->patchEntity($user, ['last_login' => date("Y-m-d H:i:s")]);
+                $this->Users->save($user);
+                return $this->redirect($this->Authentication->getLoginRedirect() ?? '/users');
+            
+            } else {
+                $this->Flash->error('Your email or password is incorrect.');
             }
-            $this->Flash->error('Your email or password is incorrect.');
         }
 
     }

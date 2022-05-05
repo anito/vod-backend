@@ -18,8 +18,8 @@ Configure::write('Session.timeout', Configure::read('Session.lifetime') / 60);
 
 Time::setDefaultLocale('de-DE');
 
-define('AUTH_HEADER', 'authorization');
-define('AUTH_PREFIX', 'bearer');
+define('AUTH_HEADER', 'Authorization');
+define('AUTH_PREFIX', 'Bearer');
 define('FIXTURE', [15, 24]);
 
 if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') {
@@ -34,6 +34,7 @@ define('UPLOADS', ROOT . DS . 'uploads');
 define('IMAGES', UPLOADS . DS . 'images');
 define('VIDEOS', UPLOADS . DS . 'videos');
 define('AVATARS', UPLOADS . DS . 'avatars');
+define('MYSQLUPLOAD', ROOT . DS . 'mysql');
 if (!defined('MYSQL_CONFIG_DIR')) {
     define('MYSQL_CONFIG_DIR', ROOT . DS . 'mysqlconf' . DS);
     if (!is_dir(MYSQL_CONFIG_DIR)) {

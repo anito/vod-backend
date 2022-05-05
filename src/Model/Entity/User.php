@@ -1,6 +1,7 @@
 <?php
 namespace App\Model\Entity;
 
+use Authentication\IdentityInterface;
 use Authentication\PasswordHasher\DefaultPasswordHasher;
 use Cake\Log\Log;
 use Cake\ORM\Entity;
@@ -28,12 +29,12 @@ use Firebase\JWT\JWT;
  * @property \App\Model\Entity\Token[] $tokens
  * @property \App\Model\Entity\Video[] $videos
  */
-class User extends Entity
+class User extends Entity implements IdentityInterface
 {
 
-    protected function _setPassword($password)
+    protected function _setPassword($password) : ?string
     {
-        if (strlen($password)) {
+        if (strlen($password) > 0) {
             $hasher = new DefaultPasswordHasher();
 
             return $hasher->hash($password);
@@ -67,6 +68,22 @@ class User extends Entity
         'token' => true,
         'videos' => true,
     ];
+
+    /**
+     * Authentication\IdentityInterface method
+     */
+    public function getIdentifier()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Authentication\IdentityInterface method
+     */
+    public function getOriginalData()
+    {
+        return $this;
+    }
 
     /**
      * Fields that are excluded from JSON versions of the entity.

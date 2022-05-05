@@ -31,7 +31,7 @@ class SettingsController extends AppController
     {
         parent::initialize();
 
-        $this->Auth->allow(['index']);
+        $this->Authentication->addUnauthenticatedActions(['index']);
 
         $this->loadComponent('Crud.Crud', [
             'actions' => [

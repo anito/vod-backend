@@ -19,7 +19,7 @@ class UsersController extends AppController
   public function initialize(): void
   {
     parent::initialize();
-    $this->Auth->allow(['token', 'logout', 'login', 'googleLogin']);
+    $this->Authentication->addUnauthenticatedActions(['token', 'logout', 'login', 'googleLogin']);
 
     $this->loadComponent('Crud.Crud', [
       'actions' => [
@@ -41,7 +41,7 @@ class UsersController extends AppController
 
     $this->Crud->addListener('relatedModels', 'Crud.RelatedModels');
 
-    $this->Users->getEventManager()->on('User.registration', function($event, $entity) {
+    $this->Users->getEventManager()->on('User.registration', function ($event, $entity) {
       /**
        * Todo
        */
@@ -217,16 +217,16 @@ class UsersController extends AppController
 
   public function token()
   {
-    $authUser = $this->Auth->identify();
-    if (!$authUser) {
+    $result =  $this->Authentication->getResult();
+    if (!$result->isValid()) {
       throw new UnauthorizedException(__('Invalid username or password'));
     }
 
-    $id = $authUser["id"];
+    $uid = $this->Authentication->getIdentity()->getIdentifier();
 
     $token = JWT::encode(
       [
-        'sub' => $id,
+        'sub' => $uid,
         'exp' => time() + 604800,
       ],
       Security::getSalt()
@@ -327,7 +327,7 @@ class UsersController extends AppController
      * Token login:
      * - JWT verification
      */
-    $loggedinUser = $this->Auth->identify();
+    $loggedinUser = $this->_getAuthUser();
 
     if (!$loggedinUser) {
       // invalid form login or invalid token
@@ -381,8 +381,6 @@ class UsersController extends AppController
     $user = $this->_getUser($id);
     $user["token"] = $user["token"]["token"];
 
-    $this->Auth->setUser($user);
-
     $this->set([
       'success' => true,
       'data' => [
@@ -398,7 +396,10 @@ class UsersController extends AppController
 
   public function logout()
   {
-    $this->Auth->logout();
+    $result = $this->Authentication->getResult();
+    if ($result->isValid()) {
+      $this->Authentication->logout();
+    }
     $this->set([
       'success' => true,
       'message' => __('You\'re logged out'),

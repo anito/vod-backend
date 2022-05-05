@@ -14,9 +14,11 @@ class KodaksController extends AppController
     public function initialize(): void
     {
         parent::initialize();
+        $this->Authentication->addUnauthenticatedActions([]);
+
         define('USE_X_SEND', false);
         Cache::disable();
-        $this->Auth->allow([]);
+
         $this->loadComponent('File');
         $this->loadComponent('Salt');
         $this->loadComponent('Director');

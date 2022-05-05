@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace App\Model\Entity;
 
 use Cake\ORM\Entity;
@@ -12,6 +14,8 @@ use Cake\ORM\Entity;
  * @property string|null $description
  * @property string $src
  * @property int|null $filesize
+ * @property bool|null $teaser
+ * @property float|null $playhead
  * @property \Cake\I18n\FrozenTime|null $created
  * @property \Cake\I18n\FrozenTime|null $modified
  * @property int $sequence
@@ -37,10 +41,11 @@ class Video extends Entity
         'description' => true,
         'src' => true,
         'filesize' => true,
+        'teaser' => true,
+        'playhead' => true,
         'created' => true,
         'modified' => true,
         'sequence' => true,
-        'playhead' => true,
         'image' => true,
         'users' => true,
     ];

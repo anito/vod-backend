@@ -98,9 +98,9 @@ class UsersTable extends Table
     public function validationDefault(Validator $validator): \Cake\Validation\Validator
     {
         $validator
-        // dont use uuid validation as long as there are still any scalar user ids
-        // ->uuid('id', 'No valid UUID')
-        ->scalar('id')
+            // dont use uuid validation as long as there are still any scalar user ids
+            // ->uuid('id', 'No valid UUID')
+            ->scalar('id')
             ->allowEmptyString('id', null, 'create')
             ->add('id', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
 
@@ -108,8 +108,8 @@ class UsersTable extends Table
             ->scalar('name')
             ->maxLength('name', 255)
             ->notEmptyString('name', __('Name can not be empty'));
-            
-            $validator
+
+        $validator
             ->email('email')
             ->notEmptyString('email', __('Email can not be empty'));
 
@@ -158,9 +158,6 @@ class UsersTable extends Table
     public function beforeSave(EventInterface $event, EntityInterface $entity, $options)
     {
         if(!empty($options['_footprint'])) {
-            // Log::write(LOG_DEBUG, 'autUser ID {foo}',['foo' => $options['_footprint']['id']]);
-            // Log::write(LOG_DEBUG, 'user ID {foo}',['foo' => $entity->id]);
-            // Log::write(LOG_DEBUG, 'active {foo}',['foo' => $entity->active]);
             $authId = $options['_footprint']['id'];
             $userId = $entity->id;
             $active = $entity->active;
@@ -202,18 +199,7 @@ class UsersTable extends Table
         return $rules;
     }
 
-    public function findWithEmail(Query $query, array $options)
-    {
-        $user = $this->_getUser('email', $options['username']);
-        $user && $this->_checkJWT($user);
-
-        $query
-            ->where(['Users.active' => 1]);
-
-        return $query;
-    }
-
-    public function findWithId(Query $query)
+    public function findActive(Query $query)
     {
         return $query
             ->where(['Users.active' => 1]);
@@ -230,7 +216,7 @@ class UsersTable extends Table
             ->first();
     }
 
-    protected function _checkJWT(Entity $user)
+    protected static function checkJWT(Entity $user)
     {
         if (!$user instanceof Entity) {
             return;

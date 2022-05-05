@@ -1,8 +1,9 @@
 <?php
+declare(strict_types=1);
+
 namespace App\Test\TestCase\Model\Table;
 
 use App\Model\Table\VideosTable;
-use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
 
 /**
@@ -15,14 +16,14 @@ class VideosTableTest extends TestCase
      *
      * @var \App\Model\Table\VideosTable
      */
-    public $Videos;
+    protected $Videos;
 
     /**
      * Fixtures
      *
      * @var array
      */
-    public $fixtures = [
+    protected $fixtures = [
         'app.Videos',
         'app.Images',
         'app.Users',
@@ -33,11 +34,11 @@ class VideosTableTest extends TestCase
      *
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
-        $config = TableRegistry::getTableLocator()->exists('Videos') ? [] : ['className' => VideosTable::class];
-        $this->Videos = TableRegistry::getTableLocator()->get('Videos', $config);
+        $config = $this->getTableLocator()->exists('Videos') ? [] : ['className' => VideosTable::class];
+        $this->Videos = $this->getTableLocator()->get('Videos', $config);
     }
 
     /**
@@ -45,7 +46,7 @@ class VideosTableTest extends TestCase
      *
      * @return void
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($this->Videos);
 
@@ -53,21 +54,12 @@ class VideosTableTest extends TestCase
     }
 
     /**
-     * Test initialize method
-     *
-     * @return void
-     */
-    public function testInitialize()
-    {
-        $this->markTestIncomplete('Not implemented yet.');
-    }
-
-    /**
      * Test validationDefault method
      *
      * @return void
+     * @uses \App\Model\Table\VideosTable::validationDefault()
      */
-    public function testValidationDefault()
+    public function testValidationDefault(): void
     {
         $this->markTestIncomplete('Not implemented yet.');
     }
@@ -76,8 +68,9 @@ class VideosTableTest extends TestCase
      * Test buildRules method
      *
      * @return void
+     * @uses \App\Model\Table\VideosTable::buildRules()
      */
-    public function testBuildRules()
+    public function testBuildRules(): void
     {
         $this->markTestIncomplete('Not implemented yet.');
     }

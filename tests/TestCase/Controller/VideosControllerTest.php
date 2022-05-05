@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace App\Test\TestCase\Controller;
 
 use App\Controller\VideosController;
@@ -19,7 +21,7 @@ class VideosControllerTest extends TestCase
      *
      * @var array
      */
-    public $fixtures = [
+    protected $fixtures = [
         'app.Videos',
         'app.Images',
         'app.Users',
@@ -30,8 +32,9 @@ class VideosControllerTest extends TestCase
      * Test index method
      *
      * @return void
+     * @uses \App\Controller\VideosController::index()
      */
-    public function testIndex()
+    public function testIndex(): void
     {
         $this->markTestIncomplete('Not implemented yet.');
     }
@@ -40,8 +43,9 @@ class VideosControllerTest extends TestCase
      * Test view method
      *
      * @return void
+     * @uses \App\Controller\VideosController::view()
      */
-    public function testView()
+    public function testView(): void
     {
         $this->markTestIncomplete('Not implemented yet.');
     }
@@ -50,8 +54,9 @@ class VideosControllerTest extends TestCase
      * Test add method
      *
      * @return void
+     * @uses \App\Controller\VideosController::add()
      */
-    public function testAdd()
+    public function testAdd(): void
     {
         $this->markTestIncomplete('Not implemented yet.');
     }
@@ -60,8 +65,9 @@ class VideosControllerTest extends TestCase
      * Test edit method
      *
      * @return void
+     * @uses \App\Controller\VideosController::edit()
      */
-    public function testEdit()
+    public function testEdit(): void
     {
         $this->markTestIncomplete('Not implemented yet.');
     }
@@ -70,8 +76,9 @@ class VideosControllerTest extends TestCase
      * Test delete method
      *
      * @return void
+     * @uses \App\Controller\VideosController::delete()
      */
-    public function testDelete()
+    public function testDelete(): void
     {
         $this->markTestIncomplete('Not implemented yet.');
     }

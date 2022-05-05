@@ -26,7 +26,7 @@ class MysqlController extends AppController
         Cache::disable();
         $this->request = Router::parseNamedParams($this->request);
 
-        $this->Auth->allow(['getFile', 'uri']);
+        $this->Authentication->addUnauthenticatedActions(['getFile', 'uri']);
         define('USE_X_SEND', false);
     }
 
@@ -125,14 +125,15 @@ class MysqlController extends AppController
     public function uri()
     {
         $this->autoRender = false;
+        $result = $this->Authentication->getResult();
 
         $json = array();
         $fn = '*.*';
-        if ($this->Auth->user()) {
-            $uid = $this->Auth->user('id');
+        if ($result->isValid()) {
+            $uid = $this->Authentification->getIdentity()->getIdentifier();
 
-            if (!empty($this->data)) {
-                foreach ($this->data as $data) {
+            if (!empty($this->request->getData())) {
+                foreach ($this->request->getData() as $data) {
                     if (!empty($data['fn'])) {
                         $fn = $data['fn'];
                     }

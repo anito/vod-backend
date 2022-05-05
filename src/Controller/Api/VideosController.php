@@ -20,7 +20,8 @@ class VideosController extends AppController
     {
         parent::initialize();
 
-        $this->Auth->allow([]);
+        $this->Authentication->addUnauthenticatedActions([]);
+
         $this->loadComponent('File');
         $this->loadComponent('Director');
         $this->loadComponent('Upload');
@@ -152,7 +153,8 @@ class VideosController extends AppController
     {
         $this->Crud->on('beforeDelete', function (Event $event) {
 
-            if ($this->Auth->user()) {
+            $result =  $this->Authentication->getResult();
+            if ($result->isValid()) {
 
                 $id = $event->getSubject()->entity->id;
                 $fn = $event->getSubject()->entity->src;

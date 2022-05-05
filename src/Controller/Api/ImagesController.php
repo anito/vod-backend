@@ -18,7 +18,8 @@ class ImagesController extends AppController
     public function initialize(): void
     {
         parent::initialize();
-        $this->Auth->allow();
+        $this->Authentication->addUnauthenticatedActions([]);
+
         $this->loadComponent('File');
         $this->loadComponent('Director');
         $this->loadComponent('Upload');
@@ -87,7 +88,8 @@ class ImagesController extends AppController
     {
         $this->Crud->on('beforeDelete', function (Event $event) {
 
-            if ($this->Auth->identify()) {
+            $result = $this->Authorization->getResult();
+            if ($result->isValid()) {
 
                 $id = $event->getSubject()->entity->id;
                 $fn = $event->getSubject()->entity->src;

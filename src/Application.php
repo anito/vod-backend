@@ -17,10 +17,12 @@ namespace App;
 use Authentication\AuthenticationService;
 use Authentication\AuthenticationServiceInterface;
 use Authentication\AuthenticationServiceProviderInterface;
+use Authentication\Identifier\IdentifierInterface;
 use Authentication\Middleware\AuthenticationMiddleware;
 use Cake\Core\Configure;
 use Cake\Core\ContainerInterface;
 use Cake\Core\Exception\MissingPluginException;
+use Cake\Error\Debugger;
 use Cake\Error\Middleware\ErrorHandlerMiddleware;
 use Cake\Http\BaseApplication;
 use Cake\Http\MiddlewareQueue;
@@ -28,7 +30,9 @@ use Cake\Http\Middleware\BodyParserMiddleware;
 use Cake\Http\Middleware\CsrfProtectionMiddleware;
 use Cake\Routing\Middleware\AssetMiddleware;
 use Cake\Routing\Middleware\RoutingMiddleware;
+use Cake\Utility\Security;
 use CorsMiddleware\Middleware\CorsMiddleware;
+use Muffin\Footprint\Middleware\FootprintMiddleware;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -57,8 +61,6 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
         $this->addPlugin('Authentication');
 
         $this->addPlugin('Crud');
-
-        $this->addPlugin('ADmad/JwtAuth');
 
         if (PHP_SAPI === 'cli') {
             try {
@@ -93,19 +95,47 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
      */
     public function getAuthenticationService(ServerRequestInterface $request): AuthenticationServiceInterface
     {
+        $path = $request->getUri()->getPath();
+
+        $fields = [
+            IdentifierInterface::CREDENTIAL_USERNAME => 'email',
+            IdentifierInterface::CREDENTIAL_PASSWORD => 'password',
+        ];
+        $resolver = [
+            'className' => 'Authentication.Orm',
+            'userModel' => 'Users', // default
+            'finder' => 'active'
+        ];
+
         $service = new AuthenticationService();
+
+        if (strpos($path, '/api') === 0) {
+            // Accept API tokens only
+
+            $service->loadAuthenticator('Authentication.Form', [
+                'fields' => $fields,
+                'loginUrl' => '/api/users/login',
+            ]);
+            $service->loadIdentifier('Authentication.Password', compact('fields', 'resolver'));
+            $service->loadAuthenticator('Authentication.Jwt', [
+                'header' => 'Authorization',
+                'tokenPrefix' => 'Bearer',
+                'algorithm' => 'HS256',
+                'secretKey' => Security::getSalt(),
+                'returnPayload' => false
+            ]);
+            $service->loadIdentifier('Authentication.JwtSubject', compact('resolver'));
+    
+            return $service;
+        }
+
         $service->setConfig([
             'unauthenticatedRedirect' => '/users/login',
             'queryParam' => 'redirect',
         ]);
 
-        $fields = [
-            'username' => 'email',
-            'password' => 'password',
-        ];
-
         // Load identifiers
-        $service->loadIdentifier('Authentication.Password', compact('fields'));
+        $service->loadIdentifier('Authentication.Password', compact('fields', 'resolver'));
 
         // Load the authenticators, you want session first
         $service->loadAuthenticator('Authentication.Session');
@@ -155,7 +185,9 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
 
             // Authentication should be added *after* RoutingMiddleware.
             // So that subdirectory information and routes are loaded.
-            ->add(new AuthenticationMiddleware($this));
+            ->add(new AuthenticationMiddleware($this))
+
+            ->add(new FootprintMiddleware());
 
         return $middlewareQueue;
     }

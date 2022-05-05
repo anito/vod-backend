@@ -29,8 +29,7 @@ class InboxesController extends AppController
     public function initialize(): void
     {
         parent::initialize();
-
-        $this->Auth->allow([]);
+        $this->Authentication->addUnauthenticatedActions([]);
 
         $this->loadComponent('Crud.Crud', [
             'actions' => [
