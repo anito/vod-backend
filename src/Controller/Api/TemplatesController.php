@@ -127,9 +127,8 @@ class TemplatesController extends AppController
     public function delete()
     {
         $this->Crud->on('beforeDelete', function (Event $event) {
-
-            if ($this->Auth->identify()) {
-
+            $result = $this->Authentication->getResult();
+            if ($result->isValid()) {
                 $entity = $event->getSubject()->entity;
             }
         });

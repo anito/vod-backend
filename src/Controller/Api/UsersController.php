@@ -410,7 +410,7 @@ class UsersController extends AppController
   protected function _isValidToken($identifiedUser = null)
   {
     if (!isset($identifiedUser)) {
-      $identifiedUser = $this->Auth->identify();
+      $identifiedUser = $this->_getAuthUser();
     }
 
     $currentToken = null;
