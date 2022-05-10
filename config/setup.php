@@ -45,7 +45,7 @@ if (!defined('MYSQL_CONFIG_DIR')) {
     }
 }
 if (!defined('MAGICK_PATH')) {
-    define('MAGICK_PATH_FINAL', 'convert');
+    define('MAGICK_PATH', 'convert');
 } else if (strpos(strtolower(MAGICK_PATH), 'c:\\') !== false) {
     define('MAGICK_PATH_FINAL', '"' . MAGICK_PATH . '"');
 } else {
@@ -53,7 +53,7 @@ if (!defined('MAGICK_PATH')) {
 }
 
 if (!defined('FFMPEG_PATH')) {
-    define('FFMPEG_PATH_FINAL', 'ffmpeg');
+    define('FFMPEG_PATH', 'ffmpeg');
 } else {
     define('FFMPEG_PATH_FINAL', FFMPEG_PATH);
 }
