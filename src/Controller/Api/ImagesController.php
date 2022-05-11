@@ -101,7 +101,7 @@ class ImagesController extends AppController
   {
     $this->Crud->on('beforeDelete', function (Event $event) {
 
-      $result = $this->Authorization->getResult();
+      $result = $this->Authentication->getResult();
       if ($result->isValid()) {
 
         $id = $event->getSubject()->entity->id;
