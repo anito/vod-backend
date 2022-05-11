@@ -110,13 +110,13 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
         $service = new AuthenticationService();
 
         if (strpos($path, '/api') === 0) {
-            // Accept API tokens only
-
             $service->loadAuthenticator('Authentication.Form', [
                 'fields' => $fields,
                 'loginUrl' => '/api/users/login',
             ]);
             $service->loadIdentifier('Authentication.Password', compact('fields', 'resolver'));
+
+            // Additionally accept API JWT tokens
             $service->loadAuthenticator('Authentication.Jwt', [
                 'header' => 'Authorization',
                 'tokenPrefix' => 'Bearer',
@@ -134,15 +134,13 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
             'queryParam' => 'redirect',
         ]);
 
-        // Load identifiers
-        $service->loadIdentifier('Authentication.Password', compact('fields', 'resolver'));
-
         // Load the authenticators, you want session first
         $service->loadAuthenticator('Authentication.Session');
         $service->loadAuthenticator('Authentication.Form', [
             'fields' => $fields,
             'loginUrl' => '/users/login',
         ]);
+        $service->loadIdentifier('Authentication.Password', compact('fields', 'resolver'));
 
         return $service;
     }

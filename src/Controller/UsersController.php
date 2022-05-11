@@ -49,6 +49,8 @@ class UsersController extends AppController
         if ($result->isValid()) {
             $this->Authentication->logout();
         }
+
+        $this->redirect('/users/login');
     }
 
     /**

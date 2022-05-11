@@ -15,6 +15,7 @@
 
 $cakeDescription = 'CakePHP: the rapid development php framework';
 $title = $this->fetch('title');
+$isLoggedIn = $this->Identity->isLoggedIn();
 ?>
 <!DOCTYPE html>
 <html>
@@ -43,11 +44,11 @@ $title = $this->fetch('title');
             </li>
             <li class="logout">
                 <?php
-if ($this->Identity->isLoggedIn()) {
-    $user = $this->request->getAttribute('identity')->get('User');
-    echo $this->Html->link(__('Logout') . ' (' . $user['email'] . ')', '/logout', array('class' => 'success'));
+if ($isLoggedIn) {
+    $email = $this->request->getAttribute('identity')->get('email');
+    echo $this->Html->link(__('Logout') . ' (' . $email . ')', '/users/logout', array('class' => 'success'));
 } else {
-    echo $this->Html->link(__('Login'), '/login', array('class' => 'success'));
+    echo $this->Html->link(__('Login'), '/users/login', array('class' => 'success'));
 }
 ?>
             </li>

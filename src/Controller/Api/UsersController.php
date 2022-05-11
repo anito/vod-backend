@@ -34,7 +34,6 @@ class UsersController extends AppController
       ],
       'listeners' => [
         'Crud.Api',
-        'Crud.ApiPagination',
       ],
     ]);
     $this->loadComponent('Paginator');
