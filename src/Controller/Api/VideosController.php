@@ -71,6 +71,7 @@ class VideosController extends AppController
 
       case 'Administrator':
         $data = $this->Videos->find()
+          ->order(['title' => 'ASC'])
           ->toArray();
         break;
 
@@ -92,7 +93,8 @@ class VideosController extends AppController
             ];
 
             return $q
-              ->where($condition);
+              ->where($condition)
+              ->order(['title' => 'ASC']);
           })
           ->toArray();
     }
