@@ -19,7 +19,7 @@ class UsersController extends AppController
   public function initialize(): void
   {
     parent::initialize();
-    $this->Authentication->addUnauthenticatedActions(['token', 'logout', 'login', 'googleLogin']);
+    $this->Authentication->addUnauthenticatedActions(['logout', 'login', 'googleLogin']);
 
     $this->loadComponent('Crud.Crud', [
       'actions' => [

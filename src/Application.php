@@ -1,4 +1,5 @@
 <?php
+
 /**
  * CakePHP(tm) : Rapid Development Framework (https://cakephp.org)
  * Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
@@ -12,6 +13,7 @@
  * @since     3.3.0
  * @license   https://opensource.org/licenses/mit-license.php MIT License
  */
+
 namespace App;
 
 use Authentication\AuthenticationService;
@@ -55,7 +57,7 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
         /**
          * passes the currently logged in user info to the model layer
          * see: https://github.com/UseMuffin/Footprint
-         */ 
+         */
         $this->addPlugin('Muffin/Footprint');
 
         $this->addPlugin('Authentication');
@@ -82,7 +84,6 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
             } catch (MissingPluginException $e) {
                 // Do not halt if the plugin is missing
             }
-
         }
     }
 
@@ -112,7 +113,7 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
         if (strpos($path, '/api') === 0) {
             $service->loadAuthenticator('Authentication.Form', [
                 'fields' => $fields,
-                'loginUrl' => '/api/users/login',
+                // 'loginUrl' => '/api/users/login', // ommit if additional actions (e.g. /users/token) use form authentication
             ]);
             $service->loadIdentifier('Authentication.Password', compact('fields', 'resolver'));
 
@@ -125,7 +126,7 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
                 'returnPayload' => false
             ]);
             $service->loadIdentifier('Authentication.JwtSubject', compact('resolver'));
-    
+
             return $service;
         }
 

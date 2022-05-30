@@ -18,8 +18,7 @@ xcuserdata
 .svn
 error.log
 CVS
-config/app.php
-config/app_local.php
+config/app*.php
 config/config.ini
 logs/*
 tmp/*

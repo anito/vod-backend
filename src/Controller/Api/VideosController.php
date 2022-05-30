@@ -21,7 +21,7 @@ class VideosController extends AppController
   {
     parent::initialize();
 
-    $this->Authentication->addUnauthenticatedActions([]);
+    $this->Authentication->addUnauthenticatedActions(['all']);
 
     $this->loadComponent('File');
     $this->loadComponent('Director');
@@ -45,6 +45,19 @@ class VideosController extends AppController
     ]);
 
     $this->Crud->addListener('relatedModels', 'Crud.RelatedModels');
+  }
+
+  public function all()
+  {
+    $data = $this->Videos->find()
+      ->select(['id', 'image_id', 'title', 'description'])
+      ->toArray();
+
+    $this->set([
+      'success' => true,
+      'data' => $data,
+    ]);
+    $this->viewBuilder()->setOption('serialize', ['success', 'data']);
   }
 
   public function index()
@@ -93,7 +106,7 @@ class VideosController extends AppController
 
   public function add()
   {
-    if($this->request->is('post') && empty($_POST)) {
+    if ($this->request->is('post') && empty($_POST)) {
       throw new Exception(__('Videos exceeding maximum post size {max}', ['max' => ini_get('post_max_size')]));
     }
 
