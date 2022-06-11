@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2022-01-27 15:19+0100\n"
+"POT-Creation-Date: 2022-06-11 14:32+0200\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -14,61 +14,57 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: Controller/Api/AppController.php:39
-#: Model/Table/UsersTable.php:170
-msgid "Not Authorized"
-msgstr ""
-
-#: Controller/Api/AvatarsController.php:96
+#: Controller/Api/AvatarsController.php:97
 msgid "Avatar saved"
 msgstr ""
 
-#: Controller/Api/AvatarsController.php:118
+#: Controller/Api/AvatarsController.php:119
 msgid "Avatar deleted"
 msgstr ""
 
-#: Controller/Api/ImagesController.php:65
+#: Controller/Api/ImagesController.php:80
 msgid "Image saved"
 msgstr ""
 
-#: Controller/Api/ImagesController.php:71
+#: Controller/Api/ImagesController.php:86
 msgid "An error occurred saving your image data"
 msgstr ""
 
-#: Controller/Api/ImagesController.php:78
-#: Controller/Api/VideosController.php:126
+#: Controller/Api/ImagesController.php:93
+#: Controller/Api/VideosController.php:147
+#: Controller/Api/VideosController.php:154
 msgid "An Error occurred while uploading your files"
 msgstr ""
 
-#: Controller/Api/ImagesController.php:104
+#: Controller/Api/ImagesController.php:119
 msgid "Image could not be deleted"
 msgstr ""
 
-#: Controller/Api/ImagesController.php:117
+#: Controller/Api/ImagesController.php:132
 msgid "Image deleted"
 msgstr ""
 
-#: Controller/Api/KodaksController.php:41
+#: Controller/Api/KodaksController.php:43
 msgid "No Index Found Error"
 msgstr ""
 
-#: Controller/Api/SentsController.php:82
+#: Controller/Api/SentsController.php:83
 msgid "My website"
 msgstr ""
 
-#: Controller/Api/SentsController.php:83
+#: Controller/Api/SentsController.php:84
 msgid "General Information"
 msgstr ""
 
-#: Controller/Api/SentsController.php:121
+#: Controller/Api/SentsController.php:123
 msgid "Message from: {0}"
 msgstr ""
 
-#: Controller/Api/SentsController.php:131
+#: Controller/Api/SentsController.php:130
 msgid "New User: {0}"
 msgstr ""
 
-#: Controller/Api/SentsController.php:204
+#: Controller/Api/SentsController.php:193
 msgid "No message"
 msgstr ""
 
@@ -88,11 +84,11 @@ msgstr ""
 msgid "Template could not be created"
 msgstr ""
 
-#: Controller/Api/TemplatesController.php:141
+#: Controller/Api/TemplatesController.php:140
 msgid "Template deleted"
 msgstr ""
 
-#: Controller/Api/TemplatesController.php:145
+#: Controller/Api/TemplatesController.php:144
 msgid "Template could not be deleted"
 msgstr ""
 
@@ -104,66 +100,70 @@ msgstr ""
 msgid "Token removed"
 msgstr ""
 
-#: Controller/Api/UsersController.php:141
+#: Controller/Api/UsersController.php:148
 msgid "User created"
 msgstr ""
 
-#: Controller/Api/UsersController.php:160
+#: Controller/Api/UsersController.php:167
 msgid "User updated"
 msgstr ""
 
-#: Controller/Api/UsersController.php:162
+#: Controller/Api/UsersController.php:169
 msgid "User could not be updated"
 msgstr ""
 
-#: Controller/Api/UsersController.php:184
+#: Controller/Api/UsersController.php:191
 msgid "Protected users can not be deleted"
 msgstr ""
 
-#: Controller/Api/UsersController.php:199
+#: Controller/Api/UsersController.php:206
 msgid "User deleted"
 msgstr ""
 
-#: Controller/Api/UsersController.php:214
-#: Controller/Api/UsersController.php:300
+#: Controller/Api/UsersController.php:221
+#: Controller/Api/UsersController.php:333
 msgid "Invalid username or password"
 msgstr ""
 
-#: Controller/Api/UsersController.php:278
+#: Controller/Api/UsersController.php:311
 msgid "Google Login successful"
 msgstr ""
 
-#: Controller/Api/UsersController.php:278
+#: Controller/Api/UsersController.php:311
 msgid "Google Login failed"
 msgstr ""
 
-#: Controller/Api/UsersController.php:303
+#: Controller/Api/UsersController.php:336
 msgid "Invalid Token"
 msgstr ""
 
-#: Controller/Api/UsersController.php:359
+#: Controller/Api/UsersController.php:390
 msgid "Login successful"
 msgstr ""
 
-#: Controller/Api/UsersController.php:370
+#: Controller/Api/UsersController.php:404
 msgid "You're logged out"
 msgstr ""
 
-#: Controller/Api/VideosController.php:111
-#: Controller/Api/VideosController.php:138
+#: Controller/Api/VideosController.php:112
+msgid "Videos exceeding maximum post size {max}"
+msgstr ""
+
+#: Controller/Api/VideosController.php:132
+#: Controller/Api/VideosController.php:165
 msgid "Video saved"
 msgstr ""
 
-#: Controller/Api/VideosController.php:118
-#: Controller/Api/VideosController.php:142
+#: Controller/Api/VideosController.php:139
+#: Controller/Api/VideosController.php:169
 msgid "Video could not be saved"
 msgstr ""
 
-#: Controller/Api/VideosController.php:169
+#: Controller/Api/VideosController.php:197
 msgid "Video could not be deleted"
 msgstr ""
 
-#: Controller/Api/VideosController.php:182
+#: Controller/Api/VideosController.php:210
 msgid "Video deleted"
 msgstr ""
 
@@ -351,39 +351,39 @@ msgstr ""
 msgid "The token could not be deleted. Please, try again."
 msgstr ""
 
-#: Controller/UsersController.php:94
-#: Controller/UsersController.php:120
+#: Controller/UsersController.php:98
+#: Controller/UsersController.php:124
 msgid "The user has been saved."
 msgstr ""
 
-#: Controller/UsersController.php:98
-#: Controller/UsersController.php:124
+#: Controller/UsersController.php:102
+#: Controller/UsersController.php:128
 msgid "The user could not be saved. Please, try again."
 msgstr ""
 
-#: Controller/UsersController.php:143
+#: Controller/UsersController.php:147
 msgid "The user has been deleted."
 msgstr ""
 
-#: Controller/UsersController.php:145
+#: Controller/UsersController.php:149
 msgid "The user could not be deleted. Please, try again."
 msgstr ""
 
-#: Controller/VideosController.php:57
-#: Controller/VideosController.php:83
+#: Controller/VideosController.php:56
+#: Controller/VideosController.php:82
 msgid "The video has been saved."
 msgstr ""
 
-#: Controller/VideosController.php:61
-#: Controller/VideosController.php:87
+#: Controller/VideosController.php:60
+#: Controller/VideosController.php:86
 msgid "The video could not be saved. Please, try again."
 msgstr ""
 
-#: Controller/VideosController.php:106
+#: Controller/VideosController.php:105
 msgid "The video has been deleted."
 msgstr ""
 
-#: Controller/VideosController.php:108
+#: Controller/VideosController.php:107
 msgid "The video could not be deleted. Please, try again."
 msgstr ""
 
@@ -391,24 +391,28 @@ msgstr ""
 msgid "Token did not change."
 msgstr ""
 
-#: Model/Table/UsersTable.php:88
+#: Model/Table/UsersTable.php:90
 msgid "This user is protected"
 msgstr ""
 
-#: Model/Table/UsersTable.php:109
+#: Model/Table/UsersTable.php:111
 msgid "Name can not be empty"
 msgstr ""
 
-#: Model/Table/UsersTable.php:113
+#: Model/Table/UsersTable.php:115
 msgid "Email can not be empty"
 msgstr ""
 
-#: Model/Table/UsersTable.php:167
+#: Model/Table/UsersTable.php:169
 msgid "You can not deactivate your own profile"
 msgstr ""
 
-#: Model/Table/UsersTable.php:238
-#: Model/Table/UsersTable.php:250
+#: Model/Table/UsersTable.php:176
+msgid "You can not edit this timeframe"
+msgstr ""
+
+#: Model/Table/UsersTable.php:239
+#: Model/Table/UsersTable.php:251
 msgid "Invalid token"
 msgstr ""
 
@@ -484,12 +488,11 @@ msgstr ""
 #: UsersVideos/index.php:9
 #: UsersVideos/index.php:27
 #: UsersVideos/view.php:9
-#: Videos/add.php:9
-#: Videos/edit.php:9
-#: Videos/index.php:9
-#: Videos/index.php:31
-#: Videos/view.php:9
-#: Videos/view.php:74
+#: Videos/add.php:10
+#: Videos/edit.php:12
+#: Videos/index.php:10
+#: Videos/index.php:35
+#: Videos/view.php:10
 msgid "Actions"
 msgstr ""
 
@@ -530,10 +533,10 @@ msgstr ""
 #: UsersVideos/edit.php:17
 #: UsersVideos/index.php:11
 #: UsersVideos/view.php:14
-#: Videos/add.php:13
-#: Videos/edit.php:19
-#: Videos/index.php:13
-#: Videos/view.php:16
+#: Videos/add.php:14
+#: Videos/edit.php:22
+#: Videos/index.php:14
+#: Videos/view.php:17
 msgid "List Users"
 msgstr ""
 
@@ -563,10 +566,10 @@ msgstr ""
 #: UsersVideos/edit.php:18
 #: UsersVideos/index.php:12
 #: UsersVideos/view.php:15
-#: Videos/add.php:14
-#: Videos/edit.php:20
-#: Videos/index.php:14
-#: Videos/view.php:17
+#: Videos/add.php:15
+#: Videos/edit.php:23
+#: Videos/index.php:15
+#: Videos/view.php:18
 msgid "New User"
 msgstr ""
 
@@ -600,8 +603,8 @@ msgstr ""
 #: Users/edit.php:46
 #: UsersVideos/add.php:28
 #: UsersVideos/edit.php:34
-#: Videos/add.php:31
-#: Videos/edit.php:37
+#: Videos/add.php:33
+#: Videos/edit.php:42
 msgid "Submit"
 msgstr ""
 
@@ -638,9 +641,8 @@ msgstr ""
 #: Users/view.php:182
 #: UsersVideos/edit.php:11
 #: UsersVideos/index.php:41
-#: Videos/edit.php:11
-#: Videos/index.php:49
-#: Videos/view.php:90
+#: Videos/edit.php:14
+#: Videos/index.php:55
 msgid "Delete"
 msgstr ""
 
@@ -690,10 +692,9 @@ msgstr ""
 #: UsersVideos/edit.php:13
 #: UsersVideos/index.php:41
 #: UsersVideos/view.php:11
-#: Videos/edit.php:13
-#: Videos/index.php:49
-#: Videos/view.php:11
-#: Videos/view.php:90
+#: Videos/edit.php:16
+#: Videos/index.php:55
+#: Videos/view.php:12
 msgid "Are you sure you want to delete # {0}?"
 msgstr ""
 
@@ -735,8 +736,7 @@ msgstr ""
 #: Users/view.php:145
 #: Users/view.php:180
 #: UsersVideos/index.php:39
-#: Videos/index.php:47
-#: Videos/view.php:88
+#: Videos/index.php:53
 msgid "View"
 msgstr ""
 
@@ -760,8 +760,7 @@ msgstr ""
 #: Users/view.php:146
 #: Users/view.php:181
 #: UsersVideos/index.php:40
-#: Videos/index.php:48
-#: Videos/view.php:89
+#: Videos/index.php:54
 msgid "Edit"
 msgstr ""
 
@@ -778,7 +777,7 @@ msgstr ""
 #: Tokens/index.php:45
 #: Users/index.php:67
 #: UsersVideos/index.php:49
-#: Videos/index.php:57
+#: Videos/index.php:64
 msgid "first"
 msgstr ""
 
@@ -795,7 +794,7 @@ msgstr ""
 #: Tokens/index.php:46
 #: Users/index.php:68
 #: UsersVideos/index.php:50
-#: Videos/index.php:58
+#: Videos/index.php:65
 msgid "previous"
 msgstr ""
 
@@ -812,7 +811,7 @@ msgstr ""
 #: Tokens/index.php:48
 #: Users/index.php:70
 #: UsersVideos/index.php:52
-#: Videos/index.php:60
+#: Videos/index.php:67
 msgid "next"
 msgstr ""
 
@@ -829,7 +828,7 @@ msgstr ""
 #: Tokens/index.php:49
 #: Users/index.php:71
 #: UsersVideos/index.php:53
-#: Videos/index.php:61
+#: Videos/index.php:68
 msgid "last"
 msgstr ""
 
@@ -846,7 +845,7 @@ msgstr ""
 #: Tokens/index.php:51
 #: Users/index.php:73
 #: UsersVideos/index.php:55
-#: Videos/index.php:63
+#: Videos/index.php:70
 msgid "Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total"
 msgstr ""
 
@@ -874,8 +873,7 @@ msgstr ""
 #: Users/view.php:122
 #: Users/view.php:159
 #: UsersVideos/view.php:32
-#: Videos/view.php:24
-#: Videos/view.php:65
+#: Videos/view.php:25
 msgid "Id"
 msgstr ""
 
@@ -883,7 +881,7 @@ msgstr ""
 #: Images/view.php:58
 #: Images/view.php:91
 #: Users/view.php:89
-#: Videos/view.php:40
+#: Videos/view.php:41
 msgid "Src"
 msgstr ""
 
@@ -899,7 +897,7 @@ msgstr ""
 #: Images/view.php:62
 #: Images/view.php:92
 #: Users/view.php:90
-#: Videos/view.php:44
+#: Videos/view.php:45
 msgid "Filesize"
 msgstr ""
 
@@ -917,8 +915,7 @@ msgstr ""
 #: Users/view.php:91
 #: Users/view.php:128
 #: Users/view.php:164
-#: Videos/view.php:52
-#: Videos/view.php:72
+#: Videos/view.php:57
 msgid "Created"
 msgstr ""
 
@@ -936,8 +933,7 @@ msgstr ""
 #: Users/view.php:92
 #: Users/view.php:129
 #: Users/view.php:165
-#: Videos/view.php:56
-#: Videos/view.php:73
+#: Videos/view.php:61
 msgid "Modified"
 msgstr ""
 
@@ -1012,7 +1008,6 @@ msgstr ""
 #: Groups/view.php:22
 #: Templates/view.php:30
 #: Users/view.php:36
-#: Videos/view.php:66
 msgid "Name"
 msgstr ""
 
@@ -1074,40 +1069,35 @@ msgid "Delete Group"
 msgstr ""
 
 #: Groups/view.php:31
-#: Videos/view.php:61
 msgid "Related Users"
 msgstr ""
 
 #: Groups/view.php:36
 #: Users/view.php:40
-#: Videos/view.php:67
 msgid "Email"
 msgstr ""
 
 #: Groups/view.php:37
 #: Users/view.php:72
-#: Videos/view.php:69
 msgid "Active"
 msgstr ""
 
 #: Groups/view.php:38
-#: Videos/view.php:70
 msgid "Group Id"
 msgstr ""
 
 #: Groups/view.php:39
 #: Users/view.php:60
-#: Videos/view.php:71
 msgid "Last Login"
 msgstr ""
 
 #: Images/add.php:10
 #: Images/edit.php:16
 #: Images/view.php:12
-#: Videos/add.php:11
-#: Videos/edit.php:17
-#: Videos/index.php:11
-#: Videos/view.php:14
+#: Videos/add.php:12
+#: Videos/edit.php:20
+#: Videos/index.php:12
+#: Videos/view.php:15
 msgid "List Images"
 msgstr ""
 
@@ -1123,9 +1113,9 @@ msgstr ""
 #: UsersVideos/edit.php:19
 #: UsersVideos/index.php:13
 #: UsersVideos/view.php:16
-#: Videos/add.php:10
-#: Videos/edit.php:16
-#: Videos/view.php:12
+#: Videos/add.php:11
+#: Videos/edit.php:19
+#: Videos/view.php:13
 msgid "List Videos"
 msgstr ""
 
@@ -1141,8 +1131,8 @@ msgstr ""
 #: UsersVideos/edit.php:20
 #: UsersVideos/index.php:14
 #: UsersVideos/view.php:17
-#: Videos/index.php:10
-#: Videos/view.php:13
+#: Videos/index.php:11
+#: Videos/view.php:14
 msgid "New Video"
 msgstr ""
 
@@ -1157,10 +1147,10 @@ msgstr ""
 
 #: Images/index.php:10
 #: Images/view.php:13
-#: Videos/add.php:12
-#: Videos/edit.php:18
-#: Videos/index.php:12
-#: Videos/view.php:15
+#: Videos/add.php:13
+#: Videos/edit.php:21
+#: Videos/index.php:13
+#: Videos/view.php:16
 msgid "New Image"
 msgstr ""
 
@@ -1195,7 +1185,7 @@ msgstr ""
 #: Images/view.php:46
 #: Images/view.php:89
 #: Users/view.php:87
-#: Videos/view.php:32
+#: Videos/view.php:33
 msgid "Title"
 msgstr ""
 
@@ -1215,7 +1205,7 @@ msgstr ""
 #: Images/view.php:90
 #: Mysql/view.php:24
 #: Users/view.php:88
-#: Videos/view.php:36
+#: Videos/view.php:37
 msgid "Description"
 msgstr ""
 
@@ -1226,12 +1216,13 @@ msgstr ""
 
 #: Images/view.php:88
 #: Users/view.php:86
+#: Videos/view.php:29
 msgid "Image Id"
 msgstr ""
 
 #: Images/view.php:95
 #: Users/view.php:93
-#: Videos/view.php:48
+#: Videos/view.php:53
 msgid "Sequence"
 msgstr ""
 
@@ -1302,6 +1293,7 @@ msgstr ""
 #: Templates/view.php:43
 #: Users/view.php:73
 #: Users/view.php:77
+#: Videos/view.php:66
 msgid "Yes"
 msgstr ""
 
@@ -1309,6 +1301,7 @@ msgstr ""
 #: Templates/view.php:43
 #: Users/view.php:73
 #: Users/view.php:77
+#: Videos/view.php:66
 msgid "No"
 msgstr ""
 
@@ -1562,7 +1555,7 @@ msgid "Please enter your email and password"
 msgstr ""
 
 #: Users/login.php:14
-#: layout/default.php:50
+#: layout/default.php:51
 msgid "Login"
 msgstr ""
 
@@ -1571,7 +1564,6 @@ msgid "Delete User"
 msgstr ""
 
 #: Users/view.php:44
-#: Videos/view.php:68
 msgid "Password"
 msgstr ""
 
@@ -1636,32 +1628,36 @@ msgstr ""
 msgid "End"
 msgstr ""
 
-#: Videos/add.php:20
+#: Videos/add.php:21
 msgid "Add Video"
 msgstr ""
 
-#: Videos/edit.php:26
-#: Videos/view.php:10
+#: Videos/edit.php:29
+#: Videos/view.php:11
 msgid "Edit Video"
 msgstr ""
 
-#: Videos/index.php:18
+#: Videos/index.php:19
 msgid "Videos"
 msgstr ""
 
-#: Videos/view.php:11
+#: Videos/view.php:12
 msgid "Delete Video"
 msgstr ""
 
-#: Videos/view.php:28
-msgid "Image"
+#: Videos/view.php:49
+msgid "Playhead"
+msgstr ""
+
+#: Videos/view.php:65
+msgid "Teaser"
 msgstr ""
 
 #: email/html/from_user.php:132
 msgid "Option"
 msgstr ""
 
-#: layout/default.php:48
+#: layout/default.php:49
 msgid "Logout"
 msgstr ""
 

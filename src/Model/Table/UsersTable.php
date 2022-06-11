@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Model\Table;
 
 use Cake\Datasource\EntityInterface;
@@ -157,16 +158,26 @@ class UsersTable extends Table
 
     public function beforeSave(EventInterface $event, EntityInterface $entity, $options)
     {
-        if(!empty($options['_footprint'])) {
+
+        if (!empty($options['_footprint'])) {
+
+            // prevent users from deactivating their own profile
             $authId = $options['_footprint']['id'];
             $userId = $entity->id;
             $active = $entity->active;
-            if($authId === $userId && !$active) {
+            if ($authId === $userId && !$active) {
                 throw new ForbiddenException(__('You can not deactivate your own profile'));
+            }
+
+            // prevent users from editing their own timeframe
+            $isDirtyVideos = $entity->isDirty('videos');
+            $group_id = $options['_footprint']['group_id'];
+            if ($group_id !== 1 && $isDirtyVideos) {
+                throw new ForbiddenException(__('You can not edit this timeframe'));
             }
         }
 
-        if($entity->isNew()) {
+        if ($entity->isNew()) {
             $event = new Event('User.registration', $this, ['user' => $entity]);
             $this->getEventManager()->dispatch($event);
         }
