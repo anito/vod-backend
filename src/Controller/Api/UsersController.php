@@ -160,7 +160,8 @@ class UsersController extends AppController
 
 		$this->Crud->on('afterSave', function (Event $event) use ($id) {
 
-			$message = $this->_checkValidationErrors($event);
+			$entity = $event->getSubject()->entity;
+			$message = $this->_checkValidationErrors($entity);
 			if ($message) {
 				throw new ForbiddenException($message);
 			}

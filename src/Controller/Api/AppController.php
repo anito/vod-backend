@@ -11,10 +11,12 @@ use Cake\Http\Client;
 use Cake\Http\Session;
 use Cake\I18n\I18n;
 use Cake\Log\Log;
+use Cake\ORM\Entity;
 use Cake\ORM\TableRegistry;
 use Cake\Utility\Security;
 use Crud\Controller\ControllerTrait;
 use Firebase\JWT\JWT;
+use PhpParser\Node\Expr\Cast\Array_;
 
 class AppController extends Controller
 {
@@ -180,19 +182,25 @@ class AppController extends Controller
 		return $_groups;
 	}
 
-	protected function _checkValidationErrors(Event $event)
+	protected function _checkValidationErrors(Entity $entity)
 	{
-		if ($event->getSubject()->entity->hasErrors()) {
-			$errors = $event->getSubject()->entity->getErrors();
+		if ($entity->hasErrors()) {
+			$errors = $entity->getErrors();
 
 			if (!empty($errors)) {
-				$field = array_key_first($errors);
-				if (isset($errors[$field])) {
-					$rule = array_key_first($errors[$field]);
-					$error = $errors[$field][$rule];
-					return __($error);
-				}
+				$error = $this->_nestedError($errors);
+				return __($error);
 			}
+		}
+	}
+
+	protected function _nestedError($error): String
+	{
+		if (is_array($error)) {
+			$key = array_key_first($error);
+			return $this->_nestedError($error[$key]);
+		} else {
+			return $error;
 		}
 	}
 }

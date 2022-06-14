@@ -168,13 +168,6 @@ class UsersTable extends Table
             if ($authId === $userId && !$active) {
                 throw new ForbiddenException(__('You can not deactivate your own profile'));
             }
-
-            // prevent users from editing their own timeframe
-            $isDirtyVideos = $entity->isDirty('videos');
-            $group_id = $options['_footprint']['group_id'];
-            if ($group_id !== 1 && $isDirtyVideos) {
-                throw new ForbiddenException(__('You can not edit this timeframe'));
-            }
         }
 
         if ($entity->isNew()) {
