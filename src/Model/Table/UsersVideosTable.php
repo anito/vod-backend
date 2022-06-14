@@ -8,6 +8,7 @@ use Cake\Datasource\EntityInterface;
 use Cake\Event\Event;
 use Cake\Event\EventInterface;
 use Cake\Http\Exception\ForbiddenException;
+use Cake\ORM\Entity;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
@@ -100,30 +101,46 @@ class UsersVideosTable extends Table
   {
 
     if (!empty($options['_footprint'])) {
-      $id = $entity->get('id');
-      $changed = $entity->extractOriginal(['start', 'end', 'playhead']);
-
-      // prevent users from editing their own timeframe
-      $results = $this->find('startEnd', [
-        'id' => $id,
-        'changed' => $changed
-      ])->toArray();
 
       $group_id = $options['_footprint']['group_id'];
-      if ($group_id !== 1 && empty($results)) {
-        throw new ForbiddenException(__('You can not edit this timeframe'));
+      if ($group_id !== 1) {
+
+        // prevent non admins from editing their own timeframe
+        $identical = $this->getIdenticalStartEnd($entity);
+        if (empty($identical)) {
+          throw new ForbiddenException(__('You can not edit this timeframe'));
+        }
+
+        // prevent non admins from adding new videos
+        $isNew = $entity->isNew();
+        if ($isNew) {
+          throw new ForbiddenException(__('You can not add a video'));
+        }
       }
     }
+  }
+
+  public function getIdenticalStartEnd(Entity $entity)
+  {
+    $id = $entity->get('id');
+    if (!$id) return 1;
+
+    $current = $entity->extractOriginal(['start', 'end', 'playhead']);
+    return $this->find('startEnd', [
+      'id' => $id,
+      'changed' => $current
+    ])->toArray();
   }
 
   public function findStartEnd(Query $query, $options)
   {
     return $query->where([
-      'id' => $options['id'],
+      'id ' => $options['id'],
       'start' => $options['changed']['start'],
       'end' => $options['changed']['end'],
     ]);
   }
+
   /**
    * Returns a rules checker object that will be used for validating
    * application integrity.
