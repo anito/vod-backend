@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2022-06-11 14:32+0200\n"
+"POT-Creation-Date: 2022-06-14 01:40+0200\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -66,6 +66,10 @@ msgstr ""
 
 #: Controller/Api/SentsController.php:193
 msgid "No message"
+msgstr ""
+
+#: Controller/Api/SettingsController.php:68
+msgid "Locale updated ({locale})"
 msgstr ""
 
 #: Controller/Api/TemplatesController.php:80

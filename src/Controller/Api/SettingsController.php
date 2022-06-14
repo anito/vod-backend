@@ -19,42 +19,54 @@
  * @since         CakePHP(tm) v 0.2.9
  * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
+
 namespace App\Controller\Api;
 
 use App\Controller\Api\AppController;
 use Cake\Core\Configure;
+use Cake\I18n\I18n;
+use Cake\Log\Log;
 
 class SettingsController extends AppController
 {
 
-    public function initialize(): void
-    {
-        parent::initialize();
+	public function initialize(): void
+	{
+		parent::initialize();
 
-        $this->Authentication->addUnauthenticatedActions(['index']);
+		$this->Authentication->addUnauthenticatedActions(['index', 'locale']);
 
-        $this->loadComponent('Crud.Crud', [
-            'actions' => [
-                'Crud.Index',
-            ],
-            'listeners' => [
-                'Crud.Api',
-                'Crud.ApiPagination',
-            ],
-        ]);
-    }
+		$this->loadComponent('Crud.Crud', [
+			'actions' => [
+				'Crud.Index',
+			],
+			'listeners' => [
+				'Crud.Api',
+				'Crud.ApiPagination',
+			],
+		]);
+	}
 
-    public function index()
-    {
+	public function index()
+	{
+		$allowed = ['Session', 'Site'];
+		$settings = Configure::read();
+		$settings = array_intersect_key($settings, array_flip($allowed));
 
-        $allowed = ['Session', 'Site'];
-        $settings = Configure::read();
-        $settings = array_intersect_key($settings, array_flip($allowed));
+		$this->set([
+			'success' => true,
+			'data' => $settings,
+		]);
+		$this->viewBuilder()->setOption('serialize', ['success', 'data']);
+	}
 
-        $this->set([
-            'success' => true,
-            'data' => $settings,
-        ]);
-        $this->viewBuilder()->setOption('serialize', ['success', 'data']);
-    }
+	public function locale()
+	{
+		$locale = I18n::getLocale();
+		$this->set([
+			'success' => true,
+			'data' => array('locale' => $locale, 'message' => __('Locale updated ({locale})', ['locale' => strtoupper(substr($locale, 0, 2))])),
+		]);
+		$this->viewBuilder()->setOption('serialize', ['success', 'data']);
+	}
 }

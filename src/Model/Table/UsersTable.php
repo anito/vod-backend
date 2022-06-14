@@ -58,6 +58,8 @@ class UsersTable extends Table
         $this->addBehavior('Timestamp');
         $this->addBehavior('Muffin/Footprint.Footprint');
 
+        $this->notAllowedMessage = __('This user is protected');
+
         $this->belongsTo('Groups', [
             'foreignKey' => 'group_id',
         ]);
@@ -86,8 +88,6 @@ class UsersTable extends Table
             'targetForeignKey' => 'video_id',
             'joinTable' => 'users_videos',
         ]);
-
-        $this->notAllowedMessage = __('This user is protected');
     }
 
     /**
