@@ -47,7 +47,6 @@ class AppController extends Controller
 			$locale = $queries['locale'];
 		} else if (isset($cookies['locale'])) {
 			$locale = $cookies['locale'];
-			Log::debug($locale);
 		}
 		if (isset($locale)) {
 			I18n::setLocale($locale);
