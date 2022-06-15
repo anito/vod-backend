@@ -77,6 +77,8 @@ class SentsController extends AppController
 
     $this->Crud->on('beforeSave', function (Event $event) use ($data) {
 
+      $type = 'html';
+      $layout = 'physio-layout';
       $entity = $event->getSubject()->entity;
       $patched = [];
       $authUser = $this->_getAuthUser();
@@ -176,14 +178,17 @@ class SentsController extends AppController
       /**
        *  template to be used
        */
+      $templateData = !isset($data['template']['data']) ?: $data['template']['data'];
       if (!isset($template)) {
         $template = isset($data['template']['slug']) ? $data['template']['slug'] : 'general';
       }
-      $templateData = isset($data['template']['data']) ? $data['template']['data'] : '';
+      if (!file_exists(EMAIL_TEMPLATES . DS . $type . DS . $template . '.php')) {
+        $template = $templateData ? 'magic-link' : 'general';
+      };
 
       $mail = new Mailer();
       $mail->viewBuilder()->setTemplate($template);
-      $mail->viewBuilder()->setLayout('physio-layout');
+      $mail->viewBuilder()->setLayout($layout);
 
       /**
        *  View Vars
@@ -197,6 +202,7 @@ class SentsController extends AppController
       $beforeFooter = isset($data['before-footer']) ? $data['before-footer'] : '';
       $footer = isset($data['footer']) ? $data['footer'] : '';
       $afterFooter = isset($data['after-footer']) ? $data['after-footer'] : '';
+      $prime = '#ad1457';
 
       $viewVars = compact([
         'logo',
@@ -212,6 +218,7 @@ class SentsController extends AppController
         'footer',
         'afterFooter',
         'templateData',
+        'prime'
       ]);
 
       $message = $mail
@@ -219,7 +226,7 @@ class SentsController extends AppController
         ->setFrom($from)
         ->setTo($to)
         ->setSubject('[' . $sitename . '] ' . $subject)
-        ->setEmailFormat('html')
+        ->setEmailFormat($type)
         ->setViewVars($viewVars)
         ->deliver();
 

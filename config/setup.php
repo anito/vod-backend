@@ -34,6 +34,7 @@ define('UPLOADS', ROOT . DS . 'uploads');
 define('IMAGES', UPLOADS . DS . 'images');
 define('VIDEOS', UPLOADS . DS . 'videos');
 define('AVATARS', UPLOADS . DS . 'avatars');
+define('EMAIL_TEMPLATES', ROOT . DS . 'templates' . DS . 'email');
 define('MYSQLUPLOAD', ROOT . DS . 'mysql');
 if (!defined('MYSQL_CONFIG_DIR')) {
     define('MYSQL_CONFIG_DIR', ROOT . DS . 'mysqlconf' . DS);
