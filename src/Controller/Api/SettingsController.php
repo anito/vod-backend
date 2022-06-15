@@ -65,8 +65,9 @@ class SettingsController extends AppController
 		$locale = I18n::getLocale();
 		$this->set([
 			'success' => true,
-			'data' => array('locale' => $locale, 'message' => __('Locale updated ({locale})', ['locale' => strtoupper(substr($locale, 0, 2))])),
+			'data' => ['locale' => $locale],
+			'message' => __('Locale updated ({locale})', ['locale' => strtoupper(substr($locale, 0, 2))]),
 		]);
-		$this->viewBuilder()->setOption('serialize', ['success', 'data']);
+		$this->viewBuilder()->setOption('serialize', ['success', 'data', 'message']);
 	}
 }
