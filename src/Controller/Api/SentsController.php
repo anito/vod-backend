@@ -89,10 +89,10 @@ class SentsController extends AppController
       /**
        * distinguish between different types of mail/users sending the mail:
        * only admins sending a token, if authenticated we can assume they are of role admin
-       * non-admin: not sending a token
-       * although a non-admin (role user) could be logged in and send the form,
-       * he won't be authenticated (since the missing token)
-       * - non-admins should have a $data['user'] object in their payload
+       * as opposed to regular visitors not sending a token
+       * although visitors could be logged in and send the form,
+       * they won't be authenticated
+       * visitors (non-admins) should have a $data['user'] object in their payload
        */
       if (!isset($authUser) && isset($data['user'])) {
         /**
@@ -113,9 +113,8 @@ class SentsController extends AppController
 
         if (isset($user)) {
           /**
-           * user exists
+           * existing visitor
            * modify entity in order to stop autocreation
-           * 
            */
           $entity->get('user')->isNew(false);
           $entity->set('user', $user);
@@ -125,6 +124,9 @@ class SentsController extends AppController
           $subject = __('Message from: {0}', $name);
           $data['before-content'] = isset($data['subject']) ? $data['subject'] : '';
         } else {
+          /**
+           * new visitor
+           */
           $newUser = true;
 
           $from = [$data['user']['email'] => $data['user']['name']];
@@ -158,7 +160,7 @@ class SentsController extends AppController
         }
 
         /**
-         * mail created from authenticated user
+         * mail created from authenticated user (admins only)
          */
         $from = [$authUser['email'] => $authUser['name']];
         $to = [$data['email'] => $user->name];
@@ -178,11 +180,13 @@ class SentsController extends AppController
       /**
        *  template to be used
        */
-      $templateData = !isset($data['template']['data']) ?: $data['template']['data'];
+      $templateData = isset($data['template']['data']) ? $data['template']['data'] : false;
       if (!isset($template)) {
         $template = isset($data['template']['slug']) ? $data['template']['slug'] : 'general';
       }
-      if (!file_exists(EMAIL_TEMPLATES . DS . $type . DS . $template . '.php')) {
+      $path = EMAIL_TEMPLATES . DS . $type . DS . $template . '.php';
+      $templ = preg_replace('/-+/', '_', $template);
+      if (!file_exists(EMAIL_TEMPLATES . DS . $type . DS . $templ . '.php')) {
         $template = $templateData ? 'magic-link' : 'general';
       };
 

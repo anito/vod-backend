@@ -173,8 +173,4 @@ $content = !empty($content) ? explode("\n", $content) : $content;
   .content {
     margin: 0 20px;
   }
-
-  .starter {
-    margin-bottom: 30px;
-  }
 </style>
