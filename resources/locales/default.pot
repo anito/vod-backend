@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2022-06-14 01:40+0200\n"
+"POT-Creation-Date: 2022-06-16 10:41+0200\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -48,51 +48,63 @@ msgstr ""
 msgid "No Index Found Error"
 msgstr ""
 
-#: Controller/Api/SentsController.php:83
+#: Controller/Api/SentsController.php:85
 msgid "My website"
 msgstr ""
 
-#: Controller/Api/SentsController.php:84
+#: Controller/Api/SentsController.php:86
 msgid "General Information"
 msgstr ""
 
-#: Controller/Api/SentsController.php:123
+#: Controller/Api/SentsController.php:124
 msgid "Message from: {0}"
 msgstr ""
 
-#: Controller/Api/SentsController.php:130
+#: Controller/Api/SentsController.php:134
 msgid "New User: {0}"
 msgstr ""
 
-#: Controller/Api/SentsController.php:193
+#: Controller/Api/SentsController.php:202
 msgid "No message"
 msgstr ""
 
-#: Controller/Api/SettingsController.php:68
-msgid "Locale updated ({locale})"
+#: Controller/Api/SettingsController.php:70
+msgid "Language is now {locale}"
 msgstr ""
 
-#: Controller/Api/TemplatesController.php:80
+#: Controller/Api/SettingsController.php:79
+msgid "German"
+msgstr ""
+
+#: Controller/Api/SettingsController.php:80
+msgid "English"
+msgstr ""
+
+#: Controller/Api/SettingsController.php:82
+msgid "(Not found)"
+msgstr ""
+
+#: Controller/Api/TemplatesController.php:77
 msgid "Template saved"
 msgstr ""
 
-#: Controller/Api/TemplatesController.php:84
+#: Controller/Api/TemplatesController.php:80
 msgid "Template could not be saved"
 msgstr ""
 
-#: Controller/Api/TemplatesController.php:109
+#: Controller/Api/TemplatesController.php:102
 msgid "Template created"
 msgstr ""
 
-#: Controller/Api/TemplatesController.php:113
+#: Controller/Api/TemplatesController.php:105
 msgid "Template could not be created"
 msgstr ""
 
-#: Controller/Api/TemplatesController.php:140
+#: Controller/Api/TemplatesController.php:129
 msgid "Template deleted"
 msgstr ""
 
-#: Controller/Api/TemplatesController.php:144
+#: Controller/Api/TemplatesController.php:133
 msgid "Template could not be deleted"
 msgstr ""
 
@@ -104,40 +116,40 @@ msgstr ""
 msgid "Token removed"
 msgstr ""
 
-#: Controller/Api/UsersController.php:148
+#: Controller/Api/UsersController.php:149
 msgid "User created"
 msgstr ""
 
-#: Controller/Api/UsersController.php:167
+#: Controller/Api/UsersController.php:168
 msgid "User updated"
 msgstr ""
 
-#: Controller/Api/UsersController.php:169
+#: Controller/Api/UsersController.php:170
 msgid "User could not be updated"
 msgstr ""
 
-#: Controller/Api/UsersController.php:191
+#: Controller/Api/UsersController.php:192
 msgid "Protected users can not be deleted"
 msgstr ""
 
-#: Controller/Api/UsersController.php:206
+#: Controller/Api/UsersController.php:207
 msgid "User deleted"
 msgstr ""
 
-#: Controller/Api/UsersController.php:221
-#: Controller/Api/UsersController.php:333
+#: Controller/Api/UsersController.php:222
+#: Controller/Api/UsersController.php:334
 msgid "Invalid username or password"
 msgstr ""
 
-#: Controller/Api/UsersController.php:311
+#: Controller/Api/UsersController.php:312
 msgid "Google Login successful"
 msgstr ""
 
-#: Controller/Api/UsersController.php:311
+#: Controller/Api/UsersController.php:312
 msgid "Google Login failed"
 msgstr ""
 
-#: Controller/Api/UsersController.php:336
+#: Controller/Api/UsersController.php:337
 msgid "Invalid Token"
 msgstr ""
 
@@ -395,7 +407,7 @@ msgstr ""
 msgid "Token did not change."
 msgstr ""
 
-#: Model/Table/UsersTable.php:90
+#: Model/Table/UsersTable.php:61
 msgid "This user is protected"
 msgstr ""
 
@@ -411,13 +423,17 @@ msgstr ""
 msgid "You can not deactivate your own profile"
 msgstr ""
 
-#: Model/Table/UsersTable.php:176
+#: Model/Table/UsersTable.php:232
+#: Model/Table/UsersTable.php:244
+msgid "Invalid token"
+msgstr ""
+
+#: Model/Table/UsersVideosTable.php:111
 msgid "You can not edit this timeframe"
 msgstr ""
 
-#: Model/Table/UsersTable.php:239
-#: Model/Table/UsersTable.php:251
-msgid "Invalid token"
+#: Model/Table/UsersVideosTable.php:117
+msgid "You can not add a video"
 msgstr ""
 
 #: Avatars/add.php:9
@@ -1314,7 +1330,7 @@ msgstr ""
 #: Sents/view.php:47
 #: Users/view.php:127
 #: Users/view.php:163
-#: email/html/from_user.php:136
+#: email/html/from_user.php:117
 msgid "Message"
 msgstr ""
 
@@ -1657,7 +1673,7 @@ msgstr ""
 msgid "Teaser"
 msgstr ""
 
-#: email/html/from_user.php:132
+#: email/html/from_user.php:113
 msgid "Option"
 msgstr ""
 

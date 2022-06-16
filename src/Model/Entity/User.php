@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Model\Entity;
 
 use Authentication\IdentityInterface;
@@ -32,7 +33,7 @@ use Firebase\JWT\JWT;
 class User extends Entity implements IdentityInterface
 {
 
-    protected function _setPassword($password) : ?string
+    protected function _setPassword($password): ?string
     {
         if (strlen($password) > 0) {
             $hasher = new DefaultPasswordHasher();
@@ -91,11 +92,11 @@ class User extends Entity implements IdentityInterface
      * @var array
      */
     protected $_hidden = [
-        'password',
+        'password', 'token', 'modified', 'modified_by'
     ];
 
     protected $_virtual = [
-        'expires',
+        'expires', 'jwt', 'token_id'
     ];
 
     protected function _getExpires()
@@ -106,7 +107,20 @@ class User extends Entity implements IdentityInterface
             $tks = \explode('.', $jwt);
             list($headb64, $bodyb64, $cryptob64) = $tks;
             return JWT::jsonDecode(JWT::urlsafeB64Decode($bodyb64))->exp;
+        }
+    }
 
+    protected function _getTokenId()
+    {
+        if (isset($this->token)) {
+            return $this->token->id;
+        }
+    }
+
+    protected function _getJwt()
+    {
+        if (isset($this->token)) {
+            return $this->token->token;
         }
     }
 }

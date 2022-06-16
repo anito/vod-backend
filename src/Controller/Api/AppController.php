@@ -40,19 +40,17 @@ class AppController extends Controller
 
 		$this->loadComponent('Authentication.Authentication');
 
-		$cookies = $this->request->getCookieParams();
 		$queries = $this->request->getQueryParams();
+		$server = $this->request->getServerParams();
 
 		if (isset($queries['locale'])) {
 			$locale = $queries['locale'];
-		} else if (isset($cookies['locale'])) {
-			$locale = $cookies['locale'];
+		} else if (isset($server["HTTP_ACCEPT_LANGUAGE"])) {
+			$locale = $server["HTTP_ACCEPT_LANGUAGE"];
 		}
 		if (isset($locale)) {
 			I18n::setLocale($locale);
 		};
-		// I18n::setLocale('en-US');
-		// I18n::setLocale('de-DE');
 	}
 
 	protected function _getCert()

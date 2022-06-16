@@ -157,7 +157,6 @@ class UsersController extends AppController
 
 	public function edit($id)
 	{
-
 		$this->Crud->on('afterSave', function (Event $event) use ($id) {
 
 			$entity = $event->getSubject()->entity;
@@ -380,7 +379,6 @@ class UsersController extends AppController
 		}
 
 		$user = $this->_getUser($id);
-		$user["token"] = $user["token"]["token"];
 
 		$this->set([
 			'success' => true,
@@ -392,7 +390,7 @@ class UsersController extends AppController
 				'message' => __('Login successful')
 			],
 		]);
-		$this->viewBuilder()->setOption('serialize', ['success', 'data']);
+		$this->viewBuilder()->setOption('serialize', ['success', 'data', 'message']);
 	}
 
 	public function logout()
@@ -426,8 +424,8 @@ class UsersController extends AppController
 
 		// hydrate the user with associated data
 		$user = $this->_getUser($id);
-		if (isset($user["token"])) {
-			$currentToken = $user["token"]["token"];
+		if (isset($user["jwt"])) {
+			$currentToken = $user["jwt"];
 		}
 
 		$queryToken = $this->getRequest()->getQuery("token");

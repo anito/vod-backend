@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2022-06-14 01:40+0200\n"
-"PO-Revision-Date: 2022-06-14 03:12+0200\n"
+"POT-Creation-Date: 2022-06-16 10:41+0200\n"
+"PO-Revision-Date: 2022-06-16 10:41+0200\n"
 "Last-Translator: \n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
 "Language: de\n"
@@ -49,51 +49,63 @@ msgstr "Poster wurde gelöscht"
 msgid "No Index Found Error"
 msgstr "Index nicht gefunden"
 
-#: Controller/Api/SentsController.php:83
+#: Controller/Api/SentsController.php:85
 msgid "My website"
 msgstr "Meine Webseite"
 
-#: Controller/Api/SentsController.php:84
+#: Controller/Api/SentsController.php:86
 msgid "General Information"
 msgstr "Allgemeine Information"
 
-#: Controller/Api/SentsController.php:123
+#: Controller/Api/SentsController.php:124
 msgid "Message from: {0}"
 msgstr "Mitteilung von: {0}"
 
-#: Controller/Api/SentsController.php:130
+#: Controller/Api/SentsController.php:134
 msgid "New User: {0}"
 msgstr "Neuer Benutzer: {0}"
 
-#: Controller/Api/SentsController.php:193
+#: Controller/Api/SentsController.php:202
 msgid "No message"
 msgstr "Keine Mitteilung"
 
-#: Controller/Api/SettingsController.php:68
-msgid "Locale updated ({locale})"
-msgstr "Sprache auf {locale} geändert"
+#: Controller/Api/SettingsController.php:70
+msgid "Language is now {locale}"
+msgstr "Sprache ist jetzt {locale}"
 
-#: Controller/Api/TemplatesController.php:80
+#: Controller/Api/SettingsController.php:79
+msgid "German"
+msgstr "Deutsch"
+
+#: Controller/Api/SettingsController.php:80
+msgid "English"
+msgstr "Englisch"
+
+#: Controller/Api/SettingsController.php:82
+msgid "(Not found)"
+msgstr "(Nicht gefunden)"
+
+#: Controller/Api/TemplatesController.php:77
 msgid "Template saved"
 msgstr "Vorlage gespeichert"
 
-#: Controller/Api/TemplatesController.php:84
+#: Controller/Api/TemplatesController.php:80
 msgid "Template could not be saved"
 msgstr "Vorlage konnte nicht gespeichert werden"
 
-#: Controller/Api/TemplatesController.php:109
+#: Controller/Api/TemplatesController.php:102
 msgid "Template created"
 msgstr "Vorlage erstellt"
 
-#: Controller/Api/TemplatesController.php:113
+#: Controller/Api/TemplatesController.php:105
 msgid "Template could not be created"
 msgstr "Vorlage konnte nicht erstellt werden"
 
-#: Controller/Api/TemplatesController.php:140
+#: Controller/Api/TemplatesController.php:129
 msgid "Template deleted"
 msgstr "Vorlage entfernt"
 
-#: Controller/Api/TemplatesController.php:144
+#: Controller/Api/TemplatesController.php:133
 msgid "Template could not be deleted"
 msgstr "Vorlage konnte nicht entfernt werden"
 
@@ -105,40 +117,40 @@ msgstr "Token generiert"
 msgid "Token removed"
 msgstr "Token gelöscht"
 
-#: Controller/Api/UsersController.php:148
+#: Controller/Api/UsersController.php:149
 msgid "User created"
 msgstr "Benutzer erstellt"
 
-#: Controller/Api/UsersController.php:167
+#: Controller/Api/UsersController.php:168
 msgid "User updated"
 msgstr "Benutzer aktualisiert"
 
-#: Controller/Api/UsersController.php:169
+#: Controller/Api/UsersController.php:170
 msgid "User could not be updated"
 msgstr "Benutzer konnte nicht aktualisiert werden"
 
-#: Controller/Api/UsersController.php:191
+#: Controller/Api/UsersController.php:192
 msgid "Protected users can not be deleted"
 msgstr "Änderungen an diesem Benutzer sind nicht zulässig"
 
-#: Controller/Api/UsersController.php:206
+#: Controller/Api/UsersController.php:207
 msgid "User deleted"
 msgstr "Benutzer gelöscht"
 
-#: Controller/Api/UsersController.php:221
-#: Controller/Api/UsersController.php:333
+#: Controller/Api/UsersController.php:222
+#: Controller/Api/UsersController.php:334
 msgid "Invalid username or password"
 msgstr "Ungültiger Benutzername oder Passwort"
 
-#: Controller/Api/UsersController.php:311
+#: Controller/Api/UsersController.php:312
 msgid "Google Login successful"
 msgstr "Sie wurden mit Ihrem Google Account angemeldet"
 
-#: Controller/Api/UsersController.php:311
+#: Controller/Api/UsersController.php:312
 msgid "Google Login failed"
 msgstr "Google Anmeldung fehlgeschlagen"
 
-#: Controller/Api/UsersController.php:336
+#: Controller/Api/UsersController.php:337
 msgid "Invalid Token"
 msgstr "Ungültiger Token"
 
@@ -381,7 +393,7 @@ msgstr "Das Video konnte nicht gelöscht werden. Bitte versuche es erneut."
 msgid "Token did not change."
 msgstr "Der Token wurde nicht geändert."
 
-#: Model/Table/UsersTable.php:90
+#: Model/Table/UsersTable.php:61
 msgid "This user is protected"
 msgstr "Dieser Benutzer ist schreibgeschützt"
 
@@ -397,13 +409,19 @@ msgstr "Email darf nicht leer sein"
 msgid "You can not deactivate your own profile"
 msgstr "Sie können Ihr eigenes Profil nicht deaktivieren"
 
-#: Model/Table/UsersTable.php:176
+#: Model/Table/UsersTable.php:232 Model/Table/UsersTable.php:244
+msgid "Invalid token"
+msgstr "Ungültiger Token"
+
+#: Model/Table/UsersVideosTable.php:111
 msgid "You can not edit this timeframe"
 msgstr "Sie können diesen Zeitrahmen nicht verändern"
 
-#: Model/Table/UsersTable.php:239 Model/Table/UsersTable.php:251
-msgid "Invalid token"
-msgstr "Ungültiger Token"
+#: Model/Table/UsersVideosTable.php:117
+#, fuzzy
+#| msgid "You can not edit this timeframe"
+msgid "You can not add a video"
+msgstr "Sie können diesen Zeitrahmen nicht verändern"
 
 #: Avatars/add.php:9 Avatars/edit.php:9 Avatars/index.php:9
 #: Avatars/index.php:26 Avatars/view.php:9 Fields/add.php:9 Fields/edit.php:9
@@ -879,7 +897,7 @@ msgid "No"
 msgstr "Nein"
 
 #: Inboxes/view.php:51 Messages/view.php:28 Sents/view.php:47
-#: Users/view.php:127 Users/view.php:163 email/html/from_user.php:136
+#: Users/view.php:127 Users/view.php:163 email/html/from_user.php:117
 msgid "Message"
 msgstr "Mitteilung"
 
@@ -1167,7 +1185,7 @@ msgstr ""
 msgid "Teaser"
 msgstr ""
 
-#: email/html/from_user.php:132
+#: email/html/from_user.php:113
 msgid "Option"
 msgstr "Option"
 
@@ -1182,6 +1200,12 @@ msgstr ""
 #: layout/error.php:43
 msgid "Back"
 msgstr "Zurück"
+
+#~ msgid "Language not found"
+#~ msgstr "() Sprache"
+
+#~ msgid "Locale updated ({locale})"
+#~ msgstr "Sprache ist jetzt {locale}"
 
 #~ msgid "Not Authorized"
 #~ msgstr "Keine Berechtigung"
@@ -1218,9 +1242,6 @@ msgstr "Zurück"
 
 #~ msgid "CSRF token mismatch."
 #~ msgstr "CSRF Token stimmt nicht überein."
-
-#~ msgid "Not Found"
-#~ msgstr "Nicht gefunden"
 
 #~ msgid "An Internal Error Has Occurred."
 #~ msgstr "Ein interner Fehler ist aufgetreten."
