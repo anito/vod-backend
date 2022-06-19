@@ -20,7 +20,7 @@ class UsersController extends AppController
 	public function initialize(): void
 	{
 		parent::initialize();
-		$this->Authentication->addUnauthenticatedActions(['login', 'googleLogin']);
+		$this->Authentication->addUnauthenticatedActions(['logout', 'login', 'googleLogin']);
 
 		$this->loadComponent('Crud.Crud', [
 			'actions' => [
@@ -218,9 +218,12 @@ class UsersController extends AppController
 	public function token()
 	{
 		$result =  $this->Authentication->getResult();
-		if (!$result->isValid()) {
-			throw new UnauthorizedException(__('Invalid username or password'));
-		}
+		$user = $result->getData()->toArray();
+		$isAdmin = $this->_isAdmin($user);
+
+		if (!$isAdmin || !$result->isValid()) {
+			throw new UnauthorizedException(__('Unauthorized'));
+		};
 
 		$uid = $this->Authentication->getIdentity()->getIdentifier();
 
@@ -284,7 +287,7 @@ class UsersController extends AppController
 			$user->avatar = $avatar;
 			$saved = $this->Users->save($user);
 		} else {
-			$jwt = $user->token->token;
+			$jwt = $user->jwt;
 			if (isset($user->avatar)) {
 				$avatar = $user->avatar;
 				if ($avatar->src !== $payload->picture) {
@@ -395,10 +398,7 @@ class UsersController extends AppController
 
 	public function logout()
 	{
-		$result = $this->Authentication->getResult();
-		if ($result->isValid()) {
-			$this->Authentication->logout();
-		}
+		$this->Authentication->logout();
 		$this->set([
 			'success' => true,
 			'message' => __('You\'re logged out'),
