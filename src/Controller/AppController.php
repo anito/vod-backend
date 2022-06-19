@@ -1,4 +1,5 @@
 <?php
+
 /**
  * CakePHP(tm) : Rapid Development Framework (https://cakephp.org)
  * Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
@@ -12,6 +13,7 @@
  * @since     0.2.9
  * @license   https://opensource.org/licenses/mit-license.php MIT License
  */
+
 namespace App\Controller;
 
 use Cake\Controller\Controller;
@@ -28,65 +30,64 @@ use Cake\ORM\TableRegistry;
 class AppController extends Controller
 {
 
-    /**
-     * Initialization hook method.
-     *
-     * Use this method to add common initialization code like loading components.
-     *
-     * e.g. `$this->loadComponent('Security');`
-     *
-     * @return void
-     */
-    public function initialize(): void
-    {
-        parent::initialize();
+  /**
+   * Initialization hook method.
+   *
+   * Use this method to add common initialization code like loading components.
+   *
+   * e.g. `$this->loadComponent('Security');`
+   *
+   * @return void
+   */
+  public function initialize(): void
+  {
+    parent::initialize();
 
-        $this->loadComponent('RequestHandler', [
-            'enableBeforeRedirect' => false,
-        ]);
-        $this->loadComponent('Flash');
-        $this->loadComponent('Authentication.Authentication');
-        // $this->loadComponent('Auth', [
-        //     'authenticate' => [
-        //         'Form' => [
-        //             'fields' => [
-        //                 'username' => 'email',
-        //                 'password' => 'password',
-        //             ],
-        //         ],
-        //     ],
-        //     'loginAction' => [
-        //         'controller' => 'Users',
-        //         'action' => 'login',
-        //     ],
-        //     'loginRedirect' => [
-        //         'controller' => 'Users',
-        //         'action' => 'index',
-        //     ],
-        //     // If unauthorized, return them to page they were just on
-        //     'unauthorizedRedirect' => $this->referer(),
-        // ]);
+    $this->loadComponent('RequestHandler', [
+      'enableBeforeRedirect' => false,
+    ]);
+    $this->loadComponent('Flash');
+    $this->loadComponent('Authentication.Authentication');
+    // $this->loadComponent('Auth', [
+    //     'authenticate' => [
+    //         'Form' => [
+    //             'fields' => [
+    //                 'username' => 'email',
+    //                 'password' => 'password',
+    //             ],
+    //         ],
+    //     ],
+    //     'loginAction' => [
+    //         'controller' => 'Users',
+    //         'action' => 'login',
+    //     ],
+    //     'loginRedirect' => [
+    //         'controller' => 'Users',
+    //         'action' => 'index',
+    //     ],
+    //     // If unauthorized, return them to page they were just on
+    //     'unauthorizedRedirect' => $this->referer(),
+    // ]);
 
-        /*
+    /*
          * Enable the following component for recommended CakePHP security settings.
          * see https://book.cakephp.org/3/en/controllers/components/security.html
          */
-        // $this->loadComponent('Security');
-    }
+    // $this->loadComponent('Security');
+  }
 
-    protected function _isAdmin($user)
-    {
-        return $this->_getUserRoleName($user) === 'Administrator';
-    }
+  protected function _isAdmin($user)
+  {
+    return $this->_getUserRoleName($user) === 'Administrator';
+  }
 
-    protected function _getUserRoleName($user)
-    {
-        $groups = TableRegistry::getTableLocator()->get('Groups');
-        return $groups->find()
-            ->where(['id' => $user['group_id']])
-            ->select(['name'])
-            ->first()
-            ->name;
-    }
-
+  protected function _getUserRoleName($user)
+  {
+    $groups = TableRegistry::getTableLocator()->get('Groups');
+    return $groups->find()
+      ->where(['id' => $user['group']['id']])
+      ->select(['name'])
+      ->first()
+      ->name;
+  }
 }

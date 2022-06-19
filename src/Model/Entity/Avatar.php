@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Model\Entity;
 
 use Cake\ORM\Entity;
@@ -34,5 +35,14 @@ class Avatar extends Entity
         'created' => true,
         'modified' => true,
         'user' => true,
+    ];
+
+    /**
+     * Fields that are excluded from JSON versions of the entity.
+     *
+     * @var array
+     */
+    protected $_hidden = [
+        'user_id', 'filesize', 'created', 'modified'
     ];
 }

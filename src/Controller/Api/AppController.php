@@ -148,7 +148,7 @@ class AppController extends Controller
 		}
 		return TableRegistry::getTableLocator()->get('Groups')
 			->find()
-			->where(['id' => $user['group_id']])
+			->where(['id' => $user['group']['id']])
 			->select(['name'])
 			->first()
 			->toArray()['name'];

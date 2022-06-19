@@ -92,11 +92,11 @@ class User extends Entity implements IdentityInterface
      * @var array
      */
     protected $_hidden = [
-        'password', 'token', 'modified', 'modified_by'
+        'password', 'token', 'created', 'modified', 'modified_by', 'group_id'
     ];
 
     protected $_virtual = [
-        'expires', 'jwt', 'token_id'
+        'expires', 'jwt', 'token_id', 'role'
     ];
 
     protected function _getExpires()
@@ -121,6 +121,13 @@ class User extends Entity implements IdentityInterface
     {
         if (isset($this->token)) {
             return $this->token->token;
+        }
+    }
+
+    protected function _getRole()
+    {
+        if (isset($this->group)) {
+            return $this->group->name;
         }
     }
 }
