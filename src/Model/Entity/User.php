@@ -92,7 +92,7 @@ class User extends Entity implements IdentityInterface
      * @var array
      */
     protected $_hidden = [
-        'password', 'token', 'created', 'modified', 'modified_by', 'group_id'
+        'password', 'token', 'created', 'modified', 'modified_by', 'last_login'
     ];
 
     protected $_virtual = [
