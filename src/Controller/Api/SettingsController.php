@@ -49,13 +49,19 @@ class SettingsController extends AppController
 
 	public function index()
 	{
-		$allowed = ['Session', 'Site'];
-		$settings = Configure::read();
-		$settings = array_intersect_key($settings, array_flip($allowed));
+		/**
+		 * Settings which should be available for client
+		 */
+
+		$allowedSession = ['lifetime']; // Session settings
+		$allowedSite = ['logo', 'name', 'description']; // Site settings
+
+		$Session = array_intersect_key(Configure::read('Session'), array_flip($allowedSession));
+		$Site = array_intersect_key(Configure::read('Site'), array_flip($allowedSite));
 
 		$this->set([
 			'success' => true,
-			'data' => $settings,
+			'data' => compact('Session', 'Site'),
 		]);
 		$this->viewBuilder()->setOption('serialize', ['success', 'data']);
 	}
