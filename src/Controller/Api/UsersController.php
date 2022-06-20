@@ -6,10 +6,6 @@ use Cake\Core\Configure;
 use Cake\Event\Event;
 use Cake\Http\Exception\ForbiddenException;
 use Cake\Http\Exception\UnauthorizedException;
-use Cake\I18n\Date;
-use Cake\I18n\I18n;
-use Cake\Log\Log;
-use Cake\Mailer\Mailer;
 use Cake\ORM\Query;
 use Cake\ORM\TableRegistry;
 use Cake\Utility\Security;
@@ -20,10 +16,13 @@ class UsersController extends AppController
 	public function initialize(): void
 	{
 		parent::initialize();
-		$this->Authentication->addUnauthenticatedActions(['logout', 'login', 'googleLogin']);
+		$this->Authentication->addUnauthenticatedActions(['logout', 'login', 'googleLogin', 'lookup']);
 
 		$this->loadComponent('Crud.Crud', [
 			'actions' => [
+				'simpleindex' => [
+					'className' => 'Crud.Index',
+				],
 				'index' => [
 					'className' => 'Crud.Index',
 					'relatedModels' => true, // available only for index
@@ -72,6 +71,24 @@ class UsersController extends AppController
 			}
 			$this->set('data', $users);
 		});
+
+		$this->Crud->action()->serialize(['data']);
+		return $this->Crud->execute();
+	}
+
+	/**
+	 * Queries a list with only  limited information about email and avatar,
+	 * in order to lookup an Avatar that belongs to an specific email address
+	 * - used for an Email Client on https://vod-app.doojoo.de
+	 */
+	public function simpleindex()
+	{
+		$query = $this->Users->find('all', [
+			'contain' => ['Avatars'],
+			'fields' => ['Users.id', 'Users.email', 'Users.name', 'Avatars.src', 'Avatars.id'],
+		]);
+		$users = $query->all();
+		$this->set('data', $users);
 
 		$this->Crud->action()->serialize(['data']);
 		return $this->Crud->execute();

@@ -5,18 +5,13 @@ namespace App\Controller\Api;
 use Cake\Cache\Cache;
 use Cake\Controller\Controller;
 use Cake\Core\Configure;
-use Cake\Error\Debugger;
-use Cake\Event\Event;
 use Cake\Http\Client;
-use Cake\Http\Session;
 use Cake\I18n\I18n;
-use Cake\Log\Log;
 use Cake\ORM\Entity;
 use Cake\ORM\TableRegistry;
 use Cake\Utility\Security;
 use Crud\Controller\ControllerTrait;
 use Firebase\JWT\JWT;
-use PhpParser\Node\Expr\Cast\Array_;
 
 class AppController extends Controller
 {

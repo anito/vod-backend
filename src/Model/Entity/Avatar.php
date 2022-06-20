@@ -43,6 +43,6 @@ class Avatar extends Entity
      * @var array
      */
     protected $_hidden = [
-        'user_id', 'filesize', 'created', 'modified'
+        'filesize', 'created', 'modified'
     ];
 }
