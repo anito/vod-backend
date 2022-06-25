@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Model\Entity;
 
 use Cake\ORM\Entity;
@@ -8,8 +9,8 @@ use Cake\ORM\Entity;
  *
  * @property string $id
  * @property string $user_id
- * @property string $_to
- * @property string $_from
+ * @property string $to
+ * @property string $from
  * @property array $message
  * @property \Cake\I18n\FrozenTime $created
  * @property \Cake\I18n\FrozenTime $modified
@@ -29,8 +30,8 @@ class Sent extends Entity
      */
     protected $_accessible = [
         'user_id' => true,
-        '_to' => true,
-        '_from' => true,
+        'to' => true,
+        'from' => true,
         'message' => true,
         'created' => true,
         'modified' => true,

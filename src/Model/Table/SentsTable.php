@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Model\Table;
 
 use Cake\ORM\Query;
@@ -60,16 +61,16 @@ class SentsTable extends Table
             ->add('id', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
 
         $validator
-            ->scalar('_to')
-            ->maxLength('_to', 256)
-            ->requirePresence('_to', 'create')
-            ->notEmptyString('_to');
+            ->scalar('to')
+            ->maxLength('to', 256)
+            ->requirePresence('to', 'create')
+            ->notEmptyString('to');
 
         $validator
-            ->scalar('_from')
-            ->maxLength('_from', 256)
-            ->requirePresence('_from', 'create')
-            ->notEmptyString('_from');
+            ->scalar('from')
+            ->maxLength('from', 256)
+            ->requirePresence('from', 'create')
+            ->notEmptyString('from');
 
         $validator
             ->requirePresence('message', 'create')
@@ -99,7 +100,8 @@ class SentsTable extends Table
             ->where([
                 'OR' => [
                     'Sents.user_id' => $options['field'],
-                    'Sents._from' => $options['field']],
+                    'Sents.from' => $options['field']
+                ],
             ])
             ->toArray();
 

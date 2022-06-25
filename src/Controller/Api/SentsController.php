@@ -63,9 +63,7 @@ class SentsController extends AppController
 
     $this->set([
       'success' => true,
-      'data' => [
-        'mails' => $mails,
-      ],
+      'data' => $mails,
     ]);
     $this->viewBuilder()->setOption('serialize', ['success', 'data']);
   }
@@ -243,9 +241,9 @@ class SentsController extends AppController
       $message['subject'] = $subject;
 
       $this->Sents->patchEntity($entity, array_merge($patched, [
-        '_to' => implode(';', array_keys($to)),
-        '_from' => implode(';', array_keys($from)),
-        '_read' => 0,
+        'to' => implode(';', array_keys($to)),
+        'from' => implode(';', array_keys($from)),
+        'read' => 0,
         'message' => json_encode($message),
       ]));
     });
@@ -257,9 +255,9 @@ class SentsController extends AppController
       }
 
       $entity = $event->getSubject()->entity;
-      $_to = explode(';', $entity->get('_to'));
+      $to = explode(';', $entity->get('to'));
 
-      foreach ($_to as $key => $value) {
+      foreach ($to as $key => $value) {
         $user = $this->Sents->Users
           ->find()
           ->select(['id'])
@@ -270,9 +268,9 @@ class SentsController extends AppController
           $inboxTable = TableRegistry::getTableLocator()->get('Inboxes');
           $newInbox = $inboxTable->newEntity([
             'user_id' => $user->id,
-            '_from' => $entity->get('_from'),
-            '_to' => $value,
-            '_read' => 0,
+            'from' => $entity->get('from'),
+            'to' => $value,
+            'read' => 0,
             'message' => $entity->get('message'),
           ]);
           $saved = $inboxTable->save($newInbox);

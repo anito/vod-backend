@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Model\Entity;
 
 use Cake\ORM\Entity;
@@ -8,7 +9,7 @@ use Cake\ORM\Entity;
  *
  * @property string $id
  * @property string $user_id
- * @property string $_from
+ * @property string $from
  * @property bool $_read
  * @property array $message
  * @property \Cake\I18n\FrozenTime $created
@@ -29,9 +30,9 @@ class Inbox extends Entity
      */
     protected $_accessible = [
         'user_id' => true,
-        '_from' => true,
+        'from' => true,
         '_read' => true,
-        '_to' => true,
+        'to' => true,
         'message' => true,
         'created' => true,
         'modified' => true,

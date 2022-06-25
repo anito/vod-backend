@@ -21,7 +21,7 @@ class AppController extends Controller
 	{
 
 		parent::initialize();
-		$publ = null;
+		$publ = '';
 		if ($this->request->getQuery('login_type') === 'google') {
 			$certs = $this->_getCert();
 
@@ -29,7 +29,7 @@ class AppController extends Controller
 			$publ = $certs['ca00620c5aa7be8cd03a6f3c68406e45e93b3cab'];
 		};
 		$salt = $publ ?: Security::getSalt();
-		Cache::disable();
+		// Cache::disable();
 
 		$this->loadComponent('RequestHandler');
 

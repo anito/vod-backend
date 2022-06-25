@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Model\Table;
 
 use Cake\ORM\Query;
@@ -60,21 +61,21 @@ class InboxesTable extends Table
             ->add('id', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
 
         $validator
-            ->scalar('_from')
-            ->maxLength('_from', 256)
-            ->requirePresence('_from', 'create')
-            ->notEmptyString('_from');
+            ->scalar('from')
+            ->maxLength('from', 256)
+            ->requirePresence('from', 'create')
+            ->notEmptyString('from');
 
         $validator
-            ->scalar('_to')
-            ->maxLength('_to', 256)
-            ->requirePresence('_to', 'create')
-            ->notEmptyString('_to');
+            ->scalar('to')
+            ->maxLength('to', 256)
+            ->requirePresence('to', 'create')
+            ->notEmptyString('to');
 
         $validator
             ->boolean('_read')
             ->requirePresence('_read', 'create')
-            ->notEmptyString('_read');
+            ->notEmptyString('read');
 
         $validator
             ->requirePresence('message', 'create')
@@ -104,7 +105,7 @@ class InboxesTable extends Table
             ->where([
                 'OR' => [
                     'Inboxes.user_id' => $options['field'],
-                    'Inboxes._to' => $options['field'],
+                    'Inboxes.to' => $options['field'],
                 ],
             ])
             ->toArray();
