@@ -9,7 +9,7 @@ use Cake\ORM\Entity;
  *
  * @property string $id
  * @property string $user_id
- * @property string $from
+ * @property string $_from
  * @property bool $_read
  * @property array $message
  * @property \Cake\I18n\FrozenTime $created
@@ -30,9 +30,9 @@ class Inbox extends Entity
      */
     protected $_accessible = [
         'user_id' => true,
-        'from' => true,
+        '_from' => true,
         '_read' => true,
-        'to' => true,
+        '_to' => true,
         'message' => true,
         'created' => true,
         'modified' => true,

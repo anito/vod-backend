@@ -241,8 +241,8 @@ class SentsController extends AppController
       $message['subject'] = $subject;
 
       $this->Sents->patchEntity($entity, array_merge($patched, [
-        'to' => implode(';', array_keys($to)),
-        'from' => implode(';', array_keys($from)),
+        '_to' => implode(';', array_keys($to)),
+        '_from' => implode(';', array_keys($from)),
         '_read' => 0,
         'message' => json_encode($message),
       ]));
@@ -255,7 +255,7 @@ class SentsController extends AppController
       }
 
       $entity = $event->getSubject()->entity;
-      $to = explode(';', $entity->get('to'));
+      $to = explode(';', $entity->get('_to'));
 
       foreach ($to as $key => $value) {
         $user = $this->Sents->Users
@@ -268,8 +268,8 @@ class SentsController extends AppController
           $inboxTable = TableRegistry::getTableLocator()->get('Inboxes');
           $newInbox = $inboxTable->newEntity([
             'user_id' => $user->id,
-            'from' => $entity->get('from'),
-            'to' => $value,
+            '_from' => $entity->get('_from'),
+            '_to' => $value,
             '_read' => 0,
             'message' => $entity->get('message'),
           ]);

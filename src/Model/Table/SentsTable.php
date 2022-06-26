@@ -61,16 +61,16 @@ class SentsTable extends Table
             ->add('id', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
 
         $validator
-            ->scalar('to')
-            ->maxLength('to', 256)
-            ->requirePresence('to', 'create')
-            ->notEmptyString('to');
+            ->scalar('_to')
+            ->maxLength('_to', 256)
+            ->requirePresence('_to', 'create')
+            ->notEmptyString('_to');
 
         $validator
-            ->scalar('from')
-            ->maxLength('from', 256)
-            ->requirePresence('from', 'create')
-            ->notEmptyString('from');
+            ->scalar('_from')
+            ->maxLength('_from', 256)
+            ->requirePresence('_from', 'create')
+            ->notEmptyString('_from');
 
         $validator
             ->requirePresence('message', 'create')

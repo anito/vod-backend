@@ -30,8 +30,8 @@ class Sent extends Entity
      */
     protected $_accessible = [
         'user_id' => true,
-        'to' => true,
-        'from' => true,
+        '_to' => true,
+        '_from' => true,
         'message' => true,
         'created' => true,
         'modified' => true,
