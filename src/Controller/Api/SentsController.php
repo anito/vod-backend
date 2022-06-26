@@ -243,7 +243,7 @@ class SentsController extends AppController
       $this->Sents->patchEntity($entity, array_merge($patched, [
         'to' => implode(';', array_keys($to)),
         'from' => implode(';', array_keys($from)),
-        'read' => 0,
+        '_read' => 0,
         'message' => json_encode($message),
       ]));
     });
@@ -270,7 +270,7 @@ class SentsController extends AppController
             'user_id' => $user->id,
             'from' => $entity->get('from'),
             'to' => $value,
-            'read' => 0,
+            '_read' => 0,
             'message' => $entity->get('message'),
           ]);
           $saved = $inboxTable->save($newInbox);

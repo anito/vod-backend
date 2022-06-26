@@ -75,7 +75,7 @@ class InboxesTable extends Table
         $validator
             ->boolean('_read')
             ->requirePresence('_read', 'create')
-            ->notEmptyString('read');
+            ->notEmptyString('_read');
 
         $validator
             ->requirePresence('message', 'create')
