@@ -9,8 +9,8 @@ use Cake\ORM\Entity;
  *
  * @property string $id
  * @property string $user_id
- * @property string $to
- * @property string $from
+ * @property string $_to
+ * @property string $_from
  * @property array $message
  * @property \Cake\I18n\FrozenTime $created
  * @property \Cake\I18n\FrozenTime $modified

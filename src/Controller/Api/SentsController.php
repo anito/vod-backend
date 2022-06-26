@@ -117,7 +117,7 @@ class SentsController extends AppController
           $entity->get('user')->isNew(false);
           $entity->set('user', $user);
 
-          $from = [$user['email'] => $user['name']];
+          $_from = [$user['email'] => $user['name']];
           $name = $user['name'];
           $subject = __('Message from: {0}', $name);
           $data['before-content'] = isset($data['subject']) ? $data['subject'] : '';
@@ -127,7 +127,7 @@ class SentsController extends AppController
            */
           $newUser = true;
 
-          $from = [$data['user']['email'] => $data['user']['name']];
+          $_from = [$data['user']['email'] => $data['user']['name']];
           $name = $data['user']['name'];
           $subject = __('New User: {0}', $name);
           $data['before-content'] = isset($data['subject']) ? $data['subject'] : '';
@@ -143,7 +143,7 @@ class SentsController extends AppController
             ],
           ]);
         }
-        $to = $admins;
+        $_to = $admins;
         $template = isset($data['template']) ? $data['template'] : 'from-user';
       } else if (isset($authUser)) {
         /**
@@ -160,8 +160,8 @@ class SentsController extends AppController
         /**
          * mail created from authenticated user (admins only)
          */
-        $from = [$authUser['email'] => $authUser['name']];
-        $to = [$data['email'] => $user->name];
+        $_from = [$authUser['email'] => $authUser['name']];
+        $_to = [$data['email'] => $user->name];
         $name = $user->name;
         $subject = isset($data['subject']) ? $data['subject'] : $defaultSubject;
 
@@ -170,7 +170,7 @@ class SentsController extends AppController
         ]);
       }
 
-      if (!isset($to, $from)) {
+      if (!isset($_to, $_from)) {
         $event->stopPropagation();
         throw new ForbiddenException();
       }
@@ -224,9 +224,9 @@ class SentsController extends AppController
       ]);
 
       $message = $mail
-        ->setSender($from)
-        ->setFrom($from)
-        ->setTo($to)
+        ->setSender($_from)
+        ->setFrom($_from)
+        ->setTo($_to)
         ->setSubject('[' . $sitename . '] ' . $subject)
         ->setEmailFormat($type)
         ->setViewVars($viewVars)
@@ -241,8 +241,8 @@ class SentsController extends AppController
       $message['subject'] = $subject;
 
       $this->Sents->patchEntity($entity, array_merge($patched, [
-        '_to' => implode(';', array_keys($to)),
-        '_from' => implode(';', array_keys($from)),
+        '_to' => implode(';', array_keys($_to)),
+        '_from' => implode(';', array_keys($_from)),
         '_read' => 0,
         'message' => json_encode($message),
       ]));
@@ -255,9 +255,9 @@ class SentsController extends AppController
       }
 
       $entity = $event->getSubject()->entity;
-      $to = explode(';', $entity->get('_to'));
+      $_to = explode(';', $entity->get('_to'));
 
-      foreach ($to as $key => $value) {
+      foreach ($_to as $key => $value) {
         $user = $this->Sents->Users
           ->find()
           ->select(['id'])

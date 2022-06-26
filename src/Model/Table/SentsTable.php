@@ -100,7 +100,7 @@ class SentsTable extends Table
             ->where([
                 'OR' => [
                     'Sents.user_id' => $options['field'],
-                    'Sents.from' => $options['field']
+                    'Sents._from' => $options['field']
                 ],
             ])
             ->toArray();

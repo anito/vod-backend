@@ -105,7 +105,7 @@ class InboxesTable extends Table
             ->where([
                 'OR' => [
                     'Inboxes.user_id' => $options['field'],
-                    'Inboxes.to' => $options['field'],
+                    'Inboxes._to' => $options['field'],
                 ],
             ])
             ->toArray();
