@@ -4,6 +4,7 @@ namespace App\Controller\Api;
 
 use App\Controller\Api\AppController;
 use Cake\Core\App;
+use Cake\Log\Log;
 use Cake\Event\Event;
 use Cake\ORM\Query;
 use Exception;
@@ -123,6 +124,8 @@ class VideosController extends AppController
       if (!empty($videos = $this->Upload->saveAs(VIDEOS, $files))) {
 
         $videos = $this->Videos->newEntities($videos);
+
+        // Log::debug('{videos}', ['videos' => $videos]);
 
         if ($data = $this->Videos->saveMany($videos)) {
 

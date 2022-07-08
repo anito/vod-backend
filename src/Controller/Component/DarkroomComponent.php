@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controller\Component;
 
 use Cake\Controller\Component;
@@ -15,7 +16,6 @@ class DarkroomComponent extends Component
         /** @var \Cake\Controller\Controller $controller */
         $controller = $event->getSubject();
         $request = $controller->getRequest();
-
     }
 
     public function initialize(array $config): void
@@ -26,7 +26,7 @@ class DarkroomComponent extends Component
     ////
     // The workhorse develop function
     ////
-    public function develop($name, $filename, $new_w, $new_h, $square = false, $quality, $x, $y, $force)
+    public function develop($name, $filename, $new_w, $new_h, $square, $quality, $x, $y, $force)
     {
         //sleep(5);
         $old_mask = umask(0);
@@ -288,5 +288,4 @@ class DarkroomComponent extends Component
             return $this->_gd();
         }
     }
-
 }
