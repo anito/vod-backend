@@ -78,13 +78,8 @@ class VideosTable extends Table
       ->allowEmptyString('title');
 
     $validator
-      ->scalar('description')
-      ->maxLength('description', 128)
-      ->allowEmptyString('description');
-
-    $validator
       ->scalar('src')
-      ->maxLength('src', 100)
+      ->maxLength('src', 128)
       ->requirePresence('src', 'create')
       ->notEmptyString('src');
 
