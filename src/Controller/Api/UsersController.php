@@ -201,17 +201,6 @@ class UsersController extends AppController
 
 	public function delete($id)
 	{
-		$this->Crud->on('beforeDelete', function (Event $event) {
-			$notAllowed = FIXTURE;
-			$id = $event->getSubject()->entity->id;
-			$index = array_search($id, $notAllowed);
-			if (is_int($index)) {
-				$message = __('Protected users can not be deleted');
-				$event->stopPropagation();
-				throw new ForbiddenException($message);
-			}
-		});
-
 		$this->Crud->on('afterDelete', function (Event $event) {
 			if ($event->getSubject()->entity->hasErrors()) {
 				$errors = $event->getSubject()->entity->getErrors();

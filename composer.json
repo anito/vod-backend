@@ -1,6 +1,7 @@
 {
-    "name": "cakephp/app",
+    "name": "VOD API",
     "description": "CakePHP skeleton app",
+    "version": "1.0.0",
     "homepage": "https://cakephp.org",
     "type": "project",
     "license": "MIT",

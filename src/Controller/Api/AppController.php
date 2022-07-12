@@ -123,7 +123,8 @@ class AppController extends Controller
 
 	protected function _isAdmin($user)
 	{
-		return $this->_getUserRoleName($user) === 'Administrator';
+		$roles = ['Administrator', 'Superuser'];
+		return in_array($this->_getUserRoleName($user), $roles);
 	}
 
 	protected function _getAdmins()

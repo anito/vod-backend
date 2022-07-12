@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2022-06-16 10:41+0200\n"
+"POT-Creation-Date: 2022-07-12 14:04+0200\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -31,8 +31,8 @@ msgid "An error occurred saving your image data"
 msgstr ""
 
 #: Controller/Api/ImagesController.php:93
-#: Controller/Api/VideosController.php:147
-#: Controller/Api/VideosController.php:154
+#: Controller/Api/VideosController.php:151
+#: Controller/Api/VideosController.php:158
 msgid "An Error occurred while uploading your files"
 msgstr ""
 
@@ -48,39 +48,39 @@ msgstr ""
 msgid "No Index Found Error"
 msgstr ""
 
-#: Controller/Api/SentsController.php:85
+#: Controller/Api/SentsController.php:83
 msgid "My website"
 msgstr ""
 
-#: Controller/Api/SentsController.php:86
+#: Controller/Api/SentsController.php:84
 msgid "General Information"
 msgstr ""
 
-#: Controller/Api/SentsController.php:124
+#: Controller/Api/SentsController.php:122
 msgid "Message from: {0}"
 msgstr ""
 
-#: Controller/Api/SentsController.php:134
+#: Controller/Api/SentsController.php:132
 msgid "New User: {0}"
 msgstr ""
 
-#: Controller/Api/SentsController.php:202
+#: Controller/Api/SentsController.php:200
 msgid "No message"
 msgstr ""
 
-#: Controller/Api/SettingsController.php:70
+#: Controller/Api/SettingsController.php:76
 msgid "Language is now {locale}"
 msgstr ""
 
-#: Controller/Api/SettingsController.php:79
+#: Controller/Api/SettingsController.php:85
 msgid "German"
 msgstr ""
 
-#: Controller/Api/SettingsController.php:80
+#: Controller/Api/SettingsController.php:86
 msgid "English"
 msgstr ""
 
-#: Controller/Api/SettingsController.php:82
+#: Controller/Api/SettingsController.php:88
 msgid "(Not found)"
 msgstr ""
 
@@ -116,70 +116,70 @@ msgstr ""
 msgid "Token removed"
 msgstr ""
 
-#: Controller/Api/UsersController.php:149
+#: Controller/Api/UsersController.php:166
 msgid "User created"
 msgstr ""
 
-#: Controller/Api/UsersController.php:168
+#: Controller/Api/UsersController.php:185
 msgid "User updated"
 msgstr ""
 
-#: Controller/Api/UsersController.php:170
+#: Controller/Api/UsersController.php:187
 msgid "User could not be updated"
 msgstr ""
 
-#: Controller/Api/UsersController.php:192
-msgid "Protected users can not be deleted"
-msgstr ""
-
-#: Controller/Api/UsersController.php:207
+#: Controller/Api/UsersController.php:213
 msgid "User deleted"
 msgstr ""
 
-#: Controller/Api/UsersController.php:222
-#: Controller/Api/UsersController.php:334
-msgid "Invalid username or password"
+#: Controller/Api/UsersController.php:231
+#: Model/Table/UsersTable.php:193
+msgid "Unauthorized"
 msgstr ""
 
-#: Controller/Api/UsersController.php:312
+#: Controller/Api/UsersController.php:321
 msgid "Google Login successful"
 msgstr ""
 
-#: Controller/Api/UsersController.php:312
+#: Controller/Api/UsersController.php:321
 msgid "Google Login failed"
 msgstr ""
 
-#: Controller/Api/UsersController.php:337
+#: Controller/Api/UsersController.php:343
+msgid "Invalid username or password"
+msgstr ""
+
+#: Controller/Api/UsersController.php:346
 msgid "Invalid Token"
 msgstr ""
 
-#: Controller/Api/UsersController.php:390
+#: Controller/Api/UsersController.php:399
 msgid "Login successful"
 msgstr ""
 
-#: Controller/Api/UsersController.php:404
+#: Controller/Api/UsersController.php:410
 msgid "You're logged out"
 msgstr ""
 
-#: Controller/Api/VideosController.php:112
+#: Controller/Api/VideosController.php:114
 msgid "Videos exceeding maximum post size {max}"
 msgstr ""
 
-#: Controller/Api/VideosController.php:132
-#: Controller/Api/VideosController.php:165
+#: Controller/Api/VideosController.php:136
+#: Controller/Api/VideosController.php:169
 msgid "Video saved"
 msgstr ""
 
-#: Controller/Api/VideosController.php:139
-#: Controller/Api/VideosController.php:169
+#: Controller/Api/VideosController.php:143
+#: Controller/Api/VideosController.php:173
 msgid "Video could not be saved"
 msgstr ""
 
-#: Controller/Api/VideosController.php:197
+#: Controller/Api/VideosController.php:201
 msgid "Video could not be deleted"
 msgstr ""
 
-#: Controller/Api/VideosController.php:210
+#: Controller/Api/VideosController.php:214
 msgid "Video deleted"
 msgstr ""
 
@@ -408,6 +408,8 @@ msgid "Token did not change."
 msgstr ""
 
 #: Model/Table/UsersTable.php:61
+#: Model/Table/UsersTable.php:203
+#: Model/Table/UsersTable.php:213
 msgid "This user is protected"
 msgstr ""
 
@@ -423,8 +425,8 @@ msgstr ""
 msgid "You can not deactivate your own profile"
 msgstr ""
 
-#: Model/Table/UsersTable.php:232
-#: Model/Table/UsersTable.php:244
+#: Model/Table/UsersTable.php:270
+#: Model/Table/UsersTable.php:282
 msgid "Invalid token"
 msgstr ""
 

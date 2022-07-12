@@ -71,6 +71,7 @@ class VideosController extends AppController
     switch ($role) {
 
       case 'Administrator':
+      case 'Superuser':
         $data = $this->Videos->find()
           ->order(['title' => 'ASC'])
           ->toArray();
