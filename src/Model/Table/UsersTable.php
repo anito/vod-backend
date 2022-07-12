@@ -175,9 +175,7 @@ class UsersTable extends Table
       $this->getEventManager()->dispatch($event);
     }
 
-    $dirty = $entity->getDirty();
-    $changedProtected = array_key_exists('protected', array_flip($dirty));
-    if ($changedProtected) {
+    if ($entity->protected) {
       if (!empty($options['_footprint'])) {
         $authId = $options['_footprint']['id'];
         $userId = $entity->id;
@@ -189,7 +187,7 @@ class UsersTable extends Table
           })
           ->where(['Users.id' => $authId])
           ->toArray();
-        if (empty($query)) {
+        if (empty($query) && ($userId !== $authId)) {
           throw new UnauthorizedException(__('Unauthorized'));
         } else {
           return;
@@ -198,6 +196,7 @@ class UsersTable extends Table
     }
 
     if ($entity->protected) {
+      $dirty = $entity->getDirty();
       $accessible = $entity->getAccessible();
       foreach ($dirty as $key => $val) {
         if (array_key_exists($val, $accessible)) {
