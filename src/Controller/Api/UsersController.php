@@ -54,7 +54,7 @@ class UsersController extends AppController
 		$this->Crud->on('beforePaginate', function (Event $event) use ($authUser) {
 
 			$query = $event->getSubject()->query;
-			if (!$this->_isAdmin($authUser)) {
+			if (!$this->_isPrivileged($authUser)) {
 				$query
 					// query the authenticated user only
 					->where(['Users.id' => $authUser["id"]]);
@@ -99,7 +99,7 @@ class UsersController extends AppController
 		$this->Crud->on('beforeFind', function (Event $event) {
 
 			$authUser = $this->_getAuthUser();
-			if (!$this->_isAdmin($authUser)) {
+			if (!$this->_isPrivileged($authUser)) {
 				$event->stopPropagation();
 				throw new UnauthorizedException();
 			}
@@ -225,7 +225,7 @@ class UsersController extends AppController
 	{
 		$result =  $this->Authentication->getResult();
 		$user = $result->getData()->toArray();
-		$isAdmin = $this->_isAdmin($user);
+		$isAdmin = $this->_isPrivileged($user);
 
 		if (!$isAdmin || !$result->isValid()) {
 			throw new UnauthorizedException(__('Unauthorized'));
@@ -359,7 +359,7 @@ class UsersController extends AppController
 		$this->Users->save($_user);
 
 		// for admins extend token vality if expired
-		if ($this->_isAdmin($loggedinUser)) {
+		if ($this->_isPrivileged($loggedinUser)) {
 			$expires = TableRegistry::getTableLocator()->get('Users')
 				->find()
 				->contain(['Tokens'])

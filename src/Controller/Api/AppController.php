@@ -121,7 +121,7 @@ class AppController extends Controller
 		}
 	}
 
-	protected function _isAdmin($user)
+	protected function _isPrivileged($user)
 	{
 		$roles = ['Administrator', 'Superuser'];
 		return in_array($this->_getUserRoleName($user), $roles);
