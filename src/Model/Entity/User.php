@@ -55,7 +55,7 @@ class User extends Entity implements IdentityInterface
         'name' => true,
         'email' => true,
         'password' => true,
-        'active' => true,
+        'active' => false,
         'protected' => true,
         'group_id' => true,
         'token_id' => false,

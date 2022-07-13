@@ -195,6 +195,13 @@ class UsersTable extends Table
       }
     }
 
+    /**
+     * The entity's accessible flag is used here in order to determine/exclude fields which are frequently changing
+     * (e.g. last_login, modified, modified_by)
+     * (TBD: After a change of "avatar", a subsequent (google) login of a Superuser causes the login to fail.
+     * Therefore "avatar's" accessiblity also has to be set to false. Why?
+     * 
+     * */
     if ($entity->protected) {
       $dirty = $entity->getDirty();
       $accessible = $entity->getAccessible();
@@ -215,6 +222,9 @@ class UsersTable extends Table
     }
   }
 
+  /**
+   * @deprecated use protected check in beforeSave instead
+   */
   public function protected($value, $context)
   {
     if (isset($context['data']['id'])) {
