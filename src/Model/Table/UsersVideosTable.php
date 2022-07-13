@@ -100,42 +100,42 @@ class UsersVideosTable extends Table
 
   public function beforeSave(EventInterface $event, EntityInterface $entity, $options)
   {
-    $privilegedGroups = ['Superuser', 'Administrator'];
-
-    if (!empty($options['_footprint'])) {
-      $authUser = $options['_footprint'];
-      $id = $authUser->id;
-
-      /**
-       * We need to get the "blown" (by Group association) entity
-       * _footprint (or the authorized user) does not include necessary virtual group.name field persè
-       */
-      $user = $this->Users->find()
-        ->contain(['Groups'])
-        ->where(['Users.id' => $id])
-        ->first();
-
-      if (!empty($user)) {
-        $role = $user->role;
-      }
-
-      if (!in_array($role, $privilegedGroups)) {
-        // no privileges
-
-        // not allowed editing users own timeframe
-        $identical = $this->getIdenticalStartEnd($entity);
-        if (empty($identical)) {
-          throw new ForbiddenException(__('You can not edit this timeframe'));
-        }
-
-        // not allowed adding new video
-        $isNew = $entity->isNew();
-        if ($isNew) {
-          throw new ForbiddenException(__('You can not add a video'));
-        }
-      }
-    } else {
+    $authUser = $options['_footprint'];
+    if (!isset($authUser)) {
       throw new UnauthorizedException(__('Unauthorized'));
+    }
+
+    $privilegedGroups = ['Superuser', 'Administrator'];
+    $authUser = $options['_footprint'];
+    $id = $authUser->id;
+
+    /**
+     * We need to get the "blown" (by Group association) entity
+     * _footprint (or the authorized user) does not include necessary virtual group.name field persè
+     */
+    $user = $this->Users->find()
+      ->contain(['Groups'])
+      ->where(['Users.id' => $id])
+      ->first();
+
+    if (!empty($user)) {
+      $role = $user->role;
+    }
+
+    if (!in_array($role, $privilegedGroups)) {
+      // no privileges
+
+      // not allowed editing users own timeframe
+      $identical = $this->getIdenticalStartEnd($entity);
+      if (empty($identical)) {
+        throw new ForbiddenException(__('You can not edit this timeframe'));
+      }
+
+      // not allowed adding new video
+      $isNew = $entity->isNew();
+      if ($isNew) {
+        throw new ForbiddenException(__('You can not add a video'));
+      }
     }
   }
 

@@ -159,15 +159,17 @@ class UsersTable extends Table
   public function beforeSave(EventInterface $event, EntityInterface $entity, $options)
   {
 
-    if (!empty($options['_footprint'])) {
+    $authUser = $options['_footprint'];
+    if (!isset($authUser)) {
+      throw new UnauthorizedException(__('Unauthorized'));
+    }
 
-      // prevent users from deactivating their own profile
-      $authId = $options['_footprint']['id'];
-      $userId = $entity->id;
-      $active = $entity->active;
-      if ($authId === $userId && !$active) {
-        throw new ForbiddenException(__('You can not deactivate your own profile'));
-      }
+    // prevent users from deactivating their own profile
+    $authId = $authUser->id;
+    $userId = $entity->id;
+    $active = $entity->active;
+    if ($authId === $userId && !$active) {
+      throw new ForbiddenException(__('You can not deactivate your own profile'));
     }
 
     if ($entity->isNew()) {
@@ -175,42 +177,20 @@ class UsersTable extends Table
       $this->getEventManager()->dispatch($event);
     }
 
+    // only Superusers can edit protected users
     if ($entity->protected) {
-      if (!empty($options['_footprint'])) {
-        $authId = $options['_footprint']['id'];
-        $userId = $entity->id;
-        $query = $this->find()
-          ->matching('Groups', function ($q) {
-            return $q->where([
-              'Groups.name' => 'Superuser',
-            ]);
-          })
-          ->where(['Users.id' => $authId])
-          ->toArray();
-        if (empty($query) && ($userId !== $authId)) {
-          throw new UnauthorizedException(__('Unauthorized'));
-        } else {
-          return;
-        }
-      }
-    }
-
-    /**
-     * The entity's accessible flag is used here in order to determine/exclude fields which are frequently changing
-     * (e.g. last_login, modified, modified_by)
-     * (TBD: After a change of "avatar", a subsequent (google) login of a Superuser causes the login to fail.
-     * Therefore "avatar's" accessiblity also has to be set to false. Why?
-     * 
-     * */
-    if ($entity->protected) {
-      $dirty = $entity->getDirty();
-      $accessible = $entity->getAccessible();
-      foreach ($dirty as $key => $val) {
-        if (array_key_exists($val, $accessible)) {
-          if ($accessible[$val] === true) {
-            throw new ForbiddenException(__('This user is protected'));
-          }
-        }
+      $query = $this->find()
+        ->matching('Groups', function ($q) {
+          return $q->where([
+            'Groups.name' => 'Superuser',
+          ]);
+        })
+        ->where(['Users.id' => $authId])
+        ->toArray();
+      if (empty($query) && ($userId !== $authId)) {
+        throw new UnauthorizedException(__('Unauthorized'));
+      } else {
+        return;
       }
     }
   }
