@@ -8,6 +8,7 @@ use Cake\Datasource\EntityInterface;
 use Cake\Event\Event;
 use Cake\Event\EventInterface;
 use Cake\Http\Exception\ForbiddenException;
+use Cake\Http\Exception\UnauthorizedException;
 use Cake\ORM\Entity;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
@@ -99,24 +100,42 @@ class UsersVideosTable extends Table
 
   public function beforeSave(EventInterface $event, EntityInterface $entity, $options)
   {
+    $privilegedGroups = ['Superuser', 'Administrator'];
 
     if (!empty($options['_footprint'])) {
+      $authUser = $options['_footprint'];
+      $id = $authUser->id;
 
-      $group_id = $options['_footprint']['group_id'];
-      if ($group_id !== 1) {
+      /**
+       * We need to get the "blown" (by Group association) entity
+       * _footprint (or the authorized user) does not include necessary virtual group.name field persè
+       */
+      $user = $this->Users->find()
+        ->contain(['Groups'])
+        ->where(['Users.id' => $id])
+        ->first();
 
-        // prevent non admins from editing their own timeframe
+      if (!empty($user)) {
+        $role = $user->role;
+      }
+
+      if (!in_array($role, $privilegedGroups)) {
+        // no privileges
+
+        // not allowed editing users own timeframe
         $identical = $this->getIdenticalStartEnd($entity);
         if (empty($identical)) {
           throw new ForbiddenException(__('You can not edit this timeframe'));
         }
 
-        // prevent non admins from adding new videos
+        // not allowed adding new video
         $isNew = $entity->isNew();
         if ($isNew) {
           throw new ForbiddenException(__('You can not add a video'));
         }
       }
+    } else {
+      throw new UnauthorizedException(__('Unauthorized'));
     }
   }
 
