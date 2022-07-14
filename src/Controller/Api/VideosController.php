@@ -4,7 +4,6 @@ namespace App\Controller\Api;
 
 use App\Controller\Api\AppController;
 use Cake\Core\App;
-use Cake\Log\Log;
 use Cake\Event\Event;
 use Cake\ORM\Query;
 use Exception;

@@ -291,7 +291,6 @@ class UsersController extends AppController
 
 			$user->token = $token;
 			$user->avatar = $avatar;
-			$saved = $this->Users->save($user);
 		} else {
 			$jwt = $user->jwt;
 			if (isset($user->avatar)) {
@@ -302,7 +301,6 @@ class UsersController extends AppController
 						'user_id' => $user->id
 					]);
 					$user->avatar = $avatar;
-					$this->Users->save($user);
 				}
 			} else {
 				$avatar = $avatarTable->newEntity([
@@ -310,9 +308,9 @@ class UsersController extends AppController
 					'src' => $payload->picture,
 				]);
 				$user->avatar = $avatar;
-				$this->Users->save($user);
 			}
 		}
+		$this->Users->save($user);
 
 		$this->set([
 			'success' => !empty($user),
