@@ -70,16 +70,16 @@ class VideosController extends AppController
 
     switch ($role) {
 
-      case 'Administrator':
-      case 'Superuser':
+      case ADMIN:
+      case SUPERUSER:
         $data = $this->Videos->find()
           ->order(['title' => 'ASC'])
           ->toArray();
         break;
 
-      case 'Manager':
-      case 'User':
-      case 'Guest':
+      case MANAGER:
+      case USER:
+      case GUEST:
         $data = $this->Videos->find()
           // see https://book.cakephp.org/3/en/orm/retrieving-data-and-resultsets.html#filtering-by-associated-data
           // see https: //stackoverflow.com/questions/26799094/how-to-filter-by-conditions-for-associated-models

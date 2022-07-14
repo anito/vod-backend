@@ -23,53 +23,67 @@
 namespace App\Controller\Api;
 
 use App\Controller\Api\AppController;
+use Cake\Http\Exception\UnauthorizedException;
 
 class InboxesController extends AppController
 {
 
-    public function initialize(): void
-    {
-        parent::initialize();
-        $this->Authentication->addUnauthenticatedActions([]);
+  public function initialize(): void
+  {
+    parent::initialize();
+    $this->Authentication->addUnauthenticatedActions([]);
 
-        $this->loadComponent('Crud.Crud', [
-            'actions' => [
-                'Crud.Index',
-                'Crud.Edit',
-                'Crud.View',
-                'Crud.Add',
-                'Crud.Delete',
-            ],
-            'listeners' => [
-                'Crud.Api',
-                'Crud.ApiPagination',
-            ],
-        ]);
+    $this->loadComponent('Crud.Crud', [
+      'actions' => [
+        'Crud.Index',
+        'Crud.Edit',
+        'Crud.View',
+        'Crud.Add',
+        'Crud.Delete',
+      ],
+      'listeners' => [
+        'Crud.Api',
+        'Crud.ApiPagination',
+      ],
+    ]);
 
-        $this->Crud->addListener('relatedModels', 'Crud.RelatedModels');
+    $this->Crud->addListener('relatedModels', 'Crud.RelatedModels');
+  }
+
+  public function index()
+  {
+
+    $authUser = $this->_getAuthUser();
+    if (!$this->_isSuperuser($authUser)) {
+      throw new UnauthorizedException(__('Unauthorized'));
     }
 
-    public function index()
-    {
+    $mails = $this->Inboxes->find('all');
 
-        $mails = $this->Inboxes->find('all');
+    $this->set([
+      'success' => true,
+      'data' => $mails,
+    ]);
+    $this->viewBuilder()->setOption('serialize', ['success', 'data']);
+  }
 
-        $this->set([
-            'success' => true,
-            'data' => $mails,
-        ]);
-        $this->viewBuilder()->setOption('serialize', ['success', 'data']);
+  public function get($id)
+  {
+    // protect Superusers Mail
+    $user = $this->_getUser($id, ['contain' => 'Groups']);
+    $authID = $this->_getAuthUser()['id'];
+    $userId = $user['id'];
+    $role = $user['role'];
+    if ($role === SUPERUSER && $authID !== $userId) {
+      $mails = [];
+    } else {
+      $mails = $this->Inboxes->find('byIdOrEmail', ['field' => $id]);
     }
 
-    public function get($id)
-    {
-
-        $received = $this->Inboxes->find('byIdOrEmail', ['field' => $id]);
-
-        $this->set([
-            'success' => true,
-            'data' => $received,
-        ]);
-        $this->viewBuilder()->setOption('serialize', ['success', 'data']);
-    }
+    $this->set([
+      'success' => true,
+      'data' => $mails,
+    ]);
+    $this->viewBuilder()->setOption('serialize', ['success', 'data']);
+  }
 }

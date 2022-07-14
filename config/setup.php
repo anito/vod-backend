@@ -20,7 +20,13 @@ Time::setDefaultLocale('de-DE');
 
 define('AUTH_HEADER', 'Authorization');
 define('AUTH_PREFIX', 'Bearer');
-define('FIXTURE', [15, 24]);
+define('FIXTURE', []);
+define('SUPERUSER', 'Superuser');
+define('ADMIN', 'Administrator');
+define('MANAGER', 'Manager');
+define('USER', 'User');
+define('GUEST', 'Guest');
+
 
 if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') {
     $protocol = 'https://';

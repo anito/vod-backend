@@ -123,7 +123,13 @@ class AppController extends Controller
 
 	protected function _isPrivileged($user)
 	{
-		$roles = ['Administrator', 'Superuser'];
+		$roles = [ADMIN, SUPERUSER];
+		return in_array($this->_getUserRoleName($user), $roles);
+	}
+
+	protected function _isSuperuser($user)
+	{
+		$roles = ['Superuser'];
 		return in_array($this->_getUserRoleName($user), $roles);
 	}
 
@@ -132,7 +138,7 @@ class AppController extends Controller
 		$table = TableRegistry::getTableLocator()->get('Users');
 		$res = $table->find()
 			->contain(['Groups'])
-			->where(['Users.group_id' => $this->_getRoleIdFromName('Administrator')])
+			->where(['Users.group_id' => $this->_getRoleIdFromName(ADMIN)])
 			->toList();
 		return $res;
 	}

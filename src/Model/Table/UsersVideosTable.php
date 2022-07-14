@@ -105,7 +105,7 @@ class UsersVideosTable extends Table
       throw new UnauthorizedException(__('Unauthorized'));
     }
 
-    $privilegedGroups = ['Superuser', 'Administrator'];
+    $privilegedGroups = [SUPERUSER, ADMIN];
     $authUser = $options['_footprint'];
     $id = $authUser->id;
 

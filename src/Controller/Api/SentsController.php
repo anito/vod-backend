@@ -283,12 +283,20 @@ class SentsController extends AppController
 
   public function get($id)
   {
-
-    $received = $this->Sents->find('byIdOrEmail', ['field' => $id]);
+    // protect Superusers Mail
+    $user = $this->_getUser($id, ['contain' => 'Groups']);
+    $authID = $this->_getAuthUser()['id'];
+    $userId = $user['id'];
+    $role = $user['role'];
+    if ($role === SUPERUSER && $authID !== $userId) {
+      $mails = [];
+    } else {
+      $mails = $this->Sents->find('byIdOrEmail', ['field' => $id]);
+    }
 
     $this->set([
       'success' => true,
-      'data' => $received,
+      'data' => $mails,
     ]);
     $this->viewBuilder()->setOption('serialize', ['success', 'data']);
   }
