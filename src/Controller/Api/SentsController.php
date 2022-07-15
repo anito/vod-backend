@@ -24,6 +24,8 @@ namespace App\Controller\Api;
 
 use App\Controller\Api\AppController;
 use Cake\Core\Configure;
+use Cake\Database\Expression\QueryExpression;
+use Cake\Database\Query;
 use Cake\Event\Event;
 use Cake\Http\Exception\ForbiddenException;
 use Cake\Http\Exception\NotFoundException;
@@ -85,12 +87,12 @@ class SentsController extends AppController
       $newUser = false;
 
       /**
-       * distinguish between different types of mail/users sending the mail:
-       * only admins sending a token, if authenticated we can assume they are of role admin
-       * as opposed to regular visitors not sending a token
-       * although visitors could be logged in and send the form,
-       * they won't be authenticated
-       * visitors (non-admins) should have a $data['user'] object in their payload
+       * Distinguish between different types of mail/users sending the mail:
+       * only admins sending a token, if authenticated we assume they are of role admin
+       * as opposed to regular visitors not sending a token.
+       * 
+       * Visitors logged in when sending the form, will not be authenticated.
+       * Visitors (users) should have a $data['user'] object in their payload
        */
       if (!isset($authUser) && isset($data['user'])) {
         /**
@@ -103,7 +105,7 @@ class SentsController extends AppController
         }
 
         /**
-         * check if the user already exists to prevent user autocreation
+         * Check if the user already exists to prevent user auto-creation
          */
         $user = $this->Sents->Users->find()
           ->where(['Users.email' => $data['user']['email']])
@@ -111,7 +113,7 @@ class SentsController extends AppController
 
         if (isset($user)) {
           /**
-           * existing visitor
+           * Existing visitor
            * modify entity in order to stop autocreation
            */
           $entity->get('user')->isNew(false);
@@ -123,7 +125,7 @@ class SentsController extends AppController
           $data['before-content'] = isset($data['subject']) ? $data['subject'] : '';
         } else {
           /**
-           * new visitor
+           * New visitor
            */
           $newUser = true;
 
@@ -133,7 +135,8 @@ class SentsController extends AppController
           $data['before-content'] = isset($data['subject']) ? $data['subject'] : '';
 
           /**
-           * force autogeneration of a new user by providing user property
+           * Force auto-generation:
+           * provide user property
            *
            */
           $patched = array_merge($patched, [
@@ -158,7 +161,7 @@ class SentsController extends AppController
         }
 
         /**
-         * mail created from authenticated user (admins only)
+         * Mail created from authenticated user (admins only)
          */
         $_from = [$authUser['email'] => $authUser['name']];
         $_to = [$data['email'] => $user->name];
@@ -273,7 +276,7 @@ class SentsController extends AppController
             '_read' => 0,
             'message' => $entity->get('message'),
           ]);
-          $saved = $inboxTable->save($newInbox);
+          $inboxTable->save($newInbox);
         }
       }
     });
@@ -283,15 +286,25 @@ class SentsController extends AppController
 
   public function get($id)
   {
-    // protect Superusers Mail
     $user = $this->_getUser($id, ['contain' => 'Groups']);
     $authID = $this->_getAuthUser()['id'];
     $userId = $user['id'];
     $role = $user['role'];
     if ($role === SUPERUSER && $authID !== $userId) {
+      // hide all Superusers Mail
       $mails = [];
     } else {
-      $mails = $this->Sents->find('byIdOrEmail', ['field' => $id]);
+      // exclude mails sent to superusers
+      $usersTable = TableRegistry::getTableLocator()->get('Users');
+      $superusers = $usersTable->find('superusersEmail')->toArray();
+      $emailList = [];
+      foreach ($superusers as $key => $user) {
+        $emailList[] = $user->email;
+      }
+      $mails = $this->Sents->find('byIdOrEmail', ['field' => $id])
+        ->where(function (QueryExpression $exp, Query $q) use ($emailList) {
+          return $exp->notIn('_to', $emailList);
+        });
     }
 
     $this->set([

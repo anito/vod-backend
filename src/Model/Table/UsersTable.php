@@ -235,6 +235,20 @@ class UsersTable extends Table
       ->where(['Users.active' => 1]);
   }
 
+  public function findSuperusersEmail(Query $query)
+  {
+    return $query
+      ->matching('Groups', function (Query $q) {
+        $condition = [
+          'Groups.name' => SUPERUSER
+        ];
+
+        return $q
+          ->where($condition);
+      })
+      ->select(['Users.email']);
+  }
+
   protected function _getUser($field, $value)
   {
     $_field = 'Users.' . $field;
