@@ -158,7 +158,7 @@ class UsersTable extends Table
 
   public function beforeSave(EventInterface $event, EntityInterface $entity, $options)
   {
-    $authUser = $options['_footprint'];
+    $authUser = isset($options['_footprint']) ? $options['_footprint'] : null;
     if (isset($authUser)) {
       // prevent users from deactivating their own profile
       $authId = $authUser->id;
