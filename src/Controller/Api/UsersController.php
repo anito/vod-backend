@@ -268,10 +268,7 @@ class UsersController extends AppController
 		$avatarTable = TableRegistry::getTableLocator()->get('Avatars');
 
 		if (empty($user)) {
-
 			$jwt = $this->_createToken($payload->sub);
-
-
 			$token = $tokenTable->newEntity([
 				'token' => $jwt,
 				'user_id' => $payload->sub,
@@ -292,6 +289,7 @@ class UsersController extends AppController
 			$user->token = $token;
 			$user->avatar = $avatar;
 		} else {
+			$jwt = $user->jwt ?: '';
 			if (!isset($user->jwt)) {
 				$jwt = $this->_createToken($payload->sub);
 				$token = $tokenTable->newEntity([
@@ -322,7 +320,7 @@ class UsersController extends AppController
 		$this->set([
 			'success' => !empty($user),
 			'data' => [
-				'token' => !empty($user) ? $jwt : '',
+				'token' => $jwt,
 				'message' => !empty($user) ? __('Google Login successful') : __('Google Login failed'),
 			],
 		]);
