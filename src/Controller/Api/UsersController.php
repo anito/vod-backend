@@ -122,7 +122,7 @@ class UsersController extends AppController
 							->select([
 								'Inboxes.user_id',
 								'total' => $q->func()->count('*'),
-								'readings' => $q->func()->sum('Inboxes.read'),
+								'readings' => $q->func()->sum('Inboxes._read'),
 							]);
 					}
 				)
