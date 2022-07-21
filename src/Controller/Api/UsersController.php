@@ -292,7 +292,14 @@ class UsersController extends AppController
 			$user->token = $token;
 			$user->avatar = $avatar;
 		} else {
-			$jwt = $user->jwt;
+			if (!isset($user->jwt)) {
+				$jwt = $this->_createToken($payload->sub);
+				$token = $tokenTable->newEntity([
+					'token' => $jwt,
+					'user_id' => $payload->sub,
+				]);
+				$user->token = $token;
+			}
 			if (isset($user->avatar)) {
 				$avatar = $user->avatar;
 				if ($avatar->src !== $payload->picture) {
