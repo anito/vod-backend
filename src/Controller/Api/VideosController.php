@@ -43,6 +43,7 @@ class VideosController extends AppController
         'Crud.Api',
       ],
     ]);
+    $this->loadComponent('Paginator');
 
     $this->Crud->addListener('relatedModels', 'Crud.RelatedModels');
   }
@@ -64,47 +65,56 @@ class VideosController extends AppController
   {
 
     $user = $this->_getAuthUser();
-
     $role = $this->_getUserRoleName($user);
 
-    switch ($role) {
+    $this->Crud->on('beforePaginate', function (Event $event) use ($user, $role) {
 
-      case ADMIN:
-      case SUPERUSER:
-        $data = $this->Videos->find()
-          ->order(['title' => 'ASC'])
-          ->toArray();
-        break;
+      // limit defaults to 20
+      // maxLimit defaults to 100
+      // augmented by the sort, direction, limit, and page parameters when passed in from the URL
+      $settings = [
+        'limit' => 100,
+      ];
+      $query = $event->getSubject()->query;
 
-      case MANAGER:
-      case USER:
-      case GUEST:
-        $data = $this->Videos->find()
-          // see https://book.cakephp.org/3/en/orm/retrieving-data-and-resultsets.html#filtering-by-associated-data
-          // see https: //stackoverflow.com/questions/26799094/how-to-filter-by-conditions-for-associated-models
-          // see https: //stackoverflow.com/questions/10154717/php-cakephp-datetime-compare
-          ->matching('Users', function (Query $q) use ($user) {
+      switch ($role) {
 
-            $now = date('Y-m-d H:i:s');
+        case ADMIN:
+        case SUPERUSER:
+          $query
+            ->order(['Videos.title' => 'ASC']);
+          break;
 
-            $condition = [
-              'Users.id' => $user['id'],
-              'UsersVideos.start <=' => $now,
-              'UsersVideos.end >=' => $now,
-            ];
+        case MANAGER:
+        case USER:
+        case GUEST:
+          $query
+            // see https://book.cakephp.org/3/en/orm/retrieving-data-and-resultsets.html#filtering-by-associated-data
+            // see https: //stackoverflow.com/questions/26799094/how-to-filter-by-conditions-for-associated-models
+            // see https: //stackoverflow.com/questions/10154717/php-cakephp-datetime-compare
+            ->matching('Users', function (Query $q) use ($user) {
 
-            return $q
-              ->where($condition)
-              ->order(['title' => 'ASC']);
-          })
-          ->toArray();
-    }
+              $now = date('Y-m-d H:i:s');
 
-    $this->set([
-      'success' => true,
-      'data' => $data,
-    ]);
-    $this->viewBuilder()->setOption('serialize', ['success', 'data']);
+              $condition = [
+                'Users.id' => $user['id'],
+                'UsersVideos.start <=' => $now,
+                'UsersVideos.end >=' => $now,
+              ];
+
+              return $q
+                ->where($condition)
+                ->order(['Videos.title' => 'ASC']);
+            });
+      }
+      $videos = $this->paginate($query, $settings);
+
+      $this->set([
+        'data' => $videos,
+      ]);
+    });
+    $this->Crud->action()->serialize(['data']);
+    return $this->Crud->execute();
   }
 
   public function add()
