@@ -16,7 +16,7 @@ class UsersController extends AppController
   public function initialize(): void
   {
     parent::initialize();
-    $this->Authentication->addUnauthenticatedActions(['logout', 'login', 'googleLogin', 'lookup']);
+    $this->Authentication->addUnauthenticatedActions(['logout', 'login', 'googleLogin', 'facebookLogin', 'lookup']);
 
     $this->loadComponent('Crud.Crud', [
       'actions' => [
@@ -251,6 +251,80 @@ class UsersController extends AppController
     $this->viewBuilder()->setOption('serialize', ['success', 'data']);
   }
 
+  public function facebookLogin($id)
+  {
+    $payload = $this->request->getData();
+    $payload = json_decode(json_encode($payload), FALSE);
+    $user = $this->Users->find()
+      ->contain(['Groups', 'Avatars', 'Videos', 'Tokens'])
+      ->where(['Users.id' => $id])
+      ->first();
+
+    $tokenTable = TableRegistry::getTableLocator()->get('Tokens');
+    $avatarTable = TableRegistry::getTableLocator()->get('Avatars');
+
+    if (empty($user)) {
+      $jwt = $this->_createToken($id);
+
+      $token = $tokenTable->newEntity([
+        'token' => $jwt,
+        'user_id' => $id,
+      ]);
+      $avatar = $avatarTable->newEntity([
+        'src' => $payload->picture->data->url,
+        'user_id' => $id
+      ]);
+      $user = $this->Users->newEntity([
+        'id' => $id,
+        'email' => $payload->email,
+        'password' => randomString(),
+        'name' => $payload->name,
+        'active' => 1,
+        'group_id' => $this->_getRoleIdFromName(USER),
+      ]);
+
+      $user->token = $token;
+      $user->avatar = $avatar;
+    } else {
+      $jwt = $user->jwt;
+      if (!isset($jwt)) {
+        $jwt = $this->_createToken($payload->sub);
+        $token = $tokenTable->newEntity([
+          'token' => $jwt,
+          'user_id' => $id,
+        ]);
+        $user->token = $token;
+      }
+      if (isset($user->avatar)) {
+        $avatar = $user->avatar;
+        if ($avatar->src !== $payload->picture->data->url) {
+          $this->Users->Avatars->patchEntity($avatar, [
+            'src' => $payload->picture->data->url,
+            'user_id' => $user->id
+          ]);
+          $user->avatar = $avatar;
+        }
+      } else {
+        $avatar = $avatarTable->newEntity([
+          'user_id' => $user->id,
+          'src' => $payload->picture->data->url,
+        ]);
+        $user->avatar = $avatar;
+      }
+    }
+
+    $saved = $this->Users->save($user);
+
+    $this->set([
+      'success' => !!$saved,
+      'data' => [
+        'token' => !!$saved ? $jwt : '',
+        'message' => !!$saved ? __('Facebook Login successful') : __('Facebook Login failed'),
+      ],
+    ]);
+    $this->viewBuilder()->setOption('serialize', ['success', 'data']);
+  }
+
   public function googleLogin()
   {
 
@@ -284,7 +358,7 @@ class UsersController extends AppController
         'password' => randomString(),
         'name' => $payload->name,
         'active' => 1,
-        'group_id' => $this->_getRoleIdFromName(),
+        'group_id' => $this->_getRoleIdFromName(USER),
       ]);
 
       $user->token = $token;
@@ -316,13 +390,13 @@ class UsersController extends AppController
         $user->avatar = $avatar;
       }
     }
-    $this->Users->save($user);
+    $saved = $this->Users->save($user);
 
     $this->set([
-      'success' => !empty($user),
+      'success' => $saved,
       'data' => [
-        'token' => $jwt,
-        'message' => !empty($user) ? __('Google Login successful') : __('Google Login failed'),
+        'token' => $saved ? $jwt : '',
+        'message' => $saved ? __('Google Login successful') : __('Google Login failed'),
       ],
     ]);
     $this->viewBuilder()->setOption('serialize', ['success', 'data']);

@@ -142,7 +142,7 @@ class SentsController extends AppController
           $patched = array_merge($patched, [
             'user' => [
               'password' => randomString(),
-              'group_id' => $this->_getRoleIdFromName(),
+              'group_id' => $this->_getRoleIdFromName(USER),
             ],
           ]);
         }

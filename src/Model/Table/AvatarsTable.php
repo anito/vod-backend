@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Model\Table;
 
 use Cake\ORM\Query;
@@ -26,84 +27,84 @@ use Cake\Log\Log;
  */
 class AvatarsTable extends Table
 {
-    /**
-     * Initialize method
-     *
-     * @param array $config The configuration for the Table.
-     * @return void
-     */
-    public function initialize(array $config): void
-    {
-        parent::initialize($config);
+  /**
+   * Initialize method
+   *
+   * @param array $config The configuration for the Table.
+   * @return void
+   */
+  public function initialize(array $config): void
+  {
+    parent::initialize($config);
 
-        $this->setTable('avatars');
-        $this->setDisplayField('id');
-        $this->setPrimaryKey('id');
+    $this->setTable('avatars');
+    $this->setDisplayField('id');
+    $this->setPrimaryKey('id');
 
-        $this->addBehavior('Timestamp');
+    $this->addBehavior('Timestamp');
 
-        $this->belongsTo('Users', [
-            'foreignKey' => 'user_id',
-            'joinType' => 'INNER',
-        ]);
+    $this->belongsTo('Users', [
+      'foreignKey' => 'user_id',
+      'joinType' => 'INNER',
+    ]);
+  }
+
+  public function beforeDelete(\Cake\Event\EventInterface $event, $entity, $options)
+  {
+
+    $id = $entity->id;
+    $fn = $entity->src;
+
+    $path = AVATARS . DS . $id;
+    $lg_path = $path . DS . 'lg';
+
+    $oldies = glob($lg_path . DS . $fn);
+
+    if (!empty($oldies) && $oldies && !unlink($oldies[0])) {
+      $event->stopPropagation();
+    } else {
+      $f = new Folder($path);
+      $f->delete();
     }
+  }
 
-    public function beforeDelete(\Cake\Event\EventInterface $event, $entity, $options) {
+  /**
+   * Default validation rules.
+   *
+   * @param \Cake\Validation\Validator $validator Validator instance.
+   * @return \Cake\Validation\Validator
+   */
+  public function validationDefault(Validator $validator): \Cake\Validation\Validator
+  {
+    $validator
+      ->scalar('id')
+      ->maxLength('id', 40)
+      ->allowEmptyString('id', null, 'create');
 
-        $id = $entity->id;
-        $fn = $entity->src;
+    $validator
+      ->scalar('src')
+      ->maxLength('src', 512)
+      ->requirePresence('src', 'create')
+      ->notEmptyString('src');
 
-        $path = AVATARS . DS . $id;
-        $lg_path = $path . DS . 'lg';
+    $validator
+      ->integer('filesize')
+      ->allowEmptyFile('filesize');
 
-        $oldies = glob($lg_path . DS . $fn);
+    return $validator;
+  }
 
-        if (!empty($oldies) && $oldies && !unlink($oldies[0])) {
-            $event->stopPropagation();
-        } else {
-            $f = new Folder($path);
-            $f->delete();
-        }
+  /**
+   * Returns a rules checker object that will be used for validating
+   * application integrity.
+   *
+   * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
+   * @return \Cake\ORM\RulesChecker
+   */
+  public function buildRules(RulesChecker $rules): \Cake\ORM\RulesChecker
+  {
+    $rules->add($rules->existsIn(['user_id'], 'Users'));
 
-    }
-
-    /**
-     * Default validation rules.
-     *
-     * @param \Cake\Validation\Validator $validator Validator instance.
-     * @return \Cake\Validation\Validator
-     */
-    public function validationDefault(Validator $validator): \Cake\Validation\Validator
-    {
-        $validator
-            ->scalar('id')
-            ->maxLength('id', 40)
-            ->allowEmptyString('id', null, 'create');
-
-        $validator
-            ->scalar('src')
-            ->maxLength('src', 100)
-            ->requirePresence('src', 'create')
-            ->notEmptyString('src');
-
-        $validator
-            ->integer('filesize')
-            ->allowEmptyFile('filesize');
-
-        return $validator;
-    }
-
-    /**
-     * Returns a rules checker object that will be used for validating
-     * application integrity.
-     *
-     * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
-     * @return \Cake\ORM\RulesChecker
-     */
-    public function buildRules(RulesChecker $rules): \Cake\ORM\RulesChecker
-    {
-        $rules->add($rules->existsIn(['user_id'], 'Users'));
-
-        return $rules;
-    }
+    return $rules;
+  }
 }
