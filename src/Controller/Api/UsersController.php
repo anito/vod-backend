@@ -271,7 +271,7 @@ class UsersController extends AppController
         'user_id' => $id,
       ]);
       $avatar = $avatarTable->newEntity([
-        'src' => $url,
+        'src' => $payload->picture->url,
         'user_id' => $id
       ]);
       $user = $this->Users->newEntity([
@@ -419,7 +419,8 @@ class UsersController extends AppController
     if (!$loggedinUser) {
       // invalid form login or invalid token
       throw new UnauthorizedException(__('Invalid username or password'));
-    } elseif (!$this->_isValidToken($loggedinUser)) {
+    }
+    if (!$this->_isValidToken($loggedinUser)) {
       // Token valid but didn't pass database check
       throw new UnauthorizedException(__('Invalid Token'));
     }
@@ -514,7 +515,9 @@ class UsersController extends AppController
 
     $queryToken = $this->getRequest()->getQuery("token");
 
-    if (isset($queryToken) && $currentToken !== $queryToken) {
+    if (!isset($currentToken)) {
+      return false;
+    } else if (isset($queryToken) && $currentToken !== $queryToken) {
       return false;
     } else {
       return true;
