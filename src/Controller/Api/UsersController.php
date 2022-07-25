@@ -271,7 +271,7 @@ class UsersController extends AppController
         'user_id' => $id,
       ]);
       $avatar = $avatarTable->newEntity([
-        'src' => $payload->picture->data->url,
+        'src' => $url,
         'user_id' => $id
       ]);
       $user = $this->Users->newEntity([
@@ -297,9 +297,9 @@ class UsersController extends AppController
       }
       if (isset($user->avatar)) {
         $avatar = $user->avatar;
-        if ($avatar->src !== $payload->picture->data->url) {
+        if ($avatar->src !== $payload->picture->url) {
           $this->Users->Avatars->patchEntity($avatar, [
-            'src' => $payload->picture->data->url,
+            'src' => $payload->picture->url,
             'user_id' => $user->id
           ]);
           $user->avatar = $avatar;
@@ -307,7 +307,7 @@ class UsersController extends AppController
       } else {
         $avatar = $avatarTable->newEntity([
           'user_id' => $user->id,
-          'src' => $payload->picture->data->url,
+          'src' => $payload->picture->url,
         ]);
         $user->avatar = $avatar;
       }
