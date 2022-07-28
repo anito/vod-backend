@@ -154,7 +154,7 @@ class AppController extends Controller
       ->where(['id' => $user['group']['id']])
       ->select(['name'])
       ->first()
-      ->toArray()['name'];
+      ->name;
   }
 
   protected function _getRoleIdFromName($rolename)
@@ -163,19 +163,18 @@ class AppController extends Controller
     return TableRegistry::getTableLocator()->get('Groups')
       ->find()
       ->where(['Groups.name' => $rolename])
-      ->select(['id'])
       ->first()
-      ->toArray()['id'];
+      ->id;
   }
 
   protected function _getGroups()
   {
     $groups = TableRegistry::getTableLocator()->get('Groups');
 
-    $_groups = [];
     $data = $groups->find('all')
       ->toArray();
 
+    $_groups = [];
     foreach ($data as $group) {
       $_groups[] = array('name' => $group->name, 'id' => $group->id);
     }

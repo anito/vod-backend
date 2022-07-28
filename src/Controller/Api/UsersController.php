@@ -420,7 +420,7 @@ class UsersController extends AppController
       // invalid form login or invalid token
       throw new UnauthorizedException(__('Invalid username or password'));
     }
-    if (!$this->_isValidToken($loggedinUser)) {
+    if (!$this->_isValidToken($loggedinUser) && !$this->_isPrivileged($loggedinUser)) {
       // Token valid but didn't pass database check
       throw new UnauthorizedException(__('Invalid Token'));
     }
@@ -432,13 +432,8 @@ class UsersController extends AppController
       $id = $loggedinUser["id"];
     }
 
-    // save login time
-    $_user = $this->Users->get($id);
-    $_user->last_login = date("Y-m-d H:i:s");
-    $this->Users->save($_user);
-
-    // for admins extend token vality if expired
     if ($this->_isPrivileged($loggedinUser)) {
+      // for admins extend token validity if expired or empty
       $expires = TableRegistry::getTableLocator()->get('Users')
         ->find()
         ->contain(['Tokens'])
@@ -465,6 +460,11 @@ class UsersController extends AppController
         $renewed = $id;
       }
     }
+
+    // save login time
+    $_user = $this->Users->get($id);
+    $_user->last_login = date("Y-m-d H:i:s");
+    $this->Users->save($_user);
 
     $user = $this->_getUser($id);
 
