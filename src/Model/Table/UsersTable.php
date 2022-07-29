@@ -10,9 +10,11 @@ use Cake\Http\Exception\ForbiddenException;
 use Cake\Http\Exception\UnauthorizedException;
 use Cake\Log\Log;
 use Cake\ORM\Entity;
+use Cake\ORM\Locator\TableLocator;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
+use Cake\ORM\TableRegistry;
 use Cake\Utility\Security;
 use Cake\Validation\Validator;
 use Exception;
@@ -162,11 +164,27 @@ class UsersTable extends Table
     if (isset($authUser)) {
       // prevent users from deactivating their own profile
       $authId = $authUser->id;
+      $isSuperuser = $this->_isRole($authId, SUPERUSER);
       $userId = $entity->id;
       $active = $entity->active;
       if ($authId === $userId && !$active) {
         throw new ForbiddenException(__('You can not deactivate your own profile'));
       }
+
+      // only Superusers can change role to Superuser
+      if ($entity->isDirty('group_id')) {
+        $gid = $entity->group_id;
+        $groups = TableRegistry::getTableLocator()->get('Groups');
+        $name = $groups->find()
+          ->where(['Groups.id' => $gid])
+          ->first()
+          ->name;
+
+        if (!$isSuperuser && ($name === SUPERUSER)) {
+          throw new UnauthorizedException(__('Unauthorized'));
+        }
+      }
+
 
       if ($entity->isNew()) {
         $event = new Event('User.registration', $this, ['user' => $entity]);
@@ -175,15 +193,7 @@ class UsersTable extends Table
 
       // only Superusers can edit protected users
       if ($entity->protected) {
-        $query = $this->find()
-          ->matching('Groups', function ($q) {
-            return $q->where([
-              'Groups.name' => 'Superuser',
-            ]);
-          })
-          ->where(['Users.id' => $authId])
-          ->toArray();
-        if (empty($query) && ($userId !== $authId)) {
+        if (!$isSuperuser && ($userId !== $authId)) {
           throw new UnauthorizedException(__('Unauthorized'));
         } else {
           return;
@@ -284,5 +294,18 @@ class UsersTable extends Table
       throw new UnauthorizedException(__('Invalid token'));
       throw $e;
     }
+  }
+
+  protected function _isRole($id, $role)
+  {
+    $query = $this->find()
+      ->matching('Groups', function ($q) use ($role) {
+        return $q->where([
+          'Groups.name' => $role,
+        ]);
+      })
+      ->where(['Users.id' => $id])
+      ->toArray();
+    return !empty($query);
   }
 }

@@ -84,37 +84,6 @@ class SentsTable extends Table
     return $validator;
   }
 
-  public function beforeSave_(EventInterface $event, EntityInterface $entity, $options)
-  {
-    $authUser = $options['_footprint'];
-    if (isset($authUser)) {
-      // prevent users from deactivating their own profile
-      $authId = $authUser->id;
-      $userId = $entity->id;
-      $active = $entity->active;
-      if ($authId === $userId && !$active) {
-        throw new ForbiddenException(__('You can not deactivate your own profile'));
-      }
-
-      // only Superusers can edit protected users
-      if ($entity->protected) {
-        $query = $this->find()
-          ->matching('Groups', function ($q) {
-            return $q->where([
-              'Groups.name' => 'Superuser',
-            ]);
-          })
-          ->where(['Users.id' => $authId])
-          ->toArray();
-        if (empty($query) && ($userId !== $authId)) {
-          throw new UnauthorizedException(__('Unauthorized'));
-        } else {
-          return;
-        }
-      }
-    }
-  }
-
   /**
    * Returns a rules checker object that will be used for validating
    * application integrity.
