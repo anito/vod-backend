@@ -189,7 +189,7 @@ class UsersTable extends Table
           ->where(['Groups.name' => SUPERUSER])
           ->count();
 
-        if ($superusersCount === 1) {
+        if ($superusersCount === 0) {
           throw new UnauthorizedException(__('At least 1 Superuser must be preserved'));
         }
       }
