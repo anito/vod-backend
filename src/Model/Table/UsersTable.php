@@ -185,13 +185,17 @@ class UsersTable extends Table
         }
 
         // preserve at least one superuser
-        $superusersCount = $groups->find()
-          ->where(['Groups.name' => SUPERUSER])
+        $superusersCount = $this->find()
+          ->matching('Groups', function (Query $q) {
+            return $q->where(['Groups.name' => SUPERUSER]);
+          })
           ->count();
 
-        if ($superusersCount === 0) {
+
+        if ($name !== SUPERUSER && $superusersCount === 1) {
           throw new UnauthorizedException(__('At least 1 Superuser must be preserved'));
         }
+        // throw new UnauthorizedException(__('{0} Superusers found', [$superusersCount]));
       }
 
 
