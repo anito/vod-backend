@@ -183,6 +183,15 @@ class UsersTable extends Table
         if (!$isSuperuser && ($name === SUPERUSER)) {
           throw new UnauthorizedException(__('Unauthorized'));
         }
+
+        // preserve at least one superuser
+        $superusersCount = $groups->find()
+          ->where(['Groups.name' => SUPERUSER])
+          ->count();
+
+        if ($superusersCount === 1) {
+          throw new UnauthorizedException(__('At least 1 Superuser must be preserved'));
+        }
       }
 
 
