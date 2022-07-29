@@ -195,7 +195,6 @@ class UsersTable extends Table
         if ($name !== SUPERUSER && $superusersCount === 1) {
           throw new UnauthorizedException(__('At least 1 Superuser must be preserved'));
         }
-        // throw new UnauthorizedException(__('{0} Superusers found', [$superusersCount]));
       }
 
 

@@ -396,6 +396,7 @@ class UsersController extends AppController
       'success' => $saved,
       'data' => [
         'token' => $saved ? $jwt : '',
+        'user' => ['id' =>  $user->id, 'name' => $user->name, 'email' => $user->email],
         'message' => $saved ? __('Google Login successful') : __('Google Login failed'),
       ],
     ]);
