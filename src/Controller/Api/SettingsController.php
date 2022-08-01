@@ -30,61 +30,39 @@ use Cake\Log\Log;
 class SettingsController extends AppController
 {
 
-	public function initialize(): void
-	{
-		parent::initialize();
+  public function initialize(): void
+  {
+    parent::initialize();
 
-		$this->Authentication->addUnauthenticatedActions(['index', 'locale']);
+    $this->Authentication->addUnauthenticatedActions(['index']);
 
-		$this->loadComponent('Crud.Crud', [
-			'actions' => [
-				'Crud.Index',
-			],
-			'listeners' => [
-				'Crud.Api',
-				'Crud.ApiPagination',
-			],
-		]);
-	}
+    $this->loadComponent('Crud.Crud', [
+      'actions' => [
+        'Crud.Index',
+      ],
+      'listeners' => [
+        'Crud.Api',
+        'Crud.ApiPagination',
+      ],
+    ]);
+  }
 
-	public function index()
-	{
-		/**
-		 * Settings which should be available for client
-		 */
+  public function index()
+  {
+    /**
+     * Settings which should be available for client
+     */
 
-		$allowedSession = ['lifetime']; // Session settings
-		$allowedSite = ['logo', 'name', 'description']; // Site settings
+    $allowedSession = ['lifetime']; // Session settings
+    $allowedSite = ['logo', 'name', 'description']; // Site settings
 
-		$Session = array_intersect_key(Configure::read('Session'), array_flip($allowedSession));
-		$Site = array_intersect_key(Configure::read('Site'), array_flip($allowedSite));
+    $Session = array_intersect_key(Configure::read('Session'), array_flip($allowedSession));
+    $Site = array_intersect_key(Configure::read('Site'), array_flip($allowedSite));
 
-		$this->set([
-			'success' => true,
-			'data' => compact('Session', 'Site'),
-		]);
-		$this->viewBuilder()->setOption('serialize', ['success', 'data']);
-	}
-
-	public function locale()
-	{
-		$locale = I18n::getLocale();
-		$this->set([
-			'success' => true,
-			'data' => [
-				'locale' => $locale,
-				'message' => __('Language is now {locale}', ['locale' => $this->_lookupLocale(substr($locale, 0, 2))]),
-			]
-		]);
-		$this->viewBuilder()->setOption('serialize', ['success', 'data']);
-	}
-
-	protected function _lookupLocale($locale)
-	{
-		$locales = [
-			'de' => __('German'),
-			'en' => __('English'),
-		];
-		return $locales[$locale] ?: __('(Not found)');
-	}
+    $this->set([
+      'success' => true,
+      'data' => compact('Session', 'Site'),
+    ]);
+    $this->viewBuilder()->setOption('serialize', ['success', 'data']);
+  }
 }
