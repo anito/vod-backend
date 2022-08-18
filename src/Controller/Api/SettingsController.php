@@ -54,10 +54,11 @@ class SettingsController extends AppController
      */
 
     $allowedSession = ['lifetime']; // Session settings
-    $allowedSite = ['logo', 'name', 'description']; // Site settings
+    $allowedSite = ['logo', 'name', 'description', 'defaultUserTab']; // Site settings
 
     $Session = array_intersect_key(Configure::read('Session'), array_flip($allowedSession));
     $Site = array_intersect_key(Configure::read('Site'), array_flip($allowedSite));
+    $Site['defaultUserTab'] = (int) $Site['defaultUserTab'];
 
     $this->set([
       'success' => true,
