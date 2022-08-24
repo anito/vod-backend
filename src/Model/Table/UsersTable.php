@@ -168,7 +168,7 @@ class UsersTable extends Table
       $userId = $entity->id;
       $active = $entity->active;
       if ($authId === $userId && !$active) {
-        throw new ForbiddenException(__('You can not deactivate your own profile'));
+        throw new ForbiddenException(__('You are not allowed to deactivate your own profile'));
       }
 
       // only Superusers can change role to Superuser

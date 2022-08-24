@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2022-07-29 08:19+0200\n"
+"POT-Creation-Date: 2022-08-24 12:29+0200\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -47,7 +47,7 @@ msgstr ""
 #: Controller/Api/InboxesController.php:58
 #: Controller/Api/UsersController.php:232
 #: Model/Table/UsersTable.php:184
-#: Model/Table/UsersTable.php:206
+#: Model/Table/UsersTable.php:209
 #: Model/Table/UsersVideosTable.php:105
 msgid "Unauthorized"
 msgstr ""
@@ -74,22 +74,6 @@ msgstr ""
 
 #: Controller/Api/SentsController.php:203
 msgid "No message"
-msgstr ""
-
-#: Controller/Api/SettingsController.php:76
-msgid "Language is now {locale}"
-msgstr ""
-
-#: Controller/Api/SettingsController.php:85
-msgid "German"
-msgstr ""
-
-#: Controller/Api/SettingsController.php:86
-msgid "English"
-msgstr ""
-
-#: Controller/Api/SettingsController.php:88
-msgid "(Not found)"
 msgstr ""
 
 #: Controller/Api/TemplatesController.php:77
@@ -148,27 +132,27 @@ msgstr ""
 msgid "Facebook Login failed"
 msgstr ""
 
-#: Controller/Api/UsersController.php:399
+#: Controller/Api/UsersController.php:400
 msgid "Google Login successful"
 msgstr ""
 
-#: Controller/Api/UsersController.php:399
+#: Controller/Api/UsersController.php:400
 msgid "Google Login failed"
 msgstr ""
 
-#: Controller/Api/UsersController.php:421
+#: Controller/Api/UsersController.php:422
 msgid "Invalid username or password"
 msgstr ""
 
-#: Controller/Api/UsersController.php:425
+#: Controller/Api/UsersController.php:426
 msgid "Invalid Token"
 msgstr ""
 
-#: Controller/Api/UsersController.php:478
+#: Controller/Api/UsersController.php:479
 msgid "Login successful"
 msgstr ""
 
-#: Controller/Api/UsersController.php:489
+#: Controller/Api/UsersController.php:490
 msgid "You're logged out"
 msgstr ""
 
@@ -419,7 +403,7 @@ msgid "Token did not change."
 msgstr ""
 
 #: Model/Table/UsersTable.php:63
-#: Model/Table/UsersTable.php:217
+#: Model/Table/UsersTable.php:220
 msgid "This user is protected"
 msgstr ""
 
@@ -432,24 +416,24 @@ msgid "Email can not be empty"
 msgstr ""
 
 #: Model/Table/UsersTable.php:171
-msgid "You can not deactivate your own profile"
+msgid "You are not allowed to deactivate your own profile"
 msgstr ""
 
-#: Model/Table/UsersTable.php:193
+#: Model/Table/UsersTable.php:196
 msgid "At least 1 Superuser must be preserved"
 msgstr ""
 
-#: Model/Table/UsersTable.php:291
-#: Model/Table/UsersTable.php:303
+#: Model/Table/UsersTable.php:294
+#: Model/Table/UsersTable.php:306
 msgid "Invalid token"
 msgstr ""
 
 #: Model/Table/UsersVideosTable.php:131
-msgid "You can not edit this timeframe"
+msgid "You are not allowed to edit this timeframe"
 msgstr ""
 
 #: Model/Table/UsersVideosTable.php:137
-msgid "You can not add a video"
+msgid "You are not allowed to add a video"
 msgstr ""
 
 #: Api/Videos/uri.php:3

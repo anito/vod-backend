@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2022-07-29 08:19+0200\n"
-"PO-Revision-Date: 2022-07-29 08:27+0200\n"
+"POT-Creation-Date: 2022-08-24 12:29+0200\n"
+"PO-Revision-Date: 2022-08-24 12:34+0200\n"
 "Last-Translator: \n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
 "Language: de\n"
@@ -47,7 +47,7 @@ msgstr "Poster wurde gelöscht"
 
 #: Controller/Api/InboxesController.php:58
 #: Controller/Api/UsersController.php:232 Model/Table/UsersTable.php:184
-#: Model/Table/UsersTable.php:206 Model/Table/UsersVideosTable.php:105
+#: Model/Table/UsersTable.php:209 Model/Table/UsersVideosTable.php:105
 msgid "Unauthorized"
 msgstr "Keine Berechtigung"
 
@@ -74,22 +74,6 @@ msgstr "Neuer Benutzer: {0}"
 #: Controller/Api/SentsController.php:203
 msgid "No message"
 msgstr "Keine Mitteilung"
-
-#: Controller/Api/SettingsController.php:76
-msgid "Language is now {locale}"
-msgstr "Sprache ist jetzt {locale}"
-
-#: Controller/Api/SettingsController.php:85
-msgid "German"
-msgstr "Deutsch"
-
-#: Controller/Api/SettingsController.php:86
-msgid "English"
-msgstr "Englisch"
-
-#: Controller/Api/SettingsController.php:88
-msgid "(Not found)"
-msgstr "(Nicht gefunden)"
 
 #: Controller/Api/TemplatesController.php:77
 msgid "Template saved"
@@ -147,27 +131,27 @@ msgstr "Sie wurden mit Ihrem Facebook Account angemeldet"
 msgid "Facebook Login failed"
 msgstr "Facebook Anmeldung fehlgeschlagen"
 
-#: Controller/Api/UsersController.php:399
+#: Controller/Api/UsersController.php:400
 msgid "Google Login successful"
 msgstr "Sie wurden mit Ihrem Google Account angemeldet"
 
-#: Controller/Api/UsersController.php:399
+#: Controller/Api/UsersController.php:400
 msgid "Google Login failed"
 msgstr "Google Anmeldung fehlgeschlagen"
 
-#: Controller/Api/UsersController.php:421
+#: Controller/Api/UsersController.php:422
 msgid "Invalid username or password"
 msgstr "Ungültiger Benutzername oder Passwort"
 
-#: Controller/Api/UsersController.php:425
+#: Controller/Api/UsersController.php:426
 msgid "Invalid Token"
 msgstr "Ungültiger Token"
 
-#: Controller/Api/UsersController.php:478
+#: Controller/Api/UsersController.php:479
 msgid "Login successful"
 msgstr "Sie wurden angemeldet"
 
-#: Controller/Api/UsersController.php:489
+#: Controller/Api/UsersController.php:490
 msgid "You're logged out"
 msgstr "Sie wurden abgemeldet"
 
@@ -402,7 +386,7 @@ msgstr "Das Video konnte nicht gelöscht werden. Bitte versuche es erneut."
 msgid "Token did not change."
 msgstr "Der Token wurde nicht geändert."
 
-#: Model/Table/UsersTable.php:63 Model/Table/UsersTable.php:217
+#: Model/Table/UsersTable.php:63 Model/Table/UsersTable.php:220
 msgid "This user is protected"
 msgstr "Dieser Benutzer ist schreibgeschützt"
 
@@ -415,24 +399,24 @@ msgid "Email can not be empty"
 msgstr "Email darf nicht leer sein"
 
 #: Model/Table/UsersTable.php:171
-msgid "You can not deactivate your own profile"
-msgstr "Sie können Ihr eigenes Profil nicht deaktivieren"
+msgid "You are not allowed to deactivate your own profile"
+msgstr "Du bist nicht berechtigt dein eigenes Profil zu deaktivieren"
 
-#: Model/Table/UsersTable.php:193
+#: Model/Table/UsersTable.php:196
 msgid "At least 1 Superuser must be preserved"
 msgstr "Es muss mindestens 1 Superuser existieren"
 
-#: Model/Table/UsersTable.php:291 Model/Table/UsersTable.php:303
+#: Model/Table/UsersTable.php:294 Model/Table/UsersTable.php:306
 msgid "Invalid token"
 msgstr "Ungültiger Token"
 
 #: Model/Table/UsersVideosTable.php:131
-msgid "You can not edit this timeframe"
-msgstr "Sie können diesen Zeitrahmen nicht verändern"
+msgid "You are not allowed to edit this timeframe"
+msgstr "Du bist nicht berechtigt dieses Zeitfenster zu ändern"
 
 #: Model/Table/UsersVideosTable.php:137
-msgid "You can not add a video"
-msgstr "Sie können kein Video hinzufügen"
+msgid "You are not allowed to add a video"
+msgstr "Du bist nicht berechtigt neue Videos hinzuzufügen"
 
 #: Api/Videos/uri.php:3
 msgid "You must be authorized to watch this video"
@@ -1216,6 +1200,24 @@ msgstr ""
 msgid "Back"
 msgstr "Zurück"
 
+#~ msgid "Language is now {locale}"
+#~ msgstr "Sprache ist jetzt {locale}"
+
+#~ msgid "German"
+#~ msgstr "Deutsch"
+
+#~ msgid "English"
+#~ msgstr "Englisch"
+
+#~ msgid "(Not found)"
+#~ msgstr "(Nicht gefunden)"
+
+#~ msgid "You can not edit this timeframe"
+#~ msgstr "Sie können diesen Zeitrahmen nicht verändern"
+
+#~ msgid "You can not add a video"
+#~ msgstr "Sie können kein Video hinzufügen"
+
 #~ msgid "Protected users can not be deleted"
 #~ msgstr "Änderungen an diesem Benutzer sind nicht zulässig"
 
@@ -1522,9 +1524,6 @@ msgstr "Zurück"
 #~ "Neuer Benutzer: %1$s&body=Bitte aktiviere mein Konto: Benutzer %1$s\" "
 #~ "target=\"_blank\">lasse dein Konto aktivieren</a>"
 
-#~ msgid "You are not allowed to delete this user."
-#~ msgstr "Du bist nicht berechtigt diesen Benutzer zu löschen."
-
 #~ msgid "Passwords do not match"
 #~ msgstr "Passwörter stimmen nicht überein"
 
@@ -1533,9 +1532,6 @@ msgstr "Zurück"
 
 #~ msgid "Register"
 #~ msgstr "Registrieren"
-
-#~ msgid "You are not allowed to add new users."
-#~ msgstr "Du bist nicht berechtigt neue Benutzer anzulegen."
 
 #~ msgid "Did you really think you are allowed to see that?"
 #~ msgstr "Dachtest du wirklich du könntest das sehen?"

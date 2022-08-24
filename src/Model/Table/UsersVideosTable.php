@@ -128,13 +128,13 @@ class UsersVideosTable extends Table
       // not allowed editing users own timeframe
       $identical = $this->getIdenticalStartEnd($entity);
       if (empty($identical)) {
-        throw new ForbiddenException(__('You can not edit this timeframe'));
+        throw new ForbiddenException(__('You are not allowed to edit this timeframe'));
       }
 
       // not allowed adding new video
       $isNew = $entity->isNew();
       if ($isNew) {
-        throw new ForbiddenException(__('You can not add a video'));
+        throw new ForbiddenException(__('You are not allowed to add a video'));
       }
     }
   }
