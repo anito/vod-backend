@@ -287,9 +287,9 @@ class SentsController extends AppController
   public function get($id)
   {
     $user = $this->_getUser($id, ['contain' => 'Groups']);
-    $authID = $this->_getAuthUser()['id'];
-    $userId = $user['id'];
-    $role = $user['role'];
+    $authID = $this->_getAuthUser('id');
+    $userId = $user->id;
+    $role = $user->role;
     if ($role === SUPERUSER && $authID !== $userId) {
       // hide all Superusers Mail
       $mails = [];

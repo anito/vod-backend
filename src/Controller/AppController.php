@@ -17,6 +17,7 @@
 namespace App\Controller;
 
 use Cake\Controller\Controller;
+use Cake\ORM\Entity;
 use Cake\ORM\TableRegistry;
 
 /**
@@ -76,17 +77,17 @@ class AppController extends Controller
     // $this->loadComponent('Security');
   }
 
-  protected function _isPrivileged($user)
+  protected function _isPrivileged(Entity $user)
   {
     $roles = [ADMIN, SUPERUSER];
     return in_array($this->_getUserRoleName($user), $roles);
   }
 
-  protected function _getUserRoleName($user)
+  protected function _getUserRoleName(Entity $user)
   {
     $groups = TableRegistry::getTableLocator()->get('Groups');
     return $groups->find()
-      ->where(['id' => $user['group']['id']])
+      ->where(['id' => $user->group->id])
       ->select(['name'])
       ->first()
       ->name;

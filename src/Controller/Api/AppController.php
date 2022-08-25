@@ -96,7 +96,7 @@ class AppController extends Controller
     if ($key === null) {
       return $user;
     } else {
-      return $user[$key];
+      return $user->$key;
     }
   }
 
@@ -106,20 +106,12 @@ class AppController extends Controller
       'contain' => ['Groups', 'Avatars', 'Videos', 'Tokens'],
     ];
     $options = array_merge($defaults, $config);
-    if (isset($id['sub'])) {
-      $id = $id['sub'];
-    }
 
-    if (is_array($id)) {
-      return $id;
-    } else {
-      return TableRegistry::getTableLocator()->get('Users')
-        ->find()
-        ->contain($options['contain'])
-        ->where(['Users.id' => $id])
-        ->first()
-        ->toArray();
-    }
+    return TableRegistry::getTableLocator()->get('Users')
+      ->find()
+      ->contain($options['contain'])
+      ->where(['Users.id' => $id])
+      ->first();
   }
 
   protected function _isPrivileged($user)
@@ -144,14 +136,14 @@ class AppController extends Controller
     return $res;
   }
 
-  protected function _getUserRoleName(array $user = [])
+  protected function _getUserRoleName(Entity $user)
   {
-    if (isset($user['sub'])) {
-      $user = $this->_getUser($user['sub']);
+    if (isset($user->sub)) {
+      $user = $this->_getUser($user->sub);
     }
     return TableRegistry::getTableLocator()->get('Groups')
       ->find()
-      ->where(['id' => $user['group']['id']])
+      ->where(['id' => $user->group->id])
       ->select(['name'])
       ->first()
       ->name;

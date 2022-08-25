@@ -191,7 +191,7 @@ class UsersController extends AppController
       $user = $this->_getUser($id);
 
       $this->set([
-        'data' => $user,
+        'data' => $user->toArray(),
         'message' => $message,
       ]);
 
@@ -472,7 +472,7 @@ class UsersController extends AppController
     $this->set([
       'success' => true,
       'data' => [
-        'user' => $user,
+        'user' => $user->toArray(),
         'groups' => $this->_getGroups(),
         'renewed' => $renewed,
         'timeout' => 2000,
@@ -500,18 +500,18 @@ class UsersController extends AppController
 
     $currentToken = null;
 
-    if (isset($identifiedUser['id'])) {
+    if (isset($identifiedUser->id)) {
       // if query database
-      $id = $identifiedUser['id'];
+      $id = $identifiedUser->id;
     } else {
       // using raw auth information (no database query)
-      $id = $identifiedUser['sub'];
+      $id = $identifiedUser->sub;
     }
 
     // hydrate the user with associated data
     $user = $this->_getUser($id);
-    if (isset($user["jwt"])) {
-      $currentToken = $user["jwt"];
+    if (isset($user->jwt)) {
+      $currentToken = $user->jwt;
     }
 
     $queryToken = $this->getRequest()->getQuery("token");
