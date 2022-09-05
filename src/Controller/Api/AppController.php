@@ -122,8 +122,7 @@ class AppController extends Controller
 
   protected function _isSuperuser($user)
   {
-    $roles = [SUPERUSER];
-    return in_array($this->_getUserRoleName($user), $roles);
+    return in_array($this->_getUserRoleName($user), [SUPERUSER]);
   }
 
   protected function _getAdmins()
