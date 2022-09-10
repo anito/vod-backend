@@ -58,7 +58,7 @@ class SettingsController extends AppController
 
     $Session = array_intersect_key(Configure::read('Session'), array_flip($allowedSession));
     $Site = array_intersect_key(Configure::read('Site'), array_flip($allowedSite));
-    $Site['defaultUserTab'] = isset($Site['defaultUserTab']) ? (int) $Site['defaultUserTab'] : 0;
+    $Site['defaultUserTab'] = isset($Site['defaultUserTab']) ? $Site['defaultUserTab'] : 'profile';
 
     $this->set([
       'success' => true,
