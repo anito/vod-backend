@@ -12,7 +12,6 @@ use Cake\ORM\TableRegistry;
 use Cake\Utility\Security;
 use Crud\Controller\ControllerTrait;
 use Firebase\JWT\JWT;
-use phpDocumentor\Reflection\Types\Scalar;
 
 class AppController extends Controller
 {
@@ -114,7 +113,7 @@ class AppController extends Controller
       ->first();
   }
 
-  protected function _isPrivileged($user)
+  protected function _isPrivileged(Entity $user)
   {
     $roles = [ADMIN, SUPERUSER];
     return in_array($this->_getUserRoleName($user), $roles);

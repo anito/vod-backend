@@ -224,11 +224,10 @@ class UsersController extends AppController
 
   public function token()
   {
-    $result =  $this->Authentication->getResult();
-    $user = $result->getData()->toArray();
+    $user = $this->_getAuthUser();
     $isAdmin = $this->_isPrivileged($user);
 
-    if (!$isAdmin || !$result->isValid()) {
+    if (!$isAdmin) {
       throw new UnauthorizedException(__('Unauthorized'));
     };
 

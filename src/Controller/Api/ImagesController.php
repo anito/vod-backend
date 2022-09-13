@@ -39,7 +39,7 @@ class ImagesController extends AppController
       ],
     ]);
 
-    $this->Crud->addListener('relatedModels', 'Crud.RelatedModels');
+    // $this->Crud->addListener('relatedModels', 'Crud.RelatedModels');
   }
 
   public function index()
@@ -49,7 +49,7 @@ class ImagesController extends AppController
       $query = $event->getSubject()->query;
 
       $settings = [
-        'limit' => 100,
+        'limit' => 250,
       ];
       $data = $this->paginate($query, $settings);
       $this->set('data', $data);
