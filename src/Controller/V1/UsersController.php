@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Api;
+namespace App\Controller\V1;
 
 use Cake\Core\Configure;
 use Cake\Event\Event;
@@ -425,12 +425,7 @@ class UsersController extends AppController
       throw new UnauthorizedException(__('Invalid Token'));
     }
 
-    // user is logged in either by form (id) or token (sub)
-    if (isset($loggedinUser['sub'])) {
-      $id = $loggedinUser['sub'];
-    } else {
-      $id = $loggedinUser["id"];
-    }
+    $id = $loggedinUser->id;
 
     if ($this->_isPrivileged($loggedinUser)) {
       // for admins extend token validity if expired or empty
@@ -474,7 +469,6 @@ class UsersController extends AppController
         'user' => $user->toArray(),
         'groups' => $this->_getGroups(),
         'renewed' => $renewed,
-        'timeout' => 2000,
         'message' => __('Login successful')
       ],
     ]);

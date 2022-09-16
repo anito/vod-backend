@@ -49,76 +49,76 @@ $routes->setRouteClass(DashedRoute::class);
 
 // Router::scope('/', function (RouteBuilder $routes) {
 $routes->scope('/', function (RouteBuilder $builder) {
-    // Register scoped middleware for in scopes.
-    $builder->registerMiddleware('csrf', new CsrfProtectionMiddleware());
+  // Register scoped middleware for in scopes.
+  $builder->registerMiddleware('csrf', new CsrfProtectionMiddleware());
 
-    /**
-     * Apply a middleware to the current route scope.
-     * Requires middleware to be registered via `Application::routes()` with `registerMiddleware()`
-     */
-    // $builder->applyMiddleware('csrf');
+  /**
+   * Apply a middleware to the current route scope.
+   * Requires middleware to be registered via `Application::routes()` with `registerMiddleware()`
+   */
+  // $builder->applyMiddleware('csrf');
 
-    /**
-     * Here, we are connecting '/' (base path) to a controller called 'Pages',
-     * its action called 'display', and we pass a param to select the view file
-     * to use (in this case, src/Template/Pages/home.ctp)...
-     */
-    $builder->connect('/', ['controller' => 'Pages', 'action' => 'display', 'home']);
+  /**
+   * Here, we are connecting '/' (base path) to a controller called 'Pages',
+   * its action called 'display', and we pass a param to select the view file
+   * to use (in this case, src/Template/Pages/home.ctp)...
+   */
+  $builder->connect('/', ['controller' => 'Pages', 'action' => 'display', 'home']);
 
-    /**
-     * ...and connect the rest of 'Pages' controller's URLs.
-     */
-    $builder->connect('/pages/*', ['controller' => 'Pages', 'action' => 'display']);
-    $builder->connect('/login', array('controller' => 'Users', 'action' => 'login'));
-    $builder->connect('/logout', array('controller' => 'Users', 'action' => 'logout'));
-    $builder->connect('/register', array('controller' => 'Users', 'action' => 'add'));
+  /**
+   * ...and connect the rest of 'Pages' controller's URLs.
+   */
+  $builder->connect('/pages/*', ['controller' => 'Pages', 'action' => 'display']);
+  $builder->connect('/login', array('controller' => 'Users', 'action' => 'login'));
+  $builder->connect('/logout', array('controller' => 'Users', 'action' => 'logout'));
+  $builder->connect('/register', array('controller' => 'Users', 'action' => 'add'));
 
-    $builder->prefix('Api', function (RouteBuilder $builder) {
-        // Only controllers explicitly enabled for API use will be accessible through API
-        $builder->setExtensions(['json', 'xml']);
+  $builder->prefix('v1', function (RouteBuilder $builder) {
+    // Only controllers explicitly enabled for API use will be accessible through API
+    $builder->setExtensions(['json', 'xml']);
 
-        $builder->resources('Avatars');
-        $builder->resources('EmailTemplates');
-        $builder->resources('Images');
-        $builder->resources('Inboxes');
-        $builder->resources('Sents');
-        $builder->resources('Settings');
-        $builder->resources('Tokens');
-        $builder->resources('Templates');
-        $builder->resources('Users');
-        $builder->resources('Videos');
+    $builder->resources('Avatars');
+    $builder->resources('EmailTemplates');
+    $builder->resources('Images');
+    $builder->resources('Inboxes');
+    $builder->resources('Sents');
+    $builder->resources('Settings');
+    $builder->resources('Tokens');
+    $builder->resources('Templates');
+    $builder->resources('Users');
+    $builder->resources('Videos');
 
-        $builder->connect('/login', ['controller' => 'Users', 'action' => 'login']);
-        $builder->connect('/logout', ['controller' => 'Users', 'action' => 'logout']);
-        $builder->connect('/q/:crypt/:timestamp/*', ['controller' => 'Kodaks', 'action' => 'process']);
-        $builder->connect('/register', ['controller' => 'Users', 'action' => 'add']);
-        $builder->connect('/u/v/*', ['controller' => 'Videos', 'action' => 'uri']);
-        $builder->connect('/u/i/*', ['controller' => 'Images', 'action' => 'uri']);
-        $builder->connect('/u/a/*', ['controller' => 'Avatars', 'action' => 'uri']);
+    $builder->connect('/login', ['controller' => 'Users', 'action' => 'login']);
+    $builder->connect('/logout', ['controller' => 'Users', 'action' => 'logout']);
+    $builder->connect('/q/:crypt/:timestamp/*', ['controller' => 'Kodaks', 'action' => 'process']);
+    $builder->connect('/register', ['controller' => 'Users', 'action' => 'add']);
+    $builder->connect('/u/v/*', ['controller' => 'Videos', 'action' => 'uri']);
+    $builder->connect('/u/i/*', ['controller' => 'Images', 'action' => 'uri']);
+    $builder->connect('/u/a/*', ['controller' => 'Avatars', 'action' => 'uri']);
 
-        $builder->fallbacks(DashedRoute::class);
-    });
-
-    /**
-     * Connect catchall routes for all controllers.
-     *
-     * Using the argument `DashedRoute`, the `fallbacks` method is a shortcut for
-     *
-     * ```
-     * $routes->connect('/:controller', ['action' => 'index'], ['routeClass' => 'DashedRoute']);
-     * $routes->connect('/:controller/:action/*', [], ['routeClass' => 'DashedRoute']);
-     * ```
-     *
-     * Any route class can be used with this method, such as:
-     * - DashedRoute
-     * - InflectedRoute
-     * - Route
-     * - Or your own route class
-     *
-     * You can remove these routes once you've connected the
-     * routes you want in your application.
-     */
     $builder->fallbacks(DashedRoute::class);
+  });
+
+  /**
+   * Connect catchall routes for all controllers.
+   *
+   * Using the argument `DashedRoute`, the `fallbacks` method is a shortcut for
+   *
+   * ```
+   * $routes->connect('/:controller', ['action' => 'index'], ['routeClass' => 'DashedRoute']);
+   * $routes->connect('/:controller/:action/*', [], ['routeClass' => 'DashedRoute']);
+   * ```
+   *
+   * Any route class can be used with this method, such as:
+   * - DashedRoute
+   * - InflectedRoute
+   * - Route
+   * - Or your own route class
+   *
+   * You can remove these routes once you've connected the
+   * routes you want in your application.
+   */
+  $builder->fallbacks(DashedRoute::class);
 });
 
 /**

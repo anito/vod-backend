@@ -20,9 +20,9 @@
  * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
-namespace App\Controller\Api;
+namespace App\Controller\V1;
 
-use App\Controller\Api\AppController;
+use App\Controller\V1\AppController;
 use Cake\Core\Configure;
 use Cake\Database\Expression\QueryExpression;
 use Cake\Database\Query;

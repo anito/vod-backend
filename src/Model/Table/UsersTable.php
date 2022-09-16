@@ -193,7 +193,7 @@ class UsersTable extends Table
 
 
         if ($name !== SUPERUSER && $superusersCount === 1) {
-          throw new UnauthorizedException(__('At least 1 Superuser must be preserved'));
+          throw new ForbiddenException(__('At least 1 Superuser must be preserved'));
         }
       }
 
@@ -205,8 +205,14 @@ class UsersTable extends Table
 
       // only Superusers can edit protected users
       if ($entity->protected) {
-        if (!$isSuperuser && ($userId !== $authId)) {
-          throw new UnauthorizedException(__('Unauthorized'));
+        if (!$isSuperuser) {
+          $allowedFields = ['videos', 'last_login', 'modified', 'modified_by'];
+          $dirty = $entity->getDirty();
+          foreach ($dirty as $value) {
+            if (!in_array($value, $allowedFields)) {
+              throw new ForbiddenException(__('This user is protected'));
+            }
+          }
         } else {
           return;
         }

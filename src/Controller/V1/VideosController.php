@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Controller\Api;
+namespace App\Controller\V1;
 
-use App\Controller\Api\AppController;
+use App\Controller\V1\AppController;
 use Cake\Core\App;
 use Cake\Event\Event;
 use Cake\ORM\Query;

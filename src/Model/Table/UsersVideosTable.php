@@ -134,7 +134,7 @@ class UsersVideosTable extends Table
       // not allowed adding new video
       $isNew = $entity->isNew();
       if ($isNew) {
-        throw new ForbiddenException(__('You are not allowed to add a video'));
+        // throw new ForbiddenException(__('You are not allowed to add a video'));
       }
     }
   }
