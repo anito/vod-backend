@@ -390,13 +390,14 @@ class UsersController extends AppController
       }
     }
     $saved = $this->Users->save($user);
+    $success = $saved && !!$saved->jwt && !!$saved->active;
 
     $this->set([
-      'success' => $saved,
+      'success' => $success,
       'data' => [
         'token' => $saved ? $jwt : '',
         'user' => ['id' =>  $user->id, 'name' => $user->name, 'email' => $user->email],
-        'message' => $saved ? __('Google Login successful') : __('Google Login failed'),
+        'message' => $success ? __('Google Login successful') : __('Google Login failed'),
       ],
     ]);
     $this->viewBuilder()->setOption('serialize', ['success', 'data']);
