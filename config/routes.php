@@ -89,6 +89,8 @@ $routes->scope('/', function (RouteBuilder $builder) {
     $builder->resources('Videos');
 
     $builder->connect('/login', ['controller' => 'Users', 'action' => 'login']);
+    $builder->connect('/google/*', ['controller' => 'Users', 'action' => 'google']);
+    $builder->connect('/facebook/*', ['controller' => 'Users', 'action' => 'facebook']);
     $builder->connect('/logout', ['controller' => 'Users', 'action' => 'logout']);
     $builder->connect('/q/:crypt/:timestamp/*', ['controller' => 'Kodaks', 'action' => 'process']);
     $builder->connect('/register', ['controller' => 'Users', 'action' => 'add']);

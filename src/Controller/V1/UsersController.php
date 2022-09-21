@@ -16,7 +16,7 @@ class UsersController extends AppController
   public function initialize(): void
   {
     parent::initialize();
-    $this->Authentication->addUnauthenticatedActions(['logout', 'login', 'googleLogin', 'facebookLogin', 'lookup']);
+    $this->Authentication->addUnauthenticatedActions(['logout', 'login', 'google', 'facebook', 'lookup']);
 
     $this->loadComponent('Crud.Crud', [
       'actions' => [
@@ -250,10 +250,11 @@ class UsersController extends AppController
     $this->viewBuilder()->setOption('serialize', ['success', 'data']);
   }
 
-  public function facebookLogin($id)
+  public function facebook()
   {
     $payload = $this->request->getData();
     $payload = json_decode(json_encode($payload), FALSE);
+    $id = $payload->id;
     $user = $this->Users->find()
       ->contain(['Groups', 'Avatars', 'Videos', 'Tokens'])
       ->where(['Users.id' => $id])
@@ -313,24 +314,37 @@ class UsersController extends AppController
     }
 
     $saved = $this->Users->save($user);
+    $success = $saved && !!$saved->jwt && !!$saved->active;
+
+    if ($success) {
+      $user = $this->_getUser($user->id);
+      $groups = $this->_getGroups();
+      $token = $jwt;
+      $message = __('Facebook Login successful');
+    } else {
+      $user = [];
+      $groups = [];
+      $token = '';
+      $message = __('Facebook Login failed');
+    }
 
     $this->set([
-      'success' => !!$saved,
-      'data' => [
-        'token' => !!$saved ? $jwt : '',
-        'message' => !!$saved ? __('Facebook Login successful') : __('Facebook Login failed'),
-      ],
+      'success' => $success,
+      'data' => compact(['user', 'token', 'message']),
     ]);
     $this->viewBuilder()->setOption('serialize', ['success', 'data']);
   }
 
-  public function googleLogin()
+  public function google()
   {
-
     $header = $this->request->getHeaderLine(AUTH_HEADER);
     if ($header && stripos($header, AUTH_PREFIX) === 0) {
       $token = str_ireplace(AUTH_PREFIX . ' ', '', $header);
     }
+    if (!isset($token)) {
+      throw new UnauthorizedException(__('Unauthorized'));
+    }
+
     $payload = $this->_getJWTPayload($token);
 
     $user = $this->Users->find()
@@ -392,13 +406,21 @@ class UsersController extends AppController
     $saved = $this->Users->save($user);
     $success = $saved && !!$saved->jwt && !!$saved->active;
 
+    if ($success) {
+      $user = $this->_getUser($user->id);
+      $groups = $this->_getGroups();
+      $token = $jwt;
+      $message = __('Google Login successful');
+    } else {
+      $user = [];
+      $groups = [];
+      $token = '';
+      $message = __('Google Login failed');
+    }
+
     $this->set([
       'success' => $success,
-      'data' => [
-        'token' => $saved ? $jwt : '',
-        'user' => ['id' =>  $user->id, 'name' => $user->name, 'email' => $user->email],
-        'message' => $success ? __('Google Login successful') : __('Google Login failed'),
-      ],
+      'data' => compact(['user', 'groups', 'token', 'message']),
     ]);
     $this->viewBuilder()->setOption('serialize', ['success', 'data']);
   }

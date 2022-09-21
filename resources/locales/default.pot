@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2022-08-24 12:29+0200\n"
+"POT-Creation-Date: 2022-09-20 17:02+0200\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -13,170 +13,6 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
-
-#: Controller/Api/AvatarsController.php:97
-msgid "Avatar saved"
-msgstr ""
-
-#: Controller/Api/AvatarsController.php:119
-msgid "Avatar deleted"
-msgstr ""
-
-#: Controller/Api/ImagesController.php:80
-msgid "Image saved"
-msgstr ""
-
-#: Controller/Api/ImagesController.php:86
-msgid "An error occurred saving your image data"
-msgstr ""
-
-#: Controller/Api/ImagesController.php:93
-#: Controller/Api/VideosController.php:160
-#: Controller/Api/VideosController.php:167
-msgid "An Error occurred while uploading your files"
-msgstr ""
-
-#: Controller/Api/ImagesController.php:119
-msgid "Image could not be deleted"
-msgstr ""
-
-#: Controller/Api/ImagesController.php:132
-msgid "Image deleted"
-msgstr ""
-
-#: Controller/Api/InboxesController.php:58
-#: Controller/Api/UsersController.php:232
-#: Model/Table/UsersTable.php:184
-#: Model/Table/UsersTable.php:209
-#: Model/Table/UsersVideosTable.php:105
-msgid "Unauthorized"
-msgstr ""
-
-#: Controller/Api/KodaksController.php:43
-msgid "No Index Found Error"
-msgstr ""
-
-#: Controller/Api/SentsController.php:85
-msgid "My website"
-msgstr ""
-
-#: Controller/Api/SentsController.php:86
-msgid "General Information"
-msgstr ""
-
-#: Controller/Api/SentsController.php:124
-msgid "Message from: {0}"
-msgstr ""
-
-#: Controller/Api/SentsController.php:134
-msgid "New User: {0}"
-msgstr ""
-
-#: Controller/Api/SentsController.php:203
-msgid "No message"
-msgstr ""
-
-#: Controller/Api/TemplatesController.php:77
-msgid "Template saved"
-msgstr ""
-
-#: Controller/Api/TemplatesController.php:80
-msgid "Template could not be saved"
-msgstr ""
-
-#: Controller/Api/TemplatesController.php:102
-msgid "Template created"
-msgstr ""
-
-#: Controller/Api/TemplatesController.php:105
-msgid "Template could not be created"
-msgstr ""
-
-#: Controller/Api/TemplatesController.php:129
-msgid "Template deleted"
-msgstr ""
-
-#: Controller/Api/TemplatesController.php:133
-msgid "Template could not be deleted"
-msgstr ""
-
-#: Controller/Api/TokensController.php:98
-msgid "Token created"
-msgstr ""
-
-#: Controller/Api/TokensController.php:122
-msgid "Token removed"
-msgstr ""
-
-#: Controller/Api/UsersController.php:167
-msgid "User created"
-msgstr ""
-
-#: Controller/Api/UsersController.php:186
-msgid "User updated"
-msgstr ""
-
-#: Controller/Api/UsersController.php:188
-msgid "User could not be updated"
-msgstr ""
-
-#: Controller/Api/UsersController.php:214
-msgid "User deleted"
-msgstr ""
-
-#: Controller/Api/UsersController.php:322
-msgid "Facebook Login successful"
-msgstr ""
-
-#: Controller/Api/UsersController.php:322
-msgid "Facebook Login failed"
-msgstr ""
-
-#: Controller/Api/UsersController.php:400
-msgid "Google Login successful"
-msgstr ""
-
-#: Controller/Api/UsersController.php:400
-msgid "Google Login failed"
-msgstr ""
-
-#: Controller/Api/UsersController.php:422
-msgid "Invalid username or password"
-msgstr ""
-
-#: Controller/Api/UsersController.php:426
-msgid "Invalid Token"
-msgstr ""
-
-#: Controller/Api/UsersController.php:479
-msgid "Login successful"
-msgstr ""
-
-#: Controller/Api/UsersController.php:490
-msgid "You're logged out"
-msgstr ""
-
-#: Controller/Api/VideosController.php:123
-msgid "Videos exceeding maximum post size {max}"
-msgstr ""
-
-#: Controller/Api/VideosController.php:145
-#: Controller/Api/VideosController.php:178
-msgid "Video saved"
-msgstr ""
-
-#: Controller/Api/VideosController.php:152
-#: Controller/Api/VideosController.php:182
-msgid "Video could not be saved"
-msgstr ""
-
-#: Controller/Api/VideosController.php:210
-msgid "Video could not be deleted"
-msgstr ""
-
-#: Controller/Api/VideosController.php:223
-msgid "Video deleted"
-msgstr ""
 
 #: Controller/AvatarsController.php:57
 #: Controller/AvatarsController.php:82
@@ -380,6 +216,170 @@ msgstr ""
 msgid "The user could not be deleted. Please, try again."
 msgstr ""
 
+#: Controller/V1/AvatarsController.php:95
+msgid "Avatar saved"
+msgstr ""
+
+#: Controller/V1/AvatarsController.php:116
+msgid "Avatar deleted"
+msgstr ""
+
+#: Controller/V1/ImagesController.php:80
+msgid "Image saved"
+msgstr ""
+
+#: Controller/V1/ImagesController.php:86
+msgid "An error occurred saving your image data"
+msgstr ""
+
+#: Controller/V1/ImagesController.php:93
+#: Controller/V1/VideosController.php:160
+#: Controller/V1/VideosController.php:167
+msgid "An Error occurred while uploading your files"
+msgstr ""
+
+#: Controller/V1/ImagesController.php:119
+msgid "Image could not be deleted"
+msgstr ""
+
+#: Controller/V1/ImagesController.php:132
+msgid "Image deleted"
+msgstr ""
+
+#: Controller/V1/InboxesController.php:58
+#: Controller/V1/UsersController.php:231
+#: Controller/V1/UsersController.php:345
+#: Model/Table/UsersTable.php:184
+#: Model/Table/UsersVideosTable.php:105
+msgid "Unauthorized"
+msgstr ""
+
+#: Controller/V1/KodaksController.php:45
+msgid "No Index Found Error"
+msgstr ""
+
+#: Controller/V1/SentsController.php:85
+msgid "My website"
+msgstr ""
+
+#: Controller/V1/SentsController.php:86
+msgid "General Information"
+msgstr ""
+
+#: Controller/V1/SentsController.php:124
+msgid "Message from: {0}"
+msgstr ""
+
+#: Controller/V1/SentsController.php:134
+msgid "New User: {0}"
+msgstr ""
+
+#: Controller/V1/SentsController.php:203
+msgid "No message"
+msgstr ""
+
+#: Controller/V1/TemplatesController.php:77
+msgid "Template saved"
+msgstr ""
+
+#: Controller/V1/TemplatesController.php:80
+msgid "Template could not be saved"
+msgstr ""
+
+#: Controller/V1/TemplatesController.php:102
+msgid "Template created"
+msgstr ""
+
+#: Controller/V1/TemplatesController.php:105
+msgid "Template could not be created"
+msgstr ""
+
+#: Controller/V1/TemplatesController.php:129
+msgid "Template deleted"
+msgstr ""
+
+#: Controller/V1/TemplatesController.php:133
+msgid "Template could not be deleted"
+msgstr ""
+
+#: Controller/V1/TokensController.php:98
+msgid "Token created"
+msgstr ""
+
+#: Controller/V1/TokensController.php:121
+msgid "Token removed"
+msgstr ""
+
+#: Controller/V1/UsersController.php:167
+msgid "User created"
+msgstr ""
+
+#: Controller/V1/UsersController.php:186
+msgid "User updated"
+msgstr ""
+
+#: Controller/V1/UsersController.php:188
+msgid "User could not be updated"
+msgstr ""
+
+#: Controller/V1/UsersController.php:214
+msgid "User deleted"
+msgstr ""
+
+#: Controller/V1/UsersController.php:323
+msgid "Facebook Login successful"
+msgstr ""
+
+#: Controller/V1/UsersController.php:328
+msgid "Facebook Login failed"
+msgstr ""
+
+#: Controller/V1/UsersController.php:413
+msgid "Google Login successful"
+msgstr ""
+
+#: Controller/V1/UsersController.php:418
+msgid "Google Login failed"
+msgstr ""
+
+#: Controller/V1/UsersController.php:444
+msgid "Invalid username or password"
+msgstr ""
+
+#: Controller/V1/UsersController.php:448
+msgid "Invalid Token"
+msgstr ""
+
+#: Controller/V1/UsersController.php:495
+msgid "Login successful"
+msgstr ""
+
+#: Controller/V1/UsersController.php:506
+msgid "You're logged out"
+msgstr ""
+
+#: Controller/V1/VideosController.php:123
+msgid "Videos exceeding maximum post size {max}"
+msgstr ""
+
+#: Controller/V1/VideosController.php:145
+#: Controller/V1/VideosController.php:178
+msgid "Video saved"
+msgstr ""
+
+#: Controller/V1/VideosController.php:152
+#: Controller/V1/VideosController.php:182
+msgid "Video could not be saved"
+msgstr ""
+
+#: Controller/V1/VideosController.php:210
+msgid "Video could not be deleted"
+msgstr ""
+
+#: Controller/V1/VideosController.php:223
+msgid "Video deleted"
+msgstr ""
+
 #: Controller/VideosController.php:56
 #: Controller/VideosController.php:82
 msgid "The video has been saved."
@@ -403,7 +403,8 @@ msgid "Token did not change."
 msgstr ""
 
 #: Model/Table/UsersTable.php:63
-#: Model/Table/UsersTable.php:220
+#: Model/Table/UsersTable.php:213
+#: Model/Table/UsersTable.php:226
 msgid "This user is protected"
 msgstr ""
 
@@ -423,21 +424,13 @@ msgstr ""
 msgid "At least 1 Superuser must be preserved"
 msgstr ""
 
-#: Model/Table/UsersTable.php:294
-#: Model/Table/UsersTable.php:306
+#: Model/Table/UsersTable.php:300
+#: Model/Table/UsersTable.php:312
 msgid "Invalid token"
 msgstr ""
 
 #: Model/Table/UsersVideosTable.php:131
 msgid "You are not allowed to edit this timeframe"
-msgstr ""
-
-#: Model/Table/UsersVideosTable.php:137
-msgid "You are not allowed to add a video"
-msgstr ""
-
-#: Api/Videos/uri.php:3
-msgid "You must be authorized to watch this video"
 msgstr ""
 
 #: Avatars/add.php:9
@@ -1650,6 +1643,10 @@ msgstr ""
 
 #: UsersVideos/view.php:40
 msgid "End"
+msgstr ""
+
+#: V1/Videos/uri.php:3
+msgid "You must be authorized to watch this video"
 msgstr ""
 
 #: Videos/add.php:21
