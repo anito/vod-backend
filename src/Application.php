@@ -80,7 +80,7 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
      */
     if (Configure::read('debug')) {
       try {
-        $this->addPlugin('DebugKit');
+        // $this->addPlugin('DebugKit');
       } catch (MissingPluginException $e) {
         // Do not halt if the plugin is missing
       }

@@ -52,6 +52,7 @@ class SentsController extends AppController
       'listeners' => [
         'Crud.Api',
         'Crud.ApiPagination',
+        // 'Crud.ApiQueryLog'
       ],
     ]);
 
@@ -73,39 +74,47 @@ class SentsController extends AppController
   public function add()
   {
 
-    $data = $this->getRequest()->getData();
+    $data = $this->request->getData();
 
     $this->Crud->on('beforeSave', function (Event $event) use ($data) {
 
       $type = 'html';
       $layout = 'physio-layout';
+      $isPrivileged = false;
+      // marshalled entity - modified by request data [user => [email, name]]
       $entity = $event->getSubject()->entity;
+
       $patched = [];
+      $_to = [];
       $authUser = $this->_getAuthUser();
+      if ($authUser) {
+        $role = $authUser->get('role');
+        $isPrivileged = in_array($role, [ADMIN, SUPERUSER]);
+      }
       $sitename = Configure::check('Site.name') ? Configure::read('Site.name') : __('My website');
       $defaultSubject = __('General Information');
-      $newUser = false;
 
       /**
-       * Distinguish between different types of mail/users sending the mail:
-       * only admins sending a token, if authenticated we assume they are of role admin
-       * as opposed to regular visitors not sending a token.
-       * 
-       * Visitors logged in when sending the form, will not be authenticated.
-       * Visitors (users) should have a $data['user'] object in their payload
+       * Distinguish between different types of users sending the mail:
+       * users sending a token, considered to be of role admin or higher
+       * users not sending a token are considered of role user
        */
-      if (!isset($authUser) && isset($data['user'])) {
+
+
+      /**
+       * Mainly used for homepage form
+       */
+      if (!$isPrivileged) {
+
         /**
-         * mail sent from landing page form AND unauthenticated user
-         * will auto create a new user from $data['user'] information
+         * Recipients (Admins)
          */
-        $admins = [];
         foreach ($this->_getAdmins() as $admin) {
-          $admins[$admin['email']] = $admin['name'];
+          $_to[$admin['email']] = $admin['name'];
         }
 
         /**
-         * Check if the user already exists to prevent user auto-creation
+         * Check if the user exists in order to prevent auto-creation
          */
         $user = $this->Sents->Users->find()
           ->where(['Users.email' => $data['user']['email']])
@@ -113,31 +122,23 @@ class SentsController extends AppController
 
         if (isset($user)) {
           /**
-           * Existing visitor
-           * modify entity in order to stop autocreation
+           * Don't (auto) create user from payload
+           * if data structure has been received like
+           * [user => [name, email]]
            */
-          $entity->get('user')->isNew(false);
           $entity->set('user', $user);
 
           $_from = [$user['email'] => $user['name']];
           $name = $user['name'];
-          $subject = __('Message from: {0}', $name);
-          $data['before-content'] = isset($data['subject']) ? $data['subject'] : '';
+          $subject = __('Message from {0}', $name);
         } else {
-          /**
-           * New visitor
-           */
-          $newUser = true;
-
           $_from = [$data['user']['email'] => $data['user']['name']];
           $name = $data['user']['name'];
-          $subject = __('New User: {0}', $name);
-          $data['before-content'] = isset($data['subject']) ? $data['subject'] : '';
+          $subject = __('Message from {0} (New user)', $name);
 
           /**
-           * Force auto-generation:
-           * provide user property
-           *
+           * patch user
+           * for auto-generation
            */
           $patched = array_merge($patched, [
             'user' => [
@@ -146,25 +147,38 @@ class SentsController extends AppController
             ],
           ]);
         }
-        $_to = $admins;
-        $template = isset($data['template']) ? $data['template'] : 'from-user';
-      } else if (isset($authUser)) {
+        $data['before-content'] = isset($data['subject']) ? $data['subject'] : '';
+        $template = $data['template'] ?: 'from-user';
+      } else {
+        /**
+         * Message sent from an authenticated User (Superuser or Admin)
+         * Mainly used for internal communication within the apps MailManager component
+         */
+
         /**
          * Recipient
          */
         $user = $this->Sents->Users->find()
-          ->where(['Users.email' => $data['email']])
+          ->where(['Users.email' => $data['user']['email']])
           ->first();
+
+        // $user = $entity->get('user');
 
         if (!isset($user)) {
           throw new NotFoundException();
         }
 
         /**
-         * Mail created from authenticated user (admins only)
+         * Don't (auto) create user from payload
+         * if data structure has been received like
+         * [user => [name, email]]
          */
+        if ($entity->get('user')) {
+          $entity->set('user', $user);
+        };
+
         $_from = [$authUser['email'] => $authUser['name']];
-        $_to = [$data['email'] => $user->name];
+        $_to[$user->email] = $user->name;
         $name = $user->name;
         $subject = isset($data['subject']) ? $data['subject'] : $defaultSubject;
 
@@ -179,11 +193,11 @@ class SentsController extends AppController
       }
 
       /**
-       *  template to be used
+       *  The template to be used
        */
       $templateData = isset($data['template']['data']) ? $data['template']['data'] : false;
       if (!isset($template)) {
-        $template = isset($data['template']['slug']) ? $data['template']['slug'] : 'general';
+        $template = isset($data['template']['slug']) ? $data['template']['slug'] : (isset($data['template']) ? $data['template'] : 'general');
       }
       $path = EMAIL_TEMPLATES . DS . $type . DS . $template . '.php';
       $templ = preg_replace('/-+/', '_', $template);
@@ -198,6 +212,7 @@ class SentsController extends AppController
       /**
        *  View Vars
        */
+      $salutation = Configure::read('Site.salutation');
       $logo = Configure::read('Site.logo');
       $beforeContent = isset($data['before-content']) ? $data['before-content'] : '';
       $content = isset($data['content']) ? $data['content'] : __('No message');
@@ -211,6 +226,7 @@ class SentsController extends AppController
 
       $viewVars = compact([
         'logo',
+        'salutation',
         'name',
         'subject',
         'beforeContent',
@@ -237,9 +253,9 @@ class SentsController extends AppController
 
 
       /**
-       * Cake creates mail with header and message properties
-       * extend it by a subject property and
-       * save mail to database
+       * Mail should have header, subject and message properties
+       * Add a subject property and
+       * Save mail to database
        */
       $message['subject'] = $subject;
 
@@ -253,7 +269,8 @@ class SentsController extends AppController
 
     $this->Crud->on('afterSave', function (Event $event) {
 
-      if (!$event->getSubject()->success) {
+      $success = $event->getSubject()->success;
+      if (!$success) {
         return;
       }
 

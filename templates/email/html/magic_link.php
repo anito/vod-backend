@@ -110,7 +110,7 @@ $content = explode("\n", $content);
           <div style="line-height: 40px; font-size: 1px">&nbsp;</div>
         </div>
         <div class="content">
-          <div class="starter"><?php echo 'Hallo ' . $name . ',' ?></div>
+          <div class="starter"><?php echo $salutation . ', ' . $name . '!' ?></div>
           <?php if (!empty($beforeContent)) : ?>
             <p style="margin-top: 0; margin-bottom: 30"><?php echo $beforeContent ?></p>
           <?php endif; ?>

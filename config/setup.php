@@ -8,6 +8,7 @@ Configure::config('settings', new IniConfig());
 Configure::load('config', 'settings');
 Configure::write('DebugKit.safeTld', Configure::read('DebugKit.tld'));
 Configure::write('Session.timeout', Configure::read('Session.lifetime') / 60);
+Configure::write('Site.salutation', Configure::read('Site.salutation'));
 
 // Cache::setConfig('mysql_conf', [
 //     'className' => 'File',
@@ -41,7 +42,8 @@ define('UPLOADS', ROOT . DS . 'uploads');
 define('IMAGES', UPLOADS . DS . 'images');
 define('VIDEOS', UPLOADS . DS . 'videos');
 define('AVATARS', UPLOADS . DS . 'avatars');
-define('EMAIL_TEMPLATES', ROOT . DS . 'templates' . DS . 'email');
+define('TEMPLATES', ROOT . DS . 'templates');
+define('EMAIL_TEMPLATES', TEMPLATES . DS . 'email');
 define('MYSQLUPLOAD', ROOT . DS . 'mysql');
 if (!defined('MYSQL_CONFIG_DIR')) {
   define('MYSQL_CONFIG_DIR', ROOT . DS . 'mysqlconf' . DS);

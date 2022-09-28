@@ -48,12 +48,12 @@ $content = !empty($content) ? explode("\n", $content) : $content;
               line-height: 21px;
               font-family: sans-serif;
             ">
-        <div style="margin-left: 20px; margin-right: 20px">
-          <div style="line-height: 20px; font-size: 1px">&nbsp;</div>
+        <div style="margin-left: 20px; margin-right: 20px;">
+          <div style="line-height: 20px; font-size: 1px;">&nbsp;</div>
         </div><!-- --1-- -->
 
-        <div style="margin-left: 20px; margin-right: 20px">
-          <div style="vertical-align: middle">
+        <div style="margin-left: 20px; margin-right: 20px;">
+          <div style="vertical-align: middle;">
             <h3 style="
                     margin-top: 0;
                     margin-bottom: 12px;
@@ -64,13 +64,13 @@ $content = !empty($content) ? explode("\n", $content) : $content;
                     line-height: 26px;
                     font-family: arial, sans-serif;
                   ">
-              <span class="font-arial"><span style="color: #fff"><?php echo $subject; ?></span></span>
+              <span class="font-arial"><span style="color: #fff;"><?php echo $subject; ?></span></span>
             </h3>
           </div>
         </div>
 
-        <div style="margin-left: 20px; margin-right: 20px">
-          <div style="line-height: 20px; font-size: 1px">&nbsp;</div>
+        <div style="margin-left: 20px; margin-right: 20px;">
+          <div style="line-height: 20px; font-size: 1px;">&nbsp;</div>
         </div>
       </div>
     </div>
@@ -104,17 +104,17 @@ $content = !empty($content) ? explode("\n", $content) : $content;
               line-height: 21px;
               font-family: sans-serif;
             ">
-        <div style="margin-left: 20px; margin-right: 20px">
-          <div style="line-height: 30px; font-size: 1px">&nbsp;</div>
+        <div style="margin-left: 20px; margin-right: 20px;">
+          <div style="line-height: 30px; font-size: 1px;">&nbsp;</div>
         </div>
         <div class="content">
-          <p style="margin-top: 0; margin-bottom: 30">
+          <p style="margin-top: 0; margin-bottom: 30px;">
             <?php if (!empty($beforeContent)) : ?>
           <p><i><?php echo __('Option') ?>: <?php echo $beforeContent ?></i></p>
         <?php endif; ?>
         </p>
         <?php if (!empty($content)) : ?>
-          <p><strong><?php echo __('Message') ?></strong></p>
+          <p style="text-decoration: underline;"><strong><?php echo __('Message:') ?></strong></p>
           <?php
           foreach ($content as $line) :
             echo '<p> ' . $line . "</p>";
@@ -122,8 +122,8 @@ $content = !empty($content) ? explode("\n", $content) : $content;
           ?>
         <?php endif; ?>
         </div>
-        <div style="margin-left: 20px; margin-right: 20px">
-          <div style="line-height: 40px; font-size: 1px">&nbsp;</div>
+        <div style="margin-left: 20px; margin-right: 20px;">
+          <div style="line-height: 40px; font-size: 1px;">&nbsp;</div>
         </div>
       </div>
     </div>
@@ -140,7 +140,7 @@ $content = !empty($content) ? explode("\n", $content) : $content;
           word-wrap: break-word;
           word-break: break-word;
         ">
-    <div class="layout__inner" style="border-collapse: collapse; display: table; width: 100%; background-color: #fff">
+    <div class="layout__inner" style="border-collapse: collapse; display: table; width: 100%; background-color: #fff;">
       <div class="column" style="
               text-align: left;
               color: #8e959c;
@@ -148,24 +148,24 @@ $content = !empty($content) ? explode("\n", $content) : $content;
               line-height: 21px;
               font-family: sans-serif;
             ">
-        <div style="margin-left: 20px; margin-right: 20px">
-          <div style="line-height: 38px; font-size: 1px">&nbsp;</div>
+        <div style="margin-left: 20px; margin-right: 20px;">
+          <div style="line-height: 38px; font-size: 1px;">&nbsp;</div>
         </div>
-        <div style="margin-left: 20px; margin-right: 20px">
+        <div style="margin-left: 20px; margin-right: 20px;">
           <div style="vertical-align: middle">
             <?php if (!empty($name)) : ?>
-              <p style="margin-top: 0; margin-bottom: 0"><?php echo $name ?></p>
+              <p style="margin-top: 0; margin-bottom: 0;"><?php echo $name ?></p>
             <?php endif; ?>
           </div>
         </div>
-        <div style="margin-left: 20px; margin-right: 20px">
-          <div style="line-height: 20px; font-size: 1px">&nbsp;</div>
+        <div style="margin-left: 20px; margin-right: 20px;">
+          <div style="line-height: 20px; font-size: 1px;">&nbsp;</div>
         </div>
       </div>
     </div>
   </div>
   <!-- footer end -->
-  <div style="line-height: 20px; font-size: 20px">&nbsp;</div>
+  <div style="line-height: 20px; font-size: 20px;">&nbsp;</div>
 </div>
 <!-- main end -->
 

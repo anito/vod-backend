@@ -104,13 +104,13 @@ class UsersTable extends Table
       // dont use uuid validation as long as there are still any scalar user ids
       // ->uuid('id', 'No valid UUID')
       ->scalar('id')
-      ->allowEmptyString('id', null, 'create')
-      ->add('id', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
+      ->allowEmptyString('id', null, 'create');
+    // ->add('id', 'unique', ['rule' => 'validateUnique', 'provider' => 'table', 'message' => 'Id already exists']);
 
     $validator
       ->scalar('name')
-      ->maxLength('name', 255)
-      ->notEmptyString('name', __('Name can not be empty'));
+      ->maxLength('name', 255);
+    // ->notEmptyString('name', __('Name can not be empty'));
 
     $validator
       ->email('email')
