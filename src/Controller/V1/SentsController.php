@@ -122,9 +122,8 @@ class SentsController extends AppController
 
         if (isset($user)) {
           /**
-           * Don't (auto) create user from payload
-           * if data structure has been received like
-           * [user => [name, email]]
+           * This sent mail belongs to the user
+           * specified in payload, joined by user_id field
            */
           $entity->set('user', $user);
 
@@ -162,22 +161,19 @@ class SentsController extends AppController
           ->where(['Users.email' => $data['user']['email']])
           ->first();
 
-        // $user = $entity->get('user');
-
         if (!isset($user)) {
           throw new NotFoundException();
         }
 
         /**
-         * Don't (auto) create user from payload
-         * if data structure has been received like
-         * [user => [name, email]]
+         * This sent mail belongs to the user
+         * specified in payload, joined by user_id field
          */
         if ($entity->get('user')) {
-          $entity->set('user', $user);
+          $entity->set('user', $authUser);
         };
 
-        $_from = [$authUser['email'] => $authUser['name']];
+        $_from = [$authUser->email => $authUser->name];
         $_to[$user->email] = $user->name;
         $name = $user->name;
         $subject = isset($data['subject']) ? $data['subject'] : $defaultSubject;
