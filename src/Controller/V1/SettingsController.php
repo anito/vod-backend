@@ -53,16 +53,19 @@ class SettingsController extends AppController
      * Settings which should be available for client
      */
 
+    $allowedSite = ['logo', 'name', 'description', 'defaultUserTab', 'salutation']; // Site settings
     $allowedSession = ['lifetime']; // Session settings
-    $allowedSite = ['logo', 'name', 'description', 'defaultUserTab', 'log', 'salutation']; // Site settings
+    $allowedConsole = ['info', 'log']; // Console settings
 
     $Session = array_intersect_key(Configure::read('Session'), array_flip($allowedSession));
     $Site = array_intersect_key(Configure::read('Site'), array_flip($allowedSite));
+    $Console = array_intersect_key(Configure::read('Console'), array_flip($allowedConsole));
+
     $Site['defaultUserTab'] = isset($Site['defaultUserTab']) ? $Site['defaultUserTab'] : 'profile';
 
     $this->set([
       'success' => true,
-      'data' => compact('Session', 'Site'),
+      'data' => compact('Session', 'Site', 'Console'),
     ]);
     $this->viewBuilder()->setOption('serialize', ['success', 'data']);
   }
