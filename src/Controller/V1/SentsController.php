@@ -166,7 +166,7 @@ class SentsController extends AppController
         }
 
         /**
-         * This sent mail belongs to the user
+         * This sets the user the sent mail belongs to
          * specified in payload, joined by user_id field
          */
         if ($entity->get('user')) {
