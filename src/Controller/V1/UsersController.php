@@ -340,9 +340,12 @@ class UsersController extends AppController
     $header = $this->request->getHeaderLine(AUTH_HEADER);
     if ($header && stripos($header, AUTH_PREFIX) === 0) {
       $token = str_ireplace(AUTH_PREFIX . ' ', '', $header);
+    } else {
+      $token = $this->request->getQuery('token');
     }
+
     if (!isset($token)) {
-      throw new UnauthorizedException(__('Unauthorized'));
+      throw new ForbiddenException(__('You must provide a token to sign into your Google account'));
     }
 
     $payload = $this->_getJWTPayload($token);
