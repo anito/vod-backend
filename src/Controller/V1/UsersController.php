@@ -330,7 +330,7 @@ class UsersController extends AppController
 
     $this->set([
       'success' => $success,
-      'data' => compact(['user', 'token', 'message']),
+      'data' => compact(['user', 'groups', 'token', 'message']),
     ]);
     $this->viewBuilder()->setOption('serialize', ['success', 'data']);
   }
