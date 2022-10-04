@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2022-09-20 17:02+0200\n"
+"POT-Creation-Date: 2022-10-04 20:03+0200\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -248,7 +248,6 @@ msgstr ""
 
 #: Controller/V1/InboxesController.php:58
 #: Controller/V1/UsersController.php:231
-#: Controller/V1/UsersController.php:345
 #: Model/Table/UsersTable.php:184
 #: Model/Table/UsersVideosTable.php:105
 msgid "Unauthorized"
@@ -258,23 +257,23 @@ msgstr ""
 msgid "No Index Found Error"
 msgstr ""
 
-#: Controller/V1/SentsController.php:85
+#: Controller/V1/SentsController.php:94
 msgid "My website"
 msgstr ""
 
-#: Controller/V1/SentsController.php:86
+#: Controller/V1/SentsController.php:95
 msgid "General Information"
 msgstr ""
 
-#: Controller/V1/SentsController.php:124
-msgid "Message from: {0}"
+#: Controller/V1/SentsController.php:132
+msgid "Message from {0}"
 msgstr ""
 
-#: Controller/V1/SentsController.php:134
-msgid "New User: {0}"
+#: Controller/V1/SentsController.php:136
+msgid "Message from {0} (New user)"
 msgstr ""
 
-#: Controller/V1/SentsController.php:203
+#: Controller/V1/SentsController.php:214
 msgid "No message"
 msgstr ""
 
@@ -334,27 +333,31 @@ msgstr ""
 msgid "Facebook Login failed"
 msgstr ""
 
-#: Controller/V1/UsersController.php:413
+#: Controller/V1/UsersController.php:348
+msgid "You must provide a token to sign into your Google account"
+msgstr ""
+
+#: Controller/V1/UsersController.php:416
 msgid "Google Login successful"
 msgstr ""
 
-#: Controller/V1/UsersController.php:418
+#: Controller/V1/UsersController.php:421
 msgid "Google Login failed"
 msgstr ""
 
-#: Controller/V1/UsersController.php:444
+#: Controller/V1/UsersController.php:447
 msgid "Invalid username or password"
 msgstr ""
 
-#: Controller/V1/UsersController.php:448
+#: Controller/V1/UsersController.php:451
 msgid "Invalid Token"
 msgstr ""
 
-#: Controller/V1/UsersController.php:495
+#: Controller/V1/UsersController.php:498
 msgid "Login successful"
 msgstr ""
 
-#: Controller/V1/UsersController.php:506
+#: Controller/V1/UsersController.php:509
 msgid "You're logged out"
 msgstr ""
 
@@ -1327,7 +1330,6 @@ msgstr ""
 #: Sents/view.php:47
 #: Users/view.php:127
 #: Users/view.php:163
-#: email/html/from_user.php:117
 msgid "Message"
 msgstr ""
 
@@ -1676,6 +1678,10 @@ msgstr ""
 
 #: email/html/from_user.php:113
 msgid "Option"
+msgstr ""
+
+#: email/html/from_user.php:117
+msgid "Message:"
 msgstr ""
 
 #: layout/default.php:49

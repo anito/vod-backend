@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2022-09-20 17:02+0200\n"
-"PO-Revision-Date: 2022-09-20 17:05+0200\n"
+"POT-Creation-Date: 2022-10-04 20:03+0200\n"
+"PO-Revision-Date: 2022-10-04 20:11+0200\n"
 "Last-Translator: \n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
 "Language: de\n"
@@ -234,8 +234,7 @@ msgid "Image deleted"
 msgstr "Poster wurde gelöscht"
 
 #: Controller/V1/InboxesController.php:58 Controller/V1/UsersController.php:231
-#: Controller/V1/UsersController.php:345 Model/Table/UsersTable.php:184
-#: Model/Table/UsersVideosTable.php:105
+#: Model/Table/UsersTable.php:184 Model/Table/UsersVideosTable.php:105
 msgid "Unauthorized"
 msgstr "Keine Berechtigung"
 
@@ -243,23 +242,23 @@ msgstr "Keine Berechtigung"
 msgid "No Index Found Error"
 msgstr "Index nicht gefunden"
 
-#: Controller/V1/SentsController.php:85
+#: Controller/V1/SentsController.php:94
 msgid "My website"
 msgstr "Meine Webseite"
 
-#: Controller/V1/SentsController.php:86
+#: Controller/V1/SentsController.php:95
 msgid "General Information"
 msgstr "Allgemeine Information"
 
-#: Controller/V1/SentsController.php:124
-msgid "Message from: {0}"
+#: Controller/V1/SentsController.php:132
+msgid "Message from {0}"
 msgstr "Mitteilung von: {0}"
 
-#: Controller/V1/SentsController.php:134
-msgid "New User: {0}"
-msgstr "Neuer Benutzer: {0}"
+#: Controller/V1/SentsController.php:136
+msgid "Message from {0} (New user)"
+msgstr "Mitteilung von: {0}"
 
-#: Controller/V1/SentsController.php:203
+#: Controller/V1/SentsController.php:214
 msgid "No message"
 msgstr "Keine Mitteilung"
 
@@ -319,33 +318,37 @@ msgstr "Sie wurden mit Ihrem Facebook Account angemeldet"
 msgid "Facebook Login failed"
 msgstr "Facebook Anmeldung fehlgeschlagen"
 
-#: Controller/V1/UsersController.php:413
+#: Controller/V1/UsersController.php:348
+msgid "You must provide a token to sign into your Google account"
+msgstr "Du benötigst einen Token um dich an deinem Google Account anzumelden"
+
+#: Controller/V1/UsersController.php:416
 msgid "Google Login successful"
 msgstr "Sie wurden mit Ihrem Google Account angemeldet"
 
-#: Controller/V1/UsersController.php:418
+#: Controller/V1/UsersController.php:421
 msgid "Google Login failed"
 msgstr "Google Anmeldung fehlgeschlagen"
 
-#: Controller/V1/UsersController.php:444
+#: Controller/V1/UsersController.php:447
 msgid "Invalid username or password"
 msgstr "Ungültiger Benutzername oder Passwort"
 
-#: Controller/V1/UsersController.php:448
+#: Controller/V1/UsersController.php:451
 msgid "Invalid Token"
 msgstr "Ungültiger Token"
 
-#: Controller/V1/UsersController.php:495
+#: Controller/V1/UsersController.php:498
 msgid "Login successful"
 msgstr "Sie wurden angemeldet"
 
-#: Controller/V1/UsersController.php:506
+#: Controller/V1/UsersController.php:509
 msgid "You're logged out"
 msgstr "Sie wurden abgemeldet"
 
 #: Controller/V1/VideosController.php:123
 msgid "Videos exceeding maximum post size {max}"
-msgstr ""
+msgstr "„Maximum post size\" {max} wurde bei Video-Upload überschritten"
 
 #: Controller/V1/VideosController.php:145
 #: Controller/V1/VideosController.php:178
@@ -888,7 +891,7 @@ msgid "No"
 msgstr "Nein"
 
 #: Inboxes/view.php:51 Messages/view.php:28 Sents/view.php:47
-#: Users/view.php:127 Users/view.php:163 email/html/from_user.php:117
+#: Users/view.php:127 Users/view.php:163
 msgid "Message"
 msgstr "Mitteilung"
 
@@ -1184,6 +1187,10 @@ msgstr ""
 msgid "Option"
 msgstr "Option"
 
+#: email/html/from_user.php:117
+msgid "Message:"
+msgstr "Mitteilung:"
+
 #: layout/default.php:49
 msgid "Logout"
 msgstr "Abmelden"
@@ -1195,6 +1202,9 @@ msgstr ""
 #: layout/error.php:43
 msgid "Back"
 msgstr "Zurück"
+
+#~ msgid "New User: {0}"
+#~ msgstr "Neuer Benutzer: {0}"
 
 #~ msgid "You are not allowed to add a video"
 #~ msgstr "Du bist nicht berechtigt neue Videos hinzuzufügen"
