@@ -63,7 +63,7 @@ class UsersController extends AppController
       if (!$this->_isPrivileged($authUser)) {
         $query
           // query the authenticated user only
-          ->where(['Users.id' => $authUser["id"]]);
+          ->where(['Users.id' => $authUser->id]);
         $users = $this->paginate($query, $settings);
       } else {
 

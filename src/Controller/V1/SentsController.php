@@ -88,8 +88,7 @@ class SentsController extends AppController
       $_to = [];
       $authUser = $this->_getAuthUser();
       if ($authUser) {
-        $role = $authUser->get('role');
-        $isPrivileged = in_array($role, [ADMIN, SUPERUSER]);
+        $isPrivileged = $this->_isPrivileged($authUser);
       }
       $sitename = Configure::check('Site.name') ? Configure::read('Site.name') : __('My website');
       $defaultSubject = __('General Information');
@@ -300,7 +299,7 @@ class SentsController extends AppController
   public function get($id)
   {
     $user = $this->_getUser($id, ['contain' => 'Groups']);
-    $authID = $this->_getAuthUser('id');
+    $authID = $this->_getAuthUser()->id;
     $userId = $user->id;
     $role = $user->role;
     if ($role === SUPERUSER && $authID !== $userId) {

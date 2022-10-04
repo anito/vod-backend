@@ -79,7 +79,7 @@ class AppController extends Controller
     );
   }
 
-  protected function _getAuthUser($key = null)
+  protected function _getAuthUser()
   {
     $result = $this->Authentication->getResult();
     if ($result->isValid()) {
@@ -90,13 +90,7 @@ class AppController extends Controller
       return;
     }
 
-    $user = $this->_getUser($uid);
-
-    if ($key === null) {
-      return $user;
-    } else {
-      return $user->$key;
-    }
+    return $this->_getUser($uid);
   }
 
   protected function _getUser($id, array $config = [])

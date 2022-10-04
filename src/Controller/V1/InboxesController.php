@@ -71,9 +71,9 @@ class InboxesController extends AppController
   {
     // protect Superusers Mail
     $user = $this->_getUser($id, ['contain' => 'Groups']);
-    $authID = $this->_getAuthUser()['id'];
-    $userId = $user['id'];
-    $role = $user['role'];
+    $authID = $this->_getAuthUser()->id;
+    $userId = $user->id;
+    $role = $user->role;
     if ($role === SUPERUSER && $authID !== $userId) {
       $mails = [];
     } else {

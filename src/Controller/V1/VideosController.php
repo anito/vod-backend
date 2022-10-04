@@ -65,7 +65,7 @@ class VideosController extends AppController
   {
 
     $user = $this->_getAuthUser();
-    $role = $this->_getUserRoleName($user);
+    $role = $user->role;
 
     $this->Crud->on('beforePaginate', function (Event $event) use ($user, $role) {
 
