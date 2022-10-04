@@ -120,6 +120,7 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
       // Additionally accept API JWT tokens
       $service->loadAuthenticator('Authentication.Jwt', [
         'header' => 'Authorization',
+        'queryParam' => 'token',
         'tokenPrefix' => 'Bearer',
         'algorithm' => 'HS256',
         'secretKey' => Security::getSalt(),

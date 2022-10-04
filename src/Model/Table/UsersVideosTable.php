@@ -110,7 +110,7 @@ class UsersVideosTable extends Table
     $id = $authUser->id;
 
     /**
-     * We need to get the "blown" (by Group association) entity
+     * Get the full User entity (associated with Group) since 
      * _footprint (or the authorized user) does not include necessary virtual group.name field persè
      */
     $user = $this->Users->find()
