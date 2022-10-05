@@ -53,7 +53,7 @@ class SettingsController extends AppController
      * Settings which should be available for client
      */
 
-    $allowedSite = ['logo', 'name', 'description', 'defaultUserTab', 'salutation']; // Site settings
+    $allowedSite = ['logo', 'name', 'description', 'defaultUserTab', 'salutations']; // Site settings
     $allowedSession = ['lifetime']; // Session settings
     $allowedConsole = ['info', 'log']; // Console settings
 
