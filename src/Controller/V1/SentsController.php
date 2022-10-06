@@ -207,7 +207,6 @@ class SentsController extends AppController
       /**
        *  View Vars
        */
-      $salutation = Configure::read('Site.salutation');
       $logo = Configure::read('Site.logo');
       $beforeContent = isset($data['before-content']) ? $data['before-content'] : '';
       $content = isset($data['content']) ? $data['content'] : __('No message');
@@ -217,11 +216,11 @@ class SentsController extends AppController
       $beforeFooter = isset($data['before-footer']) ? $data['before-footer'] : '';
       $footer = isset($data['footer']) ? $data['footer'] : '';
       $afterFooter = isset($data['after-footer']) ? $data['after-footer'] : '';
+      $salutation = isset($data['salutation']) ? $data['salutation'] : 'Hi';
       $prime = '#ad1457';
 
       $viewVars = compact([
         'logo',
-        'salutation',
         'name',
         'subject',
         'beforeContent',
@@ -234,6 +233,7 @@ class SentsController extends AppController
         'footer',
         'afterFooter',
         'templateData',
+        'salutation',
         'prime'
       ]);
 
