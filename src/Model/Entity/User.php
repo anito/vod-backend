@@ -33,102 +33,102 @@ use Firebase\JWT\JWT;
 class User extends Entity implements IdentityInterface
 {
 
-    protected function _setPassword($password): ?string
-    {
-        if (strlen($password) > 0) {
-            $hasher = new DefaultPasswordHasher();
+  protected function _setPassword($password): ?string
+  {
+    if (strlen($password) > 0) {
+      $hasher = new DefaultPasswordHasher();
 
-            return $hasher->hash($password);
-        }
+      return $hasher->hash($password);
     }
-    /**
-     * Fields that can be mass assigned using newEntity() or patchEntity().
-     *
-     * Note that when '*' is set to true, this allows all unspecified fields to
-     * be mass assigned. For security purposes, it is advised to set '*' to false
-     * (or remove it), and explicitly make individual fields accessible as needed.
-     *
-     * @var array
-     */
-    protected $_accessible = [
-        'id' => true,
-        'name' => true,
-        'email' => true,
-        'password' => true,
-        'active' => true,
-        'protected' => true,
-        'group_id' => true,
-        'token_id' => false,
-        'last_login' => false,
-        'created' => false,
-        'modified' => false,
-        'modified_by' => false,
-        'group' => true,
-        'avatar' => true,
-        'inboxes' => true,
-        'sents' => true,
-        'token' => true,
-        'videos' => true,
-    ];
+  }
+  /**
+   * Fields that can be mass assigned using newEntity() or patchEntity().
+   *
+   * Note that when '*' is set to true, this allows all unspecified fields to
+   * be mass assigned. For security purposes, it is advised to set '*' to false
+   * (or remove it), and explicitly make individual fields accessible as needed.
+   *
+   * @var array
+   */
+  protected $_accessible = [
+    'id' => true,
+    'name' => true,
+    'email' => true,
+    'password' => true,
+    'active' => true,
+    'protected' => true,
+    'group_id' => true,
+    'token_id' => false,
+    'last_login' => false,
+    'created' => false,
+    'modified' => false,
+    'modified_by' => false,
+    'group' => true,
+    'avatar' => true,
+    'inboxes' => true,
+    'sents' => true,
+    'token' => true,
+    'videos' => true,
+  ];
 
-    /**
-     * Authentication\IdentityInterface method
-     */
-    public function getIdentifier()
-    {
-        return $this->id;
+  /**
+   * Authentication\IdentityInterface method
+   */
+  public function getIdentifier()
+  {
+    return $this->id;
+  }
+
+  /**
+   * Authentication\IdentityInterface method
+   */
+  public function getOriginalData()
+  {
+    return $this;
+  }
+
+  /**
+   * Fields that are excluded from JSON versions of the entity.
+   *
+   * @var array
+   */
+  protected $_hidden = [
+    'password', 'token', 'created', 'modified', 'modified_by', 'last_login'
+  ];
+
+  protected $_virtual = [
+    'expires', 'jwt', 'token_id', 'role'
+  ];
+
+  protected function _getExpires()
+  {
+    if (isset($this->token)) {
+      $jwt = $this->token->token;
+
+      $tks = \explode('.', $jwt);
+      list($headb64, $bodyb64, $cryptob64) = $tks;
+      return JWT::jsonDecode(JWT::urlsafeB64Decode($bodyb64))->exp;
     }
+  }
 
-    /**
-     * Authentication\IdentityInterface method
-     */
-    public function getOriginalData()
-    {
-        return $this;
+  protected function _getTokenId()
+  {
+    if (isset($this->token)) {
+      return $this->token->id;
     }
+  }
 
-    /**
-     * Fields that are excluded from JSON versions of the entity.
-     *
-     * @var array
-     */
-    protected $_hidden = [
-        'password', 'token', 'created', 'modified', 'modified_by', 'last_login'
-    ];
-
-    protected $_virtual = [
-        'expires', 'jwt', 'token_id', 'role'
-    ];
-
-    protected function _getExpires()
-    {
-        if (isset($this->token)) {
-            $jwt = $this->token->token;
-
-            $tks = \explode('.', $jwt);
-            list($headb64, $bodyb64, $cryptob64) = $tks;
-            return JWT::jsonDecode(JWT::urlsafeB64Decode($bodyb64))->exp;
-        }
+  protected function _getJwt()
+  {
+    if (isset($this->token)) {
+      return $this->token->token;
     }
+  }
 
-    protected function _getTokenId()
-    {
-        if (isset($this->token)) {
-            return $this->token->id;
-        }
+  protected function _getRole()
+  {
+    if (isset($this->group)) {
+      return $this->group->name;
     }
-
-    protected function _getJwt()
-    {
-        if (isset($this->token)) {
-            return $this->token->token;
-        }
-    }
-
-    protected function _getRole()
-    {
-        if (isset($this->group)) {
-            return $this->group->name;
-        }
-    }
+  }
 }

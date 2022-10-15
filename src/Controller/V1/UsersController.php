@@ -2,6 +2,7 @@
 
 namespace App\Controller\V1;
 
+use Cake\Collection\CollectionInterface;
 use Cake\Core\Configure;
 use Cake\Event\Event;
 use Cake\Http\Exception\ForbiddenException;
@@ -51,25 +52,34 @@ class UsersController extends AppController
   {
     $authUser = $this->_getAuthUser();
 
-    $this->Crud->on('beforePaginate', function (Event $event) use ($authUser) {
+    $this->Crud->on('afterPaginate', function (Event $event) use ($authUser) {
 
       // limit defaults to 20
       // maxLimit defaults to 100
       // augmented by the sort, direction, limit, and page parameters when passed in from the URL
       $settings = [
-        'limit' => 100,
+        'limit' => 10,
       ];
       $query = $event->getSubject()->query;
-      if (!$this->_isPrivileged($authUser)) {
-        $query
-          // query the authenticated user only
-          ->where(['Users.id' => $authUser->id]);
-        $users = $this->paginate($query, $settings);
-      } else {
 
-        $query->order(['Users.name' => 'ASC']);
-        $users = $this->paginate($query, $settings);
+      if (!$this->_isPrivileged($authUser)) {
+        // query the authenticated user only
+        $query->where(['Users.id' => $authUser->id]);
+      } else if ($authUser->role === ADMIN) {
+        // remove jwt from Superusers
+        $suGroupId = $this->_getRoleIdFromName(SUPERUSER);
+        $query
+          ->formatResults(function (CollectionInterface $results) use ($suGroupId) {
+            return $results->map(function ($row) use ($suGroupId) {
+              if ($row['group_id'] === $suGroupId) {
+                $row['token'] = null;
+              }
+              return $row;
+            });
+          });
       }
+      $query->order(['Users.name' => 'ASC']);
+      $users = $this->paginate($query, $settings);
       $this->set('data', $users);
     });
 
