@@ -109,12 +109,6 @@ class UsersController extends AppController
   {
     $this->Crud->on('beforeFind', function (Event $event) {
 
-      $authUser = $this->_getAuthUser();
-      if (!$this->_isPrivileged($authUser)) {
-        $event->stopPropagation();
-        throw new UnauthorizedException();
-      }
-
       $user = $event->getSubject()->query
         ->contain(
           'Sents',
