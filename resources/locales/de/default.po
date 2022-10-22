@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2022-10-04 20:03+0200\n"
-"PO-Revision-Date: 2022-10-04 20:11+0200\n"
+"POT-Creation-Date: 2022-10-22 03:38+0200\n"
+"PO-Revision-Date: 2022-10-22 03:51+0200\n"
 "Last-Translator: \n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
 "Language: de\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.1.1\n"
+"X-Generator: Poedit 3.2\n"
 
 #: Controller/AvatarsController.php:57 Controller/AvatarsController.php:82
 msgid "The avatar has been saved."
@@ -233,7 +233,7 @@ msgstr "Poster konnte nicht gelöscht werden"
 msgid "Image deleted"
 msgstr "Poster wurde gelöscht"
 
-#: Controller/V1/InboxesController.php:58 Controller/V1/UsersController.php:231
+#: Controller/V1/InboxesController.php:58 Controller/V1/UsersController.php:235
 #: Model/Table/UsersTable.php:184 Model/Table/UsersVideosTable.php:105
 msgid "Unauthorized"
 msgstr "Keine Berechtigung"
@@ -242,23 +242,23 @@ msgstr "Keine Berechtigung"
 msgid "No Index Found Error"
 msgstr "Index nicht gefunden"
 
-#: Controller/V1/SentsController.php:94
+#: Controller/V1/SentsController.php:93
 msgid "My website"
 msgstr "Meine Webseite"
 
-#: Controller/V1/SentsController.php:95
+#: Controller/V1/SentsController.php:94
 msgid "General Information"
 msgstr "Allgemeine Information"
 
-#: Controller/V1/SentsController.php:132
+#: Controller/V1/SentsController.php:131
 msgid "Message from {0}"
 msgstr "Mitteilung von: {0}"
 
-#: Controller/V1/SentsController.php:136
+#: Controller/V1/SentsController.php:135
 msgid "Message from {0} (New user)"
 msgstr "Mitteilung von: {0}"
 
-#: Controller/V1/SentsController.php:214
+#: Controller/V1/SentsController.php:212
 msgid "No message"
 msgstr "Keine Mitteilung"
 
@@ -294,56 +294,56 @@ msgstr "Token generiert"
 msgid "Token removed"
 msgstr "Token gelöscht"
 
-#: Controller/V1/UsersController.php:167
+#: Controller/V1/UsersController.php:171
 msgid "User created"
 msgstr "Benutzer erstellt"
 
-#: Controller/V1/UsersController.php:186
+#: Controller/V1/UsersController.php:190
 msgid "User updated"
 msgstr "Benutzer aktualisiert"
 
-#: Controller/V1/UsersController.php:188
+#: Controller/V1/UsersController.php:192
 msgid "User could not be updated"
 msgstr "Benutzer konnte nicht aktualisiert werden"
 
-#: Controller/V1/UsersController.php:214
+#: Controller/V1/UsersController.php:218
 msgid "User deleted"
 msgstr "Benutzer gelöscht"
 
-#: Controller/V1/UsersController.php:323
+#: Controller/V1/UsersController.php:327
 msgid "Facebook Login successful"
 msgstr "Sie wurden mit Ihrem Facebook Account angemeldet"
 
-#: Controller/V1/UsersController.php:328
+#: Controller/V1/UsersController.php:332
 msgid "Facebook Login failed"
 msgstr "Facebook Anmeldung fehlgeschlagen"
 
-#: Controller/V1/UsersController.php:348
+#: Controller/V1/UsersController.php:352
 msgid "You must provide a token to sign into your Google account"
 msgstr "Du benötigst einen Token um dich an deinem Google Account anzumelden"
 
-#: Controller/V1/UsersController.php:416
+#: Controller/V1/UsersController.php:420
 msgid "Google Login successful"
 msgstr "Sie wurden mit Ihrem Google Account angemeldet"
 
-#: Controller/V1/UsersController.php:421
+#: Controller/V1/UsersController.php:425
 msgid "Google Login failed"
 msgstr "Google Anmeldung fehlgeschlagen"
 
-#: Controller/V1/UsersController.php:447
+#: Controller/V1/UsersController.php:451
 msgid "Invalid username or password"
 msgstr "Ungültiger Benutzername oder Passwort"
 
-#: Controller/V1/UsersController.php:451
+#: Controller/V1/UsersController.php:455
 msgid "Invalid Token"
 msgstr "Ungültiger Token"
 
-#: Controller/V1/UsersController.php:498
+#: Controller/V1/UsersController.php:502
 msgid "Login successful"
 msgstr "Sie wurden angemeldet"
 
-#: Controller/V1/UsersController.php:509
-msgid "You're logged out"
+#: Controller/V1/UsersController.php:513
+msgid "You have been logged out"
 msgstr "Sie wurden abgemeldet"
 
 #: Controller/V1/VideosController.php:123

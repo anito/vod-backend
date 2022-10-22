@@ -510,7 +510,7 @@ class UsersController extends AppController
     $this->Authentication->logout();
     $this->set([
       'success' => true,
-      'message' => __('You\'re logged out'),
+      'message' => __('You have been logged out'),
     ]);
     $this->viewBuilder()->setOption('serialize', ['success', 'message']);
   }

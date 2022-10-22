@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2022-10-04 20:03+0200\n"
+"POT-Creation-Date: 2022-10-22 03:38+0200\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -247,7 +247,7 @@ msgid "Image deleted"
 msgstr ""
 
 #: Controller/V1/InboxesController.php:58
-#: Controller/V1/UsersController.php:231
+#: Controller/V1/UsersController.php:235
 #: Model/Table/UsersTable.php:184
 #: Model/Table/UsersVideosTable.php:105
 msgid "Unauthorized"
@@ -257,23 +257,23 @@ msgstr ""
 msgid "No Index Found Error"
 msgstr ""
 
-#: Controller/V1/SentsController.php:94
+#: Controller/V1/SentsController.php:93
 msgid "My website"
 msgstr ""
 
-#: Controller/V1/SentsController.php:95
+#: Controller/V1/SentsController.php:94
 msgid "General Information"
 msgstr ""
 
-#: Controller/V1/SentsController.php:132
+#: Controller/V1/SentsController.php:131
 msgid "Message from {0}"
 msgstr ""
 
-#: Controller/V1/SentsController.php:136
+#: Controller/V1/SentsController.php:135
 msgid "Message from {0} (New user)"
 msgstr ""
 
-#: Controller/V1/SentsController.php:214
+#: Controller/V1/SentsController.php:212
 msgid "No message"
 msgstr ""
 
@@ -309,56 +309,56 @@ msgstr ""
 msgid "Token removed"
 msgstr ""
 
-#: Controller/V1/UsersController.php:167
+#: Controller/V1/UsersController.php:171
 msgid "User created"
 msgstr ""
 
-#: Controller/V1/UsersController.php:186
+#: Controller/V1/UsersController.php:190
 msgid "User updated"
 msgstr ""
 
-#: Controller/V1/UsersController.php:188
+#: Controller/V1/UsersController.php:192
 msgid "User could not be updated"
 msgstr ""
 
-#: Controller/V1/UsersController.php:214
+#: Controller/V1/UsersController.php:218
 msgid "User deleted"
 msgstr ""
 
-#: Controller/V1/UsersController.php:323
+#: Controller/V1/UsersController.php:327
 msgid "Facebook Login successful"
 msgstr ""
 
-#: Controller/V1/UsersController.php:328
+#: Controller/V1/UsersController.php:332
 msgid "Facebook Login failed"
 msgstr ""
 
-#: Controller/V1/UsersController.php:348
+#: Controller/V1/UsersController.php:352
 msgid "You must provide a token to sign into your Google account"
 msgstr ""
 
-#: Controller/V1/UsersController.php:416
+#: Controller/V1/UsersController.php:420
 msgid "Google Login successful"
 msgstr ""
 
-#: Controller/V1/UsersController.php:421
+#: Controller/V1/UsersController.php:425
 msgid "Google Login failed"
 msgstr ""
 
-#: Controller/V1/UsersController.php:447
+#: Controller/V1/UsersController.php:451
 msgid "Invalid username or password"
 msgstr ""
 
-#: Controller/V1/UsersController.php:451
+#: Controller/V1/UsersController.php:455
 msgid "Invalid Token"
 msgstr ""
 
-#: Controller/V1/UsersController.php:498
+#: Controller/V1/UsersController.php:502
 msgid "Login successful"
 msgstr ""
 
-#: Controller/V1/UsersController.php:509
-msgid "You're logged out"
+#: Controller/V1/UsersController.php:513
+msgid "You have been logged out"
 msgstr ""
 
 #: Controller/V1/VideosController.php:123
