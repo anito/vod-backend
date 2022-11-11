@@ -110,6 +110,10 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
 
     $service = new AuthenticationService();
 
+    $service->setConfig([
+      'unauthenticatedMessage' => 'Authentication is required to continue'
+    ]);
+
     if (strpos($path, '/v1') === 0) {
       $service->loadAuthenticator('Authentication.Form', [
         'fields' => $fields,

@@ -105,7 +105,7 @@ class UsersTable extends Table
       // ->uuid('id', 'No valid UUID')
       ->scalar('id')
       ->allowEmptyString('id', null, 'create')
-      ->add('id', 'unique', ['rule' => 'validateUnique', 'provider' => 'table', 'message' => 'Id already exists']);
+      ->add('id', 'unique', ['rule' => 'validateUnique', 'provider' => 'table', 'message' => __('Id already exists')]);
 
     $validator
       ->scalar('name')
@@ -114,7 +114,8 @@ class UsersTable extends Table
 
     $validator
       ->email('email')
-      ->notEmptyString('email', __('Email can not be empty'));
+      ->notEmptyString('email', __('Email can not be empty'))
+      ->add('email', 'unique', ['rule' => 'validateUnique', 'provider' => 'table', 'message' => __('Email already exists')]);
 
     $validator
       ->scalar('password')
@@ -250,7 +251,6 @@ class UsersTable extends Table
    */
   public function buildRules(RulesChecker $rules): \Cake\ORM\RulesChecker
   {
-    $rules->add($rules->isUnique(['email']));
     $rules->add($rules->isUnique(['id']));
     $rules->add($rules->existsIn(['group_id'], 'Groups'));
 
