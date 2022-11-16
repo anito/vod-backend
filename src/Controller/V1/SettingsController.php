@@ -24,8 +24,6 @@ namespace App\Controller\V1;
 
 use App\Controller\V1\AppController;
 use Cake\Core\Configure;
-use Cake\I18n\I18n;
-use Cake\Log\Log;
 
 class SettingsController extends AppController
 {
