@@ -53,7 +53,7 @@ class SettingsController extends AppController
 
     $allowedSite = ['logo', 'name', 'description', 'defaultUserTab', 'salutations']; // Site settings
     $allowedSession = ['lifetime']; // Session settings
-    $allowedConsole = ['info', 'log']; // Console settings
+    $allowedConsole = ['infoLevel', 'log']; // Console settings
 
     $Session = array_intersect_key(Configure::read('Session'), array_flip($allowedSession));
     $Site = array_intersect_key(Configure::read('Site'), array_flip($allowedSite));
