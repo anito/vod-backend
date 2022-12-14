@@ -30,6 +30,7 @@ use Cake\Http\BaseApplication;
 use Cake\Http\MiddlewareQueue;
 use Cake\Http\Middleware\BodyParserMiddleware;
 use Cake\Http\Middleware\CsrfProtectionMiddleware;
+use Cake\I18n\Middleware\LocaleSelectorMiddleware;
 use Cake\Routing\Middleware\AssetMiddleware;
 use Cake\Routing\Middleware\RoutingMiddleware;
 use Cake\Utility\Security;
@@ -192,7 +193,9 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
       // So that subdirectory information and routes are loaded.
       ->add(new AuthenticationMiddleware($this))
 
-      ->add(new FootprintMiddleware());
+      ->add(new FootprintMiddleware())
+
+      ->add(new LocaleSelectorMiddleware(['en-US', 'de-DE']));
 
     return $middlewareQueue;
   }

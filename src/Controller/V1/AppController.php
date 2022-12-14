@@ -29,23 +29,16 @@ class AppController extends Controller
       $publ = $certs['ca00620c5aa7be8cd03a6f3c68406e45e93b3cab'];
     };
     $salt = $publ ?: Security::getSalt();
-    // Cache::disable();
 
     $this->loadComponent('RequestHandler');
 
     $this->loadComponent('Authentication.Authentication');
 
     $queries = $this->request->getQueryParams();
-    $server = $this->request->getServerParams();
-
     if (isset($queries['locale'])) {
       $locale = $queries['locale'];
-    } else if (isset($server["HTTP_ACCEPT_LANGUAGE"])) {
-      $locale = $server["HTTP_ACCEPT_LANGUAGE"];
-    }
-    if (isset($locale)) {
       I18n::setLocale($locale);
-    };
+    }
   }
 
   protected function _getCert()

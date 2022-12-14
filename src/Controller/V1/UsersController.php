@@ -35,6 +35,7 @@ class UsersController extends AppController
       ],
       'listeners' => [
         'Crud.Api',
+        'Crud.ApiPagination'
       ],
     ]);
     $this->loadComponent('Paginator');
@@ -52,6 +53,10 @@ class UsersController extends AppController
   {
     $authUser = $this->_getAuthUser();
 
+
+    $this->Crud->on('beforePaginate', function (Event $event) use ($authUser) {
+      //
+    });
     $this->Crud->on('afterPaginate', function (Event $event) use ($authUser) {
 
       // limit defaults to 20
@@ -67,11 +72,11 @@ class UsersController extends AppController
         $query->where(['Users.id' => $authUser->id]);
       } else if ($authUser->role === ADMIN) {
         // remove jwt from Superusers
-        $suGroupId = $this->_getRoleIdFromName(SUPERUSER);
+        $superUserGroupId = $this->_getRoleIdFromName(SUPERUSER);
         $query
-          ->formatResults(function (CollectionInterface $results) use ($suGroupId) {
-            return $results->map(function ($row) use ($suGroupId) {
-              if ($row['group_id'] === $suGroupId) {
+          ->formatResults(function (CollectionInterface $results) use ($superUserGroupId) {
+            return $results->map(function ($row) use ($superUserGroupId) {
+              if ($row['group_id'] === $superUserGroupId) {
                 $row['token'] = null;
               }
               return $row;
@@ -79,6 +84,7 @@ class UsersController extends AppController
           });
       }
       $query->order(['Users.name' => 'ASC']);
+
       $users = $this->paginate($query, $settings);
       $this->set('data', $users);
     });

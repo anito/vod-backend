@@ -36,20 +36,23 @@ class ImagesController extends AppController
       ],
       'listeners' => [
         'Crud.Api',
+        'Crud.ApiPagination'
       ],
     ]);
 
-    // $this->Crud->addListener('relatedModels', 'Crud.RelatedModels');
+    $this->loadComponent('Paginator');
+
+    $this->Crud->addListener('relatedModels', 'Crud.RelatedModels');
   }
 
   public function index()
   {
-    $this->Crud->on('beforePaginate', function (Event $event) {
+    $this->Crud->on('afterPaginate', function (Event $event) {
 
       $query = $event->getSubject()->query;
 
       $settings = [
-        'limit' => 250,
+        'limit' => 10,
       ];
       $data = $this->paginate($query, $settings);
       $this->set('data', $data);

@@ -41,6 +41,7 @@ class VideosController extends AppController
       ],
       'listeners' => [
         'Crud.Api',
+        'Crud.ApiPagination'
       ],
     ]);
     $this->loadComponent('Paginator');
@@ -73,7 +74,7 @@ class VideosController extends AppController
       // maxLimit defaults to 100
       // augmented by the sort, direction, limit, and page parameters when passed in from the URL
       $settings = [
-        'limit' => 100,
+        'limit' => 10,
       ];
       $query = $event->getSubject()->query;
 
