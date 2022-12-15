@@ -34,6 +34,10 @@ class VideosController extends AppController
           'className' => 'Crud.Index',
           'relatedModels' => true, // only for index
         ],
+        'all' => [
+          'className' => 'Crud.Index',
+          'relatedModels' => false, // only for index
+        ],
         'Crud.View',
         'Crud.Add',
         'Crud.Edit',
@@ -51,10 +55,51 @@ class VideosController extends AppController
 
   public function all()
   {
-    $data = $this->Videos->find()
-      ->select(['id', 'image_id', 'title', 'description'])
-      ->toArray();
+    /**
+     * This is non-standard CRUD.Index action
+     * and must be therefore mapped
+     * 
+     * $this->loadComponent('Crud.Crud', [
+     *  'actions' => [
+     *    'all' => [
+     *      'className' => 'Crud.Index',
+     *      'relatedModels' => false, // only for index
+     *    ],
+     */
 
+    $this->Crud->on('afterPaginate', function (Event $event) {
+
+      // limit defaults to 20
+      // maxLimit defaults to 100
+      // augmented by the sort, direction, limit, and page parameters when passed in from the URL
+      $settings = [
+        'limit' => 10,
+      ];
+      $videos = $this->Videos->find()
+        ->select(['id', 'image_id', 'title', 'description']);
+      $videos = $this->paginate($videos, $settings);
+
+      $this->set([
+        'data' => $videos,
+      ]);
+    });
+    $this->Crud->action()->serialize(['data']);
+    return $this->Crud->execute();
+  }
+
+  public function all_()
+  {
+    // limit defaults to 20
+    // maxLimit defaults to 100
+    // augmented by the sort, direction, limit, and page parameters when passed in from the URL
+    $settings = [
+      'limit' => 10,
+    ];
+
+    $data = $this->Videos->find()
+      ->select(['id', 'image_id', 'title', 'description']);
+
+    $data = $this->paginate($data, $settings);
     $this->set([
       'success' => true,
       'data' => $data,
@@ -68,7 +113,7 @@ class VideosController extends AppController
     $user = $this->_getAuthUser();
     $role = $user->role;
 
-    $this->Crud->on('beforePaginate', function (Event $event) use ($user, $role) {
+    $this->Crud->on('afterPaginate', function (Event $event) use ($user, $role) {
 
       // limit defaults to 20
       // maxLimit defaults to 100
