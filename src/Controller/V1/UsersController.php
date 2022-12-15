@@ -162,18 +162,20 @@ class UsersController extends AppController
 
       if ($event->getSubject()->created) {
         $id = $event->getSubject()->entity->id;
+        $user = $event->getSubject()->entity->toArray();
         $this->set(
           [
-            'data' => [
-              'id' => $id,
-              'token' => JWT::encode(
-                [
-                  'sub' => $id,
-                  'exp' => time() + Configure::read('Token.lifetime'),
-                ],
-                Security::getSalt()
-              ),
-            ],
+            'data' => $user,
+            // [
+            // 'id' => $id,
+            // 'token' => JWT::encode(
+            //   [
+            //     'sub' => $id,
+            //     'exp' => time() + Configure::read('Token.lifetime'),
+            //   ],
+            //   Security::getSalt()
+            // ),
+            // ],
             'message' => __('User created'),
           ]
         );

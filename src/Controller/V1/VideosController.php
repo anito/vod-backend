@@ -87,33 +87,13 @@ class VideosController extends AppController
     return $this->Crud->execute();
   }
 
-  public function all_()
-  {
-    // limit defaults to 20
-    // maxLimit defaults to 100
-    // augmented by the sort, direction, limit, and page parameters when passed in from the URL
-    $settings = [
-      'limit' => 10,
-    ];
-
-    $data = $this->Videos->find()
-      ->select(['id', 'image_id', 'title', 'description']);
-
-    $data = $this->paginate($data, $settings);
-    $this->set([
-      'success' => true,
-      'data' => $data,
-    ]);
-    $this->viewBuilder()->setOption('serialize', ['success', 'data']);
-  }
-
   public function index()
   {
 
     $user = $this->_getAuthUser();
     $role = $user->role;
 
-    $this->Crud->on('afterPaginate', function (Event $event) use ($user, $role) {
+    $this->Crud->on('beforePaginate', function (Event $event) use ($user, $role) {
 
       // limit defaults to 20
       // maxLimit defaults to 100
