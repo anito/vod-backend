@@ -24,6 +24,7 @@ namespace App\Controller\V1;
 
 use App\Controller\V1\AppController;
 use Cake\Core\Configure;
+use Cake\Event\Event;
 
 class SettingsController extends AppController
 {
@@ -48,9 +49,8 @@ class SettingsController extends AppController
   public function index()
   {
     /**
-     * Settings which should be available for client
+     * Configure public available settings
      */
-
     $allowedSite = ['logo', 'name', 'description', 'defaultUserTab', 'salutations']; // Site settings
     $allowedSession = ['lifetime']; // Session settings
     $allowedConsole = ['infoLevel', 'log']; // Console settings
