@@ -62,11 +62,10 @@ class UsersController extends AppController
         'limit' => 10,
       ];
       $query = $event->getSubject()->query;
-
       if (!$this->_isPrivileged($authUser)) {
         // query the authenticated user only
         $query->where(['Users.id' => $authUser->id]);
-      } else if ($authUser->role === ADMIN) {
+      } else {
         $searchParams = $this->request->getQuery();
         $safe_keys = ['page', 'limit'];
         foreach ($searchParams as $key => $val) {
@@ -74,8 +73,8 @@ class UsersController extends AppController
         }
         $query
           ->where($where ?? '1=1')
+          // remove jwt from Superusers
           ->formatResults(function (CollectionInterface $results) {
-            // remove jwt from Superusers
             $superUserGroupId = $this->_getRoleIdFromName(SUPERUSER);
             return $results->map(function ($row) use ($superUserGroupId) {
               if ($row['group_id'] === $superUserGroupId) {
