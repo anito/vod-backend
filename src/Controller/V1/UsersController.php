@@ -55,7 +55,6 @@ class UsersController extends AppController
 
 
     $this->Crud->on('beforePaginate', function (Event $event) use ($authUser) {
-      //
     });
     $this->Crud->on('afterPaginate', function (Event $event) use ($authUser) {
 
@@ -65,6 +64,7 @@ class UsersController extends AppController
       $settings = [
         'limit' => 10,
       ];
+      $safe_keys = ['page', 'limit'];
       $query = $event->getSubject()->query;
 
       if (!$this->_isPrivileged($authUser)) {
@@ -73,7 +73,12 @@ class UsersController extends AppController
       } else if ($authUser->role === ADMIN) {
         // remove jwt from Superusers
         $superUserGroupId = $this->_getRoleIdFromName(SUPERUSER);
+        $searchParams = $this->request->getQuery();
+        foreach ($searchParams as $key => $val) {
+          if (!in_array($key, $safe_keys)) $where['Users.' . $key . ' LIKE'] = '%' . $val . '%';
+        }
         $query
+          ->where($where ?? '1=1')
           ->formatResults(function (CollectionInterface $results) use ($superUserGroupId) {
             return $results->map(function ($row) use ($superUserGroupId) {
               if ($row['group_id'] === $superUserGroupId) {
