@@ -69,10 +69,10 @@ class UsersController extends AppController
         $searchParams = $this->request->getQuery();
         $safe_keys = ['page', 'limit'];
         foreach ($searchParams as $key => $val) {
-          if (!in_array($key, $safe_keys)) $where['Users.' . $key . ' LIKE'] = '%' . $val . '%';
+          if (!in_array($key, $safe_keys)) $condition['Users.' . $key . ' LIKE'] = '%' . $val . '%';
         }
         $query
-          ->where($where ?? '1=1')
+          ->where($condition ?? '1=1')
           // remove jwt from Superusers
           ->formatResults(function (CollectionInterface $results) {
             $superUserGroupId = $this->_getRoleIdFromName(SUPERUSER);
