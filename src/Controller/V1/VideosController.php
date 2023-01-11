@@ -104,6 +104,7 @@ class VideosController extends AppController
       $query = $event->getSubject()->query;
       $searchParams = $this->request->getQuery();
       $safe_keys = ['page', 'limit'];
+      $condition = [];
       foreach ($searchParams as $key => $val) {
         if (!in_array($key, $safe_keys)) $condition['Videos.' . $key . ' LIKE'] = '%' . $val . '%';
       }
@@ -113,7 +114,7 @@ class VideosController extends AppController
         case ADMIN:
         case SUPERUSER:
           $query
-            ->where($condition ?? '1=1')
+            ->where($condition)
             ->order(['Videos.title' => 'ASC']);
           break;
 
