@@ -93,7 +93,7 @@ class VideosController extends AppController
     $user = $this->_getAuthUser();
     $role = $user->role;
 
-    $this->Crud->on('afterPaginate', function (Event $event) use ($user, $role) {
+    $this->Crud->on('beforePaginate', function (Event $event) use ($user, $role) {
 
       // limit defaults to 20
       // maxLimit defaults to 100
@@ -122,7 +122,7 @@ class VideosController extends AppController
         case USER:
         case GUEST:
           $query
-            // see https://book.cakephp.org/3/en/orm/retrieving-data-and-resultsets.html#filtering-by-associated-data
+            // see https://book.cakephp.org/4/en/orm/retrieving-data-and-resultsets.html#filtering-by-associated-data
             // see https: //stackoverflow.com/questions/26799094/how-to-filter-by-conditions-for-associated-models
             // see https: //stackoverflow.com/questions/10154717/php-cakephp-datetime-compare
             ->matching('Users', function (Query $q) use ($user, $condition) {
