@@ -51,7 +51,7 @@ class SettingsController extends AppController
     /**
      * Configure public available settings
      */
-    $allowedSite = ['logo', 'name', 'description', 'defaultUserTab', 'salutations']; // Site settings
+    $allowedSite = ['logo', 'name', 'description', 'defaultAdminTab', 'salutations']; // Site settings
     $allowedSession = ['lifetime']; // Session settings
     $allowedConsole = ['infoLevel', 'log']; // Console settings
 
@@ -59,7 +59,7 @@ class SettingsController extends AppController
     $Site = array_intersect_key(Configure::read('Site'), array_flip($allowedSite));
     $Console = array_intersect_key(Configure::read('Console'), array_flip($allowedConsole));
 
-    $Site['defaultUserTab'] = isset($Site['defaultUserTab']) ? $Site['defaultUserTab'] : 'profile';
+    $Site['defaultAdminTab'] = $Site['defaultAdminTab'] ?? 'profile';
 
     $this->set([
       'success' => true,
