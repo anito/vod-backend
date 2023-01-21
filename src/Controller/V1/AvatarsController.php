@@ -28,10 +28,6 @@ class AvatarsController extends AppController
     $this->loadComponent('Crud.Crud', [
       'actions' => [
         'Crud.Index',
-        // 'index' => [
-        //     'className' => 'Crud.Index',
-        //     'relatedModels' => true,
-        // ],
         'Crud.View',
         'Crud.Add',
         'Crud.Edit',
@@ -137,7 +133,10 @@ class AvatarsController extends AppController
 
   public function uri($id)
   {
+    $blacklist = ['token'];
     $params = $this->getRequest()->getQuery();
+    $params = array_diff_key($params, array_flip($blacklist));
+
     $lg_path = AVATARS . DS . $id . DS . 'lg';
     $files = glob($lg_path . DS . '*.*');
     if (!empty($files)) {
@@ -145,12 +144,12 @@ class AvatarsController extends AppController
       $type = "avatars";
 
       $options = array_merge(compact(array('fn', 'id', 'type')), $params);
-      $p = $this->Director->p($options);
+      $url = $this->Director->p($options);
       $json = json_encode($params);
       $stringified = preg_replace('/["\'\s]/', '', $json);
       $data = array(
         'id' => $id,
-        'url' => $p,
+        'url' => $url,
         'params' => $stringified,
       );
 

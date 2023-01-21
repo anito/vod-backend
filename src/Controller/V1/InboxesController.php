@@ -23,6 +23,7 @@
 namespace App\Controller\V1;
 
 use App\Controller\V1\AppController;
+use Cake\Event\Event;
 use Cake\Http\Exception\UnauthorizedException;
 
 class InboxesController extends AppController
@@ -85,5 +86,28 @@ class InboxesController extends AppController
       'data' => $mails,
     ]);
     $this->viewBuilder()->setOption('serialize', ['success', 'data']);
+  }
+
+  public function delete($id)
+  {
+    $this->Crud->on('afterDelete', function (Event $event) {
+
+      $success = $event->getSubject()->success;
+      if ($success) {
+        $this->set([
+          'success' => true,
+          'message' => __('Message deleted'),
+          'data' => [],
+        ]);
+      } else {
+        $this->set([
+          'success' => false,
+          'message' => __('Message could not be deleted'),
+          'data' => [],
+        ]);
+      }
+    });
+    $this->viewBuilder()->setOption('serialize', ['success', 'message', 'data']);
+    return $this->Crud->execute();
   }
 }

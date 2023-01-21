@@ -77,10 +77,11 @@ class ImagesController extends AppController
         $images = $this->Images->newEntities($images);
 
         if ($data = $this->Images->saveMany($images)) {
+          $count = count($images);
           $this->set([
             'success' => true,
             'data' => $data,
-            'message' => __('Image saved'),
+            'message' => __n('Image saved', '{0} Images saved', $count, $count),
           ]);
         } else {
           $this->set([
@@ -154,12 +155,13 @@ class ImagesController extends AppController
       $type = "images";
 
       $options = array_merge(compact(array('fn', 'id', 'type')), $params);
-      $p = $this->Director->p($options);
+      $url = $this->Director->p($options);
       $json = json_encode($params);
       $stringified = preg_replace('/["\'\s]/', '', $json);
+
       $data = array(
         'id' => $id,
-        'url' => $p,
+        'url' => $url,
         'params' => $stringified,
       );
 

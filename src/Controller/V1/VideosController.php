@@ -274,13 +274,13 @@ class VideosController extends AppController
       $type = "videos";
 
       $options = array_merge(compact(array('fn', 'id', 'type')), $params);
-      $p = $this->Director->p($options);
+      $url = $this->Director->p($options);
       $json = json_encode($params);
       $stringified = preg_replace('/["\'\s]/', '', $json);
 
       $data = array(
         'id' => $id,
-        'url' => $p,
+        'url' => $url,
         'params' => $stringified,
       );
 
