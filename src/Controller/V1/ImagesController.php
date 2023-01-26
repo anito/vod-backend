@@ -4,6 +4,7 @@ namespace App\Controller\V1;
 
 use App\Controller\V1\AppController;
 use Cake\Core\App;
+use Cake\Database\Query;
 use Cake\Event\Event;
 
 /**
@@ -47,6 +48,11 @@ class ImagesController extends AppController
 
   public function index()
   {
+    $this->Crud->on('beforePaginate', function (Event $event) {
+      $query = $event->getSubject()->query;
+      $query->contain('Videos');
+    });
+
     $this->Crud->on('afterPaginate', function (Event $event) {
 
       $query = $event->getSubject()->query;
