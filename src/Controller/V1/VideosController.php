@@ -6,6 +6,7 @@ use App\Controller\V1\AppController;
 use Cake\Core\App;
 use Cake\Event\Event;
 use Cake\ORM\Query;
+use Cake\ORM\TableRegistry;
 use Exception;
 
 /**
@@ -67,7 +68,7 @@ class VideosController extends AppController
      *    ],
      */
 
-    $this->Crud->on('afterPaginate', function (Event $event) {
+    $this->Crud->on('beforePaginate', function (Event $event) {
 
       // limit defaults to 20
       // maxLimit defaults to 100
@@ -75,9 +76,29 @@ class VideosController extends AppController
       $settings = [
         'limit' => 10,
       ];
-      $videos = $this->Videos->find()
+      $query = $event->getSubject()->query;
+      $condition = [];
+      $searchParams = $this->request->getQuery();
+      if (isset($searchParams['keys'])) {
+        $keys = $searchParams['keys'];
+        $keys = explode(",", $keys);
+        $keys = preg_replace('/\s+/', '', $keys);
+        $search = $searchParams['search'];
+        $table = TableRegistry::getTableLocator()->get('Videos');
+        foreach ($keys as $key) {
+          if ($table->hasField($key)) {
+            $condition['Videos.' . $key . ' LIKE'] = '%' . $search . '%';
+          }
+        }
+        $condition = ['OR' => $condition];
+      }
+
+      $query = $event->getSubject()->query;
+      $query
+        ->where($condition)
         ->select(['id', 'image_id', 'title', 'description']);
-      $videos = $this->paginate($videos, $settings);
+
+      $videos = $this->paginate($query, $settings);
 
       $this->set([
         'data' => $videos,
@@ -101,13 +122,23 @@ class VideosController extends AppController
       $settings = [
         'limit' => 10,
       ];
-      $query = $event->getSubject()->query;
-      $searchParams = $this->request->getQuery();
-      $safe_keys = ['page', 'limit'];
       $condition = [];
-      foreach ($searchParams as $key => $val) {
-        if (!in_array($key, $safe_keys)) $condition['Videos.' . $key . ' LIKE'] = '%' . $val . '%';
+      $searchParams = $this->request->getQuery();
+      if (isset($searchParams['keys'])) {
+        $keys = $searchParams['keys'];
+        $keys = explode(",", $keys);
+        $keys = preg_replace('/\s+/', '', $keys);
+        $search = $searchParams['search'];
+        $table = TableRegistry::getTableLocator()->get('Videos');
+        foreach ($keys as $key) {
+          if ($table->hasField($key)) {
+            $condition['Videos.' . $key . ' LIKE'] = '%' . $search . '%';
+          }
+        }
+        $condition = ['OR' => $condition];
       }
+
+      $query = $event->getSubject()->query;
 
       switch ($role) {
 
