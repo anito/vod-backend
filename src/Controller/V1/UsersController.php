@@ -36,7 +36,7 @@ class UsersController extends AppController
       'listeners' => [
         'Crud.Api',
         'Crud.ApiPagination',
-        'Crud.ApiQueryLog'
+        // 'Crud.ApiQueryLog'
       ],
     ]);
     $this->loadComponent('Paginator');
@@ -67,13 +67,23 @@ class UsersController extends AppController
         // query the authenticated user only
         $query->where(['Users.id' => $authUser->id]);
       } else {
+        $condition = [];
         $searchParams = $this->request->getQuery();
-        $safe_keys = ['page', 'limit'];
-        foreach ($searchParams as $key => $val) {
-          if (!in_array($key, $safe_keys)) $condition['Users.' . $key . ' LIKE'] = '%' . $val . '%';
+        if (isset($searchParams['keys'])) {
+          $keys = $searchParams['keys'];
+          $keys = explode(",", $keys);
+          $keys = preg_replace('/\s+/', '', $keys);
+          $search = $searchParams['search'];
+          $table = TableRegistry::getTableLocator()->get('Users');
+          foreach ($keys as $key) {
+            if ($table->hasField($key)) {
+              $condition['Users.' . $key . ' LIKE'] = '%' . $search . '%';
+            }
+          }
+          $condition = ['OR' => $condition];
         }
         $query
-          ->where($condition ?? '1=1')
+          ->where($condition)
           // remove jwt from Superusers
           ->formatResults(function (CollectionInterface $results) {
             $superUserGroupId = $this->_getRoleIdFromName(SUPERUSER);
