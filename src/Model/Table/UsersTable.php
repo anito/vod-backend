@@ -60,8 +60,6 @@ class UsersTable extends Table
     $this->addBehavior('Timestamp');
     $this->addBehavior('Muffin/Footprint.Footprint');
 
-    $this->protectedUserMessage = __('This user is protected');
-
     $this->belongsTo('Groups', [
       'foreignKey' => 'group_id',
     ]);
