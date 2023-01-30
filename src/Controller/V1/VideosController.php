@@ -22,7 +22,9 @@ class VideosController extends AppController
   {
     parent::initialize();
 
-    $this->Authentication->addUnauthenticatedActions(['all']);
+    $this->Authentication->addUnauthenticatedActions([]);
+
+    $user = $this->_getAuthUser();
 
     $this->loadComponent('File');
     $this->loadComponent('Director');
@@ -33,11 +35,7 @@ class VideosController extends AppController
         // 'Crud.Index',
         'index' => [
           'className' => 'Crud.Index',
-          'relatedModels' => true, // only for index
-        ],
-        'all' => [
-          'className' => 'Crud.Index',
-          'relatedModels' => false, // only for index
+          'relatedModels' => $this->_isPrivileged($user) ? true : false, // -> for index action anly
         ],
         'Crud.View',
         'Crud.Add',
@@ -54,73 +52,13 @@ class VideosController extends AppController
     $this->Crud->addListener('relatedModels', 'Crud.RelatedModels');
   }
 
-  public function all()
-  {
-    /**
-     * This is non-standard CRUD.Index action
-     * and must be therefore mapped
-     * 
-     * $this->loadComponent('Crud.Crud', [
-     *  'actions' => [
-     *    'all' => [
-     *      'className' => 'Crud.Index',
-     *      'relatedModels' => false, // only for index
-     *    ],
-     */
-
-    $user = $this->_getAuthUser();
-
-    $this->Crud->on('beforePaginate', function (Event $event) use ($user) {
-
-      // limit defaults to 20
-      // maxLimit defaults to 100
-      // augmented by the sort, direction, limit, and page parameters when passed in from the URL
-      $settings = [
-        'limit' => 10,
-      ];
-      $query = $event->getSubject()->query;
-      $condition = [];
-      $searchParams = $this->request->getQuery();
-      if (isset($searchParams['keys'])) {
-        $keys = $searchParams['keys'];
-        $keys = explode(",", $keys);
-        $keys = preg_replace('/\s+/', '', $keys);
-        $search = $searchParams['search'];
-        $table = TableRegistry::getTableLocator()->get('Videos');
-        foreach ($keys as $key) {
-          if ($table->hasField($key)) {
-            $condition['Videos.' . $key . ' LIKE'] = '%' . $search . '%';
-          }
-        }
-        $condition = ['OR' => $condition];
-      }
-
-      $query = $event->getSubject()->query;
-      $query
-        ->where($condition)
-        ->order(['Videos.title' => 'ASC']);
-
-      if (!$this->_isPrivileged($user)) {
-        $query->select(['id', 'image_id', 'title', 'description']);
-      }
-
-      $videos = $this->paginate($query, $settings);
-
-      $this->set([
-        'data' => $videos,
-      ]);
-    });
-    $this->Crud->action()->serialize(['data']);
-    return $this->Crud->execute();
-  }
-
-  public function index()
+  public function index($type = null)
   {
 
     $user = $this->_getAuthUser();
     $role = $user->role;
 
-    $this->Crud->on('beforePaginate', function (Event $event) use ($user, $role) {
+    $this->Crud->on('beforePaginate', function (Event $event) use ($user, $role, $type) {
 
       // limit defaults to 20
       // maxLimit defaults to 100
@@ -151,32 +89,37 @@ class VideosController extends AppController
         case ADMIN:
         case SUPERUSER:
           $query
-            ->where($condition)
-            ->order(['Videos.title' => 'ASC']);
+            ->where($condition);
           break;
 
         case MANAGER:
         case USER:
         case GUEST:
-          $query
-            // see https://book.cakephp.org/4/en/orm/retrieving-data-and-resultsets.html#filtering-by-associated-data
-            // see https: //stackoverflow.com/questions/26799094/how-to-filter-by-conditions-for-associated-models
-            // see https: //stackoverflow.com/questions/10154717/php-cakephp-datetime-compare
-            ->matching('Users', function (Query $q) use ($user, $condition) {
-
-              $now = date('Y-m-d H:i:s');
-
-              $condition = array_merge($condition, [
-                'Users.id' => $user['id'],
-                'UsersVideos.start <=' => $now,
-                'UsersVideos.end >=' => $now,
-              ]);
-
-              return $q
-                ->where($condition)
-                ->order(['Videos.title' => 'ASC']);
-            });
+          if($type === 'all') {
+            $query
+              ->where($condition)
+              ->select(['id', 'image_id', 'title', 'description']);
+          } else {
+            $query
+              // see https://book.cakephp.org/4/en/orm/retrieving-data-and-resultsets.html#filtering-by-associated-data
+              // see https: //stackoverflow.com/questions/26799094/how-to-filter-by-conditions-for-associated-models
+              // see https: //stackoverflow.com/questions/10154717/php-cakephp-datetime-compare
+              ->matching('Users', function (Query $q) use ($user, $condition) {
+  
+                $now = date('Y-m-d H:i:s');
+  
+                $condition = array_merge($condition, [
+                  'Users.id' => $user['id'],
+                  'UsersVideos.start <=' => $now,
+                  'UsersVideos.end >=' => $now,
+                ]);
+  
+                return $q
+                  ->where($condition);
+              });
+          }
       }
+      $query->order(['Videos.title' => 'ASC']);
       $videos = $this->paginate($query, $settings);
 
       $this->set([

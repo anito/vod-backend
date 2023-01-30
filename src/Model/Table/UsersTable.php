@@ -223,6 +223,10 @@ class UsersTable extends Table
 
   public function beforeDelete(EventInterface $event, EntityInterface $entity, $options)
   {
+    $authUser = isset($options['_footprint']) ? $options['_footprint'] : null;
+    if ($entity->id === $authUser->id) {
+      throw new ForbiddenException(__('You are not allowed to delete your own profiled'));
+    }
     if ($entity->protected) {
       throw new ForbiddenException(__('This user is protected'));
     }

@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2023-01-21 03:30+0100\n"
-"PO-Revision-Date: 2023-01-21 23:36+0100\n"
+"POT-Creation-Date: 2023-01-30 22:30+0100\n"
+"PO-Revision-Date: 2023-01-30 22:34+0100\n"
 "Last-Translator: \n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
 "Language: de\n"
@@ -212,30 +212,31 @@ msgstr "Avatar gespeichert"
 msgid "Avatar deleted"
 msgstr "Avatar gelöscht"
 
-#: Controller/V1/ImagesController.php:90
+#: Controller/V1/ImagesController.php:96
 msgid "An error occurred saving your image data"
 msgstr "Fehler beim Speichern des Posters"
 
-#: Controller/V1/ImagesController.php:97 Controller/V1/VideosController.php:193
-#: Controller/V1/VideosController.php:200
+#: Controller/V1/ImagesController.php:103
+#: Controller/V1/VideosController.php:173
+#: Controller/V1/VideosController.php:180
 msgid "An Error occurred while uploading your files"
 msgstr "Fehler beim Hochladen der Dateien"
 
-#: Controller/V1/ImagesController.php:123
+#: Controller/V1/ImagesController.php:129
 msgid "Image could not be deleted"
 msgstr "Poster konnte nicht gelöscht werden"
 
-#: Controller/V1/ImagesController.php:136
+#: Controller/V1/ImagesController.php:142
 msgid "Image deleted"
 msgstr "Poster gelöscht"
 
-#: Controller/V1/ImagesController.php:84
+#: Controller/V1/ImagesController.php:90
 msgid "Image saved"
 msgid_plural "{0} Images saved"
 msgstr[0] "Poster gespeichert"
 msgstr[1] "{0} Poster gespeichert"
 
-#: Controller/V1/InboxesController.php:59 Controller/V1/UsersController.php:245
+#: Controller/V1/InboxesController.php:59 Controller/V1/UsersController.php:255
 #: Model/Table/UsersTable.php:185 Model/Table/UsersVideosTable.php:105
 msgid "Unauthorized"
 msgstr "Keine Berechtigung"
@@ -305,77 +306,77 @@ msgstr "Token generiert"
 msgid "Token removed"
 msgstr "Token gelöscht"
 
-#: Controller/V1/UsersController.php:181
+#: Controller/V1/UsersController.php:191
 msgid "User created"
 msgstr "Benutzer erstellt"
 
-#: Controller/V1/UsersController.php:200
+#: Controller/V1/UsersController.php:210
 msgid "User updated"
 msgstr "Benutzer aktualisiert"
 
-#: Controller/V1/UsersController.php:202
+#: Controller/V1/UsersController.php:212
 msgid "User could not be updated"
 msgstr "Benutzer konnte nicht aktualisiert werden"
 
-#: Controller/V1/UsersController.php:228
+#: Controller/V1/UsersController.php:238
 msgid "User deleted"
 msgstr "Benutzer gelöscht"
 
-#: Controller/V1/UsersController.php:337
+#: Controller/V1/UsersController.php:347
 msgid "Facebook Login successful"
 msgstr "Sie wurden mit Ihrem Facebook Account angemeldet"
 
-#: Controller/V1/UsersController.php:342
+#: Controller/V1/UsersController.php:352
 msgid "Facebook Login failed"
 msgstr "Facebook Anmeldung fehlgeschlagen"
 
-#: Controller/V1/UsersController.php:362
+#: Controller/V1/UsersController.php:372
 msgid "You must provide a token to sign into your Google account"
 msgstr "Du benötigst einen Token um dich an deinem Google Account anzumelden"
 
-#: Controller/V1/UsersController.php:430
+#: Controller/V1/UsersController.php:440
 msgid "Google Login successful"
 msgstr "Sie wurden mit Ihrem Google Account angemeldet"
 
-#: Controller/V1/UsersController.php:435
+#: Controller/V1/UsersController.php:445
 msgid "Google Login failed"
 msgstr "Google Anmeldung fehlgeschlagen"
 
-#: Controller/V1/UsersController.php:461
+#: Controller/V1/UsersController.php:471
 msgid "Invalid username or password"
 msgstr "Ungültiger Benutzername oder Passwort"
 
-#: Controller/V1/UsersController.php:465
+#: Controller/V1/UsersController.php:475
 msgid "Invalid Token"
 msgstr "Ungültiger Token"
 
-#: Controller/V1/UsersController.php:512
+#: Controller/V1/UsersController.php:522
 msgid "Login successful"
 msgstr "Sie wurden angemeldet"
 
-#: Controller/V1/UsersController.php:523
+#: Controller/V1/UsersController.php:533
 msgid "You have been logged out"
 msgstr "Sie wurden abgemeldet"
 
-#: Controller/V1/VideosController.php:156
+#: Controller/V1/VideosController.php:136
 msgid "Videos exceeding maximum post size {max}"
 msgstr "„Maximum post size\" {max} wurde bei Video-Upload überschritten"
 
-#: Controller/V1/VideosController.php:178
-#: Controller/V1/VideosController.php:211
+#: Controller/V1/VideosController.php:158
+#: Controller/V1/VideosController.php:191
 msgid "Video saved"
 msgstr "Video gespeichert"
 
-#: Controller/V1/VideosController.php:185
-#: Controller/V1/VideosController.php:215
+#: Controller/V1/VideosController.php:165
+#: Controller/V1/VideosController.php:195
 msgid "Video could not be saved"
 msgstr "Video konnte nicht gesichert werden"
 
-#: Controller/V1/VideosController.php:243
+#: Controller/V1/VideosController.php:223
 msgid "Video could not be deleted"
 msgstr "Video konnte nicht gelöscht werden"
 
-#: Controller/V1/VideosController.php:256
+#: Controller/V1/VideosController.php:236
 msgid "Video deleted"
 msgstr "Video gelöscht"
 
@@ -400,7 +401,7 @@ msgid "Token did not change."
 msgstr "Der Token wurde nicht geändert."
 
 #: Model/Table/UsersTable.php:63 Model/Table/UsersTable.php:214
-#: Model/Table/UsersTable.php:227
+#: Model/Table/UsersTable.php:231
 msgid "This user is protected"
 msgstr "Dieser Benutzer ist schreibgeschützt"
 
@@ -428,7 +429,11 @@ msgstr "Du bist nicht berechtigt dein eigenes Profil zu deaktivieren"
 msgid "At least 1 Superuser must be preserved"
 msgstr "Es muss mindestens 1 Superuser existieren"
 
-#: Model/Table/UsersTable.php:300 Model/Table/UsersTable.php:312
+#: Model/Table/UsersTable.php:228
+msgid "You are not allowed to delete your own profiled"
+msgstr "Du bist nicht berechtigt dein eigenes Profil zu löschen"
+
+#: Model/Table/UsersTable.php:304 Model/Table/UsersTable.php:316
 msgid "Invalid token"
 msgstr "Ungültiger Token"
 
