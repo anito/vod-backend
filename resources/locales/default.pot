@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2023-01-30 22:30+0100\n"
+"POT-Creation-Date: 2023-01-30 23:21+0100\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -250,7 +250,7 @@ msgstr[1] ""
 
 #: Controller/V1/InboxesController.php:59
 #: Controller/V1/UsersController.php:255
-#: Model/Table/UsersTable.php:185
+#: Model/Table/UsersTable.php:183
 #: Model/Table/UsersVideosTable.php:105
 msgid "Unauthorized"
 msgstr ""
@@ -417,42 +417,41 @@ msgstr ""
 msgid "Token did not change."
 msgstr ""
 
-#: Model/Table/UsersTable.php:63
-#: Model/Table/UsersTable.php:214
-#: Model/Table/UsersTable.php:231
-msgid "This user is protected"
-msgstr ""
-
-#: Model/Table/UsersTable.php:108
+#: Model/Table/UsersTable.php:106
 msgid "Id already exists"
 msgstr ""
 
-#: Model/Table/UsersTable.php:113
+#: Model/Table/UsersTable.php:111
 msgid "Name can not be empty"
 msgstr ""
 
-#: Model/Table/UsersTable.php:117
+#: Model/Table/UsersTable.php:115
 msgid "Email can not be empty"
 msgstr ""
 
-#: Model/Table/UsersTable.php:118
+#: Model/Table/UsersTable.php:116
 msgid "Email already exists"
 msgstr ""
 
-#: Model/Table/UsersTable.php:172
+#: Model/Table/UsersTable.php:170
 msgid "You are not allowed to deactivate your own profile"
 msgstr ""
 
-#: Model/Table/UsersTable.php:197
+#: Model/Table/UsersTable.php:195
 msgid "At least 1 Superuser must be preserved"
 msgstr ""
 
-#: Model/Table/UsersTable.php:228
-msgid "You are not allowed to delete your own profiled"
+#: Model/Table/UsersTable.php:212
+#: Model/Table/UsersTable.php:229
+msgid "This user is protected"
 msgstr ""
 
-#: Model/Table/UsersTable.php:304
-#: Model/Table/UsersTable.php:316
+#: Model/Table/UsersTable.php:226
+msgid "You are not allowed to delete your own profile"
+msgstr ""
+
+#: Model/Table/UsersTable.php:302
+#: Model/Table/UsersTable.php:314
 msgid "Invalid token"
 msgstr ""
 

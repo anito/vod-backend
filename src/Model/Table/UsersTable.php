@@ -223,7 +223,7 @@ class UsersTable extends Table
   {
     $authUser = isset($options['_footprint']) ? $options['_footprint'] : null;
     if ($entity->id === $authUser->id) {
-      throw new ForbiddenException(__('You are not allowed to delete your own profiled'));
+      throw new ForbiddenException(__('You are not allowed to delete your own profile'));
     }
     if ($entity->protected) {
       throw new ForbiddenException(__('This user is protected'));
