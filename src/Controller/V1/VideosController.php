@@ -69,9 +69,8 @@ class VideosController extends AppController
      */
 
     $user = $this->_getAuthUser();
-    $role = $user->role;
 
-    $this->Crud->on('beforePaginate', function (Event $event) use ($user, $role) {
+    $this->Crud->on('beforePaginate', function (Event $event) use ($user) {
 
       // limit defaults to 20
       // maxLimit defaults to 100
@@ -98,7 +97,8 @@ class VideosController extends AppController
 
       $query = $event->getSubject()->query;
       $query
-        ->where($condition);
+        ->where($condition)
+        ->order(['Videos.title' => 'ASC']);
 
       if (!$this->_isPrivileged($user)) {
         $query->select(['id', 'image_id', 'title', 'description']);
