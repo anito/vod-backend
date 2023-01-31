@@ -197,6 +197,7 @@ class VideosController extends AppController
       } else {
         $this->set([
           'message' => __('Video could not be saved'),
+          'data' => []
         ]);
       }
       $this->Crud->action()->serialize(['message', 'data']);
