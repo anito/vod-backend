@@ -184,23 +184,17 @@ class VideosController extends AppController
     $this->viewBuilder()->setOption('serialize', ['success', 'data', 'message']);
   }
 
-  public function edit($id)
+  public function edit()
   {
     $this->Crud->on('afterSave', function (Event $event) {
       if ($event->getSubject()->success) {
-        $table = TableRegistry::getTableLocator()->get('Images');
-        $images = $table->find('all')->contain(['Videos'])->toList();
-        $this->set([
-          'message' => __('Video saved'),
-          'data' => $images
+        $this->set(['message' => __('Video saved'),
         ]);
       } else {
-        $this->set([
-          'message' => __('Video could not be saved'),
-          'data' => []
+        $this->set(['message' => __('Video could not be saved'),
         ]);
       }
-      $this->Crud->action()->serialize(['message', 'data']);
+      $this->Crud->action()->serialize(['message']);
     });
 
     return $this->Crud->execute();

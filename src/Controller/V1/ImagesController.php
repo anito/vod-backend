@@ -49,6 +49,7 @@ class ImagesController extends AppController
   public function index()
   {
     $this->Crud->on('beforePaginate', function (Event $event) {
+      $queryParams = $this->getRequest()->getQueryParams();
       $query = $event->getSubject()->query;
       $query->contain('Videos');
     });
