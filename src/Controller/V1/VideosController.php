@@ -5,6 +5,7 @@ namespace App\Controller\V1;
 use App\Controller\V1\AppController;
 use Cake\Core\App;
 use Cake\Event\Event;
+use Cake\ORM\Locator\TableLocator;
 use Cake\ORM\Query;
 use Cake\ORM\TableRegistry;
 use Exception;
@@ -187,15 +188,18 @@ class VideosController extends AppController
   {
     $this->Crud->on('afterSave', function (Event $event) {
       if ($event->getSubject()->success) {
+        $table = TableRegistry::getTableLocator()->get('Images');
+        $images = $table->find('all')->contain(['Videos'])->toList();
         $this->set([
           'message' => __('Video saved'),
+          'data' => $images
         ]);
       } else {
         $this->set([
           'message' => __('Video could not be saved'),
         ]);
       }
-      $this->Crud->action()->serialize(['message']);
+      $this->Crud->action()->serialize(['message', 'data']);
     });
 
     return $this->Crud->execute();
