@@ -27,6 +27,10 @@ class VideosController extends AppController
 
     $user = $this->_getAuthUser();
 
+    if (!isset($user)) {
+      $request = $this->getRequest();
+    }
+
     $this->loadComponent('File');
     $this->loadComponent('Director');
     $this->loadComponent('Upload');
@@ -36,7 +40,7 @@ class VideosController extends AppController
         // 'Crud.Index',
         'index' => [
           'className' => 'Crud.Index',
-          'relatedModels' => $this->_isPrivileged($user) ? true : false, // -> for index action anly
+          'relatedModels' => (isset($user) && $this->_isPrivileged($user)) ? true : false, // -> for index action anly
         ],
         'Crud.View',
         'Crud.Add',
