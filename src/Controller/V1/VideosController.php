@@ -26,10 +26,7 @@ class VideosController extends AppController
     $this->Authentication->addUnauthenticatedActions([]);
 
     $user = $this->_getAuthUser();
-
-    if (!isset($user)) {
-      $request = $this->getRequest();
-    }
+    $isRelatedModelActive = (isset($user) && $this->_isPrivileged($user)) ? true : false;
 
     $this->loadComponent('File');
     $this->loadComponent('Director');
@@ -40,7 +37,7 @@ class VideosController extends AppController
         // 'Crud.Index',
         'index' => [
           'className' => 'Crud.Index',
-          'relatedModels' => (isset($user) && $this->_isPrivileged($user)) ? true : false, // -> for index action anly
+          'relatedModels' => $isRelatedModelActive, // -> for index action anly
         ],
         'Crud.View',
         'Crud.Add',
