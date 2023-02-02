@@ -5,6 +5,7 @@ namespace App\Controller\V1;
 use Cake\Collection\CollectionInterface;
 use Cake\Core\Configure;
 use Cake\Event\Event;
+use Cake\Event\EventInterface;
 use Cake\Http\Exception\ForbiddenException;
 use Cake\Http\Exception\UnauthorizedException;
 use Cake\ORM\Query;
@@ -50,6 +51,15 @@ class UsersController extends AppController
     });
   }
 
+  public function beforeFilter(EventInterface $event)
+  {
+    $this->searchParams = $this->request->getQuery();
+    $this->isSearch = isset($this->searchParams['keys']);
+    if (!$this->isSearch) {
+      $this->Crud->addListener('Crud.ApiPagination');
+    }
+  }
+  
   public function index()
   {
     $authUser = $this->_getAuthUser();
@@ -68,12 +78,11 @@ class UsersController extends AppController
         $query->where(['Users.id' => $authUser->id]);
       } else {
         $condition = [];
-        $searchParams = $this->request->getQuery();
-        if (isset($searchParams['keys'])) {
-          $keys = $searchParams['keys'];
+        if (isset($this->searchParams['keys']) && isset($this->searchParams['search'])) {
+          $keys = $this->searchParams['keys'];
           $keys = explode(",", $keys);
           $keys = preg_replace('/\s+/', '', $keys);
-          $search = $searchParams['search'];
+          $search = $this->searchParams['search'];
           $table = TableRegistry::getTableLocator()->get('Users');
           foreach ($keys as $key) {
             if ($table->hasField($key)) {
