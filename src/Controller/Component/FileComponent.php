@@ -600,22 +600,6 @@ class FileComponent extends Component {
     return $dec;
   }
 
-  function ffmpeg() {
-    if (function_exists('exec') && (DS == '/' || (DS == '\\' && FFMPEG_PATH_FINAL != 'ffmpeg'))) {
-      exec(FFMPEG_PATH_FINAL . ' -version  2>&1', $out);
-      if (empty($out)) {
-        return false;
-      } else {
-        if (strpos($out[0], 'FFmpeg') !== false) {
-          return true;
-        } else {
-          return false;
-        }
-      }
-    }
-    return false;
-  }
-
   function isVideo($fn) {
     
     if ( preg_match('/\.(mov|mp4|m4a|m4v|3gp|3g2|webm)$/i', $fn) ) {

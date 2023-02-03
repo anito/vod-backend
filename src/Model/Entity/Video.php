@@ -13,6 +13,7 @@ use Cake\ORM\Entity;
  * @property string|null $title
  * @property string|null $description
  * @property string $src
+ * @property float|null $duration
  * @property int|null $filesize
  * @property bool|null $teaser
  * @property float|null $playhead
@@ -40,6 +41,7 @@ class Video extends Entity
         'title' => true,
         'description' => true,
         'src' => true,
+        'duration' => true,
         'filesize' => true,
         'teaser' => true,
         'playhead' => true,

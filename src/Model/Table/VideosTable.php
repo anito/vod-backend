@@ -84,6 +84,10 @@ class VideosTable extends Table
       ->notEmptyString('src');
 
     $validator
+      ->numeric('duration')
+      ->allowEmptyString('duration');
+
+    $validator
       ->integer('filesize')
       ->allowEmptyFile('filesize');
 

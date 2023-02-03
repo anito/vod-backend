@@ -3,6 +3,7 @@
 namespace App\Controller\Component;
 
 use Cake\Controller\Component;
+use Cake\ORM\Entity;
 
 class DirectorComponent extends Component
 {
@@ -86,6 +87,41 @@ class DirectorComponent extends Component
       }
     }
     return array($x, $y);
+  }
+
+  public function ffmpeg()
+  {
+    if (function_exists('exec') && (DS == '/' || (DS == '\\' && FFMPEG_PATH_FINAL != 'ffmpeg'))) {
+      exec(FFMPEG_PATH_FINAL . ' -version  2>&1', $out);
+      if (empty($out)) {
+        return false;
+      } else {
+        if (strpos($out[0], 'FFmpeg') !== false) {
+          return true;
+        } else {
+          return false;
+        }
+      }
+    }
+    return false;
+  }
+
+  public function getDuration($path)
+  {
+    $info = pathinfo($path);
+    $ext = $info['extension'];
+    exec(FFMPEG_PATH_FINAL . " -i $path 2>&1", $out);
+
+    $duration = null;
+    foreach ($out as $line) {
+      if (strpos($line, 'Duration') !== false) {
+        preg_match('/Duration: ([0-9]{2}):([0-9]{2}):([0-9]{2})/', $line, $matches);
+        list(, $h, $m, $s) = $matches;
+        $duration = ($h * 60 * 60) + ($m * 60) + $s;
+        continue;
+      }
+    }
+    return $duration;
   }
 
   public function getMediaBasePath($path)

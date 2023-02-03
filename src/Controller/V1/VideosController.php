@@ -11,6 +11,8 @@ use Cake\ORM\Query;
 use Cake\ORM\TableRegistry;
 use Exception;
 
+use function PHPUnit\Framework\fileExists;
+
 /**
  * Videos Controller
  *
@@ -65,6 +67,11 @@ class VideosController extends AppController
 
   public function index($type = null)
   {
+    /**
+     * Uncomment to rescan all videos header for duration information
+     * and write to db (meta is read from file header) - CAUTION - SLOW!
+     */
+    // $noobs = $this->check();
 
     $user = $this->_getAuthUser();
     $role = $user->role;
@@ -139,6 +146,37 @@ class VideosController extends AppController
     });
     $this->Crud->action()->serialize(['data']);
     return $this->Crud->execute();
+  }
+
+  public function check()
+  {
+    $videos = $this->Videos->find('all');
+    $noobs = [];
+
+    $ffmpeg = $this->Director->ffmpeg();
+    if ($ffmpeg) {
+
+      foreach ($videos as $video) {
+        $id = $video->id;
+        $src = $video->src;
+        $path = VIDEOS . DS . $id . DS . 'lg' . DS . $src;
+        $files = glob($path);
+
+        if (count($files) === 0) continue;
+        $fileExists = fileExists($files[0]);
+        $duration = $this->Director->getDuration($path);
+        if ($duration) {
+          $this->Videos->patchEntity($video,  [
+            'duration' => $duration
+          ]);
+          $noobs[] = $video;
+        }
+      }
+      if (!empty($noobs)) {
+        return $this->Videos->saveMany($noobs);
+      }
+    }
+    return;
   }
 
   public function add()

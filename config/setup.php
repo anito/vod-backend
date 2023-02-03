@@ -64,7 +64,8 @@ if (!defined('MAGICK_PATH')) {
 
 if (!defined('FFMPEG_PATH')) {
   define('FFMPEG_PATH', 'ffmpeg');
-} else {
+}
+if (!defined('FFMPEG_PATH_FINAL')) {
   define('FFMPEG_PATH_FINAL', FFMPEG_PATH);
 }
 if (!defined('TOPLEVEL')) {
