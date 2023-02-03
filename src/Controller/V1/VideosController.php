@@ -163,7 +163,6 @@ class VideosController extends AppController
         $files = glob($path);
 
         if (count($files) === 0) continue;
-        $fileExists = fileExists($files[0]);
         $duration = $this->Director->getDuration($path);
         if ($duration) {
           $this->Videos->patchEntity($video,  [
