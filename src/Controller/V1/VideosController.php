@@ -6,12 +6,10 @@ use App\Controller\V1\AppController;
 use Cake\Core\App;
 use Cake\Event\Event;
 use Cake\Event\EventInterface;
-use Cake\ORM\Locator\TableLocator;
+use Cake\Log\Log;
 use Cake\ORM\Query;
 use Cake\ORM\TableRegistry;
 use Exception;
-
-use function PHPUnit\Framework\fileExists;
 
 /**
  * Videos Controller
@@ -71,7 +69,7 @@ class VideosController extends AppController
      * Uncomment to rescan all videos header for duration information
      * and write to db (meta is read from file header) - CAUTION - SLOW!
      */
-    // $noobs = $this->check();
+    // $this->updateDuration();
 
     $user = $this->_getAuthUser();
     $role = $user->role;
@@ -148,7 +146,7 @@ class VideosController extends AppController
     return $this->Crud->execute();
   }
 
-  public function check()
+  public function updateDuration()
   {
     $videos = $this->Videos->find('all');
     $noobs = [];
