@@ -26,5 +26,4 @@ uploads/*
 vendor/*
 mysql/*
 mysqlconf/*
-composer.lock
 config/.env

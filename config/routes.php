@@ -93,7 +93,7 @@ $routes->scope('/', function (RouteBuilder $builder) {
     $builder->connect('/facebook/*', ['controller' => 'Users', 'action' => 'facebook']);
     $builder->connect('/logout', ['controller' => 'Users', 'action' => 'logout']);
     $builder->connect('/videos/all', ['controller' => 'Videos', 'action' => 'index', 'all']);
-    $builder->connect('/q/:crypt/:timestamp/*', ['controller' => 'Kodaks', 'action' => 'process']);
+    $builder->connect('/q/{crypt}/{timestamp}/*', ['controller' => 'Kodaks', 'action' => 'process']);
     $builder->connect('/register', ['controller' => 'Users', 'action' => 'add']);
     $builder->connect('/u/v/*', ['controller' => 'Videos', 'action' => 'uri']);
     $builder->connect('/u/i/*', ['controller' => 'Images', 'action' => 'uri']);

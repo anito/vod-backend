@@ -3,7 +3,6 @@
 namespace App\Controller\V1;
 
 use Cake\Collection\CollectionInterface;
-use Cake\Core\Configure;
 use Cake\Event\Event;
 use Cake\Event\EventInterface;
 use Cake\Http\Exception\ForbiddenException;
@@ -40,7 +39,6 @@ class UsersController extends AppController
         // 'Crud.ApiQueryLog'
       ],
     ]);
-    $this->loadComponent('Paginator');
 
     $this->Crud->addListener('relatedModels', 'Crud.RelatedModels');
 

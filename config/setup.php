@@ -2,7 +2,7 @@
 
 use Cake\Core\Configure;
 use Cake\Core\Configure\Engine\IniConfig;
-use Cake\I18n\Time;
+use Cake\I18n\FrozenTime;
 
 Configure::config('settings', new IniConfig());
 Configure::load('config', 'settings');
@@ -17,7 +17,7 @@ Configure::write('Site.salutation', Configure::read('Site.salutation'));
 //     'prefix' => 'cake_mysql_conf_'
 // ]);
 
-Time::setDefaultLocale('de-DE');
+FrozenTime::setDefaultLocale('de-DE');
 
 define('API_PATH', 'v1');
 define('AUTH_HEADER', 'Authorization');

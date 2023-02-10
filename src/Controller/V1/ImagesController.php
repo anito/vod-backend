@@ -41,8 +41,6 @@ class ImagesController extends AppController
       ],
     ]);
 
-    $this->loadComponent('Paginator');
-
     $this->Crud->addListener('relatedModels', 'Crud.RelatedModels');
   }
 
