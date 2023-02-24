@@ -68,7 +68,8 @@ class AppController extends Controller
         'sub' => $id,
         'exp' => $expires,
       ],
-      Security::getSalt()
+      Security::getSalt(),
+      'HS256'
     );
   }
 
@@ -117,6 +118,7 @@ class AppController extends Controller
     $res = $table->find()
       ->contain(['Groups'])
       ->where(['Users.group_id' => $this->_getRoleIdFromName(ADMIN)])
+      ->all()
       ->toList();
     return $res;
   }

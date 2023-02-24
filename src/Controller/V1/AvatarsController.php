@@ -63,6 +63,7 @@ class AvatarsController extends AppController
         // remove the former avatar (that with the same user_id) manually
         $oldEntities = $this->Avatars->find()
           ->where(['user_id' => $uid])
+          ->all()
           ->toList();
 
         foreach ($oldEntities as $oldie) {

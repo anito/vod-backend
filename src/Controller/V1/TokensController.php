@@ -84,7 +84,7 @@ class TokensController extends AppController
     });
 
     // normally we would return the newly created token
-    // but in this case we want the updated user being sent back to the client
+    // but in our case need the updated user to be sent back to the client
     $this->Crud->on('afterSave', function (Event $event) use ($uid) {
 
       $usersTable = TableRegistry::getTableLocator()->get('Users');

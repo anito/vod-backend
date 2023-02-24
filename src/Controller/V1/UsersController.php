@@ -269,7 +269,8 @@ class UsersController extends AppController
         'sub' => $uid,
         'exp' => time() + 604800,
       ],
-      Security::getSalt()
+      Security::getSalt(),
+      'HS256'
     );
 
     $this->set([

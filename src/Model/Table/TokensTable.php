@@ -87,6 +87,7 @@ class TokensTable extends Table
     {
         $oldies = $this->find()
             ->where(['user_id' => $uid, 'token !=' => $jwt])
+            ->all()
             ->toList();
 
         foreach ($oldies as $oldie) {
