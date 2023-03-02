@@ -52,7 +52,7 @@ class SettingsController extends AppController
      * Configure public available settings
      */
     $allowedSite = ['logo', 'name', 'description', 'defaultAdminTab', 'salutations']; // Site settings
-    $allowedSession = ['lifetime']; // Session settings
+    $allowedSession = ['lifetime', 'logoutredirect']; // Session settings
     $allowedConsole = ['infoLevel', 'log']; // Console settings
 
     $Session = array_intersect_key(Configure::read('Session'), array_flip($allowedSession));

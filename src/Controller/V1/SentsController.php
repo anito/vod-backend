@@ -249,8 +249,8 @@ class SentsController extends AppController
 
       /**
        * Mail should have header, subject and message properties
-       * Add a subject property and
-       * Save mail to database
+       * add a subject property and
+       * save mail to database
        */
       $message['subject'] = $subject;
 
