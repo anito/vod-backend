@@ -138,7 +138,6 @@ class AppController extends Controller
 
   protected function _getRoleIdFromName($rolename)
   {
-
     return TableRegistry::getTableLocator()->get('Groups')
       ->find()
       ->where(['Groups.name' => $rolename])

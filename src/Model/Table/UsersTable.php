@@ -161,16 +161,17 @@ class UsersTable extends Table
   {
     $authUser = isset($options['_footprint']) ? $options['_footprint'] : null;
     if (isset($authUser)) {
-      // prevent users from deactivating their own profile
+      // Prevent users from deactivating their own profile
       $authId = $authUser->id;
-      $isSuperuser = $this->_isRole($authId, SUPERUSER);
+      $isRoleSuperuser = $this->_isRole($authId, SUPERUSER);
+      $isRoleUser = $this->_isRole($authId, USER);
       $userId = $entity->id;
       $active = $entity->active;
       if ($authId === $userId && !$active) {
         throw new ForbiddenException(__('You are not allowed to deactivate your own profile'));
       }
 
-      // only Superusers can change role to Superuser
+      // Only Superusers can change role to Superuser
       if ($entity->isDirty('group_id')) {
         $gid = $entity->group_id;
         $groups = TableRegistry::getTableLocator()->get('Groups');
@@ -179,11 +180,11 @@ class UsersTable extends Table
           ->first()
           ->name;
 
-        if (!$isSuperuser && ($name === SUPERUSER)) {
+        if (!$isRoleSuperuser && ($name === SUPERUSER)) {
           throw new UnauthorizedException(__('Unauthorized'));
         }
 
-        // preserve at least one superuser
+        // Preserve at least one superuser
         $superusersCount = $this->find()
           ->matching('Groups', function (Query $q) {
             return $q->where(['Groups.name' => SUPERUSER]);
@@ -196,15 +197,19 @@ class UsersTable extends Table
         }
       }
 
-
       if ($entity->isNew()) {
         $event = new Event('User.registration', $this, ['user' => $entity]);
         $this->getEventManager()->dispatch($event);
       }
 
-      // only Superusers can edit protected users
+      // Simple Users cannot edit profiles other than their own
+      if ($isRoleUser && $entity->id !== $authId) {
+        throw new UnauthorizedException(__('Unauthorized'));
+      }
+
+      // Only Superusers can edit protected users
       if ($entity->protected) {
-        if (!$isSuperuser) {
+        if (!$isRoleSuperuser) {
           $allowedFields = ['videos', 'last_login', 'modified', 'modified_by'];
           $dirty = $entity->getDirty();
           foreach ($dirty as $value) {
