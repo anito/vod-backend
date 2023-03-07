@@ -59,9 +59,6 @@ class SettingsController extends AppController
     $Site = array_intersect_key(Configure::read('Site'), array_flip($allowedSite));
     $Console = array_intersect_key(Configure::read('Console'), array_flip($allowedConsole));
 
-    $Site['defaultadmintab'] = $Site['defaultadmintab'] ?? 'profile';
-    $Site['defaultusertab'] = $Site['defaultusertab'] ?? 'time';
-
     $this->set([
       'success' => true,
       'data' => compact('Session', 'Site', 'Console'),
