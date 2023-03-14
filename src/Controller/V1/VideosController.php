@@ -6,6 +6,7 @@ use App\Controller\V1\AppController;
 use Cake\Core\App;
 use Cake\Event\Event;
 use Cake\Event\EventInterface;
+use Cake\Http\Exception\UnauthorizedException;
 use Cake\Log\Log;
 use Cake\ORM\Query;
 use Cake\ORM\TableRegistry;
@@ -72,7 +73,6 @@ class VideosController extends AppController
     // $this->updateDuration();
 
     $user = $this->_getAuthUser();
-    $role = $user->role;
     $condition = [];
 
     if (isset($this->searchParams['keys']) && isset($this->searchParams['search'])) {
@@ -89,7 +89,7 @@ class VideosController extends AppController
       $condition = ['OR' => $condition];
     }
 
-    $this->Crud->on('beforePaginate', function (Event $event) use ($user, $role, $type, $condition) {
+    $this->Crud->on('beforePaginate', function (Event $event) use ($user, $type, $condition) {
 
       // limit defaults to 20
       // maxLimit defaults to 100
@@ -99,7 +99,7 @@ class VideosController extends AppController
       ];
 
       $query = $event->getSubject()->query;
-
+      $role = $user->role;
       switch ($role) {
 
         case ADMIN:
@@ -143,6 +143,18 @@ class VideosController extends AppController
       ]);
     });
     $this->Crud->action()->serialize(['data']);
+    return $this->Crud->execute();
+  }
+
+  public function view($id)
+  {
+    $user = $this->_getAuthUser();
+    $isAdmin = $this->_isPrivileged($user);
+
+    if (!$isAdmin) {
+      throw new UnauthorizedException(__('Unauthorized'));
+    };
+
     return $this->Crud->execute();
   }
 

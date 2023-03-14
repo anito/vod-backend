@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Model\Table;
 
+use Cake\Datasource\EntityInterface;
+use Cake\Event\EventInterface;
+use Cake\Http\Exception\UnauthorizedException;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
@@ -48,6 +51,7 @@ class VideosTable extends Table
     $this->setPrimaryKey('id');
 
     $this->addBehavior('Timestamp');
+    $this->addBehavior('Muffin/Footprint.Footprint');
 
     $this->belongsTo('Images', [
       'foreignKey' => 'image_id',
@@ -151,5 +155,19 @@ class VideosTable extends Table
       ->order([
         'UsersVideos.end' => 'DESC',
       ]);
+  }
+
+  public function beforeFilter(EventInterface $event, EntityInterface $entity, $options)
+  {
+    $authUser = isset($options['_footprint']) ? $options['_footprint'] : null;
+    if (isset($authUser)) {
+      $authId = $authUser->id;
+      $isRoleUser = $this->_isRole($authId, USER);
+
+      // Users shall only query videos through UsersVideos
+      if ($isRoleUser) {
+        throw new UnauthorizedException(__('Unauthorized'));
+      }
+    }
   }
 }
