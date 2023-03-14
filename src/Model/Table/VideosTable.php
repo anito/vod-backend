@@ -156,18 +156,4 @@ class VideosTable extends Table
         'UsersVideos.end' => 'DESC',
       ]);
   }
-
-  public function beforeFilter(EventInterface $event, EntityInterface $entity, $options)
-  {
-    $authUser = isset($options['_footprint']) ? $options['_footprint'] : null;
-    if (isset($authUser)) {
-      $authId = $authUser->id;
-      $isRoleUser = $this->_isRole($authId, USER);
-
-      // Users shall only query videos through UsersVideos
-      if ($isRoleUser) {
-        throw new UnauthorizedException(__('Unauthorized'));
-      }
-    }
-  }
 }
