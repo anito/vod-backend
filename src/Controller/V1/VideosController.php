@@ -111,7 +111,7 @@ class VideosController extends AppController
         case MANAGER:
         case USER:
         case GUEST:
-          if($type === 'all') {
+          if ($type === 'all') {
             $query
               ->where($condition)
               ->select(['id', 'image_id', 'title', 'description']);
@@ -121,15 +121,15 @@ class VideosController extends AppController
               // see https: //stackoverflow.com/questions/26799094/how-to-filter-by-conditions-for-associated-models
               // see https: //stackoverflow.com/questions/10154717/php-cakephp-datetime-compare
               ->matching('Users', function (Query $q) use ($user, $condition) {
-  
+
                 $now = date('Y-m-d H:i:s');
-  
+
                 $condition = array_merge($condition, [
                   'Users.id' => $user['id'],
                   'UsersVideos.start <=' => $now,
                   'UsersVideos.end >=' => $now,
                 ]);
-  
+
                 return $q
                   ->where($condition);
               });
@@ -146,15 +146,24 @@ class VideosController extends AppController
     return $this->Crud->execute();
   }
 
-  public function view($id)
+  public function view()
   {
     $user = $this->_getAuthUser();
-    $isAdmin = $this->_isPrivileged($user);
+    if (!$this->_isPrivileged($user)) {
+      $this->Crud->on('beforeFind', function (Event $event) use ($user) {
+        $query = $event->getSubject()->query
+          ->matching('Users', function (Query $q) use ($user) {
+            return $q->where(['Users.id' => $user->id]);
+          })
+          ->select(['id', 'image_id', 'title', 'description'])
+          ->first();
 
-    if (!$isAdmin) {
-      throw new UnauthorizedException(__('Unauthorized'));
-    };
-
+        $this->set([
+          'data' => $query,
+        ]);
+      });
+      $this->Crud->action()->serialize(['data']);
+    }
     return $this->Crud->execute();
   }
 
@@ -245,10 +254,12 @@ class VideosController extends AppController
   {
     $this->Crud->on('afterSave', function (Event $event) {
       if ($event->getSubject()->success) {
-        $this->set(['message' => __('Video saved'),
+        $this->set([
+          'message' => __('Video saved'),
         ]);
       } else {
-        $this->set(['message' => __('Video could not be saved'),
+        $this->set([
+          'message' => __('Video could not be saved'),
         ]);
       }
       $this->Crud->action()->serialize(['message']);
