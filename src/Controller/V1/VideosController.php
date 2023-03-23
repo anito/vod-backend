@@ -153,7 +153,13 @@ class VideosController extends AppController
       $this->Crud->on('beforeFind', function (Event $event) use ($user) {
         $query = $event->getSubject()->query
           ->matching('Users', function (Query $q) use ($user) {
-            return $q->where(['Users.id' => $user->id]);
+          $now = date('Y-m-d H:i:s');
+          $condition = [
+            'Users.id' => $user['id'],
+            'UsersVideos.start <=' => $now,
+            'UsersVideos.end >=' => $now,
+          ];
+          return $q->where($condition);
           })
           ->select(['id', 'image_id', 'title', 'description'])
           ->first();
