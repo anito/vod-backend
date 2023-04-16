@@ -22,31 +22,6 @@ use Cake\Http\Exception\NotFoundException;
 
 $this->disableAutoLayout();
 
-$checkConnection = function (string $name) {
-    $error = null;
-    $connected = false;
-    try {
-        $connection = ConnectionManager::get($name);
-        $connected = $connection->connect();
-    } catch (Exception $connectionError) {
-        $error = $connectionError->getMessage();
-        if (method_exists($connectionError, 'getAttributes')) {
-            $attributes = $connectionError->getAttributes();
-            if (isset($attributes['message'])) {
-                $error .= '<br />' . $attributes['message'];
-            }
-        }
-    }
-
-    return compact('connected', 'error');
-};
-
-if (!Configure::read('debug')):
-    throw new NotFoundException(
-        'Please replace templates/Pages/home.php with your own version or re-enable debug mode.'
-    );
-endif;
-
 $cakeDescription = 'CakePHP: the rapid development PHP framework';
 ?>
 <!DOCTYPE html>
@@ -75,8 +50,11 @@ $cakeDescription = 'CakePHP: the rapid development PHP framework';
                 <img alt="CakePHP" src="https://cakephp.org/v2/img/logos/CakePHP_Logo.svg" width="350" />
             </a>
             <h1>
-                Welcome to CakePHP <?=Configure::version()?> Strawberry (🍓)
+                VoD Manager Backend API
             </h1>
+            <h5>
+                    CakePHP Version <?=Configure::version()?> Strawberry (🍓)
+            </h5>
         </div>
     </header>
     <main class="main">
@@ -85,17 +63,8 @@ $cakeDescription = 'CakePHP: the rapid development PHP framework';
                 <div class="row">
                     <div class="column">
                         <div class="message default text-center">
-                            <small>Please be aware that this page will not be shown if you turn off debug mode unless you replace templates/Pages/home.php with your own version.</small>
+                            <small>System Check</small>
                         </div>
-                        <!-- <div id="url-rewriting-warning" class="alert url-rewriting">
-                            <ul>
-                                <li class="bullet problem">
-                                    URL rewriting is not properly configured on your server.<br />
-                                    1) <a target="_blank" rel="noopener" href="https://book.cakephp.org/4/en/installation.html#url-rewriting">Help me configure it</a><br />
-                                    2) <a target="_blank" rel="noopener" href="https://book.cakephp.org/4/en/development/configuration.html#general-configuration">I don't / can't use URL rewriting</a>
-                                </li>
-                            </ul>
-                        </div> -->
                         <?php Debugger::checkSecurityKeys();?>
                     </div>
                 </div>
@@ -152,79 +121,6 @@ $cakeDescription = 'CakePHP: the rapid development PHP framework';
                             <li class="bullet problem">Your cache is NOT working. Please check the settings in config/app.php</li>
                         <?php endif;?>
                         </ul>
-                    </div>
-                </div>
-                <hr>
-                <div class="row">
-                    <div class="column">
-                        <h4>Database</h4>
-                        <?php
-$result = $checkConnection('default');
-?>
-                        <ul>
-                        <?php if ($result['connected']): ?>
-                            <li class="bullet success">CakePHP is able to connect to the database.</li>
-                        <?php else: ?>
-                            <li class="bullet problem">CakePHP is NOT able to connect to the database.<br /><?=$result['error']?></li>
-                        <?php endif;?>
-                        </ul>
-                    </div>
-                    <div class="column">
-                        <h4>DebugKit</h4>
-                        <ul>
-                        <?php if (Plugin::isLoaded('DebugKit')): ?>
-                            <li class="bullet success">DebugKit is loaded.</li>
-                            <?php
-$result = $checkConnection('debug_kit');
-?>
-                            <?php if ($result['connected']): ?>
-                                <li class="bullet success">DebugKit can connect to the database.</li>
-                            <?php else: ?>
-                                <li class="bullet problem">DebugKit is <strong>not</strong> able to connect to the database.<br /><?=$result['error']?></li>
-                            <?php endif;?>
-                        <?php else: ?>
-                            <li class="bullet problem">DebugKit is <strong>not</strong> loaded.</li>
-                        <?php endif;?>
-                        </ul>
-                    </div>
-                </div>
-                <hr>
-                <div class="row">
-                    <div class="column links">
-                        <h3>Getting Started</h3>
-                        <a target="_blank" rel="noopener" href="https://book.cakephp.org/4/en/">CakePHP Documentation</a>
-                        <a target="_blank" rel="noopener" href="https://book.cakephp.org/4/en/tutorials-and-examples/cms/installation.html">The 20 min CMS Tutorial</a>
-                    </div>
-                </div>
-                <hr>
-                <div class="row">
-                    <div class="column links">
-                        <h3>Help and Bug Reports</h3>
-                        <a target="_blank" rel="noopener" href="irc://irc.freenode.net/cakephp">irc.freenode.net #cakephp</a>
-                        <a target="_blank" rel="noopener" href="http://cakesf.herokuapp.com/">Slack</a>
-                        <a target="_blank" rel="noopener" href="https://github.com/cakephp/cakephp/issues">CakePHP Issues</a>
-                        <a target="_blank" rel="noopener" href="http://discourse.cakephp.org/">CakePHP Forum</a>
-                    </div>
-                </div>
-                <hr>
-                <div class="row">
-                    <div class="column links">
-                        <h3>Docs and Downloads</h3>
-                        <a target="_blank" rel="noopener" href="https://api.cakephp.org/">CakePHP API</a>
-                        <a target="_blank" rel="noopener" href="https://bakery.cakephp.org">The Bakery</a>
-                        <a target="_blank" rel="noopener" href="https://book.cakephp.org/4/en/">CakePHP Documentation</a>
-                        <a target="_blank" rel="noopener" href="https://plugins.cakephp.org">CakePHP plugins repo</a>
-                        <a target="_blank" rel="noopener" href="https://github.com/cakephp/">CakePHP Code</a>
-                        <a target="_blank" rel="noopener" href="https://github.com/FriendsOfCake/awesome-cakephp">CakePHP Awesome List</a>
-                        <a target="_blank" rel="noopener" href="https://www.cakephp.org">CakePHP</a>
-                    </div>
-                </div>
-                <hr>
-                <div class="row">
-                    <div class="column links">
-                        <h3>Training and Certification</h3>
-                        <a target="_blank" rel="noopener" href="https://cakefoundation.org/">Cake Software Foundation</a>
-                        <a target="_blank" rel="noopener" href="https://training.cakephp.org/">CakePHP Training</a>
                     </div>
                 </div>
             </div>
