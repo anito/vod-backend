@@ -17,6 +17,7 @@
 namespace App\Controller;
 
 use Cake\Controller\Controller;
+use Cake\Event\EventInterface;
 use Cake\ORM\Entity;
 use Cake\ORM\TableRegistry;
 
@@ -50,11 +51,17 @@ class AppController extends Controller
     $this->loadComponent('Flash');
     $this->loadComponent('Authentication.Authentication');
 
-    /*
-         * Enable the following component for recommended CakePHP security settings.
-         * see https://book.cakephp.org/3/en/controllers/components/security.html
-         */
+    /**
+     *  Enable the following component for recommended CakePHP security settings.
+     *  see https://book.cakephp.org/3/en/controllers/components/security.html
+     */
     // $this->loadComponent('Security');
+  }
+
+  public function beforeFilter(EventInterface $event)
+  {
+    parent::beforeFilter($event);
+    $this->Authentication->addUnauthenticatedActions(['display']);
   }
 
   protected function _isPrivileged(Entity $user)
