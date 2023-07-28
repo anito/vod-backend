@@ -68,7 +68,7 @@ class SettingsController extends AppController
 
     $this->set([
       'success' => true,
-      'data' => compact('Session', 'Site', 'Console'),
+      'data' => compact('Session', 'Site', 'Console', 'Misc'),
     ]);
     $this->viewBuilder()->setOption('serialize', ['success', 'data']);
   }
