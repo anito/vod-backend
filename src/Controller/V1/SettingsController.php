@@ -49,11 +49,15 @@ class SettingsController extends AppController
   public function index()
   {
     /**
-     * Configure public available settings
+     * Configure publicly available settings
      */
-    $allowedSite = ['logo', 'name', 'description', 'defaultadmintab', 'defaultusertab', 'salutations']; // Site settings
-    $allowedSession = ['lifetime', 'logoutredirect']; // Session settings
-    $allowedConsole = ['infoLevel', 'log']; // Console settings
+
+    // Site settings
+    $allowedSite = ['logo', 'name', 'description', 'defaultadmintab', 'defaultusertab','salutations', 'web-vitals'];
+    // Session settings
+    $allowedSession = ['lifetime', 'logoutredirect'];
+    // Console settings
+    $allowedConsole = ['infoLevel', 'log'];
 
     $Session = array_intersect_key(Configure::read('Session'), array_flip($allowedSession));
     $Site = array_intersect_key(Configure::read('Site'), array_flip($allowedSite));
