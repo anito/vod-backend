@@ -53,7 +53,7 @@ class SettingsController extends AppController
      */
 
     // Site
-    $allowedSite = ['logo', 'name', 'description', 'defaultadmintab', 'defaultusertab','salutations', 'web-vitals'];
+    $allowedSite = ['logo', 'name', 'description', 'defaultadmintab', 'defaultusertab','salutations'];
     // Session
     $allowedSession = ['lifetime', 'logoutredirect'];
     // Console
