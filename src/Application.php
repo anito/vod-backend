@@ -120,7 +120,7 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
         'fields' => $fields,
         // 'loginUrl' => '/v1/users/login', // ommit if additional actions (e.g. /users/token) use form authentication
       ]);
-      $service->loadIdentifier('Authentication.Password', compact('fields', 'resolver'));
+      $service->loadIdentifier('Authentication.Password', compact('fields'));
 
       // Additionally accept API JWT tokens
       $service->loadAuthenticator('Authentication.Jwt', [
