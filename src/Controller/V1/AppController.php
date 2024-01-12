@@ -63,14 +63,7 @@ class AppController extends Controller
     } else {
       $expires = $exp;
     }
-    return JWT::encode(
-      [
-        'sub' => $id,
-        'exp' => $expires,
-      ],
-      Security::getSalt(),
-      'HS256'
-    );
+    return createJWT($id, $expires);
   }
 
   protected function _getAuthUser()

@@ -308,11 +308,11 @@ class UsersTable extends Table
     }
 
     // Token found in database, check it's validity
-    $allowed_algs = ['HS256'];
+    $allowed_algs = ['RS256'];
     try {
       JWT::decode(
         $token,
-        Security::getSalt(),
+        getPublicKey(),
         $allowed_algs
       );
     } catch (Exception $e) {

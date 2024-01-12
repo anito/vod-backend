@@ -57,7 +57,7 @@ class UsersController extends AppController
       $this->Crud->addListener('Crud.ApiPagination');
     }
   }
-  
+
   public function index()
   {
     $authUser = $this->_getAuthUser();
@@ -264,14 +264,7 @@ class UsersController extends AppController
 
     $uid = $this->Authentication->getIdentity()->getIdentifier();
 
-    $token = JWT::encode(
-      [
-        'sub' => $uid,
-        'exp' => time() + 604800,
-      ],
-      Security::getSalt(),
-      'HS256'
-    );
+    $token = createJWT($uid);
 
     $this->set([
       'success' => true,
@@ -478,16 +471,20 @@ class UsersController extends AppController
       // invalid form login or invalid token
       throw new UnauthorizedException(__('Invalid username or password'));
     }
-    if (!$this->_isValidToken($loggedinUser) && !$this->_isPrivileged($loggedinUser)) {
+
+    $isPriveleged = $this->_isPrivileged($loggedinUser);
+
+    // Check token against db on none privileged users
+    if (!$this->_isValidToken($loggedinUser) && !$isPriveleged) {
       // Token valid but didn't pass database check
       throw new UnauthorizedException(__('Invalid Token'));
     }
 
     $id = $loggedinUser->id;
 
-    if ($this->_isPrivileged($loggedinUser)) {
+    if ($isPriveleged) {
       // for admins extend token validity if expired or empty
-      $expires = TableRegistry::getTableLocator()->get('Users')
+      $expires = $this->Users
         ->find()
         ->contain(['Tokens'])
         ->where(['Users.id' => $id])
@@ -497,19 +494,18 @@ class UsersController extends AppController
       if (time() > $expires) {
         $jwt = $this->_createToken($id, time() + 30 * 24 * 3600); // 30*24 hours (30 days)
 
-        $tokenTable = TableRegistry::getTableLocator()->get('Tokens');
-        $token = $tokenTable
+        $token = $this->Users->Tokens
           ->find()
           ->where(['Tokens.user_id' => $id])
           ->first();
 
         if (!$token) {
-          $token = $tokenTable->newEntity([
+          $token = $this->Users->Tokens->newEntity([
             'user_id' => $id,
           ]);
         }
         $token->token = $jwt;
-        $tokenTable->save($token);
+        $this->Users->Tokens->save($token);
         $renewed = $id;
       }
     }

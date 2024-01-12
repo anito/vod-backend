@@ -6,6 +6,7 @@ use App\Controller\V1\AppController;
 use Cake\Core\App;
 use Cake\Event\Event;
 use Cake\ORM\TableRegistry;
+use Cake\View\JsonView;
 
 /**
  * Avatars Controller
@@ -15,6 +16,11 @@ use Cake\ORM\TableRegistry;
  */
 class AvatarsController extends AppController
 {
+
+  public function viewClasses(): array
+  {
+    return [JsonView::class];
+  }
 
   public function initialize(): void
   {
@@ -136,6 +142,8 @@ class AvatarsController extends AppController
   {
     $blacklist = ['token'];
     $params = $this->getRequest()->getQuery();
+
+    // Remove blacklisted params
     $params = array_diff_key($params, array_flip($blacklist));
 
     $lg_path = AVATARS . DS . $id . DS . 'lg';

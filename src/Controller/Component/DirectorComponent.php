@@ -46,7 +46,7 @@ class DirectorComponent extends Component
       define('PATH', $this->getMediaBasePath($params['type']));
     }
 
-    $crypt = $this->Salt->convert($args); //encode
+    $crypt = $this->Salt->encrypt($args); //encrypt
 
     $path = PATH . DS . $params['id'] . DS . 'lg' . DS . $params['fn'];
     $m = filemtime($path);

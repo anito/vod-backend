@@ -26,4 +26,8 @@ uploads/*
 vendor/*
 mysql/*
 mysqlconf/*
+
+# sensitive config
 config/.env
+config/jwt.pem
+config/jwt.key

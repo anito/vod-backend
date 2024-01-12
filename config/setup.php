@@ -3,6 +3,7 @@
 use Cake\Core\Configure;
 use Cake\Core\Configure\Engine\IniConfig;
 use Cake\I18n\FrozenTime;
+use Firebase\JWT\JWT;
 
 Configure::config('settings', new IniConfig());
 Configure::load('config', 'settings');
@@ -19,6 +20,7 @@ Configure::write('Site.salutation', Configure::read('Site.salutation'));
 
 FrozenTime::setDefaultLocale('de-DE');
 
+define('APP_NAME', 'VOD_APP');
 define('API_PATH', 'v1');
 define('AUTH_HEADER', 'Authorization');
 define('AUTH_PREFIX', 'Bearer');
@@ -188,4 +190,21 @@ function randomString($length = 8)
     $randomString .= $characters[rand(0, $charactersLength - 1)];
   }
   return $randomString;
+}
+
+function getPublicKey()
+{
+  return file_get_contents(CONFIG . '/jwt.pem');
+}
+
+function createJWT($uid, $exp = null)
+{
+  return JWT::encode(
+    [
+      'sub' => $uid,
+      'exp' => $exp ?? time() + 604800,
+    ],
+    getPublicKey(),
+    'HS256'
+  );
 }

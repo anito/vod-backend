@@ -129,6 +129,7 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
         'tokenPrefix' => 'Bearer',
         'algorithm' => 'HS256',
         'secretKey' => Security::getSalt(),
+        'secretKey' => getPublicKey(),
         'returnPayload' => false
       ]);
       $service->loadIdentifier('Authentication.JwtSubject', compact('resolver'));

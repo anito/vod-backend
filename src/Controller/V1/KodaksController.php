@@ -4,6 +4,7 @@ namespace App\Controller\V1;
 
 use App\Controller\V1\AppController;
 use Cake\Cache\Cache;
+use Cake\Log\Log;
 use Exception as GlobalException;
 
 class NonExistentFileException extends \RuntimeException
@@ -62,8 +63,11 @@ class KodaksController extends AppController
     }
 
     $val = str_replace(' ', '.2B', $val);
-    $crypt = $this->Salt->convert($val, false); // decrypt
-    $a = explode(',', $crypt);
+    $decrypt = $this->Salt->decrypt($val); // decrypt
+
+    Log::debug('{decrypt}', compact('decrypt'));
+
+    $a = explode(',', $decrypt);
 
     $file = $fn = basename($a[0]);
 
