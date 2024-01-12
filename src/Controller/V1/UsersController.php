@@ -482,8 +482,8 @@ class UsersController extends AppController
 
     $id = $loggedinUser->id;
 
+    // Handle privileged users jwt if expired or empty
     if ($isPriveleged) {
-      // for admins extend token validity if expired or empty
       $expires = $this->Users
         ->find()
         ->contain(['Tokens'])
@@ -492,7 +492,7 @@ class UsersController extends AppController
         ->expires;
 
       if (time() > $expires) {
-        $jwt = $this->_createToken($id, time() + 30 * 24 * 3600); // 30*24 hours (30 days)
+        $jwt = $this->_createToken($id, time() + 30 * 24 * 3600);
 
         $token = $this->Users->Tokens
           ->find()
