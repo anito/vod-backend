@@ -10,8 +10,8 @@ use Cake\ORM\Entity;
  * @property string $slug
  * @property string|null $name
  * @property bool $protected
- * @property \Cake\I18n\FrozenTime $created
- * @property \Cake\I18n\FrozenTime $modified
+ * @property \Cake\I18n\DateTime $created
+ * @property \Cake\I18n\DateTime $modified
  *
  * @property \App\Model\Entity\EmailTemplatesbak[] $email_templatesbak
  * @property \App\Model\Entity\Item[] $items
@@ -27,7 +27,7 @@ class Template extends Entity
      *
      * @var array
      */
-    protected $_accessible = [
+    protected array $_accessible = [
         'id' => true,
         'slug' => true,
         'name' => true,

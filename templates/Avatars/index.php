@@ -32,7 +32,7 @@
                 <td><?=h($avatar->id)?></td>
                 <td><?=h($avatar->src)?></td>
                 <td><?=$avatar->has('user') ? $this->Html->link($avatar->user->name, ['controller' => 'Users', 'action' => 'view', $avatar->user->id]) : ''?></td>
-                <td><?=$this->Number->format($avatar->filesize)?></td>
+                <td><?= isset($avatar->filesize) ? $this->Number->format($avatar->filesize) : '&dash;' ?></td>
                 <td><?=h($avatar->created)?></td>
                 <td><?=h($avatar->modified)?></td>
                 <td class="actions">

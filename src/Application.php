@@ -19,7 +19,7 @@ namespace App;
 use Authentication\AuthenticationService;
 use Authentication\AuthenticationServiceInterface;
 use Authentication\AuthenticationServiceProviderInterface;
-use Authentication\Identifier\IdentifierInterface;
+use Authentication\Identifier\AbstractIdentifier;
 use Authentication\Middleware\AuthenticationMiddleware;
 use Cake\Core\Configure;
 use Cake\Core\ContainerInterface;
@@ -100,8 +100,8 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
     $path = $request->getUri()->getPath();
 
     $fields = [
-      IdentifierInterface::CREDENTIAL_USERNAME => 'email',
-      IdentifierInterface::CREDENTIAL_PASSWORD => 'password',
+      AbstractIdentifier::CREDENTIAL_USERNAME => 'email',
+      AbstractIdentifier::CREDENTIAL_PASSWORD => 'password',
     ];
     $resolver = [
       'className' => 'Authentication.Orm',

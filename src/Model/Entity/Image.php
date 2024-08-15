@@ -15,12 +15,12 @@ use Cake\ORM\Entity;
  * @property string|null $title
  * @property string|null $description
  * @property string|null $exposure
- * @property \Cake\I18n\FrozenTime|null $captured
+ * @property \Cake\I18n\DateTime|null $captured
  * @property string|null $software
  * @property string $src
  * @property int|null $filesize
- * @property \Cake\I18n\FrozenTime|null $created
- * @property \Cake\I18n\FrozenTime|null $modified
+ * @property \Cake\I18n\DateTime|null $created
+ * @property \Cake\I18n\DateTime|null $modified
  *
  * @property \App\Model\Entity\Video[] $videos
  */
@@ -35,7 +35,7 @@ class Image extends Entity
      *
      * @var array
      */
-    protected $_accessible = [
+    protected array $_accessible = [
         'id' => true,
         'iso' => true,
         'longitude' => true,

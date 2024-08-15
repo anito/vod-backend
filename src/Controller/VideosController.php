@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Controller;
@@ -18,11 +19,9 @@ class VideosController extends AppController
      */
     public function index()
     {
-        $this->paginate = [
-            'contain' => ['Images'],
-        ];
-        $videos = $this->paginate($this->Videos);
-
+        $query = $this->Videos->find()
+            ->contain('Images');
+        $videos = $this->paginate($query);
         $this->set(compact('videos'));
     }
 
@@ -35,9 +34,7 @@ class VideosController extends AppController
      */
     public function view($id = null)
     {
-        $video = $this->Videos->get($id, [
-            'contain' => ['Images', 'Users'],
-        ]);
+        $video = $this->Videos->get($id, contain: ['Images', 'Users']);
 
         $this->set(compact('video'));
     }
@@ -59,8 +56,8 @@ class VideosController extends AppController
             }
             $this->Flash->error(__('The video could not be saved. Please, try again.'));
         }
-        $images = $this->Videos->Images->find('list', ['limit' => 200]);
-        $users = $this->Videos->Users->find('list', ['limit' => 200]);
+        $images = $this->Videos->Images->find('list', limit: 200);
+        $users = $this->Videos->Users->find('list', limit: 200);
         $this->set(compact('video', 'images', 'users'));
     }
 
@@ -73,9 +70,7 @@ class VideosController extends AppController
      */
     public function edit($id = null)
     {
-        $video = $this->Videos->get($id, [
-            'contain' => ['Users'],
-        ]);
+        $video = $this->Videos->get($id, contain: ['Users']);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $video = $this->Videos->patchEntity($video, $this->request->getData());
             if ($this->Videos->save($video)) {
@@ -85,8 +80,8 @@ class VideosController extends AppController
             }
             $this->Flash->error(__('The video could not be saved. Please, try again.'));
         }
-        $images = $this->Videos->Images->find('list', ['limit' => 200]);
-        $users = $this->Videos->Users->find('list', ['limit' => 200]);
+        $images = $this->Videos->Images->find('list', limit: 200);
+        $users = $this->Videos->Users->find('list', limit: 200);
         $this->set(compact('video', 'images', 'users'));
     }
 

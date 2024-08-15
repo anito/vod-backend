@@ -10,12 +10,9 @@ use Cake\Http\Exception\ForbiddenException;
 use Cake\Http\Exception\UnauthorizedException;
 use Cake\Log\Log;
 use Cake\ORM\Entity;
-use Cake\ORM\Locator\TableLocator;
-use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
-use Cake\Utility\Security;
 use Cake\Validation\Validator;
 use Exception;
 use Firebase\JWT\JWT;
@@ -186,7 +183,7 @@ class UsersTable extends Table
 
         // Preserve at least one superuser
         $superusersCount = $this->find()
-          ->matching('Groups', function (Query $q) {
+          ->matching('Groups', function ($q) {
             return $q->where(['Groups.name' => SUPERUSER]);
           })
           ->count();
@@ -264,16 +261,16 @@ class UsersTable extends Table
     return $rules;
   }
 
-  public function findActive(Query $query)
+  public function findActive($query)
   {
     return $query
       ->where(['Users.active' => 1]);
   }
 
-  public function findSuperusersEmail(Query $query)
+  public function findSuperusersEmail($query)
   {
     return $query
-      ->matching('Groups', function (Query $q) {
+      ->matching('Groups', function ($q) {
         $condition = [
           'Groups.name' => SUPERUSER
         ];
@@ -312,8 +309,7 @@ class UsersTable extends Table
     try {
       JWT::decode(
         $token,
-        getPublicKey(),
-        $allowed_algs
+        getPublicKey()
       );
     } catch (Exception $e) {
       throw new UnauthorizedException(__('Invalid token'));

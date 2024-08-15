@@ -11,8 +11,8 @@ use Cake\ORM\Entity;
  * @property string $src
  * @property string $user_id
  * @property int|null $filesize
- * @property \Cake\I18n\FrozenTime|null $created
- * @property \Cake\I18n\FrozenTime|null $modified
+ * @property \Cake\I18n\DateTime|null $created
+ * @property \Cake\I18n\DateTime|null $modified
  *
  * @property \App\Model\Entity\User $user
  */
@@ -27,7 +27,7 @@ class Avatar extends Entity
      *
      * @var array
      */
-    protected $_accessible = [
+    protected array $_accessible = [
         'id' => true,
         'src' => true,
         'user_id' => true,
@@ -42,7 +42,7 @@ class Avatar extends Entity
      *
      * @var array
      */
-    protected $_hidden = [
+    protected array $_hidden = [
         'filesize', 'created', 'modified'
     ];
 }

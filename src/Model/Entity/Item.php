@@ -25,7 +25,7 @@ class Item extends Entity
      *
      * @var array
      */
-    protected $_accessible = [
+    protected array $_accessible = [
         'id' => true,
         'content' => true,
         'field_id' => true,
@@ -34,5 +34,5 @@ class Item extends Entity
         'template' => true,
     ];
 
-    protected $_virtual = [];
+    protected array $_virtual = [];
 }

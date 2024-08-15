@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace App\Test\TestCase\Controller;
 
 use App\Controller\AvatarsController;
@@ -17,9 +19,9 @@ class AvatarsControllerTest extends TestCase
     /**
      * Fixtures
      *
-     * @var array
+     * @var list<string>
      */
-    public $fixtures = [
+    protected array $fixtures = [
         'app.Avatars',
         'app.Users',
     ];
@@ -28,8 +30,9 @@ class AvatarsControllerTest extends TestCase
      * Test index method
      *
      * @return void
+     * @uses \App\Controller\AvatarsController::index()
      */
-    public function testIndex()
+    public function testIndex(): void
     {
         $this->markTestIncomplete('Not implemented yet.');
     }
@@ -38,8 +41,9 @@ class AvatarsControllerTest extends TestCase
      * Test view method
      *
      * @return void
+     * @uses \App\Controller\AvatarsController::view()
      */
-    public function testView()
+    public function testView(): void
     {
         $this->markTestIncomplete('Not implemented yet.');
     }
@@ -48,8 +52,9 @@ class AvatarsControllerTest extends TestCase
      * Test add method
      *
      * @return void
+     * @uses \App\Controller\AvatarsController::add()
      */
-    public function testAdd()
+    public function testAdd(): void
     {
         $this->markTestIncomplete('Not implemented yet.');
     }
@@ -58,8 +63,9 @@ class AvatarsControllerTest extends TestCase
      * Test edit method
      *
      * @return void
+     * @uses \App\Controller\AvatarsController::edit()
      */
-    public function testEdit()
+    public function testEdit(): void
     {
         $this->markTestIncomplete('Not implemented yet.');
     }
@@ -68,8 +74,9 @@ class AvatarsControllerTest extends TestCase
      * Test delete method
      *
      * @return void
+     * @uses \App\Controller\AvatarsController::delete()
      */
-    public function testDelete()
+    public function testDelete(): void
     {
         $this->markTestIncomplete('Not implemented yet.');
     }

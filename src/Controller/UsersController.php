@@ -1,8 +1,8 @@
 <?php
+
 namespace App\Controller;
 
 use App\Controller\AppController;
-use Cake\ORM\TableRegistry;
 
 /**
  * Users Controller
@@ -26,20 +26,18 @@ class UsersController extends AppController
     {
 
         $this->request->allowMethod(['get', 'post']);
-        if($this->request->is('post')) {
+        if ($this->request->is('post')) {
             $result = $this->Authentication->getResult();
             if ($result->isValid()) {
                 $user = $this->Authentication->getIdentity();
-    
+
                 $user = $this->Users->patchEntity($user, ['last_login' => date("Y-m-d H:i:s")]);
                 $this->Users->save($user);
                 return $this->redirect($this->Authentication->getLoginRedirect() ?? '/users');
-            
             } else {
                 $this->Flash->error('Your email or password is incorrect.');
             }
         }
-
     }
 
     public function logout()
@@ -60,11 +58,11 @@ class UsersController extends AppController
      */
     public function index()
     {
-        $this->paginate = [
-            'contain' => ['Groups'],
-        ];
-        $users = $this->paginate($this->Users);
-
+        $users = $this->paginate($this->Users, ['finder' => [
+            'active' => [
+                'contain' => 'Groups'
+            ]
+        ]]);
         $this->set(compact('users'));
     }
 
@@ -77,9 +75,7 @@ class UsersController extends AppController
      */
     public function view($id = null)
     {
-        $user = $this->Users->get($id, [
-            'contain' => ['Groups', 'Videos', 'Avatars', 'Tokens', 'Inboxes', 'Sents'],
-        ]);
+        $user = $this->Users->get($id, contain: ['Groups', 'Videos', 'Avatars', 'Tokens', 'Inboxes', 'Sents']);
 
         $this->set('user', $user);
     }
@@ -101,8 +97,8 @@ class UsersController extends AppController
             }
             $this->Flash->error(__('The user could not be saved. Please, try again.'));
         }
-        $groups = $this->Users->Groups->find('list', ['limit' => 200]);
-        $videos = $this->Users->Videos->find('list', ['limit' => 200]);
+        $groups = $this->Users->Groups->find('list', limit: 200);
+        $videos = $this->Users->Videos->find('list', limit: 200);
         $this->set(compact('user', 'groups', 'videos'));
     }
 
@@ -115,9 +111,7 @@ class UsersController extends AppController
      */
     public function edit($id = null)
     {
-        $user = $this->Users->get($id, [
-            'contain' => ['Videos'],
-        ]);
+        $user = $this->Users->get($id, contain: ['Videos']);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $user = $this->Users->patchEntity($user, $this->request->getData());
             if ($this->Users->save($user)) {
@@ -127,8 +121,8 @@ class UsersController extends AppController
             }
             $this->Flash->error(__('The user could not be saved. Please, try again.'));
         }
-        $groups = $this->Users->Groups->find('list', ['limit' => 200]);
-        $videos = $this->Users->Videos->find('list', ['limit' => 200]);
+        $groups = $this->Users->Groups->find('list', limit: 200);
+        $videos = $this->Users->Videos->find('list', limit: 200);
         $this->set(compact('user', 'groups', 'videos'));
     }
 

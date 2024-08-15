@@ -9,7 +9,7 @@ use Cake\Utility\Text;
 class UploadComponent extends Component
 {
 
-  public $components = ['File', 'Director'];
+  public array $components = ['File', 'Director'];
 
   /**
    * Constructor

@@ -33,9 +33,7 @@ class TemplatesController extends AppController
      */
     public function view($id = null)
     {
-        $template = $this->Templates->get($id, [
-            'contain' => ['Items'],
-        ]);
+        $template = $this->Templates->get($id, contain: ['Items']);
 
         $this->set('template', $template);
     }
@@ -69,9 +67,7 @@ class TemplatesController extends AppController
      */
     public function edit($id = null)
     {
-        $template = $this->Templates->get($id, [
-            'contain' => [],
-        ]);
+        $template = $this->Templates->get($id, contain: []);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $template = $this->Templates->patchEntity($template, $this->request->getData());
             if ($this->Templates->save($template)) {

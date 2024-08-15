@@ -6,7 +6,6 @@ use App\Controller\V1\AppController;
 use Cake\Core\App;
 use Cake\Event\Event;
 use Cake\ORM\TableRegistry;
-use Cake\View\JsonView;
 
 /**
  * Avatars Controller
@@ -16,11 +15,6 @@ use Cake\View\JsonView;
  */
 class AvatarsController extends AppController
 {
-
-  public function viewClasses(): array
-  {
-    return [JsonView::class];
-  }
 
   public function initialize(): void
   {
@@ -87,9 +81,7 @@ class AvatarsController extends AppController
     $this->Crud->on('afterSave', function (Event $event) use ($uid) {
 
       $usersTable = TableRegistry::getTableLocator()->get('Users');
-      $user = $usersTable->get($uid, [
-        'contain' => ['Groups', 'Videos', 'Avatars', 'Tokens'],
-      ]);
+      $user = $usersTable->get($uid, contain: ['Groups', 'Videos', 'Avatars', 'Tokens']);
 
       // normally we would send the new avatar
       // but in this case we need the updated user sent back to the client
@@ -97,7 +89,7 @@ class AvatarsController extends AppController
         'data' => $user,
         'message' => __('Avatar saved'),
       ]);
-      $this->Crud->action()->serialize(['data', 'message']);
+      // $this->Crud->action()->serialize(['data', 'message']);
     });
 
     return $this->Crud->execute();
@@ -110,15 +102,13 @@ class AvatarsController extends AppController
 
       $uid = $event->getSubject()->entity["user_id"];
       $usersTable = TableRegistry::getTableLocator()->get('Users');
-      $user = $usersTable->get($uid, [
-        'contain' => ['Groups', 'Videos', 'Avatars'],
-      ]);
+      $user = $usersTable->get($uid, contain: ['Groups', 'Videos', 'Avatars']);
 
       $this->set([
         'data' => $user,
         'message' => __('Avatar deleted'),
       ]);
-      $this->Crud->action()->serialize(['data', 'message']);
+      // $this->Crud->action()->serialize(['data', 'message']);
     });
     return $this->Crud->execute();
   }

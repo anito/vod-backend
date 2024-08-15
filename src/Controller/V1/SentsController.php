@@ -25,7 +25,6 @@ namespace App\Controller\V1;
 use App\Controller\V1\AppController;
 use Cake\Core\Configure;
 use Cake\Database\Expression\QueryExpression;
-use Cake\Database\Query;
 use Cake\Event\Event;
 use Cake\Http\Exception\ForbiddenException;
 use Cake\Http\Exception\NotFoundException;
@@ -308,13 +307,15 @@ class SentsController extends AppController
     } else {
       // exclude mails sent to superusers
       $usersTable = TableRegistry::getTableLocator()->get('Users');
-      $superusers = $usersTable->find('superusersEmail')->toArray();
+      $superusers = $usersTable->find('superusersEmail')
+        ->toArray();
+
       $emailList = [];
       foreach ($superusers as $key => $user) {
         $emailList[] = $user->email;
       }
-      $mails = $this->Sents->find('byIdOrEmail', ['field' => $id])
-        ->where(function (QueryExpression $exp, Query $q) use ($emailList) {
+      $mails = $this->Sents->find('byIdOrEmail', field: $id)
+        ->where(function (QueryExpression $exp, $q) use ($emailList) {
           return $exp->notIn('_to', $emailList);
         });
     }

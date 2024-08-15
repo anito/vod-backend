@@ -17,8 +17,8 @@ use Cake\ORM\Entity;
  * @property int|null $filesize
  * @property bool|null $teaser
  * @property float|null $playhead
- * @property \Cake\I18n\FrozenTime|null $created
- * @property \Cake\I18n\FrozenTime|null $modified
+ * @property \Cake\I18n\DateTime|null $created
+ * @property \Cake\I18n\DateTime|null $modified
  * @property int $sequence
  *
  * @property \App\Model\Entity\Image $image
@@ -35,7 +35,7 @@ class Video extends Entity
      *
      * @var array
      */
-    protected $_accessible = [
+    protected array $_accessible = [
         'id' => true,
         'image_id' => true,
         'title' => true,

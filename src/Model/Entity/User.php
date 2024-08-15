@@ -2,6 +2,7 @@
 
 namespace App\Model\Entity;
 
+use ArrayAccess;
 use Authentication\IdentityInterface;
 use Authentication\PasswordHasher\DefaultPasswordHasher;
 use Cake\Log\Log;
@@ -19,9 +20,9 @@ use Firebase\JWT\JWT;
  * @property bool|null $active
  * @property bool|null $protected
  * @property int|null $group_id
- * @property \Cake\I18n\FrozenTime|null $last_login
- * @property \Cake\I18n\FrozenTime $created
- * @property \Cake\I18n\FrozenTime|null $modified
+ * @property \Cake\I18n\DateTime|null $last_login
+ * @property \Cake\I18n\DateTime $created
+ * @property \Cake\I18n\DateTime|null $modified
  *
  * @property \App\Model\Entity\Group $group
  * @property \App\Model\Entity\Avatar[] $avatars
@@ -50,7 +51,7 @@ class User extends Entity implements IdentityInterface
    *
    * @var array
    */
-  protected $_accessible = [
+  protected array $_accessible = [
     'id' => true,
     'name' => true,
     'email' => true,
@@ -74,7 +75,7 @@ class User extends Entity implements IdentityInterface
   /**
    * Authentication\IdentityInterface method
    */
-  public function getIdentifier()
+  public function getIdentifier(): array|string|int|null
   {
     return $this->id;
   }
@@ -82,7 +83,7 @@ class User extends Entity implements IdentityInterface
   /**
    * Authentication\IdentityInterface method
    */
-  public function getOriginalData()
+  public function getOriginalData(): ArrayAccess|array
   {
     return $this;
   }
@@ -92,11 +93,11 @@ class User extends Entity implements IdentityInterface
    *
    * @var array
    */
-  protected $_hidden = [
+  protected array $_hidden = [
     'password', 'token', 'created', 'modified', 'modified_by', 'last_login'
   ];
 
-  protected $_virtual = [
+  protected array $_virtual = [
     'expires', 'jwt', 'token_id', 'role'
   ];
 

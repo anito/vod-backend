@@ -12,8 +12,8 @@ use Cake\ORM\Entity;
  * @property string $id
  * @property string $user_id
  * @property string $video_id
- * @property \Cake\I18n\FrozenTime|null $start
- * @property \Cake\I18n\FrozenTime|null $end
+ * @property \Cake\I18n\DateTime|null $start
+ * @property \Cake\I18n\DateTime|null $end
  * @property float|null $playhead
  * @property string|null $time_watched
  *
@@ -31,7 +31,7 @@ class UsersVideo extends Entity
      *
      * @var array
      */
-    protected $_accessible = [
+    protected array $_accessible = [
         'id' => true,
         'user_id' => true,
         'video_id' => true,

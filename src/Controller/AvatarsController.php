@@ -1,28 +1,26 @@
 <?php
-namespace App\Controller;
 
-use App\Controller\AppController;
+declare(strict_types=1);
+
+namespace App\Controller;
 
 /**
  * Avatars Controller
  *
  * @property \App\Model\Table\AvatarsTable $Avatars
- *
- * @method \App\Model\Entity\Avatar[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
  */
 class AvatarsController extends AppController
 {
     /**
      * Index method
      *
-     * @return \Cake\Http\Response|null
+     * @return \Cake\Http\Response|null|void Renders view
      */
     public function index()
     {
-        $this->paginate = [
-            'contain' => ['Users'],
-        ];
-        $avatars = $this->paginate($this->Avatars);
+        $query = $this->Avatars->find()
+            ->contain(['Users']);
+        $avatars = $this->paginate($query);
 
         $this->set(compact('avatars'));
     }
@@ -31,22 +29,19 @@ class AvatarsController extends AppController
      * View method
      *
      * @param string|null $id Avatar id.
-     * @return \Cake\Http\Response|null
+     * @return \Cake\Http\Response|null|void Renders view
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function view($id = null)
     {
-        $avatar = $this->Avatars->get($id, [
-            'contain' => ['Users'],
-        ]);
-
-        $this->set('avatar', $avatar);
+        $avatar = $this->Avatars->get($id, contain: ['Users']);
+        $this->set(compact('avatar'));
     }
 
     /**
      * Add method
      *
-     * @return \Cake\Http\Response|null Redirects on successful add, renders view otherwise.
+     * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
      */
     public function add()
     {
@@ -60,7 +55,7 @@ class AvatarsController extends AppController
             }
             $this->Flash->error(__('The avatar could not be saved. Please, try again.'));
         }
-        $users = $this->Avatars->Users->find('list', ['limit' => 200]);
+        $users = $this->Avatars->Users->find('list', limit: 200)->all();
         $this->set(compact('avatar', 'users'));
     }
 
@@ -68,14 +63,12 @@ class AvatarsController extends AppController
      * Edit method
      *
      * @param string|null $id Avatar id.
-     * @return \Cake\Http\Response|null Redirects on successful edit, renders view otherwise.
+     * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function edit($id = null)
     {
-        $avatar = $this->Avatars->get($id, [
-            'contain' => [],
-        ]);
+        $avatar = $this->Avatars->get($id, contain: []);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $avatar = $this->Avatars->patchEntity($avatar, $this->request->getData());
             if ($this->Avatars->save($avatar)) {
@@ -85,7 +78,7 @@ class AvatarsController extends AppController
             }
             $this->Flash->error(__('The avatar could not be saved. Please, try again.'));
         }
-        $users = $this->Avatars->Users->find('list', ['limit' => 200]);
+        $users = $this->Avatars->Users->find('list', limit: 200)->all();
         $this->set(compact('avatar', 'users'));
     }
 

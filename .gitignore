@@ -23,6 +23,7 @@ config/config.ini
 logs/*
 tmp/*
 uploads/*
+upgrade/*
 vendor/*
 mysql/*
 mysqlconf/*

@@ -1,14 +1,16 @@
 <?php
+
 namespace App\Controller\Component;
 
 use Cake\Controller\Component;
 use Cake\Controller\ComponentRegistry;
 use Cake\Core;
-use Cake\Filesystem\File;
+use Cake\Utility\Filesystem;
 use Cake\Filesystem\Folder;
 use Cake\Log\Log;
 
-class FileComponent extends Component {
+class FileComponent extends Component
+{
 
   /**
    * Constructor
@@ -18,28 +20,69 @@ class FileComponent extends Component {
    */
   public function __construct(ComponentRegistry $registry, array $config = [])
   {
-      parent::__construct($registry, $config);
+    parent::__construct($registry, $config);
   }
 
   var $dirTags = array(
-      'image filename' => 'Image: filename', 'album title' => 'Album: title', 'album id' => 'Album: id', 'album tags' => 'Album: tags', 'date captured' => 'Image: date captured', 'date uploaded' => 'Image: date uploaded', 'image number' => 'Image: number', 'image count' => 'Album: content count', 'tags' => 'Image: tags', 'place taken' => 'Album: place taken', 'date taken' => 'Album: date taken', 'contributor username' => 'Contributor: username', 'contributor email' => 'Contributor: email', 'contributor first name' => 'Contributor: first name', 'contributor last name' => 'Contributor: last name', 'contributor display name' => 'Contributor: display name'
+    'image filename' => 'Image: filename',
+    'album title' => 'Album: title',
+    'album id' => 'Album: id',
+    'album tags' => 'Album: tags',
+    'date captured' => 'Image: date captured',
+    'date uploaded' => 'Image: date uploaded',
+    'image number' => 'Image: number',
+    'image count' => 'Album: content count',
+    'tags' => 'Image: tags',
+    'place taken' => 'Album: place taken',
+    'date taken' => 'Album: date taken',
+    'contributor username' => 'Contributor: username',
+    'contributor email' => 'Contributor: email',
+    'contributor first name' => 'Contributor: first name',
+    'contributor last name' => 'Contributor: last name',
+    'contributor display name' => 'Contributor: display name'
   );
   var $smartTags = array(
-      'original album title' => 'Original album: title', 'original album id' => 'Original album: id',
-      'original album tags' => 'Original album: tags'
+    'original album title' => 'Original album: title',
+    'original album id' => 'Original album: id',
+    'original album tags' => 'Original album: tags'
   );
   var $iptcTags = array(
-      'credit', 'caption', 'copyright', 'title', 'category', 'keywords',
-      'byline', 'byline title', 'city', 'state', 'country', 'headline',
-      'source', 'contact'
+    'credit',
+    'caption',
+    'copyright',
+    'title',
+    'category',
+    'keywords',
+    'byline',
+    'byline title',
+    'city',
+    'state',
+    'country',
+    'headline',
+    'source',
+    'contact'
   );
   var $exifTags = array(
-      'make', 'model', 'exposure', 'exposure mode', 'iso', 'aperture',
-      'focal length', 'flash simple', 'flash', 'exposure bias', 'metering mode',
-      'white balance', 'title', 'comment', 'latitude', 'longitude'
+    'make',
+    'model',
+    'exposure',
+    'exposure mode',
+    'iso',
+    'aperture',
+    'focal length',
+    'flash simple',
+    'flash',
+    'exposure bias',
+    'metering mode',
+    'white balance',
+    'title',
+    'comment',
+    'latitude',
+    'longitude'
   );
 
-  function uploadLimit() {
+  function uploadLimit()
+  {
     $max_upload = ini_get('upload_max_filesize');
     $post_max = ini_get('post_max_size');
 
@@ -62,7 +105,8 @@ class FileComponent extends Component {
   ////
   // Generate random string
   ////
-  function randomStr($len = 6) {
+  function randomStr($len = 6)
+  {
     return substr(md5(uniqid(microtime())), 0, $len);
   }
 
@@ -70,31 +114,22 @@ class FileComponent extends Component {
   // Central directory creation logic
   // Creates a directory if it does not exits
   ////
-  function makeDir($dir) {
-    if (!is_dir($dir)) {
-      $parent_perms = $this->getPerms(dirname($dir));
-      $f = new Folder();
-      if ($f->create($dir, octdec($parent_perms))) {
-        return true;
-      } else if ($parent_perms == '0755') {
-        if ($f->chmod($dir, 0777) && $f->create($dir)) {
-          return true;
-        }
-      }
-      return false;
-    } else {
-      return true;
-    }
+  function makeDir($dir)
+  {
+    $fs = new Filesystem();
+    $fs->mkdir($dir);
   }
 
-  function getPerms($dir) {
+  function getPerms($dir)
+  {
     return substr(sprintf('%o', fileperms($dir)), -4);
   }
 
   ////
   // Set permissions on a directory
   ////
-  function setPerms($dir) {
+  function setPerms($dir)
+  {
     if (!is_dir($dir)) {
       return $this->makeDir($dir);
     } elseif (is_writable($dir)) {
@@ -103,8 +138,7 @@ class FileComponent extends Component {
       $test_file = ($dir . DS . '___test___');
       $f = @fopen($test_file, 'a');
       if ($f === false) {
-        $fd = new Folder();
-        return $fd->chmod($dir, 0777);
+        return chmod($dir, 0777);
       } else {
         fclose($f);
         @unlink($test_file);
@@ -116,7 +150,8 @@ class FileComponent extends Component {
   ////
   // Create image subdirectories
   ////
-  function setFolderPerms( $path ) {
+  function setFolderPerms($path)
+  {
     $cache = $path . DS . 'cache';
     $lg = $path . DS . 'lg';
 
@@ -130,7 +165,8 @@ class FileComponent extends Component {
   ////
   // Process permissions for album subdirectories
   ////
-  function createFolderDirs($base, $id) {
+  function createFolderDirs($base, $id)
+  {
     $path = $base . DS . $id;
     $lg = $path . DS . 'lg';
     $cache = $path . DS . 'cache';
@@ -147,11 +183,12 @@ class FileComponent extends Component {
   // Found in PHP docs: http://us3.php.net/manual/en/function.file-exists.php#64908
   ////
 
-  function regExpSearch( $regExp, $dir ) {
+  function regExpSearch($regExp, $dir)
+  {
     $open = opendir($dir);
     $files = array();
     while (($file = readdir($open)) !== false) {
-      if ( preg_match( $regExp, $file ) ) {
+      if (preg_match($regExp, $file)) {
         $files[] = $file;
       }
     }
@@ -161,7 +198,8 @@ class FileComponent extends Component {
   ////
   // Grab the extension of of any file
   ////
-  function returnExt($file, $raw = false) {
+  function returnExt($file, $raw = false)
+  {
     $pos = strrpos($file, '.');
     $ext = substr($file, $pos + 1, strlen($file));
     if ($raw) {
@@ -174,7 +212,8 @@ class FileComponent extends Component {
   ////
   // Grab all files in a directory
   ////
-  function directory($dir, $filters = 'all') {
+  function directory($dir, $filters = 'all')
+  {
     if ($filters == 'accepted') {
       $filters = 'jpg,JPG,JPEG,jpeg,gif,GIF,png,PNG,swf,SWF,flv,FLV,f4v,F4V,mov,MOV,mp4,MP4,m4v,MV4,m4a,M4A,3gp,3GP,3g2,3G2';
     }
@@ -204,15 +243,17 @@ class FileComponent extends Component {
   ////
   // Recursive Directory Removal
   ////
-  function rmdirr( $dir ) {
-    $f = new Folder($dir);
-    $f->delete();
+  function rmdirr($dir)
+  {
+    $fs = new Filesystem();
+    $fs->deleteDir($dir);
   }
 
   ////
   // Transform a string (e.g. 15MB) into an actual byte representation
   ////
-  function returnBytes($val) {
+  function returnBytes($val)
+  {
     $val = trim($val);
     $last = strtolower($val[strlen($val) - 1]);
     switch ($last) {
@@ -226,7 +267,8 @@ class FileComponent extends Component {
     return $val;
   }
 
-  function _date($format, $date, $tz = true) {
+  function _date($format, $date, $tz = true)
+  {
     setlocale(LC_TIME, explode(',', __('[#Set the locale to use for date translations. (http://php.net/setlocale) You can specify as many locales as you like and Director will use the first available from your list. Example: es_MX,es_ES,es_AR#]en_US', true)));
     if (strpos($date, '-') !== false) {
       $date = strtotime($date);
@@ -238,7 +280,8 @@ class FileComponent extends Component {
     return str_replace('  ', ' ', strftime($format, $date));
   }
 
-  function parseMetaTags($template, $data, $empty = 'Unknown') {
+  function parseMetaTags($template, $data, $empty = 'Unknown')
+  {
     $bits = explode(':', $template);
     if ($bits[0] == 'iptc') {
       if (isset($data['IPTC'])) {
@@ -384,19 +427,26 @@ class FileComponent extends Component {
           case 'exif:exposure mode':
             if (isset($exif['ExposureMode'])) {
               switch ($exif['ExposureMode']) {
-                case 0: return 'Easy shooting';
+                case 0:
+                  return 'Easy shooting';
                   break;
-                case 1: return 'Program';
+                case 1:
+                  return 'Program';
                   break;
-                case 2: return 'Tv-priority';
+                case 2:
+                  return 'Tv-priority';
                   break;
-                case 3: return 'Av-priority';
+                case 3:
+                  return 'Av-priority';
                   break;
-                case 4: return 'Manual';
+                case 4:
+                  return 'Manual';
                   break;
-                case 5: return 'A-DEP';
+                case 5:
+                  return 'A-DEP';
                   break;
-                default: return 'Unknown';
+                default:
+                  return 'Unknown';
                   break;
               }
             } else {
@@ -419,21 +469,29 @@ class FileComponent extends Component {
           case 'exif:metering mode':
             if (isset($exif['MeteringMode'])) {
               switch ($exif['MeteringMode']) {
-                case 0: return 'Unknown';
+                case 0:
+                  return 'Unknown';
                   break;
-                case 1: return 'Average';
+                case 1:
+                  return 'Average';
                   break;
-                case 2: return 'Center Weighted Average';
+                case 2:
+                  return 'Center Weighted Average';
                   break;
-                case 3: return 'Spot';
+                case 3:
+                  return 'Spot';
                   break;
-                case 4: return 'Multi-Spot';
+                case 4:
+                  return 'Multi-Spot';
                   break;
-                case 5: return 'Multi-Segment';
+                case 5:
+                  return 'Multi-Segment';
                   break;
-                case 6: return 'Partial';
+                case 6:
+                  return 'Partial';
                   break;
-                case 255: return 'Other';
+                case 255:
+                  return 'Other';
                   break;
               }
             } else {
@@ -443,21 +501,29 @@ class FileComponent extends Component {
           case 'exif:white balance':
             if (isset($exif['WhiteBalance'])) {
               switch ($exif['WhiteBalance']) {
-                case 0: return 'Auto';
+                case 0:
+                  return 'Auto';
                   break;
-                case 1: return 'Sunny';
+                case 1:
+                  return 'Sunny';
                   break;
-                case 2: return 'Cloudy';
+                case 2:
+                  return 'Cloudy';
                   break;
-                case 3: return 'Tungsten';
+                case 3:
+                  return 'Tungsten';
                   break;
-                case 4: return 'Fluorescent';
+                case 4:
+                  return 'Fluorescent';
                   break;
-                case 5: return 'Flash';
+                case 5:
+                  return 'Flash';
                   break;
-                case 6: return 'Custom';
+                case 6:
+                  return 'Custom';
                   break;
-                case 129: return 'Manual';
+                case 129:
+                  return 'Manual';
                   break;
               }
             } else {
@@ -488,49 +554,71 @@ class FileComponent extends Component {
           case 'exif:flash':
             if (isset($exif['Flash'])) {
               switch ($exif['Flash']) {
-                case 0: return 'No Flash';
+                case 0:
+                  return 'No Flash';
                   break;
-                case 1: return 'Flash';
+                case 1:
+                  return 'Flash';
                   break;
-                case 5: return 'Flash, strobe return light not detected';
+                case 5:
+                  return 'Flash, strobe return light not detected';
                   break;
-                case 7: return 'Flash, strob return light detected';
+                case 7:
+                  return 'Flash, strob return light detected';
                   break;
-                case 9: return 'Compulsory Flash';
+                case 9:
+                  return 'Compulsory Flash';
                   break;
-                case 13: return 'Compulsory Flash, Return light not detected';
+                case 13:
+                  return 'Compulsory Flash, Return light not detected';
                   break;
-                case 16: return 'No Flash';
+                case 16:
+                  return 'No Flash';
                   break;
-                case 24: return 'No Flash';
+                case 24:
+                  return 'No Flash';
                   break;
-                case 25: return 'Flash, Auto-Mode';
+                case 25:
+                  return 'Flash, Auto-Mode';
                   break;
-                case 29: return 'Flash, Auto-Mode, Return light not detected';
+                case 29:
+                  return 'Flash, Auto-Mode, Return light not detected';
                   break;
-                case 31: return 'Flash, Auto-Mode, Return light detected';
+                case 31:
+                  return 'Flash, Auto-Mode, Return light detected';
                   break;
-                case 32: return 'No Flash';
+                case 32:
+                  return 'No Flash';
                   break;
-                case 65: return 'Red Eye';
+                case 65:
+                  return 'Red Eye';
                   break;
-                case 69: return 'Red Eye, Return light not detected';
+                case 69:
+                  return 'Red Eye, Return light not detected';
                   break;
-                case 71: return 'Red Eye, Return light detected';
+                case 71:
+                  return 'Red Eye, Return light detected';
                   break;
-                case 73: return 'Red Eye, Compulsory Flash';
+                case 73:
+                  return 'Red Eye, Compulsory Flash';
                   break;
-                case 77: return 'Red Eye, Compulsory Flash, Return light not detected';
+                case 77:
+                  return 'Red Eye, Compulsory Flash, Return light not detected';
                   break;
-                case 79: return 'Red Eye, Compulsory Flash, Return light detected';
+                case 79:
+                  return 'Red Eye, Compulsory Flash, Return light detected';
                   break;
-                case 89: return 'Red Eye, Auto-Mode';
+                case 89:
+                  return 'Red Eye, Auto-Mode';
                   break;
-                case 93: return 'Red Eye, Auto-Mode, Return light not detected';
+                case 93:
+                  return 'Red Eye, Auto-Mode, Return light not detected';
                   break;
-                case 95: return 'Red Eye, Auto-Mode, Return light detected';
+                case 95:
+                  return 'Red Eye, Auto-Mode, Return light detected';
                   break;
-                default: return 'Unknown';
+                default:
+                  return 'Unknown';
                   break;
               }
             } else {
@@ -542,14 +630,16 @@ class FileComponent extends Component {
     }
   }
 
-  function exif_frac2dec($str) {
-    @list( $n, $d ) = explode('/', $str);
+  function exif_frac2dec($str)
+  {
+    @list($n, $d) = explode('/', $str);
     if (!empty($d))
       return $n / $d;
     return $str;
   }
 
-  function imageMetadata($path) {
+  function imageMetadata($path)
+  {
     $meta = array();
     $captured = null;
     $meta_s = null;
@@ -559,14 +649,16 @@ class FileComponent extends Component {
       if (is_callable('iptcparse')) {
         getimagesize($path, $info);
         if (!empty($info['APP13'])) {
-          $meta['IPTC'] = iptcparse($info['APP13']);
-        }
-        if (!empty($iptc['2#055'][0]) && !empty($iptc['2#060'][0])) {
-          $captured = strtotime($iptc['2#055'][0] . ' ' . $iptc['2#060'][0]);
+          $iptc = iptcparse($info['APP13']);;
+          $meta['IPTC'] = $iptc;
+
+          if (!empty($iptc['2#055'][0]) && !empty($iptc['2#060'][0])) {
+            $captured = strtotime($iptc['2#055'][0] . ' ' . $iptc['2#060'][0]);
+          }
         }
       }
 
-      if ( preg_match('/\.(jpg|jpeg)$/', basename( $path )) && is_callable( 'exif_read_data' ) ) {
+      if (preg_match('/\.(jpg|jpeg)$/', basename($path)) && is_callable('exif_read_data')) {
         $exif_data = exif_read_data($path, 0, true);
         $meta['Exif'] = $exif_data;
         if (isset($meta['Exif']['EXIF']['DateTimeDigitized'])) {
@@ -583,13 +675,15 @@ class FileComponent extends Component {
     return array($meta, $captured);
   }
 
-  function _divide($str) {
+  function _divide($str)
+  {
     $bits = explode('/', $str);
     $dec = $bits[0] / $bits[1];
     return $dec;
   }
 
-  function gps_convert($arr, $quadrant) {
+  function gps_convert($arr, $quadrant)
+  {
     $d = $this->_divide($arr[0]);
     $m = $this->_divide($arr[1]);
     $s = $this->_divide($arr[2]);
@@ -600,54 +694,56 @@ class FileComponent extends Component {
     return $dec;
   }
 
-  function isVideo($fn) {
-    
-    if ( preg_match('/\.(mov|mp4|m4a|m4v|3gp|3g2|webm)$/i', $fn) ) {
-        return true;
+  function isVideo($fn)
+  {
+
+    if (preg_match('/\.(mov|mp4|m4a|m4v|3gp|3g2|webm)$/i', $fn)) {
+      return true;
     } else {
-        return false;
+      return false;
     }
   }
 
-  function isImage($fn) {
-    if( preg_match('/\.(jpg|jpe|jpeg|gif|png|ico)$/i', $fn) ) {
-        return true;
+  function isImage($fn)
+  {
+    if (preg_match('/\.(jpg|jpe|jpeg|gif|png|ico)$/i', $fn)) {
+      return true;
     } else {
-        return false;
+      return false;
     }
   }
 
-  function isSwf($fn) {
-    if ( preg_match('/\.swf$/i', $fn) ) {
-        return true;
+  function isSwf($fn)
+  {
+    if (preg_match('/\.swf$/i', $fn)) {
+      return true;
     } else {
-        return false;
+      return false;
     }
   }
 
-  function patchFilename( $file ) {
+  function patchFilename($file)
+  {
     /**
      * @firstRun needed for files stored in the same folder
      * keeps the filename intact and appends "_{d}" on counterlike filenames like IMG_6453.jpg -> IMG_6453_1.jpg
      * avoids upscoring on counterlike filenames eg IMG_6453.jpg -> IMG_6454.jpg
      */
     $firstRun = true;
-    while( file_exists( $file ) ) {
-      $parts = pathinfo( $file );
+    while (file_exists($file)) {
+      $parts = pathinfo($file);
       $dir = $parts['dirname'];
       $base = $parts['filename'];
       $ext = $parts['extension'];
-      preg_match( '/^([A-Za-z0-9._-]+)_([0-9]+)$/', $base, $match );
+      preg_match('/^([A-Za-z0-9._-]+)_([0-9]+)$/', $base, $match);
 
-      $base = ! empty( $match[1] ) && ! $firstRun ? $match[1] : $base;
-      $next = ! empty( $match[2] ) && ! $firstRun ? intval( $match[2] )+1 : 1;
+      $base = ! empty($match[1]) && ! $firstRun ? $match[1] : $base;
+      $next = ! empty($match[2]) && ! $firstRun ? intval($match[2]) + 1 : 1;
       $firstRun = false;
 
       $new_fn = "{$base}_{$next}.{$ext}";
       $file = $dir . DS . $new_fn;
     };
-    return isset( $new_fn ) && $firstRun ? $new_fn : pathinfo( $file )['basename'];
+    return isset($new_fn) && $firstRun ? $new_fn : pathinfo($file)['basename'];
   }
 }
-
-?>

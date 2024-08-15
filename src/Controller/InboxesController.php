@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controller;
 
 use App\Controller\AppController;
@@ -19,10 +20,9 @@ class InboxesController extends AppController
      */
     public function index()
     {
-        $this->paginate = [
-            'contain' => ['Users'],
-        ];
-        $inboxes = $this->paginate($this->Inboxes);
+        $query = $this->Inboxes->find()
+            ->contain('Users');
+        $inboxes = $this->paginate($query);
 
         $this->set(compact('inboxes'));
     }
@@ -36,9 +36,7 @@ class InboxesController extends AppController
      */
     public function view($id = null)
     {
-        $inbox = $this->Inboxes->get($id, [
-            'contain' => ['Users'],
-        ]);
+        $inbox = $this->Inboxes->get($id, contain: ['Users']);
 
         $this->set('inbox', $inbox);
     }
@@ -60,7 +58,7 @@ class InboxesController extends AppController
             }
             $this->Flash->error(__('The inbox could not be saved. Please, try again.'));
         }
-        $users = $this->Inboxes->Users->find('list', ['limit' => 200]);
+        $users = $this->Inboxes->Users->find('list', limit: 200);
         $this->set(compact('inbox', 'users'));
     }
 
@@ -73,9 +71,7 @@ class InboxesController extends AppController
      */
     public function edit($id = null)
     {
-        $inbox = $this->Inboxes->get($id, [
-            'contain' => [],
-        ]);
+        $inbox = $this->Inboxes->get($id, contain: []);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $inbox = $this->Inboxes->patchEntity($inbox, $this->request->getData());
             if ($this->Inboxes->save($inbox)) {
@@ -85,7 +81,7 @@ class InboxesController extends AppController
             }
             $this->Flash->error(__('The inbox could not be saved. Please, try again.'));
         }
-        $users = $this->Inboxes->Users->find('list', ['limit' => 200]);
+        $users = $this->Inboxes->Users->find('list', limit: 200);
         $this->set(compact('inbox', 'users'));
     }
 

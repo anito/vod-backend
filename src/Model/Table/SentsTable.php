@@ -99,7 +99,7 @@ class SentsTable extends Table
     return $rules;
   }
 
-  public function findByIdOrEmail(Query $query, array $options)
+  public function findByIdOrEmail($query, array $options)
   {
     $query
       ->where([

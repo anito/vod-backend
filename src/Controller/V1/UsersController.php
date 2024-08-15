@@ -7,10 +7,7 @@ use Cake\Event\Event;
 use Cake\Event\EventInterface;
 use Cake\Http\Exception\ForbiddenException;
 use Cake\Http\Exception\UnauthorizedException;
-use Cake\ORM\Query;
 use Cake\ORM\TableRegistry;
-use Cake\Utility\Security;
-use Firebase\JWT\JWT;
 
 class UsersController extends AppController
 {
@@ -51,9 +48,8 @@ class UsersController extends AppController
 
   public function beforeFilter(EventInterface $event)
   {
-    $this->searchParams = $this->request->getQuery();
-    $this->isSearch = isset($this->searchParams['keys']);
-    if (!$this->isSearch) {
+    $searchParams = $this->request->getQuery();
+    if (!isset($searchParams['keys'])) {
       $this->Crud->addListener('Crud.ApiPagination');
     }
   }
@@ -76,11 +72,12 @@ class UsersController extends AppController
         $query->where(['Users.id' => $authUser->id]);
       } else {
         $condition = [];
-        if (isset($this->searchParams['keys']) && isset($this->searchParams['search'])) {
-          $keys = $this->searchParams['keys'];
+        $queryParams = $this->request->getQueryParams();
+        if (isset($queryParams['keys']) && isset($queryParams['search'])) {
+          $keys = $queryParams['keys'];
           $keys = explode(",", $keys);
           $keys = preg_replace('/\s+/', '', $keys);
-          $search = $this->searchParams['search'];
+          $search = $queryParams['search'];
           $table = TableRegistry::getTableLocator()->get('Users');
           foreach ($keys as $key) {
             if ($table->hasField($key)) {
@@ -108,7 +105,7 @@ class UsersController extends AppController
       $this->set('data', $users);
     });
 
-    $this->Crud->action()->serialize(['data']);
+    // $this->Crud->action()->serialize(['data']);
     return $this->Crud->execute();
   }
 
@@ -119,14 +116,24 @@ class UsersController extends AppController
    */
   public function simpleindex()
   {
-    $query = $this->Users->find('all', [
-      'contain' => ['Avatars'],
-      'fields' => ['Users.id', 'Users.email', 'Users.name', 'Avatars.src', 'Avatars.id'],
-    ]);
-    $users = $query->all();
+    $users = $this->Users->find(
+      'all',
+      contain: [
+        'Avatars'
+      ],
+      fields: [
+        'Users.id',
+        'Users.email',
+        'Users.name',
+        'Avatars.src',
+        'Avatars.id'
+      ]
+    )
+      ->all();
+
     $this->set('data', $users);
 
-    $this->Crud->action()->serialize(['data']);
+    // $this->Crud->action()->serialize(['data']);
     return $this->Crud->execute();
   }
 
@@ -137,7 +144,7 @@ class UsersController extends AppController
       $user = $event->getSubject()->query
         ->contain(
           'Sents',
-          function (Query $q) {
+          function ($q) {
             return $q
               ->select([
                 'Sents.user_id',
@@ -147,7 +154,7 @@ class UsersController extends AppController
         )
         ->contain(
           'Inboxes',
-          function (Query $q) {
+          function ($q) {
             return $q
               ->select([
                 'Inboxes.user_id',
@@ -162,7 +169,7 @@ class UsersController extends AppController
       $this->set('data', $user);
     });
 
-    $this->Crud->action()->serialize(['data']);
+    // $this->Crud->action()->serialize(['data']);
 
     return $this->Crud->execute();
   }
@@ -198,7 +205,7 @@ class UsersController extends AppController
             'message' => __('User created'),
           ]
         );
-        $this->Crud->action()->serialize(['data', 'message']);
+        // $this->Crud->action()->serialize(['data', 'message']);
       }
     });
     return $this->Crud->execute();
@@ -226,7 +233,7 @@ class UsersController extends AppController
         'message' => $message,
       ]);
 
-      $this->Crud->action()->serialize(['data', 'message']);
+      // $this->Crud->action()->serialize(['data', 'message']);
     });
     return $this->Crud->execute();
   }
@@ -248,7 +255,7 @@ class UsersController extends AppController
         'message' => $message,
       ]);
 
-      $this->Crud->action()->serialize(['data', 'message']);
+      // $this->Crud->action()->serialize(['data', 'message']);
     });
     return $this->Crud->execute();
   }

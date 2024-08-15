@@ -33,9 +33,7 @@ class FieldsController extends AppController
      */
     public function view($id = null)
     {
-        $field = $this->Fields->get($id, [
-            'contain' => ['Items'],
-        ]);
+        $field = $this->Fields->get($id, contain: ['Items']);
 
         $this->set('field', $field);
     }
@@ -69,9 +67,7 @@ class FieldsController extends AppController
      */
     public function edit($id = null)
     {
-        $field = $this->Fields->get($id, [
-            'contain' => [],
-        ]);
+        $field = $this->Fields->get($id, contain: []);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $field = $this->Fields->patchEntity($field, $this->request->getData());
             if ($this->Fields->save($field)) {

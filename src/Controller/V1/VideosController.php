@@ -6,7 +6,6 @@ use App\Controller\V1\AppController;
 use Cake\Core\App;
 use Cake\Event\Event;
 use Cake\Event\EventInterface;
-use Cake\Http\Exception\UnauthorizedException;
 use Cake\Log\Log;
 use Cake\ORM\Query;
 use Cake\ORM\TableRegistry;
@@ -57,9 +56,8 @@ class VideosController extends AppController
 
   public function beforeFilter(EventInterface $event)
   {
-    $this->searchParams = $this->request->getQuery();
-    $this->isSearch = isset($this->searchParams['keys']);
-    if (!$this->isSearch) {
+    $searchParams = $this->request->getQueryParams();
+    if (!isset($searchParams['keys'])) {
       $this->Crud->addListener('Crud.ApiPagination');
     }
   }
@@ -75,11 +73,12 @@ class VideosController extends AppController
     $user = $this->_getAuthUser();
     $condition = [];
 
-    if (isset($this->searchParams['keys']) && isset($this->searchParams['search'])) {
-      $keys = $this->searchParams['keys'];
+    $searchParams = $this->request->getQueryParams();
+    if (isset($searchParams['keys']) && isset($searchParams['search'])) {
+      $keys = $searchParams['keys'];
       $keys = explode(",", $keys);
       $keys = preg_replace('/\s+/', '', $keys);
-      $search = $this->searchParams['search'];
+      $search = $searchParams['search'];
       $table = TableRegistry::getTableLocator()->get('Videos');
       foreach ($keys as $key) {
         if ($table->hasField($key)) {
@@ -120,7 +119,7 @@ class VideosController extends AppController
               // see https://book.cakephp.org/4/en/orm/retrieving-data-and-resultsets.html#filtering-by-associated-data
               // see https: //stackoverflow.com/questions/26799094/how-to-filter-by-conditions-for-associated-models
               // see https: //stackoverflow.com/questions/10154717/php-cakephp-datetime-compare
-              ->matching('Users', function (Query $q) use ($user, $condition) {
+              ->matching('Users', function ($q) use ($user, $condition) {
 
                 $now = date('Y-m-d H:i:s');
 
@@ -142,7 +141,7 @@ class VideosController extends AppController
         'data' => $videos,
       ]);
     });
-    $this->Crud->action()->serialize(['data']);
+    // $this->Crud->action()->serialize(['data']);
     return $this->Crud->execute();
   }
 
@@ -152,7 +151,7 @@ class VideosController extends AppController
     if (!$this->_isPrivileged($user)) {
       $this->Crud->on('beforeFind', function (Event $event) use ($user) {
         $query = $event->getSubject()->query
-          ->matching('Users', function (Query $q) use ($user) {
+          ->matching('Users', function ($q) use ($user) {
           $now = date('Y-m-d H:i:s');
           $condition = [
             'Users.id' => $user['id'],
@@ -168,7 +167,7 @@ class VideosController extends AppController
           'data' => $query,
         ]);
       });
-      $this->Crud->action()->serialize(['data']);
+      // $this->Crud->action()->serialize(['data']);
     }
     return $this->Crud->execute();
   }
@@ -268,7 +267,7 @@ class VideosController extends AppController
           'message' => __('Video could not be saved'),
         ]);
       }
-      $this->Crud->action()->serialize(['message']);
+      // $this->Crud->action()->serialize(['message']);
     });
 
     return $this->Crud->execute();
@@ -298,7 +297,7 @@ class VideosController extends AppController
         } else {
           $this->File->rmdirr($path);
         }
-        $this->Crud->action()->serialize(['message']);
+        // $this->Crud->action()->serialize(['message']);
       }
     });
 
@@ -309,7 +308,7 @@ class VideosController extends AppController
           'message' => __('Video deleted'),
         ]);
       }
-      $this->Crud->action()->serialize(['message']);
+      // $this->Crud->action()->serialize(['message']);
     });
 
     return $this->Crud->execute();
@@ -319,13 +318,13 @@ class VideosController extends AppController
   {
     $data = [];
 
-    $params = $this->getRequest()->getQuery();
     $lg_path = VIDEOS . DS . $id . DS . 'lg';
     $files = glob($lg_path . DS . '*.*');
     if (!empty($files)) {
       $fn = basename($files[0]);
       $type = "videos";
 
+      $params = $this->request->getQueryParams();
       $options = array_merge(compact(array('fn', 'id', 'type')), $params);
       $url = $this->Director->p($options);
       $json = json_encode($params);

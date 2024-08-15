@@ -2,7 +2,7 @@
 
 use Cake\Core\Configure;
 use Cake\Core\Configure\Engine\IniConfig;
-use Cake\I18n\FrozenTime;
+use Cake\I18n\DateTime;
 use Firebase\JWT\JWT;
 
 Configure::config('settings', new IniConfig());
@@ -18,7 +18,7 @@ Configure::write('Site.salutation', Configure::read('Site.salutation'));
 //     'prefix' => 'cake_mysql_conf_'
 // ]);
 
-FrozenTime::setDefaultLocale('de-DE');
+DateTime::setDefaultLocale('de-DE');
 
 define('APP_NAME', 'VOD_APP');
 define('API_PATH', 'v1');
@@ -38,7 +38,7 @@ if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') {
   $protocol = 'http://';
 }
 define('DIR_REL_HOST', str_replace('/index.php?', '', Configure::read('App.fullBaseUrl')));
-define('DIR_HOST', $protocol . preg_replace('/:80$/', '', env('HTTP_HOST')));
+define('DIR_HOST', $protocol . preg_replace('/:\d{2,4}$/', '', isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : ''));
 define('BASE_URL', Configure::read('App.fullBaseUrl'));
 define('UPLOADS', ROOT . DS . 'uploads');
 define('IMAGES', UPLOADS . DS . 'images');

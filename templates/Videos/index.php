@@ -43,12 +43,12 @@
             <td><?= h($video->title) ?></td>
             <td><?= h($video->description) ?></td>
             <td><?= h($video->src) ?></td>
-            <td><?= $this->Number->format($video->filesize) ?></td>
+            <td><?= isset($video->playhead) ? $this->Number->format($video->filesize) : '&dash;' ?></td>
             <td><?= h($video->teaser) ?></td>
-            <td><?= $this->Number->format($video->playhead) ?></td>
+            <td><?= isset($video->playhead) ? $this->Number->format($video->playhead) : 0 ?></td>
             <td><?= h($video->created) ?></td>
             <td><?= h($video->modified) ?></td>
-            <td><?= $this->Number->format($video->sequence) ?></td>
+            <td><?= isset($video->sequence) ? $this->Number->format($video->sequence) : 0 ?></td>
             <td class="actions">
               <?= $this->Html->link(__('View'), ['action' => 'view', $video->id]) ?>
               <?= $this->Html->link(__('Edit'), ['action' => 'edit', $video->id]) ?>

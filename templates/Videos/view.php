@@ -43,15 +43,15 @@
     </tr>
     <tr>
       <th><?= __('Filesize') ?></th>
-      <td><?= $this->Number->format($video->filesize) ?></td>
+      <td><?= isset($video->filesize) ? $this->Number->format($video->filesize) :'&dash;' ?></td>
     </tr>
     <tr>
       <th><?= __('Playhead') ?></th>
-      <td><?= $this->Number->format($video->playhead) ?></td>
+      <td><?= isset($video->playhead) ? $this->Number->format($video->playhead) : '&dash;' ?></td>
     </tr>
     <tr>
       <th><?= __('Sequence') ?></th>
-      <td><?= $this->Number->format($video->sequence) ?></td>
+      <td><?= isset($video->sequence) ? $this->Number->format($video->sequence) : '&dash;' ?></td>
     </tr>
     <tr>
       <th><?= __('Created') ?></th>

@@ -5,8 +5,6 @@ namespace App\Controller\V1;
 use App\Controller\V1\AppController;
 use Cake\Core\App;
 use Cake\Event\Event;
-use Cake\ORM\Entity;
-use Cake\ORM\Query;
 
 /**
  * Templates Controller
@@ -52,11 +50,11 @@ class TemplatesController extends AppController
 
       $query
         ->select(['id', 'slug', 'name', 'protected'])
-        ->contain('Items', function (Query $query) {
-          return $query->select(['id', 'content', 'template_id', 'field_id']);
+        ->contain('Items', function ($q) {
+          return $q->select(['id', 'content', 'template_id', 'field_id']);
         })
-        ->contain('Items.Fields', function (Query $query) {
-          return $query->select(['id', 'name']);
+        ->contain('Items.Fields', function ($q) {
+          return $q->select(['id', 'name']);
         });
     });
 
@@ -82,7 +80,7 @@ class TemplatesController extends AppController
 
       $this->set(compact('data', 'message'));
 
-      $this->Crud->action()->serialize(['data', 'message']);
+      // $this->Crud->action()->serialize(['data', 'message']);
     });
 
     return $this->Crud->execute();
@@ -107,7 +105,7 @@ class TemplatesController extends AppController
 
       $this->set(compact('data', 'message'));
 
-      $this->Crud->action()->serialize(['data', 'message']);
+      // $this->Crud->action()->serialize(['data', 'message']);
     });
 
     return $this->Crud->execute();
@@ -134,7 +132,7 @@ class TemplatesController extends AppController
         ]);
       }
 
-      $this->Crud->action()->serialize(['message']);
+      // $this->Crud->action()->serialize(['message']);
     });
 
     return $this->Crud->execute();

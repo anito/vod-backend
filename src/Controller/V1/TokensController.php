@@ -5,8 +5,8 @@ namespace App\Controller\V1;
 use App\Controller\V1\AppController;
 use Cake\Core\App;
 use Cake\Event\Event;
+use Cake\I18n\DateTime;
 use Cake\ORM\TableRegistry;
-use DateTime;
 
 /**
  * Tokens Controller
@@ -56,7 +56,7 @@ class TokensController extends AppController
 
       // get the latest video subscription to adjust the tokens expiration time
       $videosTable = TableRegistry::getTableLocator()->get('Videos');
-      $latestVideo = $videosTable->find('latestVideo', ['uid' => $uid])->first();
+      $latestVideo = $videosTable->find('latestVideo', uid: $uid)->first();
 
       if ($constrained && !empty($latestVideo)) {
         $end = $latestVideo->_matchingData['UsersVideos']->end;
@@ -89,15 +89,13 @@ class TokensController extends AppController
 
       $usersTable = TableRegistry::getTableLocator()->get('Users');
 
-      $user = $usersTable->get($uid, [
-        'contain' => ['Groups', 'Videos', 'Avatars', 'Tokens'],
-      ]);
+      $user = $usersTable->get($uid, contain: ['Groups', 'Videos', 'Avatars', 'Tokens']);
 
       $this->set([
         'data' => $user,
         'message' => __('Token created'),
       ]);
-      $this->Crud->action()->serialize(['data', 'message']);
+      // $this->Crud->action()->serialize(['data', 'message']);
     });
 
     return $this->Crud->execute();
@@ -112,15 +110,13 @@ class TokensController extends AppController
       $uid = $event->getSubject()->entity->user_id;
 
       $usersTable = TableRegistry::getTableLocator()->get('Users');
-      $user = $usersTable->get($uid, [
-        'contain' => ['Groups', 'Videos', 'Avatars', 'Tokens'],
-      ]);
+      $user = $usersTable->get($uid, contain: ['Groups', 'Videos', 'Avatars', 'Tokens']);
 
       $this->set([
         'data' => $user,
         'message' => __('Token removed'),
       ]);
-      $this->Crud->action()->serialize(['data', 'message']);
+      // $this->Crud->action()->serialize(['data', 'message']);
     });
 
     return $this->Crud->execute();

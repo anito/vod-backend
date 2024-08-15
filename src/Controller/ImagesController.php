@@ -33,9 +33,7 @@ class ImagesController extends AppController
      */
     public function view($id = null)
     {
-        $image = $this->Images->get($id, [
-            'contain' => ['Videos'],
-        ]);
+        $image = $this->Images->get($id, contain: ['Videos']);
 
         $this->set('image', $image);
     }
@@ -69,9 +67,7 @@ class ImagesController extends AppController
      */
     public function edit($id = null)
     {
-        $image = $this->Images->get($id, [
-            'contain' => [],
-        ]);
+        $image = $this->Images->get($id, contain: []);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $image = $this->Images->patchEntity($image, $this->request->getData());
             if ($this->Images->save($image)) {

@@ -78,7 +78,7 @@ class InboxesController extends AppController
     if ($role === SUPERUSER && $authID !== $userId) {
       $mails = [];
     } else {
-      $mails = $this->Inboxes->find('byIdOrEmail', ['field' => $id]);
+      $mails = $this->Inboxes->find('byIdOrEmail', field: $id);
     }
 
     $this->set([

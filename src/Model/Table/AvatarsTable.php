@@ -2,12 +2,13 @@
 
 namespace App\Model\Table;
 
-use Cake\ORM\Query;
+use Cake\Event\EventInterface;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
 use Cake\Filesystem\Folder;
 use Cake\Log\Log;
+use Cake\Utility\Filesystem;
 
 /**
  * Avatars Model
@@ -49,7 +50,7 @@ class AvatarsTable extends Table
     ]);
   }
 
-  public function beforeDelete(\Cake\Event\EventInterface $event, $entity, $options)
+  public function beforeDelete(EventInterface $event, $entity, $options)
   {
 
     $id = $entity->id;
@@ -63,8 +64,8 @@ class AvatarsTable extends Table
     if (!empty($oldies) && $oldies && !unlink($oldies[0])) {
       $event->stopPropagation();
     } else {
-      $f = new Folder($path);
-      $f->delete();
+      $fs = new Filesystem;
+      $fs->deleteDir($path);
     }
   }
 

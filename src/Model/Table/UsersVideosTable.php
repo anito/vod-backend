@@ -145,13 +145,11 @@ class UsersVideosTable extends Table
     if (!$id) return 1;
 
     $current = $entity->extractOriginal(['start', 'end', 'playhead']);
-    return $this->find('startEnd', [
-      'id' => $id,
-      'changed' => $current
-    ])->toArray();
+    return $this->find('startEnd', id: $id, changed: $current)
+      ->toArray();
   }
 
-  public function findStartEnd(Query $query, $options)
+  public function findStartEnd($query, $options)
   {
     return $query->where([
       'id ' => $options['id'],

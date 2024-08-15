@@ -10,6 +10,7 @@ use Cake\I18n\I18n;
 use Cake\ORM\Entity;
 use Cake\ORM\TableRegistry;
 use Cake\Utility\Security;
+use Cake\View\JsonView;
 use Crud\Controller\ControllerTrait;
 use Firebase\JWT\JWT;
 
@@ -30,8 +31,6 @@ class AppController extends Controller
     };
     $salt = $publ ?: Security::getSalt();
 
-    $this->loadComponent('RequestHandler');
-
     $this->loadComponent('Authentication.Authentication');
 
     $queries = $this->request->getQueryParams();
@@ -39,6 +38,11 @@ class AppController extends Controller
       $locale = $queries['locale'];
       I18n::setLocale($locale);
     }
+  }
+  
+  public function viewClasses(): array
+  {
+    return [JsonView::class];
   }
 
   protected function _getCert()

@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controller;
 
 use App\Controller\AppController;
@@ -19,11 +20,9 @@ class SentsController extends AppController
      */
     public function index()
     {
-        $this->paginate = [
-            'contain' => ['Users'],
-        ];
-        $sents = $this->paginate($this->Sents);
-
+        $query = $this->Sents->find()
+            ->contain('Users');
+        $sents = $this->paginate($query);
         $this->set(compact('sents'));
     }
 
@@ -36,9 +35,7 @@ class SentsController extends AppController
      */
     public function view($id = null)
     {
-        $sent = $this->Sents->get($id, [
-            'contain' => ['Users'],
-        ]);
+        $sent = $this->Sents->get($id, contain: ['Users']);
 
         $this->set('sent', $sent);
     }
@@ -60,7 +57,7 @@ class SentsController extends AppController
             }
             $this->Flash->error(__('The sent could not be saved. Please, try again.'));
         }
-        $users = $this->Sents->Users->find('list', ['limit' => 200]);
+        $users = $this->Sents->Users->find('list', limit: 200);
         $this->set(compact('sent', 'users'));
     }
 
@@ -73,9 +70,7 @@ class SentsController extends AppController
      */
     public function edit($id = null)
     {
-        $sent = $this->Sents->get($id, [
-            'contain' => [],
-        ]);
+        $sent = $this->Sents->get($id, contain: []);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $sent = $this->Sents->patchEntity($sent, $this->request->getData());
             if ($this->Sents->save($sent)) {
@@ -85,7 +80,7 @@ class SentsController extends AppController
             }
             $this->Flash->error(__('The sent could not be saved. Please, try again.'));
         }
-        $users = $this->Sents->Users->find('list', ['limit' => 200]);
+        $users = $this->Sents->Users->find('list', limit: 200);
         $this->set(compact('sent', 'users'));
     }
 

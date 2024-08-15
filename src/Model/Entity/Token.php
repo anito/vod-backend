@@ -9,8 +9,8 @@ use Cake\ORM\Entity;
  * @property string $id
  * @property string $token
  * @property string $user_id
- * @property \Cake\I18n\FrozenTime|null $created
- * @property \Cake\I18n\FrozenTime|null $modified
+ * @property \Cake\I18n\DateTime|null $created
+ * @property \Cake\I18n\DateTime|null $modified
  *
  * @property \App\Model\Entity\User $user
  */
@@ -25,7 +25,7 @@ class Token extends Entity
      *
      * @var array
      */
-    protected $_accessible = [
+    protected array $_accessible = [
         'id' => true,
         'token' => true,
         'user_id' => true,
@@ -39,5 +39,5 @@ class Token extends Entity
      *
      * @var array
      */
-    protected $_hidden = [];
+    protected array $_hidden = [];
 }

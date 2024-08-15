@@ -32,7 +32,7 @@
         </tr>
         <tr>
             <th scope="row"><?= __('Filesize') ?></th>
-            <td><?= $this->Number->format($avatar->filesize) ?></td>
+            <td><?= isset($avatar->filesize) ? $this->Number->format($avatar->filesize) : '&dash;' ?></td>
         </tr>
         <tr>
             <th scope="row"><?= __('Created') ?></th>

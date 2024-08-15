@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controller;
 
 use App\Controller\AppController;
@@ -19,11 +20,9 @@ class ItemsController extends AppController
      */
     public function index()
     {
-        $this->paginate = [
-            'contain' => ['Fields', 'Templates'],
-        ];
-        $items = $this->paginate($this->Items);
-
+        $query = $this->Items->find()
+            ->contain(['Fields', 'Templates']);
+        $items = $this->paginate($query);
         $this->set(compact('items'));
     }
 
@@ -36,9 +35,7 @@ class ItemsController extends AppController
      */
     public function view($id = null)
     {
-        $item = $this->Items->get($id, [
-            'contain' => ['Fields', 'Templates'],
-        ]);
+        $item = $this->Items->get($id, contain: ['Fields', 'Templates']);
 
         $this->set('item', $item);
     }
@@ -60,8 +57,8 @@ class ItemsController extends AppController
             }
             $this->Flash->error(__('The item could not be saved. Please, try again.'));
         }
-        $fields = $this->Items->Fields->find('list', ['limit' => 200]);
-        $templates = $this->Items->Templates->find('list', ['limit' => 200]);
+        $fields = $this->Items->Fields->find('list', limit: 200);
+        $templates = $this->Items->Templates->find('list', limit: 200);
         $this->set(compact('item', 'fields', 'templates'));
     }
 
@@ -74,9 +71,7 @@ class ItemsController extends AppController
      */
     public function edit($id = null)
     {
-        $item = $this->Items->get($id, [
-            'contain' => [],
-        ]);
+        $item = $this->Items->get($id, contain: []);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $item = $this->Items->patchEntity($item, $this->request->getData());
             if ($this->Items->save($item)) {
@@ -86,8 +81,8 @@ class ItemsController extends AppController
             }
             $this->Flash->error(__('The item could not be saved. Please, try again.'));
         }
-        $fields = $this->Items->Fields->find('list', ['limit' => 200]);
-        $templates = $this->Items->Templates->find('list', ['limit' => 200]);
+        $fields = $this->Items->Fields->find('list', limit: 200);
+        $templates = $this->Items->Templates->find('list', limit: 200);
         $this->set(compact('item', 'fields', 'templates'));
     }
 

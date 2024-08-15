@@ -124,20 +124,18 @@ class VideosTable extends Table
     return $rules;
   }
 
-  public function findWidthImages(Query $query, array $options)
+  public function findWidthImages($query, array $options)
   {
-    $query = $this->find('all')
+    return $this->find('all')
       ->contain('Images');
-
-    return $query;
   }
 
-  public function findLatestVideo(Query $query, $options)
+  public function findLatestVideo($query, $options)
   {
 
     $uid = $options['uid'];
     return $query
-      ->matching('Users', function (Query $q) use ($uid) {
+      ->matching('Users', function ($q) use ($uid) {
         $now = date('Y-m-d H:i:s');
 
         $condition = [
@@ -152,7 +150,7 @@ class VideosTable extends Table
         'UsersVideos.user_id',
         'UsersVideos.end',
       ])
-      ->order([
+      ->orderBy([
         'UsersVideos.end' => 'DESC',
       ]);
   }

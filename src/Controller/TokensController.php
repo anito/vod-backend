@@ -19,11 +19,8 @@ class TokensController extends AppController
      */
     public function index()
     {
-        $this->paginate = [
-            'contain' => ['Users'],
-        ];
-        $tokens = $this->paginate($this->Tokens);
-
+        $query = $this->Tokens->find()->contain('Users');
+        $sents = $this->paginate($query);
         $this->set(compact('tokens'));
     }
 
@@ -36,9 +33,7 @@ class TokensController extends AppController
      */
     public function view($id = null)
     {
-        $token = $this->Tokens->get($id, [
-            'contain' => ['Users'],
-        ]);
+        $token = $this->Tokens->get($id, contain: ['Users']);
 
         $this->set('token', $token);
     }
@@ -60,7 +55,7 @@ class TokensController extends AppController
             }
             $this->Flash->error(__('The token could not be saved. Please, try again.'));
         }
-        $users = $this->Tokens->Users->find('list', ['limit' => 200]);
+        $users = $this->Tokens->Users->find('list', limit: 200);
         $this->set(compact('token', 'users'));
     }
 
@@ -73,9 +68,7 @@ class TokensController extends AppController
      */
     public function edit($id = null)
     {
-        $token = $this->Tokens->get($id, [
-            'contain' => [],
-        ]);
+        $token = $this->Tokens->get($id, contain: []);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $token = $this->Tokens->patchEntity($token, $this->request->getData());
             if ($this->Tokens->save($token)) {
@@ -85,7 +78,7 @@ class TokensController extends AppController
             }
             $this->Flash->error(__('The token could not be saved. Please, try again.'));
         }
-        $users = $this->Tokens->Users->find('list', ['limit' => 200]);
+        $users = $this->Tokens->Users->find('list', limit: 200);
         $this->set(compact('token', 'users'));
     }
 

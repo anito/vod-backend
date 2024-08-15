@@ -60,7 +60,7 @@
         </tr>
         <tr>
             <th scope="row"><?= __('Filesize') ?></th>
-            <td><?= $this->Number->format($image->filesize) ?></td>
+            <td><?= isset($image->filesize )? $this->Number->format($image->filesize) : '&dash;' ?></td>
         </tr>
         <tr>
             <th scope="row"><?= __('Captured') ?></th>

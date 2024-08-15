@@ -8,7 +8,7 @@ use Cake\Event\Event;
 class DarkroomComponent extends Component
 {
 
-    public $components = ['File'];
+    public array $components = ['File'];
 
     public function startup(\Cake\Event\EventInterface $event)
     {

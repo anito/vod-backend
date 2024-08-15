@@ -8,7 +8,7 @@ use Cake\ORM\Entity;
 class DirectorComponent extends Component
 {
 
-  public $components = ['Salt', 'File'];
+  public array $components = ['Salt', 'File'];
 
   public function startup(\Cake\Event\EventInterface $event)
   {

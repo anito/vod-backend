@@ -48,7 +48,7 @@
                 <td><?=h($image->captured)?></td>
                 <td><?=h($image->software)?></td>
                 <td><?=h($image->src)?></td>
-                <td><?=$this->Number->format($image->filesize)?></td>
+                <td><?= isset($image->filesize) ? $this->Number->format($image->filesize) : '&dsah;' ?></td>
                 <td><?=h($image->created)?></td>
                 <td><?=h($image->modified)?></td>
                 <td class="actions">
