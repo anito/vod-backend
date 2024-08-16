@@ -81,7 +81,7 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
      */
     if (Configure::read('debug')) {
       try {
-        // $this->addPlugin('DebugKit');
+        $this->addPlugin('DebugKit');
       } catch (MissingPluginException $e) {
         // Do not halt if the plugin is missing
       }
@@ -206,7 +206,7 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
    *
    * @param \Cake\Core\ContainerInterface $container The Container to update.
    * @return void
-   * @link https://book.cakephp.org/4/en/development/dependency-injection.html#dependency-injection
+   * @link https://book.cakephp.org/5/en/development/dependency-injection.html#dependency-injection
    */
   public function services(ContainerInterface $container): void
   {

@@ -95,7 +95,7 @@ class TokensController extends AppController
         'data' => $user,
         'message' => __('Token created'),
       ]);
-      // $this->Crud->action()->serialize(['data', 'message']);
+      $this->Crud->action()->serialize(['data', 'message']);
     });
 
     return $this->Crud->execute();
@@ -116,7 +116,7 @@ class TokensController extends AppController
         'data' => $user,
         'message' => __('Token removed'),
       ]);
-      // $this->Crud->action()->serialize(['data', 'message']);
+      $this->Crud->action()->serialize(['data', 'message']);
     });
 
     return $this->Crud->execute();

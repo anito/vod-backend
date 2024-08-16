@@ -141,7 +141,7 @@ class VideosController extends AppController
         'data' => $videos,
       ]);
     });
-    // $this->Crud->action()->serialize(['data']);
+    $this->Crud->action()->serialize(['data']);
     return $this->Crud->execute();
   }
 
@@ -167,7 +167,7 @@ class VideosController extends AppController
           'data' => $query,
         ]);
       });
-      // $this->Crud->action()->serialize(['data']);
+      $this->Crud->action()->serialize(['data']);
     }
     return $this->Crud->execute();
   }
@@ -267,7 +267,7 @@ class VideosController extends AppController
           'message' => __('Video could not be saved'),
         ]);
       }
-      // $this->Crud->action()->serialize(['message']);
+      $this->Crud->action()->serialize(['message']);
     });
 
     return $this->Crud->execute();
@@ -297,7 +297,7 @@ class VideosController extends AppController
         } else {
           $this->File->rmdirr($path);
         }
-        // $this->Crud->action()->serialize(['message']);
+        $this->Crud->action()->serialize(['message']);
       }
     });
 
@@ -308,7 +308,7 @@ class VideosController extends AppController
           'message' => __('Video deleted'),
         ]);
       }
-      // $this->Crud->action()->serialize(['message']);
+      $this->Crud->action()->serialize(['message']);
     });
 
     return $this->Crud->execute();

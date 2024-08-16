@@ -80,7 +80,7 @@ class TemplatesController extends AppController
 
       $this->set(compact('data', 'message'));
 
-      // $this->Crud->action()->serialize(['data', 'message']);
+      $this->Crud->action()->serialize(['data', 'message']);
     });
 
     return $this->Crud->execute();
@@ -105,7 +105,7 @@ class TemplatesController extends AppController
 
       $this->set(compact('data', 'message'));
 
-      // $this->Crud->action()->serialize(['data', 'message']);
+      $this->Crud->action()->serialize(['data', 'message']);
     });
 
     return $this->Crud->execute();
@@ -132,7 +132,7 @@ class TemplatesController extends AppController
         ]);
       }
 
-      // $this->Crud->action()->serialize(['message']);
+      $this->Crud->action()->serialize(['message']);
     });
 
     return $this->Crud->execute();

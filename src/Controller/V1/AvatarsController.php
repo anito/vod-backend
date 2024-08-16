@@ -89,7 +89,7 @@ class AvatarsController extends AppController
         'data' => $user,
         'message' => __('Avatar saved'),
       ]);
-      // $this->Crud->action()->serialize(['data', 'message']);
+      $this->Crud->action()->serialize(['data', 'message']);
     });
 
     return $this->Crud->execute();
@@ -108,7 +108,7 @@ class AvatarsController extends AppController
         'data' => $user,
         'message' => __('Avatar deleted'),
       ]);
-      // $this->Crud->action()->serialize(['data', 'message']);
+      $this->Crud->action()->serialize(['data', 'message']);
     });
     return $this->Crud->execute();
   }

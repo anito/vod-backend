@@ -61,7 +61,7 @@ class ImagesController extends AppController
       $this->set('data', $data);
     });
 
-    // $this->Crud->action()->serialize(['data']);
+    $this->Crud->action()->serialize(['data']);
     return $this->Crud->execute();
   }
 
@@ -128,7 +128,7 @@ class ImagesController extends AppController
         } else {
           $this->File->rmdirr($path);
         }
-        // $this->Crud->action()->serialize(['message']);
+        $this->Crud->action()->serialize(['message']);
       }
     });
 
@@ -139,7 +139,7 @@ class ImagesController extends AppController
           'message' => __('Image deleted'),
         ]);
       }
-      // $this->Crud->action()->serialize(['message']);
+      $this->Crud->action()->serialize(['message']);
     });
 
     return $this->Crud->execute();

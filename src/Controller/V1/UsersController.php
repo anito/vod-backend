@@ -105,7 +105,7 @@ class UsersController extends AppController
       $this->set('data', $users);
     });
 
-    // $this->Crud->action()->serialize(['data']);
+    $this->Crud->action()->serialize(['data']);
     return $this->Crud->execute();
   }
 
@@ -116,24 +116,20 @@ class UsersController extends AppController
    */
   public function simpleindex()
   {
-    $users = $this->Users->find(
-      'all',
-      contain: [
-        'Avatars'
-      ],
-      fields: [
+    $users = $this->Users->find('all')
+      ->contain('Avatars')
+      ->fields([
         'Users.id',
         'Users.email',
         'Users.name',
         'Avatars.src',
         'Avatars.id'
-      ]
-    )
+      ])
       ->all();
 
     $this->set('data', $users);
 
-    // $this->Crud->action()->serialize(['data']);
+    $this->Crud->action()->serialize(['data']);
     return $this->Crud->execute();
   }
 
@@ -169,7 +165,7 @@ class UsersController extends AppController
       $this->set('data', $user);
     });
 
-    // $this->Crud->action()->serialize(['data']);
+    $this->Crud->action()->serialize(['data']);
 
     return $this->Crud->execute();
   }
@@ -205,7 +201,7 @@ class UsersController extends AppController
             'message' => __('User created'),
           ]
         );
-        // $this->Crud->action()->serialize(['data', 'message']);
+        $this->Crud->action()->serialize(['data', 'message']);
       }
     });
     return $this->Crud->execute();
@@ -233,7 +229,7 @@ class UsersController extends AppController
         'message' => $message,
       ]);
 
-      // $this->Crud->action()->serialize(['data', 'message']);
+      $this->Crud->action()->serialize(['data', 'message']);
     });
     return $this->Crud->execute();
   }
@@ -255,7 +251,7 @@ class UsersController extends AppController
         'message' => $message,
       ]);
 
-      // $this->Crud->action()->serialize(['data', 'message']);
+      $this->Crud->action()->serialize(['data', 'message']);
     });
     return $this->Crud->execute();
   }
