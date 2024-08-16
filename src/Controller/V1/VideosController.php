@@ -31,7 +31,8 @@ class VideosController extends AppController
 
     $this->loadComponent('File');
     $this->loadComponent('Director');
-    $this->loadComponent('Upload');
+    $this->loadComponent('Upload', ['type' => 'videos']);
+    $this->loadComponent('Uri');
 
     $this->loadComponent('Crud.Crud', [
       'actions' => [
@@ -216,7 +217,7 @@ class VideosController extends AppController
         $files = [$files];
       }
 
-      if (!empty($videos = $this->Upload->saveAs(VIDEOS, $files))) {
+      if (!empty($videos = $this->Upload->save($files))) {
 
         $videos = $this->Videos->newEntities($videos);
 
@@ -316,26 +317,29 @@ class VideosController extends AppController
 
   public function uri($id)
   {
-    $data = [];
+    // $data = [];
 
-    $lg_path = VIDEOS . DS . $id . DS . 'lg';
-    $files = glob($lg_path . DS . '*.*');
-    if (!empty($files)) {
-      $fn = basename($files[0]);
-      $type = "videos";
+    // $lg_path = VIDEOS . DS . $id . DS . 'lg';
+    // $files = glob($lg_path . DS . '*.*');
+    // if (!empty($files)) {
+    //   $fn = basename($files[0]);
+    //   $type = "videos";
 
-      $params = $this->request->getQueryParams();
-      $options = array_merge(compact(array('fn', 'id', 'type')), $params);
-      $url = $this->Director->p($options);
-      $json = json_encode($params);
-      $stringified = preg_replace('/["\'\s]/', '', $json);
+    //   $params = $this->request->getQueryParams();
+    //   $options = array_merge(compact(array('fn', 'id', 'type')), $params);
+    //   $url = $this->Director->p($options);
+    //   $json = json_encode($params);
+    //   $stringified = preg_replace('/["\'\s]/', '', $json);
 
-      $data = array(
-        'id' => $id,
-        'url' => $url,
-        'params' => $stringified,
-      );
+    //   $data = array(
+    //     'id' => $id,
+    //     'url' => $url,
+    //     'params' => $stringified,
+    //   );
 
+    $data = $this->Uri->getUrl($id);
+
+    if ($data) {
       $this->set(
         [
           'success' => true,

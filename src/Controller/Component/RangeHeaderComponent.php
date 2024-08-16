@@ -83,7 +83,6 @@ class RangeHeaderComponent extends Component
         }
 
         return $this;
-
     }
 
     public function __construct(ComponentRegistry $registry, array $config = [])
@@ -173,7 +172,7 @@ class RangeHeaderComponent extends Component
      * @param string $name Name of the header
      * @return string|null Returns null when the header was not sent or cannot be retrieved
      */
-    public function get_request_header($name)
+    public function getRequestHeader($name)
     {
         $name = strtoupper($name);
 

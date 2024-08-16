@@ -23,7 +23,8 @@ class AvatarsController extends AppController
 
     $this->loadComponent('File');
     $this->loadComponent('Director');
-    $this->loadComponent('Upload');
+    $this->loadComponent('Upload', ['type' => 'avatars']);
+    $this->loadComponent('Uri');
 
     $this->loadComponent('Crud.Crud', [
       'actions' => [
@@ -121,7 +122,7 @@ class AvatarsController extends AppController
       $files = [$files];
     }
 
-    if (!empty($avatars = $this->Upload->saveAs(AVATARS, $files))) {
+    if (!empty($avatars = $this->Upload->save($files))) {
       return $avatars;
     } else {
       return [];
@@ -134,24 +135,26 @@ class AvatarsController extends AppController
     $params = $this->getRequest()->getQuery();
 
     // Remove blacklisted params
-    $params = array_diff_key($params, array_flip($blacklist));
+    // $params = array_diff_key($params, array_flip($blacklist));
 
-    $lg_path = AVATARS . DS . $id . DS . 'lg';
-    $files = glob($lg_path . DS . '*.*');
-    if (!empty($files)) {
-      $fn = basename($files[0]);
-      $type = "avatars";
+    // $lg_path = AVATARS . DS . $id . DS . 'lg';
+    // $files = glob($lg_path . DS . '*.*');
+    // if (!empty($files)) {
+    //   $fn = basename($files[0]);
+    //   $type = "avatars";
 
-      $options = array_merge(compact(array('fn', 'id', 'type')), $params);
-      $url = $this->Director->p($options);
-      $json = json_encode($params);
-      $stringified = preg_replace('/["\'\s]/', '', $json);
-      $data = array(
-        'id' => $id,
-        'url' => $url,
-        'params' => $stringified,
-      );
+    //   $options = array_merge(compact(array('fn', 'id', 'type')), $params);
+    //   $url = $this->Director->p($options);
+    //   $json = json_encode($params);
+    //   $stringified = preg_replace('/["\'\s]/', '', $json);
+    //   $data = array(
+    //     'id' => $id,
+    //     'url' => $url,
+    //     'params' => $stringified,
+    //   );
+    $data = $this->Uri->getUrl($id);
 
+    if ($data) {
       $this->set(
         [
           'success' => true,

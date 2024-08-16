@@ -9,7 +9,11 @@ use Cake\Utility\Text;
 class UploadComponent extends Component
 {
 
-  public array $components = ['File', 'Director'];
+  protected array $components = ['File', 'Director'];
+
+  protected $path;
+
+  protected $type;
 
   /**
    * Constructor
@@ -22,11 +26,28 @@ class UploadComponent extends Component
     parent::__construct($registry, $config);
   }
 
-  public function saveAs($path, $files)
+  public function initialize(array $config): void
+  {
+    $this->type = $config['type'];
+    $this->path = UPLOADS . DS . $this->type;
+  }
+
+  public function save($files)
   {
 
-    define('PATH', $path);
     return $this->saveUploadedFiles($files);
+  }
+
+  public function getPath(): string
+  {
+
+    return $this->path;
+  }
+
+  public function getType(): string
+  {
+
+    return $this->type;
   }
 
   protected function saveUploadedFiles($files)
@@ -44,18 +65,14 @@ class UploadComponent extends Component
       $uuid = Text::uuid();
       $fn = $file->getClientFilename();
 
-      if (!defined('PATH')) {
-        return;
-      }
-
       $isImage = $this->File->isImage($fn);
-      $isAvatar = $isImage && strpos(PATH, 'avatar');
+      $isAvatar = $isImage && strpos($this->path, 'avatar');
       $isVideo = $this->File->isVideo($fn);
 
-      if (!is_dir(PATH)) {
-        $this->File->makeDir(PATH);
+      if (!is_dir($this->path)) {
+        $this->File->makeDir($this->path);
       }
-      $path = PATH . DS . $uuid;
+      $path = $this->path . DS . $uuid;
 
       if ($file->getStream()) {
 

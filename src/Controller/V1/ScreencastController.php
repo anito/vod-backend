@@ -9,7 +9,7 @@ use Exception as GlobalException;
 
 class NonExistentFileException extends \RuntimeException {}
 
-class KodaksController extends AppController
+class ScreencastController extends AppController
 {
 
   public function initialize(): void
@@ -63,7 +63,7 @@ class KodaksController extends AppController
     $val = str_replace(' ', '.2B', $val);
     $decrypt = $this->Salt->decrypt($val); // decrypt
 
-    // Log::debug('{decrypt}', compact('decrypt'));
+    Log::debug('{decrypt}', compact('decrypt'));
 
     $a = explode(',', $decrypt);
 
@@ -88,9 +88,11 @@ class KodaksController extends AppController
 
     $ext = $this->File->returnExt($file);
 
-    $path = $this->Director->getMediaBasePath($type);
+    if (!defined('PATH')) {
+      define('PATH', $this->Director->getMediaBasePath($type));
+    }
 
-    $large = $path . DS . $id . DS . 'lg' . DS . $file;
+    $large = PATH . DS . $id . DS . 'lg' . DS . $file;
 
     if ($this->File->isVideo($file)) {
       $sq = 2;
@@ -98,12 +100,12 @@ class KodaksController extends AppController
     }
 
     if ($sq == 2) {
-      $base_dir = $path . DS . $id . DS . 'lg';
+      $base_dir = PATH . DS . $id . DS . 'lg';
       $path_to_cache = $large;
     } else {
       $fn .= "_{$w}_{$h}_{$sq}_{$q}_{$sh}_{$x}_{$y}";
       $fn .= ".$ext";
-      $base_dir = $path . DS . $id . DS . 'cache';
+      $base_dir = PATH . DS . $id . DS . 'cache';
       $path_to_cache = $base_dir . DS . $fn;
     }
 

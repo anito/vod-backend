@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controller\Component;
 
 use Cake\Controller\ComponentRegistry;
@@ -7,12 +8,15 @@ use Cake\Log\Log;
 
 class PartialFileComponent extends Component
 {
+
     /**
-     * The range header on which the data transmission will be based
+     * The RangeHeaderComponent on which the data transmission will be based
      *
-     * @var RangeHeader|null
+     * @var RangeHeaderComponent|null
      */
-    // private $range;
+    private $rangeHeader;
+
+    protected array $components = ['RangeHeader'];
 
     /**
      * Constructor
@@ -23,7 +27,12 @@ class PartialFileComponent extends Component
     public function __construct(ComponentRegistry $registry, array $config = [])
     {
         parent::__construct($registry, $config);
+    }
 
+    public function initialize(array $config): void
+    {
+        $header = $this->RangeHeader->getRequestHeader('Range');
+        $this->rangeHeader = $this->RangeHeader->createFromHeaderString($header);
     }
 
     /**
@@ -69,9 +78,9 @@ class PartialFileComponent extends Component
      * @param string $path Local file system path to serve
      * @param string $contentType MIME type of the data stream
      */
-    public function sendFile(RangeHeaderComponent $range = null, $path, $contentType = 'application/octet-stream')
+    public function sendFile($path, $contentType = 'application/octet-stream')
     {
-        $this->range = $range;
+
         // Make sure the file exists and is a file, otherwise we are wasting our time
         $localPath = realpath($path);
         if ($localPath === false || !is_file($localPath)) {
@@ -89,36 +98,33 @@ class PartialFileComponent extends Component
 
         $fileSize = filesize($localPath);
 
-        if ($this->range == null) {
+        if ($this->rangeHeader == null) {
             header('HTTP/1.1 403 Forbidden');
             throw new DownloadNotAllowed(
                 'You are not allowed to download this video'
             );
             die();
-            
+
             $this->sendDownloadHeaders(basename($localPath), $fileSize, $contentType);
-            
+
             // No range requested, just send the whole file
             fpassthru($fp);
         } else {
             header('HTTP/1.1 206 Partial Content');
-            header('Content-Range: ' . $this->range->getContentRangeHeader($fileSize));
+            header('Content-Range: ' . $this->rangeHeader->getContentRangeHeader($fileSize));
             $this->sendDownloadHeaders(
                 basename($localPath),
-                $this->range->getLength($fileSize),
+                $this->rangeHeader->getLength($fileSize),
                 $contentType
             );
-    
+
             $this->sendDataRange(
                 $fp,
-                $this->range->getStartPosition($fileSize),
-                $this->range->getLength($fileSize)
+                $this->rangeHeader->getStartPosition($fileSize),
+                $this->rangeHeader->getLength($fileSize)
             );
         }
 
         fclose($fp);
     }
-
 }
-
-?>

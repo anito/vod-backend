@@ -8,7 +8,7 @@ use Cake\ORM\Entity;
 class DirectorComponent extends Component
 {
 
-  public array $components = ['Salt', 'File'];
+  protected array $components = ['Salt', 'File', 'Upload'];
 
   public function startup(\Cake\Event\EventInterface $event)
   {
@@ -41,14 +41,9 @@ class DirectorComponent extends Component
 
     $params = array_merge($defaults, $options);
     $args = join(',', $params);
-
-    if (!defined('PATH')) {
-      define('PATH', $this->getMediaBasePath($params['type']));
-    }
-
     $crypt = $this->Salt->encrypt($args); //encrypt
-
-    $path = PATH . DS . $params['id'] . DS . 'lg' . DS . $params['fn'];
+    $path = $this->Upload->getPath();
+    $path = $path . DS . $params['id'] . DS . 'lg' . DS . $params['fn'];
     $m = filemtime($path);
     $x = pathinfo($path, PATHINFO_EXTENSION);
 

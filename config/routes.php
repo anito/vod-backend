@@ -98,6 +98,7 @@ $routes->scope('/', function (RouteBuilder $builder) {
     $builder->connect('/u/v/*', ['controller' => 'Videos', 'action' => 'uri']);
     $builder->connect('/u/i/*', ['controller' => 'Images', 'action' => 'uri']);
     $builder->connect('/u/a/*', ['controller' => 'Avatars', 'action' => 'uri']);
+    $builder->connect('/u/s/*', ['controller' => 'Avatars', 'action' => 'uri']);
 
     $builder->fallbacks(DashedRoute::class);
   });

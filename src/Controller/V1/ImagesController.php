@@ -21,7 +21,8 @@ class ImagesController extends AppController
 
     $this->loadComponent('File');
     $this->loadComponent('Director');
-    $this->loadComponent('Upload');
+    $this->loadComponent('Upload', ['type' => 'images']);
+    $this->loadComponent('Uri');
 
     $this->loadComponent('Crud.Crud', [
       'actions' => [
@@ -75,7 +76,7 @@ class ImagesController extends AppController
         $files = [$files];
       }
 
-      if (!empty($images = $this->Upload->saveAs(IMAGES, $files))) {
+      if (!empty($images = $this->Upload->save($files))) {
 
         $images = $this->Images->newEntities($images);
 
@@ -147,27 +148,29 @@ class ImagesController extends AppController
 
   public function uri($id)
   {
-    $data = [];
+    // $data = [];
 
-    $params = $this->getRequest()->getQuery();
-    $lg_path = IMAGES . DS . $id . DS . 'lg';
-    $files = glob($lg_path . DS . '*.*');
+    // $params = $this->getRequest()->getQuery();
+    // $lg_path = IMAGES . DS . $id . DS . 'lg';
+    // $files = glob($lg_path . DS . '*.*');
 
-    if (!empty($files)) {
-      $fn = basename($files[0]);
-      $type = "images";
+    // if (!empty($files)) {
+    //   $fn = basename($files[0]);
+    //   $type = "images";
 
-      $options = array_merge(compact(array('fn', 'id', 'type')), $params);
-      $url = $this->Director->p($options);
-      $json = json_encode($params);
-      $stringified = preg_replace('/["\'\s]/', '', $json);
+    //   $options = array_merge(compact(array('fn', 'id', 'type')), $params);
+    //   $url = $this->Director->p($options);
+    //   $json = json_encode($params);
+    //   $stringified = preg_replace('/["\'\s]/', '', $json);
 
-      $data = array(
-        'id' => $id,
-        'url' => $url,
-        'params' => $stringified,
-      );
+    //   $data = array(
+    //     'id' => $id,
+    //     'url' => $url,
+    //     'params' => $stringified,
+    //   );
+    $data = $this->Uri->getUrl($id);
 
+    if ($data) {
       $this->set(
         [
           'success' => true,
