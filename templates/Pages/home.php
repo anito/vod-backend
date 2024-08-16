@@ -25,6 +25,34 @@ use Cake\Http\Exception\NotFoundException;
 $this->disableAutoLayout();
 
 $cakeDescription = 'CakePHP: the rapid development PHP framework';
+
+$checkConnection = function (string $name) {
+  $error = null;
+  $connected = false;
+  try {
+    ConnectionManager::get($name)->getDriver()->connect();
+    // No exception means success
+    $connected = true;
+  } catch (Exception $connectionError) {
+    $error = $connectionError->getMessage();
+    if (method_exists($connectionError, 'getAttributes')) {
+      $attributes = $connectionError->getAttributes();
+      if (isset($attributes['message'])) {
+        $error .= '<br />' . $attributes['message'];
+      }
+    }
+    if ($name === 'debug_kit') {
+      $error = 'Try adding your current <b>top level domain</b> to the
+                <a href="https://book.cakephp.org/debugkit/5/en/index.html#configuration" target="_blank">DebugKit.safeTld</a>
+            config and reload.';
+      if (!in_array('sqlite', \PDO::getAvailableDrivers())) {
+        $error .= '<br />You need to install the PHP extension <code>pdo_sqlite</code> so DebugKit can work properly.';
+      }
+    }
+  }
+
+  return compact('connected', 'error');
+};
 ?>
 <!DOCTYPE html>
 <html>
@@ -57,7 +85,7 @@ $cakeDescription = 'CakePHP: the rapid development PHP framework';
         VoD Manager Backend API
       </h1>
       <h5>
-        CakePHP Version <?= Configure::version() ?> Strawberry (🍓)
+        Welcome to CakePHP <?= h(Configure::version()) ?> Chiffon (🍰)
       </h5>
     </div>
   </header>
@@ -76,10 +104,10 @@ $cakeDescription = 'CakePHP: the rapid development PHP framework';
           <div class="column">
             <h4>Environment</h4>
             <ul>
-              <?php if (version_compare(PHP_VERSION, '7.2.0', '>=')) : ?>
-                <li class="bullet success">Your version of PHP is 7.2.0 or higher (detected <?= PHP_VERSION ?>).</li>
+              <?php if (version_compare(PHP_VERSION, '8.1.0', '>=')) : ?>
+                <li class="bullet success">Your version of PHP is 8.1.0 or higher (detected <?= PHP_VERSION ?>).</li>
               <?php else : ?>
-                <li class="bullet problem">Your version of PHP is too low. You need PHP 7.2.0 or higher to use CakePHP (detected <?= PHP_VERSION ?>).</li>
+                <li class="bullet problem">Your version of PHP is too low. You need PHP 8.1.0 or higher to use CakePHP (detected <?= PHP_VERSION ?>).</li>
               <?php endif; ?>
 
               <?php if (extension_loaded('mbstring')) : ?>
@@ -101,6 +129,10 @@ $cakeDescription = 'CakePHP: the rapid development PHP framework';
               <?php else : ?>
                 <li class="bullet problem">Your version of PHP does NOT have the intl extension loaded.</li>
               <?php endif; ?>
+
+              <?php if (ini_get('zend.assertions') !== '1') : ?>
+                <li class="bullet problem">You should set <code>zend.assertions</code> to <code>1</code> in your <code>php.ini</code> for your development environment.</li>
+              <?php endif; ?>
             </ul>
           </div>
           <div class="column">
@@ -120,9 +152,43 @@ $cakeDescription = 'CakePHP: the rapid development PHP framework';
 
               <?php $settings = Cache::getConfig('_cake_core_'); ?>
               <?php if (!empty($settings)) : ?>
-                <li class="bullet success">The <em><?= $settings['className'] ?>Engine</em> is being used for core caching. To change the config edit config/app.php</li>
+                <li class="bullet success">The <em><?= h($settings['className']) ?></em> is being used for core caching. To change the config edit config/app.php</li>
               <?php else : ?>
                 <li class="bullet problem">Your cache is NOT working. Please check the settings in config/app.php</li>
+              <?php endif; ?>
+            </ul>
+          </div>
+        </div>
+        <hr>
+        <div class="row">
+          <div class="column">
+            <h4>Database</h4>
+            <?php
+            $result = $checkConnection('default');
+            ?>
+            <ul>
+              <?php if ($result['connected']) : ?>
+                <li class="bullet success">CakePHP is able to connect to the database.</li>
+              <?php else : ?>
+                <li class="bullet problem">CakePHP is NOT able to connect to the database.<br /><?= h($result['error']) ?></li>
+              <?php endif; ?>
+            </ul>
+          </div>
+          <div class="column">
+            <h4>DebugKit</h4>
+            <ul>
+              <?php if (Plugin::isLoaded('DebugKit')) : ?>
+                <li class="bullet success">DebugKit is loaded.</li>
+                <?php
+                $result = $checkConnection('debug_kit');
+                ?>
+                <?php if ($result['connected']) : ?>
+                  <li class="bullet success">DebugKit can connect to the database.</li>
+                <?php else : ?>
+                  <li class="bullet problem">There are configuration problems present which need to be fixed:<br /><?= $result['error'] ?></li>
+                <?php endif; ?>
+              <?php else : ?>
+                <li class="bullet problem">DebugKit is <strong>not</strong> loaded.</li>
               <?php endif; ?>
             </ul>
           </div>
