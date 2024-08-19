@@ -8,12 +8,12 @@ use Cake\Event\Event;
 use Cake\ORM\TableRegistry;
 
 /**
- * Avatars Controller
+ * Screenshots Controller
  *
  *
  * @method \App\Model\Entity\Video[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
  */
-class AvatarsController extends AppController
+class ScreenshotsController extends AppController
 {
 
   public function initialize(): void
@@ -23,7 +23,7 @@ class AvatarsController extends AppController
 
     $this->loadComponent('File');
     $this->loadComponent('Director');
-    $this->loadComponent('Upload', ['type' => 'avatars']);
+    $this->loadComponent('Upload', ['type' => 'screenshots']);
     $this->loadComponent('Uri');
 
     $this->loadComponent('Crud.Crud', [
@@ -62,18 +62,18 @@ class AvatarsController extends AppController
       if (!empty($newEntities)) {
 
         // remove the former avatar (that with the same user_id) manually
-        $oldEntities = $this->Avatars->find()
+        $oldEntities = $this->Screenshots->find()
           ->where(['user_id' => $uid])
           ->all()
           ->toList();
 
         foreach ($oldEntities as $oldie) {
           // this triggers necessary events
-          $this->Avatars->delete($oldie);
+          $this->Screenshots->delete($oldie);
         }
 
         // overwrite request data with data returned from $this->addUpload
-        $this->Avatars->patchEntity($entity, $newEntities[0]);
+        $this->Screenshots->patchEntity($entity, $newEntities[0]);
       } else {
         $event->stopPropagation();
       }
@@ -82,13 +82,13 @@ class AvatarsController extends AppController
     $this->Crud->on('afterSave', function (Event $event) use ($uid) {
 
       $usersTable = TableRegistry::getTableLocator()->get('Users');
-      $user = $usersTable->get($uid, contain: ['Groups', 'Videos', 'Avatars', 'Tokens']);
+      $user = $usersTable->get($uid, contain: ['Screenshots', 'Tokens']);
 
       // normally we would send the new avatar
       // but in this case we need the updated user sent back to the client
       $this->set([
         'data' => $user,
-        'message' => __('Avatar saved'),
+        'message' => __('Screenshot saved'),
       ]);
       $this->Crud->action()->serialize(['data', 'message']);
     });
@@ -103,11 +103,11 @@ class AvatarsController extends AppController
 
       $uid = $event->getSubject()->entity["user_id"];
       $usersTable = TableRegistry::getTableLocator()->get('Users');
-      $user = $usersTable->get($uid, contain: ['Groups', 'Videos', 'Avatars']);
+      $user = $usersTable->get($uid, contain: ['Screenshots']);
 
       $this->set([
         'data' => $user,
-        'message' => __('Avatar deleted'),
+        'message' => __('Screenshot deleted'),
       ]);
       $this->Crud->action()->serialize(['data', 'message']);
     });
@@ -122,8 +122,8 @@ class AvatarsController extends AppController
       $files = [$files];
     }
 
-    if (!empty($avatars = $this->Upload->save($files))) {
-      return $avatars;
+    if (!empty($screenshots = $this->Upload->save($files))) {
+      return $screenshots;
     } else {
       return [];
     }
