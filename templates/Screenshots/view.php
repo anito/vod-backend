@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Screenshot $screenshot
@@ -27,8 +28,8 @@
                     <td><?= h($screenshot->src) ?></td>
                 </tr>
                 <tr>
-                    <th><?= __('Product Id') ?></th>
-                    <td><?= h($screenshot->subfolder) ?></td>
+                    <th><?= __('Link') ?></th>
+                    <td><a href="<?= h($screenshot->link) ?>" target="_blank"><?= h($screenshot->link) ?></a></td>
                 </tr>
                 <tr>
                     <th><?= __('Filesize') ?></th>

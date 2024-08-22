@@ -13,7 +13,7 @@
                 <tr>
                     <th><?= $this->Paginator->sort('id') ?></th>
                     <th><?= $this->Paginator->sort('src') ?></th>
-                    <th><?= $this->Paginator->sort('subfolder') ?></th>
+                    <th><?= $this->Paginator->sort('link') ?></th>
                     <th><?= $this->Paginator->sort('filesize') ?></th>
                     <th><?= $this->Paginator->sort('created') ?></th>
                     <th><?= $this->Paginator->sort('modified') ?></th>
@@ -25,7 +25,7 @@
                 <tr>
                     <td><?= h($screenshot->id) ?></td>
                     <td><?= h($screenshot->src) ?></td>
-                    <td><?= h($screenshot->subfolder) ?></td>
+                    <td><?= h($screenshot->link) ?></td>
                     <td><?= $screenshot->filesize === null ? '' : $this->Number->format($screenshot->filesize) ?></td>
                     <td><?= h($screenshot->created) ?></td>
                     <td><?= h($screenshot->modified) ?></td>

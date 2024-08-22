@@ -110,7 +110,6 @@ class ScreenshotsController extends AppController
     });
 
     $this->Crud->execute();
-    // $this->viewBuilder()->setOption('serialize', ['success', 'data', 'message']);
   }
 
   public function delete()

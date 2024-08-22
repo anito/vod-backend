@@ -20,7 +20,9 @@ class ScreenshotComponent extends Component
 
   public function initialize(array $config): void
   {
-    $this->params = $this->getController()->getRequest()->getQueryParams();
+    $queryParams = $this->getController()->getRequest()->getQueryParams();
+    $payloadParams = (array) $this->getController()->getRequest()->getParsedBody();
+    $this->params = array_merge($queryParams, $payloadParams);
   }
 
   /**
@@ -43,7 +45,7 @@ class ScreenshotComponent extends Component
     $path = rtrim(sys_get_temp_dir(), '/\\') . DS . $fn;
 
     try {
-      $browser = (new BrowserFactory('chromium-browser'))->createBrowser(array(
+      $browser = (new BrowserFactory())->createBrowser(array(
         'ignoreCertificateErrors' => true,
       ));
 
@@ -143,10 +145,13 @@ class ScreenshotComponent extends Component
       'Authorization' => 'Bearer cdd940c1c82aa99c7d84ef4551c13922c687aecc',
     ];
 
-    $client   = new Client(array('headers' => $headers));
+    $client   = new Client([
+      'base_uri' => 'https://cloud.doojoo.de',
+      'headers' => $headers
+    ]);
 
     // Create directory (will do nothing if already exists)
-    $client->request('POST', "https://cloud.doojoo.de/api2/repos/$repo_id/dir/?p=$folder", [
+    $client->request('POST', "/api2/repos/$repo_id/dir/?p=$folder", [
       'multipart' => [
         [
           'name' => 'operation',
@@ -160,7 +165,7 @@ class ScreenshotComponent extends Component
     ]);
 
     // Get upload link
-    $request   = new Request('GET', "https://cloud.doojoo.de/api2/repos/$repo_id/upload-link/?p=$folder");
+    $request   = new Request('GET', "/api2/repos/$repo_id/upload-link/?p=$folder");
     $promise = $client->sendAsync($request)->then(function ($response) use ($client, $repo_id, $source_path, $path_to_file, $folder, $filename) {
       $upload_link = json_decode($response->getBody());
 
@@ -188,12 +193,12 @@ class ScreenshotComponent extends Component
       ]);
 
       // Create download link
-      // $response = $client->request('GET', "https://cloud.doojoo.de/api2/repos/$repo_id/file/?p=$path_to_file&reuse=1");
-      // $body = $response->getBody()->read(1024);
+      // $response = $client->request('GET', "/api2/repos/$repo_id/file/?p=$path_to_file&reuse=1");
+      // $body = $response->getBody();
       // return json_decode($body);
 
       // Create share link
-      $response = $client->request('POST', "https://cloud.doojoo.de/api/v2.1/share-links/", [
+      $response = $client->request('POST', "/api/v2.1/share-links/", [
         'body' => json_encode([
           'repo_id' => $repo_id,
           'path' => $path_to_file

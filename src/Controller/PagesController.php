@@ -1,5 +1,6 @@
 <?php
-declare (strict_types = 1);
+
+declare(strict_types=1);
 
 /**
  * CakePHP(tm) : Rapid Development Framework (https://cakephp.org)
@@ -14,6 +15,7 @@ declare (strict_types = 1);
  * @since     0.2.9
  * @license   https://opensource.org/licenses/mit-license.php MIT License
  */
+
 namespace App\Controller;
 
 use Cake\Core\Configure;
@@ -31,6 +33,14 @@ use Cake\View\Exception\MissingTemplateException;
  */
 class PagesController extends AppController
 {
+    public function initialize(): void
+    {
+        parent::initialize();
+        // Configure the login action to not require authentication, preventing
+        // the infinite redirect loop issue
+        $this->Authentication->allowUnauthenticated(['display']);
+    }
+
     /**
      * Displays a view
      *
@@ -43,7 +53,7 @@ class PagesController extends AppController
      *   be found and not in debug mode.
      * @throws \Cake\View\Exception\MissingTemplateException In debug mode.
      */
-    public function display(string...$path): ?Response
+    public function display(string ...$path): ?Response
     {
         if (!$path) {
             return $this->redirect('/');

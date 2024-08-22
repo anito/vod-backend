@@ -116,15 +116,14 @@ class UsersController extends AppController
    */
   public function simpleindex()
   {
-    $users = $this->Users->find('all')
-      ->contain('Avatars')
-      ->fields([
+    $users = $this->Users->find('all', fields: [
         'Users.id',
         'Users.email',
         'Users.name',
         'Avatars.src',
         'Avatars.id'
       ])
+      ->contain('Avatars')
       ->all();
 
     $this->set('data', $users);

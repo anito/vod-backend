@@ -46,7 +46,11 @@ class AppController extends Controller
     parent::initialize();
 
     $this->loadComponent('Flash');
-    $this->loadComponent('Authentication.Authentication');
+    $this->loadComponent('Authentication.Authentication', [
+      'identityCheckEvent' => 'Controller.initialize', // Defaults to Controllers startup action
+      'unauthenticatedMessage' => 'Authentication is required to continue',
+      'requireIdentity' => true
+    ]);
 
     /**
      *  Enable the following component for recommended CakePHP security settings.

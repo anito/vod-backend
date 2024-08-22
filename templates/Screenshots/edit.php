@@ -23,7 +23,7 @@
                 <legend><?= __('Edit Screenshot') ?></legend>
                 <?php
                     echo $this->Form->control('src');
-                    echo $this->Form->control('subfolder');
+                    echo $this->Form->control('link');
                     echo $this->Form->control('filesize');
                 ?>
             </fieldset>

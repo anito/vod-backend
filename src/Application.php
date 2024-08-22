@@ -112,7 +112,8 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
     $service = new AuthenticationService();
 
     $service->setConfig([
-      'unauthenticatedMessage' => 'Authentication is required to continue'
+      'queryParam' => 'redirect',
+      'unauthenticatedRedirect' => '/users/login',
     ]);
 
     if (strpos($path, '/v1') === 0) {
@@ -136,11 +137,6 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
 
       return $service;
     }
-
-    $service->setConfig([
-      'unauthenticatedRedirect' => '/users/login',
-      'queryParam' => 'redirect',
-    ]);
 
     // Load the authenticators, you want session first
     $service->loadAuthenticator('Authentication.Session');
