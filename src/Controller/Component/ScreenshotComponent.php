@@ -70,6 +70,7 @@ class ScreenshotComponent extends Component
       $screenshot->saveToFile($path);
     } catch (\Exception $e) {
       // Something went wrong
+      Log::debug('Something went wrong', ['message' => $e->getMessage()]);
     } finally {
       $browser->close();
     }
