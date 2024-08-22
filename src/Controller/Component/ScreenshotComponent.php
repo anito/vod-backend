@@ -43,7 +43,7 @@ class ScreenshotComponent extends Component
     $path = rtrim(sys_get_temp_dir(), '/\\') . DS . $fn;
 
     try {
-      $browser = (new BrowserFactory())->createBrowser(array(
+      $browser = (new BrowserFactory('chromium-browser'))->createBrowser(array(
         'ignoreCertificateErrors' => true,
       ));
 
