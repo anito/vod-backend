@@ -24,7 +24,7 @@ class VideosController extends AppController
   {
     parent::initialize();
 
-    $this->Authentication->addUnauthenticatedActions([]);
+    $this->Authentication->allowUnauthenticated([]);
 
     $user = $this->_getAuthUser();
     $isRelatedModelActive = (isset($user) && $this->_isPrivileged($user)) ? true : false;

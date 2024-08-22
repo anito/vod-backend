@@ -27,8 +27,8 @@
                     <td><?= h($screenshot->src) ?></td>
                 </tr>
                 <tr>
-                    <th><?= __('User') ?></th>
-                    <td><?= $screenshot->hasValue('user') ? $this->Html->link($screenshot->user->name, ['controller' => 'Users', 'action' => 'view', $screenshot->user->id]) : '' ?></td>
+                    <th><?= __('Product Id') ?></th>
+                    <td><?= h($screenshot->subfolder) ?></td>
                 </tr>
                 <tr>
                     <th><?= __('Filesize') ?></th>

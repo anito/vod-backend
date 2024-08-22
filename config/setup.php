@@ -44,6 +44,7 @@ define('UPLOADS', ROOT . DS . 'uploads');
 define('IMAGES', UPLOADS . DS . 'images');
 define('VIDEOS', UPLOADS . DS . 'videos');
 define('AVATARS', UPLOADS . DS . 'avatars');
+define('SCREENSHOTS', UPLOADS . DS . 'screenshots');
 define('TEMPLATES', ROOT . DS . 'templates');
 define('EMAIL_TEMPLATES', TEMPLATES . DS . 'email');
 define('MYSQLUPLOAD', ROOT . DS . 'mysql');

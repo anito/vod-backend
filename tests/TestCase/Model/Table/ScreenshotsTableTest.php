@@ -25,7 +25,6 @@ class ScreenshotsTableTest extends TestCase
      */
     protected array $fixtures = [
         'app.Screenshots',
-        'app.Users',
     ];
 
     /**

@@ -11,8 +11,6 @@ use Cake\Validation\Validator;
 /**
  * Screenshots Model
  *
- * @property \App\Model\Table\UsersTable&\Cake\ORM\Association\BelongsTo $Users
- *
  * @method \App\Model\Entity\Screenshot newEmptyEntity()
  * @method \App\Model\Entity\Screenshot newEntity(array $data, array $options = [])
  * @method array<\App\Model\Entity\Screenshot> newEntities(array $data, array $options = [])
@@ -46,11 +44,6 @@ class ScreenshotsTable extends Table
         $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
-
-        $this->belongsTo('Users', [
-            'foreignKey' => 'user_id',
-            'joinType' => 'INNER',
-        ]);
     }
 
     /**
@@ -68,8 +61,10 @@ class ScreenshotsTable extends Table
             ->notEmptyString('src');
 
         $validator
-            ->uuid('user_id')
-            ->notEmptyString('user_id');
+            ->scalar('link')
+            ->maxLength('link', 255)
+            ->requirePresence('link', 'create')
+            ->notEmptyString('link');
 
         $validator
             ->integer('filesize')
@@ -88,7 +83,6 @@ class ScreenshotsTable extends Table
     public function buildRules(RulesChecker $rules): RulesChecker
     {
         $rules->add($rules->isUnique(['id']), ['errorField' => 'id']);
-        $rules->add($rules->existsIn(['user_id'], 'Users'), ['errorField' => 'user_id']);
 
         return $rules;
     }

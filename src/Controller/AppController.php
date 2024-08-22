@@ -58,7 +58,7 @@ class AppController extends Controller
   public function beforeFilter(EventInterface $event)
   {
     parent::beforeFilter($event);
-    $this->Authentication->addUnauthenticatedActions(['display']);
+    $this->Authentication->allowUnauthenticated(['display']);
   }
 
   protected function _isPrivileged(Entity $user)

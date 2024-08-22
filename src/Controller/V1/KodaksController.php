@@ -15,7 +15,7 @@ class KodaksController extends AppController
   public function initialize(): void
   {
     parent::initialize();
-    $this->Authentication->addUnauthenticatedActions([]);
+    $this->Authentication->allowUnauthenticated(['process']);
 
     define('USE_X_SEND', false);
     Cache::disable();
@@ -50,7 +50,6 @@ class KodaksController extends AppController
   {
 
     $val = $this->getRequest()->getParam('crypt');
-    $timestamp = $this->getRequest()->getParam('timestamp');
     $isVideo = false;
 
     if (strpos($val, 'http://') !== false || substr($val, 0, 1) == '/') {
@@ -75,56 +74,55 @@ class KodaksController extends AppController
       exit;
     }
 
-    $id = $this->isArrayAt($a, 1);
-    $w = $this->n($a, 2);
-    $h = $this->n($a, 3);
-    $sq = $this->n($a, 4, 2);
-    $q = $this->n($a, 5, 75);
-    $sh = $this->n($a, 6, 0);
-    $x = $this->n($a, 7, 50);
-    $y = $this->n($a, 8, 50);
-    $force = $this->n($a, 9, 0);
-    $type = $this->isArrayAt($a, 10);
+    $id     = $this->isArrayAt($a, 1);
+    $w      = $this->n($a, 2);
+    $h      = $this->n($a, 3);
+    $sq     = $this->n($a, 4, 2);
+    $q      = $this->n($a, 5, 75);
+    $sh     = $this->n($a, 6, 0);
+    $x      = $this->n($a, 7, 50);
+    $y      = $this->n($a, 8, 50);
+    $force  = $this->n($a, 9, 0);
 
-    $ext = $this->File->returnExt($file);
-
+    $type   = $this->isArrayAt($a, 10);
+    $ext    = $this->File->returnExt($file);
     $path = $this->Director->getMediaBasePath($type);
-
     $large = $path . DS . $id . DS . 'lg' . DS . $file;
 
     if ($this->File->isVideo($file)) {
+      // Get the original file
       $sq = 2;
       $isVideo = true;
     }
 
     if ($sq == 2) {
       $base_dir = $path . DS . $id . DS . 'lg';
-      $path_to_cache = $large;
+      $path_to_file = $large;
     } else {
       $fn .= "_{$w}_{$h}_{$sq}_{$q}_{$sh}_{$x}_{$y}";
       $fn .= ".$ext";
       $base_dir = $path . DS . $id . DS . 'cache';
-      $path_to_cache = $base_dir . DS . $fn;
+      $path_to_file = $base_dir . DS . $fn;
     }
 
     // Make sure dirname of the cached copy is sane
-    if (dirname($path_to_cache) !== $base_dir) {
+    if (dirname($path_to_file) !== $base_dir) {
       header('HTTP/1.1 403 Forbidden');
       exit;
     }
 
     $noob = false;
 
-    if (!file_exists($path_to_cache)) {
+    if (!file_exists($path_to_file)) {
       $noob = true;
       if ($sq == 2) {
-        if ($path_to_cache === false || !is_file($path_to_cache)) {
+        if ($path_to_file === false || !is_file($path_to_file)) {
           throw new NonExistentFileException(
-            $path_to_cache . ' does not exist or is not a file'
+            $path_to_file . ' does not exist or is not a file'
           );
         }
 
-        copy($large, $path_to_cache);
+        copy($large, $path_to_file);
       } else {
         if (!defined('MAGICK_PATH')) {
           if (!defined('MAGICK_PATH_FINAL')) {
@@ -138,21 +136,21 @@ class KodaksController extends AppController
         if (!defined('FORCE_GD')) {
           define('FORCE_GD', 0);
         }
-        if (!is_dir(dirname($path_to_cache))) {
-          $parent_perms = substr(sprintf('%o', fileperms(dirname(dirname($path_to_cache)))), -4);
+        if (!is_dir(dirname($path_to_file))) {
+          $parent_perms = substr(sprintf('%o', fileperms(dirname(dirname($path_to_file)))), -4);
           $old = umask(0);
-          mkdir(dirname($path_to_cache), octdec($parent_perms));
+          mkdir(dirname($path_to_file), octdec($parent_perms));
           umask($old);
         }
 
         $this->loadComponent('Darkroom');
-        $this->Darkroom->develop($large, $path_to_cache, $w, $h, $sq, $q, $x, $y, $force);
+        $this->Darkroom->develop($large, $path_to_file, $w, $h, $sq, $q, $x, $y, $force);
       }
     }
 
-    $mtime = filemtime($path_to_cache);
-    $etag = md5($path_to_cache . $mtime);
-    $content_type = mime_content_type($path_to_cache);
+    $mtime = filemtime($path_to_file);
+    $etag = md5($path_to_file . $mtime);
+    $content_type = mime_content_type($path_to_file);
 
     if (!$noob) {
       if (isset($_SERVER['HTTP_IF_NONE_MATCH']) && ($_SERVER['HTTP_IF_NONE_MATCH'] == $etag)) {
@@ -160,14 +158,14 @@ class KodaksController extends AppController
         exit;
       }
 
-      if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) && (strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']) >= filemtime($path_to_cache))) {
+      if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) && (strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']) >= filemtime($path_to_file))) {
         header("HTTP/1.1 304 Not Modified");
         exit;
       }
     }
 
     if (USE_X_SEND) {
-      header("X-Sendfile: $path_to_cache");
+      header("X-Sendfile: $path_to_file");
     } else {
       header('Cache-Control: public');
       header('Expires: ' . gmdate('D, d M Y H:i:s', strtotime('+1 year')));
@@ -177,11 +175,11 @@ class KodaksController extends AppController
 
     if ($isVideo) {
       $this->loadComponent('PartialFile');
-      die($this->PartialFile->sendFile($path_to_cache, $content_type));
+      die($this->PartialFile->sendFile($path_to_file, $content_type));
     } else {
-      header('Content-Length: ' . filesize($path_to_cache));
+      header('Content-Length: ' . filesize($path_to_file));
       header('Content-Type: ' . $content_type);
-      die(file_get_contents($path_to_cache));
+      die(file_get_contents($path_to_file));
     }
   }
 }

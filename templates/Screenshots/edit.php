@@ -2,7 +2,6 @@
 /**
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Screenshot $screenshot
- * @var string[]|\Cake\Collection\CollectionInterface $users
  */
 ?>
 <div class="row">
@@ -24,7 +23,7 @@
                 <legend><?= __('Edit Screenshot') ?></legend>
                 <?php
                     echo $this->Form->control('src');
-                    echo $this->Form->control('user_id', ['options' => $users]);
+                    echo $this->Form->control('subfolder');
                     echo $this->Form->control('filesize');
                 ?>
             </fieldset>

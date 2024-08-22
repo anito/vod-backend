@@ -20,7 +20,7 @@ class TokensController extends AppController
   public function initialize(): void
   {
     parent::initialize();
-    $this->Authentication->addUnauthenticatedActions([]);
+    $this->Authentication->allowUnauthenticated([]);
 
     $this->loadComponent('Crud.Crud', [
       'actions' => [

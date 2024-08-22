@@ -19,7 +19,7 @@ class UsersController extends AppController
         parent::initialize();
         // Configure the login action to not require authentication, preventing
         // the infinite redirect loop issue
-        $this->Authentication->addUnauthenticatedActions(['login']);
+        $this->Authentication->allowUnauthenticated(['login']);
     }
 
     public function login()

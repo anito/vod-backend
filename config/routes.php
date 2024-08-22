@@ -87,6 +87,7 @@ $routes->scope('/', function (RouteBuilder $builder) {
     $builder->resources('Templates');
     $builder->resources('Users');
     $builder->resources('Videos');
+    $builder->resources('Screenshots');
 
     $builder->connect('/login', ['controller' => 'Users', 'action' => 'login']);
     $builder->connect('/google/*', ['controller' => 'Users', 'action' => 'google']);

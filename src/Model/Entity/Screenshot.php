@@ -10,12 +10,10 @@ use Cake\ORM\Entity;
  *
  * @property string $id
  * @property string $src
- * @property string $user_id
+ * @property string $link
  * @property int|null $filesize
  * @property \Cake\I18n\DateTime|null $created
  * @property \Cake\I18n\DateTime|null $modified
- *
- * @property \App\Model\Entity\User $user
  */
 class Screenshot extends Entity
 {
@@ -29,11 +27,11 @@ class Screenshot extends Entity
      * @var array<string, bool>
      */
     protected array $_accessible = [
+        'id' => true,
         'src' => true,
-        'user_id' => true,
+        'link' => true,
         'filesize' => true,
         'created' => true,
         'modified' => true,
-        'user' => true,
     ];
 }

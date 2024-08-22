@@ -17,7 +17,7 @@ class ImagesController extends AppController
   public function initialize(): void
   {
     parent::initialize();
-    $this->Authentication->addUnauthenticatedActions([]);
+    $this->Authentication->allowUnauthenticated([]);
 
     $this->loadComponent('File');
     $this->loadComponent('Director');
@@ -78,10 +78,10 @@ class ImagesController extends AppController
 
       if (!empty($images = $this->Upload->save($files))) {
 
-        $images = $this->Images->newEntities($images);
+        $entities = $this->Images->newEntities($images);
 
-        if ($data = $this->Images->saveMany($images)) {
-          $count = count($images);
+        if ($data = $this->Images->saveMany($entities)) {
+          $count = count($entities);
           $this->set([
             'success' => true,
             'data' => $data,

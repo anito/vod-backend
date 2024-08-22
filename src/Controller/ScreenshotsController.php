@@ -17,8 +17,7 @@ class ScreenshotsController extends AppController
      */
     public function index()
     {
-        $query = $this->Screenshots->find()
-            ->contain(['Users']);
+        $query = $this->Screenshots->find();
         $screenshots = $this->paginate($query);
 
         $this->set(compact('screenshots'));
@@ -33,7 +32,7 @@ class ScreenshotsController extends AppController
      */
     public function view($id = null)
     {
-        $screenshot = $this->Screenshots->get($id, contain: ['Users']);
+        $screenshot = $this->Screenshots->get($id, contain: []);
         $this->set(compact('screenshot'));
     }
 
@@ -54,8 +53,7 @@ class ScreenshotsController extends AppController
             }
             $this->Flash->error(__('The screenshot could not be saved. Please, try again.'));
         }
-        $users = $this->Screenshots->Users->find('list', limit: 200)->all();
-        $this->set(compact('screenshot', 'users'));
+        $this->set(compact('screenshot'));
     }
 
     /**
@@ -77,8 +75,7 @@ class ScreenshotsController extends AppController
             }
             $this->Flash->error(__('The screenshot could not be saved. Please, try again.'));
         }
-        $users = $this->Screenshots->Users->find('list', limit: 200)->all();
-        $this->set(compact('screenshot', 'users'));
+        $this->set(compact('screenshot'));
     }
 
     /**

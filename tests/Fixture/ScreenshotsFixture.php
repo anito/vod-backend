@@ -19,12 +19,12 @@ class ScreenshotsFixture extends TestFixture
     {
         $this->records = [
             [
-                'id' => '783bf0ff-e484-4359-aca7-06147a9d02a5',
+                'id' => 'eae3c3a0-ada1-430c-8154-5c574f6ae2db',
                 'src' => 'Lorem ipsum dolor sit amet',
-                'user_id' => 'dbf16b40-8809-40aa-80e1-fa6e0745e47f',
+                'link' => 'Lorem ipsum dolor sit amet',
                 'filesize' => 1,
-                'created' => '2024-08-19 13:16:43',
-                'modified' => '2024-08-19 13:16:43',
+                'created' => '2024-08-21 22:31:44',
+                'modified' => '2024-08-21 22:31:44',
             ],
         ];
         parent::init();

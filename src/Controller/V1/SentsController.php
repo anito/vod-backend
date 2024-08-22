@@ -37,7 +37,7 @@ class SentsController extends AppController
   public function initialize(): void
   {
     parent::initialize();
-    $this->Authentication->addUnauthenticatedActions(['add']);
+    $this->Authentication->allowUnauthenticated(['add']);
 
 
     $this->loadComponent('Crud.Crud', [

@@ -19,7 +19,7 @@ class AvatarsController extends AppController
   public function initialize(): void
   {
     parent::initialize();
-    $this->Authentication->addUnauthenticatedActions([]);
+    $this->Authentication->allowUnauthenticated([]);
 
     $this->loadComponent('File');
     $this->loadComponent('Director');
@@ -47,7 +47,7 @@ class AvatarsController extends AppController
   public function add()
   {
     /**
-     * we can not use PUT (alias edit method) for altering data
+     * We can not use PUT (alias edit method) for altering data
      * because $_FILES is only available in POST (alias add method),
      * so we have to first add the new and then remove the old entity
      */

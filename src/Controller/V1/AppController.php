@@ -33,13 +33,12 @@ class AppController extends Controller
 
     $this->loadComponent('Authentication.Authentication');
 
-    $queries = $this->request->getQueryParams();
-    if (isset($queries['locale'])) {
-      $locale = $queries['locale'];
-      I18n::setLocale($locale);
+    $query = $this->request->getQueryParams();
+    if (isset($query['locale'])) {
+      I18n::setLocale($query['locale']);
     }
   }
-  
+
   public function viewClasses(): array
   {
     return [JsonView::class];

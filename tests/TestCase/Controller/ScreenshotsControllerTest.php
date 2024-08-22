@@ -23,7 +23,6 @@ class ScreenshotsControllerTest extends TestCase
      */
     protected array $fixtures = [
         'app.Screenshots',
-        'app.Users',
     ];
 
     /**

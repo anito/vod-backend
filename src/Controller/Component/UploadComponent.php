@@ -4,7 +4,10 @@ namespace App\Controller\Component;
 
 use Cake\Controller\Component;
 use Cake\Controller\ComponentRegistry;
+use Cake\Log\Log;
+use Cake\Utility\Security;
 use Cake\Utility\Text;
+use Exception;
 
 class UploadComponent extends Component
 {
@@ -64,10 +67,15 @@ class UploadComponent extends Component
       $_file = [];
       $uuid = Text::uuid();
       $fn = $file->getClientFilename();
+      // $type = $file->getClientMediaType();
+      // $size = $file->getSize();
+      // $tmpName = $file->getStream()->getMetadata('uri');
+      // $error = $file->getError();
 
-      $isImage = $this->File->isImage($fn);
-      $isAvatar = $isImage && strpos($this->path, 'avatar');
-      $isVideo = $this->File->isVideo($fn);
+      $isVideo      = $this->File->isVideo($fn);
+      $isImage      = $this->File->isImage($fn) && strpos($this->path, 'images');
+      $isAvatar     = $this->File->isImage($fn) && strpos($this->path, 'avatars');
+      $isScreenshot = $this->File->isImage($fn) && strpos($this->path, 'screenshots');
 
       if (!is_dir($this->path)) {
         $this->File->makeDir($this->path);
@@ -81,17 +89,21 @@ class UploadComponent extends Component
         $lg_path = $path . DS . 'lg' . DS . $fn;
         $fn = $this->File->patchFilename($lg_path);
         $lg_path = $path . DS . 'lg' . DS . $fn;
-        $lg_temp = $lg_path . '.tmp';
-        $dir = dirname($lg_path);
 
         $this->File->makeDir($path);
         $this->File->setFolderPerms($path);
-        $file->moveTo($lg_temp);
+
+        if ($isScreenshot) {
+          $lg_temp = $file->getStream()->getMetadata('uri');
+        } else {
+          $lg_temp = $lg_path . '.tmp';
+          $file->moveTo($lg_temp);
+        }
 
         copy($lg_temp, $lg_path);
         unlink($lg_temp);
 
-        if ($isImage && !$isAvatar) {
+        if ($isImage) {
 
           list($meta, $captured) = $this->File->imageMetadata($lg_path);
 
@@ -147,10 +159,9 @@ class UploadComponent extends Component
         $_file['src'] = $fn;
         $_file['filesize'] = filesize($lg_path);
 
-        // append to array
         $_files[] = $_file;
-      } // if
-    } // foreach
+      }
+    }
     return $_files;
   }
 }

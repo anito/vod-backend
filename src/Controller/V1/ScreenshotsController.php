@@ -5,7 +5,10 @@ namespace App\Controller\V1;
 use App\Controller\V1\AppController;
 use Cake\Core\App;
 use Cake\Event\Event;
+use Cake\Log\Log;
 use Cake\ORM\TableRegistry;
+use Cake\View\JsonView;
+use Laminas\Diactoros\UploadedFile;
 
 /**
  * Screenshots Controller
@@ -19,12 +22,13 @@ class ScreenshotsController extends AppController
   public function initialize(): void
   {
     parent::initialize();
-    $this->Authentication->addUnauthenticatedActions([]);
+    $this->Authentication->allowUnauthenticated(['add']);
 
     $this->loadComponent('File');
     $this->loadComponent('Director');
     $this->loadComponent('Upload', ['type' => 'screenshots']);
     $this->loadComponent('Uri');
+    $this->loadComponent('Screenshot');
 
     $this->loadComponent('Crud.Crud', [
       'actions' => [
@@ -46,87 +50,108 @@ class ScreenshotsController extends AppController
 
   public function add()
   {
-    /**
-     * we can not use PUT (alias edit method) for altering data
-     * because $_FILES is only available in POST (alias add method),
-     * so we have to first add the new and then remove the old entity
-     */
-    $files = $this->getRequest()->getData('Files');
-    $uid = $this->getRequest()->getData('user_id');
 
-    $this->Crud->on('beforeSave', function (Event $event) use ($files, $uid) {
+    $this->Crud->on('beforeSave', function (Event $event) {
 
-      $entity = $event->getSubject()->entity;
-      $newEntities = $this->addUpload($files);
+      // Create a snapshot entity from scratch using `url` query param to emulate an upload
+      $arr  = $this->Screenshot->snap();
+      $path = $arr['path'];
+      $fn   = $arr['fn'];
 
-      if (!empty($newEntities)) {
+      // Emulate an upload using UploadedFileInterface
+      $file = new UploadedFile(
+        $path,
+        filesize($path),
+        \UPLOAD_ERR_OK,
+        $fn,
+        'image/png'
+      );
 
-        // remove the former avatar (that with the same user_id) manually
-        $oldEntities = $this->Screenshots->find()
-          ->where(['user_id' => $uid])
-          ->all()
-          ->toList();
+      $this->request = $this->request->withData('Files', [$file]);
 
-        foreach ($oldEntities as $oldie) {
-          // this triggers necessary events
-          $this->Screenshots->delete($oldie);
+      $files = $this->request->getData('Files');
+      if (!empty($images = $this->Upload->save($files))) {
+
+        $screenshot = $this->Screenshots->newEntity($images[0]);
+
+        // Save file to seafile cloud (https://cloud.doojoo.de)
+        $folder = $screenshot->id;
+        $filename = $screenshot->src;
+        $link = $this->Screenshot->saveToCloud($folder, $filename);
+
+        // Mutate entity
+        $screenshot->link = $link;
+
+        $event->getSubject()->entity = $screenshot;
+
+        if ($data = $this->Screenshots->save($screenshot)) {
+
+          $this->set([
+            'success' => true,
+            'data' => $data,
+            'message' => __('Screenshot saved'),
+          ]);
+        } else {
+          $this->set([
+            'success' => false,
+            'data' => null,
+            'message' => __('An error occurred saving your screenshot data'),
+          ]);
         }
-
-        // overwrite request data with data returned from $this->addUpload
-        $this->Screenshots->patchEntity($entity, $newEntities[0]);
       } else {
-        $event->stopPropagation();
+        $this->set([
+          'success' => false,
+          'data' => null,
+          'message' => __('An Error occurred while uploading your files'),
+        ]);
+      }
+
+      $this->Crud->action()->serialize(['success', 'data', 'message']);
+    });
+
+    $this->Crud->execute();
+    // $this->viewBuilder()->setOption('serialize', ['success', 'data', 'message']);
+  }
+
+  public function delete()
+  {
+    $this->Crud->on('beforeDelete', function (Event $event) {
+
+      $result = $this->Authentication->getResult();
+      if ($result->isValid()) {
+
+        $id = $event->getSubject()->entity->id;
+        $fn = $event->getSubject()->entity->src;
+
+        $path = SCREENSHOTS . DS . $id;
+        $lg_path = $path . DS . 'lg';
+
+        $oldies = glob($lg_path . DS . $fn);
+
+        if (!empty($oldies) && $oldies && !unlink($oldies[0])) {
+          $event->stopPropagation();
+
+          $this->set([
+            'message' => __('Screenshot could not be deleted'),
+          ]);
+        } else {
+          $this->File->rmdirr($path);
+        }
+        $this->Crud->action()->serialize(['message']);
       }
     });
 
-    $this->Crud->on('afterSave', function (Event $event) use ($uid) {
-
-      $usersTable = TableRegistry::getTableLocator()->get('Users');
-      $user = $usersTable->get($uid, contain: ['Screenshots', 'Tokens']);
-
-      // normally we would send the new avatar
-      // but in this case we need the updated user sent back to the client
-      $this->set([
-        'data' => $user,
-        'message' => __('Screenshot saved'),
-      ]);
-      $this->Crud->action()->serialize(['data', 'message']);
-    });
-
-    return $this->Crud->execute();
-  }
-
-  public function delete($id)
-  {
-    $this->getRequest()->getSession()->destroy();
     $this->Crud->on('afterDelete', function (Event $event) {
 
-      $uid = $event->getSubject()->entity["user_id"];
-      $usersTable = TableRegistry::getTableLocator()->get('Users');
-      $user = $usersTable->get($uid, contain: ['Screenshots']);
-
-      $this->set([
-        'data' => $user,
-        'message' => __('Screenshot deleted'),
-      ]);
-      $this->Crud->action()->serialize(['data', 'message']);
+      if ($event->getSubject()->success) {
+        $this->set([
+          'message' => __('Screenshot deleted'),
+        ]);
+      }
+      $this->Crud->action()->serialize(['message']);
     });
+
     return $this->Crud->execute();
-  }
-
-  protected function addUpload($files)
-  {
-
-    // make shure single uploads are handled correctly
-    if (!is_array($files)) {
-      $files = [$files];
-    }
-
-    if (!empty($screenshots = $this->Upload->save($files))) {
-      return $screenshots;
-    } else {
-      return [];
-    }
   }
 
   public function uri($id)
