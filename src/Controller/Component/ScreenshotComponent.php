@@ -47,6 +47,9 @@ class ScreenshotComponent extends Component
     try {
       $browser = (new BrowserFactory('google-chrome'))->createBrowser(array(
         'ignoreCertificateErrors' => true,
+        'headless' => true,
+        'connectionDelay' => 0.8, // add 0.8 second of delay between each instruction sent to Chrome,
+        'debugLogger'     => 'php://stdout',
         'customFlags' => [
           '--disable-gpu'
         ]
