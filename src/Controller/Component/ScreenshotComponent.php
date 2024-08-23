@@ -49,7 +49,7 @@ class ScreenshotComponent extends Component
         'ignoreCertificateErrors' => true,
         'headless' => true,
         'connectionDelay' => 0.8, // add 0.8 second of delay between each instruction sent to Chrome,
-        'debugLogger'     => '/usr/local/bin/debug.log',
+        'debugLogger'     => '/tmp/chrome-debug.log',
         'customFlags' => [
           '--disable-gpu'
         ]
@@ -81,7 +81,9 @@ class ScreenshotComponent extends Component
       Log::debug('Something went wrong', ['message' => $e->getMessage()]);
       var_dump($e);
     } finally {
-      $browser->close();
+      if($browser) {
+        $browser->close();
+      }
     }
     return compact('path', 'fn');
   }
