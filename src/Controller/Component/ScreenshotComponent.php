@@ -51,7 +51,6 @@ class ScreenshotComponent extends Component
       $browser = (new BrowserFactory())->createBrowser(array(
         'ignoreCertificateErrors' => true,
         'headless' => true,
-        'connectionDelay' => 0.8,
         'debugLogger'     => Configure::read('Chrome.debug') ? LOGS . 'chrome-debug.log' : false,
         'customFlags' => [
           '--disable-gpu',
