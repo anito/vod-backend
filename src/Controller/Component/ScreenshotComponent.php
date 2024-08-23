@@ -49,7 +49,7 @@ class ScreenshotComponent extends Component
         'ignoreCertificateErrors' => true,
         'headless' => true,
         'connectionDelay' => 0.8, // add 0.8 second of delay between each instruction sent to Chrome,
-        'debugLogger'     => '/tmp/chrome-debug.log',
+        'debugLogger'     => '/var/log/chrome-debug.log',
         'customFlags' => [
           '--disable-gpu'
         ]
