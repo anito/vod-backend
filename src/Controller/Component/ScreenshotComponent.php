@@ -45,10 +45,9 @@ class ScreenshotComponent extends Component
     $path = rtrim(sys_get_temp_dir(), '/\\') . DS . $fn;
 
     try {
-      $browser = (new BrowserFactory('google-chrome'))->createBrowser(array(
+      $browser = (new BrowserFactory())->createBrowser(array(
         'ignoreCertificateErrors' => true,
         'headless' => true,
-        'connectionDelay' => 0.8, // add 0.8 second of delay between each instruction sent to Chrome,
         'debugLogger'     => LOGS . 'chrome-debug.log',
         'customFlags' => [
           '--disable-gpu',
