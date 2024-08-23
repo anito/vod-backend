@@ -111,11 +111,6 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
 
     $service = new AuthenticationService();
 
-    $service->setConfig([
-      'queryParam' => 'redirect',
-      'unauthenticatedRedirect' => '/users/login',
-    ]);
-
     if (strpos($path, '/v1') === 0) {
       $service->loadAuthenticator('Authentication.Form', [
         'fields' => $fields,
@@ -137,6 +132,11 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
 
       return $service;
     }
+
+    $service->setConfig([
+      'queryParam' => 'redirect',
+      'unauthenticatedRedirect' => '/users/login',
+    ]);
 
     // Load the authenticators, you want session first
     $service->loadAuthenticator('Authentication.Session');

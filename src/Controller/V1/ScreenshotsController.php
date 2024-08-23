@@ -77,7 +77,8 @@ class ScreenshotsController extends AppController
         // Save file to seafile cloud (https://cloud.doojoo.de)
         $folder = $screenshot->id;
         $filename = $screenshot->src;
-        $link = $this->Screenshot->saveToCloud($folder, $filename);
+        // $link = $this->Screenshot->saveToCloud($folder, $filename);
+        $link = $this->Screenshot->saveToSeafile($files[0], $screenshot->id);
 
         // Mutate entity
         $screenshot->link = $link;

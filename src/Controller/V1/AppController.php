@@ -32,7 +32,7 @@ class AppController extends Controller
     $salt = $publ ?: Security::getSalt();
 
     $this->loadComponent('Authentication.Authentication', [
-      'identityCheckEvent' => 'Controller.initialize', // Defaults to Controllers startup action
+      'identityCheckEvent' => 'Controller.initialize', // Defaults to Controllers `startup` action
       'unauthenticatedMessage' => 'Authentication is required to continue',
       'requireIdentity' => true
     ]);
