@@ -66,7 +66,7 @@ class ScreenshotComponent extends Component
       $h  = $capture_size['h'];
       $vw = $capture_size['vw'];
       $vh = $capture_size['vh'];
-      $s  = array_key_exists('s', $this->params) ? (float) $this->params['s'] : 1;
+      $s  = array_key_exists('s', $this->params) ? (float) $this->params['s'] : 0.5;
 
       $wait = 90000;
       $page = $browser->createPage();
@@ -80,7 +80,6 @@ class ScreenshotComponent extends Component
     } catch (\Exception $e) {
       // Something went wrong
       Log::debug('Something went wrong', ['message' => $e->getMessage()]);
-      var_dump($e);
     } finally {
       if($browser) {
         $browser->close();
