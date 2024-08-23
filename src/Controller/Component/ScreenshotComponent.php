@@ -51,7 +51,8 @@ class ScreenshotComponent extends Component
         'connectionDelay' => 0.8, // add 0.8 second of delay between each instruction sent to Chrome,
         'debugLogger'     => LOGS . 'chrome-debug.log',
         'customFlags' => [
-          '--disable-gpu'
+          '--disable-gpu',
+          '--no-sandbox'
         ]
       ));
 
