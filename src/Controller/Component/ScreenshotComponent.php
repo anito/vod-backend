@@ -3,6 +3,7 @@
 namespace App\Controller\Component;
 
 use Cake\Controller\Component;
+use Cake\Core\Configure;
 use Cake\Log\Log;
 use Cake\Utility\Text;
 use HeadlessChromium\BrowserFactory;
@@ -48,7 +49,7 @@ class ScreenshotComponent extends Component
       $browser = (new BrowserFactory())->createBrowser(array(
         'ignoreCertificateErrors' => true,
         'headless' => true,
-        'debugLogger'     => LOGS . 'chrome-debug.log',
+        'debugLogger'     => Configure::read('Chrome.debug') ? LOGS . 'chrome-debug.log' : false,
         'customFlags' => [
           '--disable-gpu',
           '--no-sandbox'
