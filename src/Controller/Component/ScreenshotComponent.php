@@ -79,6 +79,7 @@ class ScreenshotComponent extends Component
     } catch (\Exception $e) {
       // Something went wrong
       Log::debug('Something went wrong', ['message' => $e->getMessage()]);
+      var_dump($e);
     } finally {
       $browser->close();
     }
