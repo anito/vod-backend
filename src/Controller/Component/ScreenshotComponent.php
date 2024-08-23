@@ -54,7 +54,7 @@ class ScreenshotComponent extends Component
         'debugLogger'     => Configure::read('Chrome.debug') ? LOGS . 'chrome-debug.log' : false,
         'customFlags' => [
           '--disable-gpu',
-          '--no-sandbox'
+          '--no-sandbox',
         ]
       ));
 
@@ -70,14 +70,13 @@ class ScreenshotComponent extends Component
       $vh = $capture_size['vh'];
       $s  = array_key_exists('s', $this->params) ? (float) $this->params['s'] : 0.5;
 
-      $wait = 90000;
       $page = $browser->createPage();
       $page->setViewport($vw, $vh);
-      $page->navigate($url)->waitForNavigation(Page::DOM_CONTENT_LOADED, $wait);
+      $page->navigate($url)->waitForNavigation(Page::DOM_CONTENT_LOADED, 90000);
 
-      $screenshot = $page->screenshot(array(
+      $screenshot = $page->screenshot([
         'clip' => new Clip($x, $y, $w, $h, $s)
-      ));
+      ]);
       $screenshot->saveToFile($path);
     } catch (\Exception $e) {
       // Something went wrong
