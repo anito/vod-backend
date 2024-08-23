@@ -144,7 +144,6 @@ class ScreenshotComponent extends Component
     }
   }
 
-  // public function saveToSeafile($folder, $filename)
   public function saveToSeafile(UploadedFileInterface $file, $folder)
   {
     $filename = $file->getClientFilename();
