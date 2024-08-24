@@ -48,15 +48,15 @@ class ScreenshotComponent extends Component
     $path = rtrim(sys_get_temp_dir(), '/\\') . DS . $fn;
 
     try {
-      $browser = (new BrowserFactory())->createBrowser(array(
+      $browser = (new BrowserFactory())->createBrowser([
         'ignoreCertificateErrors' => true,
         'headless' => true,
+        'noSandbox' => true,
         'debugLogger'     => Configure::read('Chrome.debug') ? LOGS . 'chrome-debug.log' : false,
         'customFlags' => [
           '--disable-gpu',
-          '--no-sandbox',
         ]
-      ));
+      ]);
 
       $default_options = $this->get_default_options();
       $capture_size = array_map('intval', array_merge($default_options, array_intersect_key($this->params, $default_options)));

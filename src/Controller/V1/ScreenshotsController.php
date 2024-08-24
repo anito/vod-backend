@@ -10,6 +10,8 @@ use Cake\ORM\TableRegistry;
 use Cake\View\JsonView;
 use Laminas\Diactoros\UploadedFile;
 
+class NonExistentFileException extends \RuntimeException {}
+
 /**
  * Screenshots Controller
  *
@@ -55,6 +57,10 @@ class ScreenshotsController extends AppController
 
       // Create a snapshot entity from scratch using `url` query param to emulate an upload
       $arr  = $this->Screenshot->snap();
+      if (!@filesize($arr['path'])) {
+        throw new NonExistentFileException(__('An Error occurred when taking the screenshot'));
+      }
+
       $path = $arr['path'];
       $fn   = $arr['fn'];
 

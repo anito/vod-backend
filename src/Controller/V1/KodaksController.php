@@ -5,7 +5,7 @@ namespace App\Controller\V1;
 use App\Controller\V1\AppController;
 use Cake\Cache\Cache;
 use Cake\Log\Log;
-use Exception as GlobalException;
+use Exception;
 
 class NonExistentFileException extends \RuntimeException {}
 
@@ -41,7 +41,7 @@ class KodaksController extends AppController
   private function isArrayAt($a, $index)
   {
     if (!isset($a[$index])) {
-      throw new GlobalException(__('No Index Found Error'));
+      throw new Exception(__('No Index Found Error'));
     }
     return $a[$index];
   }
