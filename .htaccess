@@ -12,7 +12,7 @@
     RewriteRule    (.*) webroot/$1    [L]
 </IfModule>
 <IfModule mod_headers.c>
-    # Access Control Headers are set in app.php: 'crud' => [AllowOrigin => '*', ...]
+    # Access Control Headers are set in app.php/app_local.php: 'crud' => 'allowUrls' => [AllowOrigin => '*', ...]
     # Header set Access-Control-Allow-Origin "*"
 </IfModule>
 # Prevent the server from stripping away AUTHORIZATION Header
