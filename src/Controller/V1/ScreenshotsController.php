@@ -57,60 +57,65 @@ class ScreenshotsController extends AppController
 
       // Create a snapshot entity from scratch using `url` query param to emulate an upload
       $arr  = $this->Screenshot->snap();
-      if (!@filesize($arr['path'])) {
-        throw new NonExistentFileException(__('An Error occurred when taking the screenshot'));
-      }
+      if (@filesize($arr['path'])) {
 
-      $path = $arr['path'];
-      $fn   = $arr['fn'];
+        $path = $arr['path'];
+        $fn   = $arr['fn'];
 
-      // Emulate an upload using UploadedFileInterface
-      $file = new UploadedFile(
-        $path,
-        filesize($path),
-        \UPLOAD_ERR_OK,
-        $fn,
-        'image/png'
-      );
+        // Emulate an upload using UploadedFileInterface
+        $file = new UploadedFile(
+          $path,
+          filesize($path),
+          \UPLOAD_ERR_OK,
+          $fn,
+          'image/png'
+        );
 
-      $this->request = $this->request->withData('Files', [$file]);
+        $this->request = $this->request->withData('Files', [$file]);
 
-      $files = $this->request->getData('Files');
-      if (!empty($images = $this->Upload->save($files))) {
+        $files = $this->request->getData('Files');
+        if (!empty($images = $this->Upload->save($files))) {
 
-        $screenshot = $this->Screenshots->newEntity($images[0]);
+          $screenshot = $this->Screenshots->newEntity($images[0]);
 
-        // Save file to seafile cloud (https://cloud.doojoo.de)
-        $link = $this->Screenshot->saveToSeafile($files[0], $screenshot->id);
+          // Save file to seafile cloud (https://cloud.doojoo.de)
+          $link = $this->Screenshot->saveToSeafile($files[0], $screenshot->id);
 
-        // $folder = $screenshot->id;
-        // $filename = $screenshot->src;
-        // $link = $this->Screenshot->saveToCloud($folder, $filename);
+          // $folder = $screenshot->id;
+          // $filename = $screenshot->src;
+          // $link = $this->Screenshot->saveToCloud($folder, $filename);
 
-        // Mutate entity
-        $screenshot->link = $link;
+          // Mutate entity
+          $screenshot->link = $link;
 
-        $event->getSubject()->entity = $screenshot;
+          $event->getSubject()->entity = $screenshot;
 
-        if ($data = $this->Screenshots->save($screenshot)) {
+          if ($data = $this->Screenshots->save($screenshot)) {
 
-          $this->set([
-            'success' => true,
-            'data' => $data,
-            'message' => __('Screenshot saved'),
-          ]);
+            $this->set([
+              'success' => true,
+              'data' => $data,
+              'message' => __('Screenshot saved'),
+            ]);
+          } else {
+            $this->set([
+              'success' => false,
+              'data' => null,
+              'message' => __('An error occurred saving your screenshot data'),
+            ]);
+          }
         } else {
           $this->set([
             'success' => false,
             'data' => null,
-            'message' => __('An error occurred saving your screenshot data'),
+            'message' => __('An Error occurred while uploading your files'),
           ]);
         }
       } else {
         $this->set([
           'success' => false,
           'data' => null,
-          'message' => __('An Error occurred while uploading your files'),
+          'message' => __('An Error occurred taking the screenshot'),
         ]);
       }
 
