@@ -112,6 +112,9 @@ class ScreenshotsController extends AppController
           ]);
         }
       } else {
+
+        $event->stopPropagation();
+
         $this->set([
           'success' => false,
           'data' => null,
