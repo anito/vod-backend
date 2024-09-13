@@ -72,7 +72,7 @@ class ScreenshotComponent extends Component
 
       $page = $browser->createPage();
       $page->setViewport($vw, $vh);
-      $page->navigate($url)->waitForNavigation(Page::DOM_CONTENT_LOADED, 90000);
+      $page->navigate($url)->waitForNavigation(Page::DOM_CONTENT_LOADED, 120000);
 
       $screenshot = $page->screenshot([
         'clip' => new Clip($x, $y, $w, $h, $s)

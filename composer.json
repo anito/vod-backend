@@ -13,11 +13,12 @@
         "cakephp/plugin-installer": "^2.0",
         "chrome-php/chrome": "^1.11",
         "firebase/php-jwt": "^6.10.1",
-        "friendsofcake/crud": "^7.0.1",
+        "friendsofcake/crud": "^7.0",
         "guzzlehttp/guzzle": "^7.0",
         "kaz29/cakephp-cors-middleware-plugin": "^1.0",
         "mobiledetect/mobiledetectlib": "^4.8.03",
-        "muffin/footprint": "^4.0.1"
+        "muffin/footprint": "^4.0.1",
+        "twig/twig": "^3.14"
     },
     "require-dev": {
         "cakephp/bake": "^3.0.0",

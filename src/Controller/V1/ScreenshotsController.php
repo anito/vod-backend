@@ -57,6 +57,7 @@ class ScreenshotsController extends AppController
 
       // Create a snapshot entity from scratch using `url` query param to emulate an upload
       $arr  = $this->Screenshot->snap();
+
       if (@filesize($arr['path'])) {
 
         $path = $arr['path'];
@@ -93,9 +94,7 @@ class ScreenshotsController extends AppController
           if ($data = $this->Screenshots->save($screenshot)) {
 
             $this->set([
-              'success' => true,
               'data' => $data,
-              'message' => __('Screenshot saved'),
             ]);
           } else {
             $this->set([
@@ -117,8 +116,6 @@ class ScreenshotsController extends AppController
 
         $this->set([
           'success' => false,
-          'data' => null,
-          'message' => __('An Error occurred taking the screenshot'),
         ]);
       }
 
