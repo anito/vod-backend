@@ -8,6 +8,7 @@ use Cake\Event\Event;
 use Cake\Log\Log;
 use Cake\ORM\TableRegistry;
 use Cake\View\JsonView;
+use Exception;
 use Laminas\Diactoros\UploadedFile;
 
 class NonExistentFileException extends \RuntimeException {}
@@ -36,13 +37,12 @@ class ScreenshotsController extends AppController
       'actions' => [
         'Crud.Index',
         'Crud.View',
-        'Crud.Add',
         'Crud.Edit',
         'Crud.Delete',
       ],
       'listeners' => [
         'Crud.Api',
-        'Crud.ApiPagination',
+        // 'Crud.ApiPagination',
         // 'Crud.ApiQueryLog'
       ],
     ]);
@@ -52,77 +52,68 @@ class ScreenshotsController extends AppController
 
   public function add()
   {
+    $snapshot  = $this->Screenshot->snap();
 
-    $this->Crud->on('beforeSave', function (Event $event) {
+    if (!@filesize($snapshot['path'])) {
 
-      // Create a snapshot entity from scratch using `url` query param to emulate an upload
-      $arr  = $this->Screenshot->snap();
+      // throw new Exception('Not working', 402);
 
-      if (@filesize($arr['path'])) {
+      $this->set([
+        'success' => false,
+        'data' => [],
+        'message' => __('An Error occurred while taking the screenshot')
+      ]);
+    } else {
 
-        $path = $arr['path'];
-        $fn   = $arr['fn'];
+      $path = $snapshot['path'];
+      $fn   = $snapshot['fn'];
 
-        // Emulate an upload using UploadedFileInterface
-        $file = new UploadedFile(
-          $path,
-          filesize($path),
-          \UPLOAD_ERR_OK,
-          $fn,
-          'image/png'
-        );
+      // Emulate an upload using \Laminas\Diactoros\UploadedFileInterface
+      $file = new UploadedFile(
+        $path,
+        filesize($path),
+        \UPLOAD_ERR_OK,
+        $fn,
+        'image/png'
+      );
 
-        $this->request = $this->request->withData('Files', [$file]);
+      // Emulate request data
+      $this->request = $this->request->withData('Files', [$file]);
+      $files = $this->request->getData('Files');
 
-        $files = $this->request->getData('Files');
-        if (!empty($images = $this->Upload->save($files))) {
+      if (!empty($screenshots = $this->Upload->save($files))) {
 
-          $screenshot = $this->Screenshots->newEntity($images[0]);
+        $screenshot = $screenshots[0];
 
-          // Save file to seafile cloud (https://cloud.doojoo.de)
-          $link = $this->Screenshot->saveToSeafile($files[0], $screenshot->id);
+        // Create entity from uploaded file
+        $entity = $this->Screenshots->newEntity($screenshot);
 
-          // $folder = $screenshot->id;
-          // $filename = $screenshot->src;
-          // $link = $this->Screenshot->saveToCloud($folder, $filename);
+        // Upload to cloud and receive download link 
+        $link = $this->Screenshot->saveToSeafile($files[0], $entity->id);
+        $entity->link = $link;
 
-          // Mutate entity
-          $screenshot->link = $link;
-
-          $event->getSubject()->entity = $screenshot;
-
-          if ($data = $this->Screenshots->save($screenshot)) {
-
-            $this->set([
-              'data' => $data,
-            ]);
-          } else {
-            $this->set([
-              'success' => false,
-              'data' => null,
-              'message' => __('An error occurred saving your screenshot data'),
-            ]);
-          }
+        if ($this->Screenshots->save($entity)) {
+          $this->set([
+            'success' => true,
+            'data' => $entity,
+            'message' =>  __('Screenshot saved')
+          ]);
         } else {
           $this->set([
             'success' => false,
-            'data' => null,
-            'message' => __('An Error occurred while uploading your files'),
+            'data' => [],
+            'message' => __('An error occurred saving your screenshot')
           ]);
         }
       } else {
-
-        $event->stopPropagation();
-
         $this->set([
           'success' => false,
+          'data' => [],
+          'message' => __('An error occurred uploading the screenshot')
         ]);
       }
-
-      $this->Crud->action()->serialize(['success', 'data', 'message']);
-    });
-
-    $this->Crud->execute();
+    }
+    $this->viewBuilder()->setOption('serialize', ['success', 'data', 'message']);
   }
 
   public function delete()

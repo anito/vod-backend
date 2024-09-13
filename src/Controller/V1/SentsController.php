@@ -39,7 +39,6 @@ class SentsController extends AppController
     parent::initialize();
     $this->Authentication->allowUnauthenticated(['add']);
 
-
     $this->loadComponent('Crud.Crud', [
       'actions' => [
         'Crud.Index',
