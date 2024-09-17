@@ -74,8 +74,6 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
 
     $this->addPlugin('Crud');
 
-    $this->addPlugin('Migrations');
-
   }
 
   /**
