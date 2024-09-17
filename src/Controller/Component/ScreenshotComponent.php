@@ -50,11 +50,11 @@ class ScreenshotComponent extends Component
     try {
       $browser = (new BrowserFactory())->createBrowser([
         'ignoreCertificateErrors' => true,
-        'headless' => true,
         'noSandbox' => true,
         'debugLogger'     => Configure::read('Chrome.debug') ? LOGS . 'chrome-debug.log' : false,
         'customFlags' => [
           '--disable-gpu',
+          '--headless=old',
         ]
       ]);
 
@@ -78,9 +78,11 @@ class ScreenshotComponent extends Component
         'clip' => new Clip($x, $y, $w, $h, $s)
       ]);
       $screenshot->saveToFile($path);
+      Log::debug("Screenshot successfully saved to $path");
     } catch (\Exception $e) {
       // Something went wrong
-      Log::debug('Something went wrong', ['message' => $e->getMessage()]);
+      $message = $e->getMessage();
+      Log::debug("Screenshot failed: $message");
     } finally {
       if ($browser) {
         $browser->close();
@@ -160,13 +162,13 @@ class ScreenshotComponent extends Component
       'headers' => $headers
     ]);
 
-    // Create directory (will do nothing if already exists)
     $data = new FormData();
     $data->addMany([
       'operation' => 'mkdir',
       'create_parents' => 1
     ]);
-
+    
+    // Create directory (will do nothing if already exists)
     $response = $client->post(
       "$host/api2/repos/$repo_id/dir/?p=$folder",
       (string) $data,
