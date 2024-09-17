@@ -53,8 +53,7 @@ class ScreenshotComponent extends Component
         'debugLogger'     => Configure::read('Chrome.debug') ? LOGS . 'chrome-debug.log' : false,
         'customFlags' => [
           '--disable-gpu',
-          '--headless=old',
-          // '--screenshot',
+          '--headless=new',
         ]
       ]);
 
