@@ -74,18 +74,6 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
 
       $this->addPlugin('Migrations');
     }
-
-    /**
-     * Only try to load DebugKit in development mode
-     * Debug Kit should not be installed on a production system
-     */
-    if (Configure::read('debug')) {
-      try {
-        $this->addPlugin('DebugKit');
-      } catch (MissingPluginException $e) {
-        // Do not halt if the plugin is missing
-      }
-    }
   }
 
   /**
@@ -111,7 +99,7 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
 
     $service = new AuthenticationService();
 
-    if (strpos($path, '/v1') === 0) {
+    if (strpos($path, '/api/v1') === 0) {
       $service->loadAuthenticator('Authentication.Form', [
         'fields' => $fields,
         // 'loginUrl' => '/v1/users/login', // ommit if additional actions (e.g. /users/token) use form authentication

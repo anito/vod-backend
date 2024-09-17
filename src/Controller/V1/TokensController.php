@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Controller\V1;
+namespace App\Controller\Api\V1;
 
-use App\Controller\V1\AppController;
+use App\Controller\Api\V1\AppController;
 use Cake\Core\App;
 use Cake\Event\Event;
 use Cake\I18n\DateTime;

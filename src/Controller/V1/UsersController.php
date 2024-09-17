@@ -210,11 +210,6 @@ class UsersController extends AppController
   {
     $this->Crud->on('afterSave', function (Event $event) use ($id) {
 
-      $entity = $event->getSubject()->entity;
-      $message = $this->_checkValidationErrors($entity);
-      if ($message) {
-        throw new ForbiddenException($message);
-      }
       if ($event->getSubject()->success) {
         $message = __('User updated');
       } else {
@@ -453,6 +448,10 @@ class UsersController extends AppController
       'data' => compact(['user', 'groups', 'token', 'message']),
     ]);
     $this->viewBuilder()->setOption('serialize', ['success', 'data']);
+  }
+
+  public function getController() {
+    return $this->request->getParam('controller');
   }
 
   public function login()

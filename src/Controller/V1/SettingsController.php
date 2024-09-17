@@ -22,7 +22,6 @@
 
 namespace App\Controller\V1;
 
-use App\Controller\V1\AppController;
 use Cake\Core\Configure;
 use Cake\Event\Event;
 

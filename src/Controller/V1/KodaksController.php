@@ -2,7 +2,6 @@
 
 namespace App\Controller\V1;
 
-use App\Controller\V1\AppController;
 use Cake\Cache\Cache;
 use Cake\Log\Log;
 use Exception;

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -100,9 +101,7 @@ if (file_exists(CONFIG . 'app_local.php')) {
  */
 if (Configure::read('debug')) {
     Configure::write('Cache._cake_model_.duration', '+2 minutes');
-    Configure::write('Cache._cake_translations_.duration', '+2 minutes');
-    // disable router cache during development
-    Configure::write('Cache._cake_routes_.duration', '+2 seconds');
+    Configure::write('Cache._cake_core_.duration', '+2 minutes');
 }
 
 /*

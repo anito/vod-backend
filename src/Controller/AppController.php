@@ -20,6 +20,7 @@ use Cake\Controller\Controller;
 use Cake\Event\EventInterface;
 use Cake\ORM\Entity;
 use Cake\ORM\TableRegistry;
+use Cake\View\JsonView;
 
 /**
  * Application Controller
