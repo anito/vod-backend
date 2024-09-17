@@ -48,7 +48,7 @@ class DirectorComponent extends Component
     $x = pathinfo($path, PATHINFO_EXTENSION);
 
     $timestamp = date('Ymd:His');
-    return BASE_URL . '/' . API_PATH . '/q/' . $crypt . '/' . $timestamp . '_' . $m . '.' . $x;
+    return BASE_URL . API_PATH . '/q/' . $crypt . '/' . $timestamp . '_' . $m . '.' . $x;
   }
 
   public function computeSize($file, $new_w, $new_h, $scale)
