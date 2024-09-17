@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "24faf903e21d5f207364052dd0d439a0",
+    "content-hash": "9dc6f03367f231355f38b24cbecb34b0",
     "packages": [
         {
             "name": "cakephp/authentication",
@@ -3438,16 +3438,16 @@
         },
         {
             "name": "cakephp/debug_kit",
-            "version": "5.1.0",
+            "version": "5.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/debug_kit.git",
-                "reference": "9df73d208464dd807e88b9d6b87ccc64f4c02f8d"
+                "reference": "45a7de5e8546a3933fef86dc8afd23dcdb2bbd25"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/debug_kit/zipball/9df73d208464dd807e88b9d6b87ccc64f4c02f8d",
-                "reference": "9df73d208464dd807e88b9d6b87ccc64f4c02f8d",
+                "url": "https://api.github.com/repos/cakephp/debug_kit/zipball/45a7de5e8546a3933fef86dc8afd23dcdb2bbd25",
+                "reference": "45a7de5e8546a3933fef86dc8afd23dcdb2bbd25",
                 "shasum": ""
             },
             "require": {
@@ -3499,7 +3499,7 @@
                 "issues": "https://github.com/cakephp/debug_kit/issues",
                 "source": "https://github.com/cakephp/debug_kit"
             },
-            "time": "2024-09-14T03:01:20+00:00"
+            "time": "2024-09-17T15:19:57+00:00"
         },
         {
             "name": "cakephp/twig-view",

@@ -24,6 +24,7 @@ use Authentication\Middleware\AuthenticationMiddleware;
 use Cake\Core\Configure;
 use Cake\Core\ContainerInterface;
 use Cake\Core\Exception\MissingPluginException;
+use Cake\Datasource\FactoryLocator;
 use Cake\Error\Debugger;
 use Cake\Error\Middleware\ErrorHandlerMiddleware;
 use Cake\Http\BaseApplication;
@@ -31,6 +32,7 @@ use Cake\Http\MiddlewareQueue;
 use Cake\Http\Middleware\BodyParserMiddleware;
 use Cake\Http\Middleware\CsrfProtectionMiddleware;
 use Cake\I18n\Middleware\LocaleSelectorMiddleware;
+use Cake\ORM\Locator\TableLocator;
 use Cake\Routing\Middleware\AssetMiddleware;
 use Cake\Routing\Middleware\RoutingMiddleware;
 use Cake\Utility\Security;
@@ -54,6 +56,13 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
   {
     // Call parent to load bootstrap from files.
     parent::bootstrap();
+
+    if (PHP_SAPI !== 'cli') {
+      FactoryLocator::add(
+        'Table',
+        (new TableLocator())->allowFallbackClass(false)
+      );
+    }
 
     /**
      * passes the currently logged in user info to the model layer
