@@ -48,9 +48,8 @@ class ScreenshotComponent extends Component
     $path = rtrim(sys_get_temp_dir(), '/\\') . DS . $fn;
 
     try {
-      $browser = (new BrowserFactory())->createBrowser([
+      $browser = (new BrowserFactory('google-chrome'))->createBrowser([
         'ignoreCertificateErrors' => true,
-        'noSandbox' => true,
         'debugLogger'     => Configure::read('Chrome.debug') ? LOGS . 'chrome-debug.log' : false,
         'customFlags' => [
           '--disable-gpu',
