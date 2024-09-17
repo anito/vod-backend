@@ -139,7 +139,7 @@ return function (RouteBuilder $routes): void {
             $builder->connect('/u/a/*', ['controller' => 'Avatars', 'action' => 'uri']);
             $builder->connect('/u/s/*', ['controller' => 'Screenshots', 'action' => 'uri']);
 
-            // $builder->fallbacks(DashedRoute::class);
+            $builder->fallbacks(DashedRoute::class);
         });
     });
 };

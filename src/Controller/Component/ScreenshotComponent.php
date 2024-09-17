@@ -55,6 +55,7 @@ class ScreenshotComponent extends Component
         'customFlags' => [
           '--disable-gpu',
           '--headless=old',
+          // '--screenshot',
         ]
       ]);
 
@@ -84,7 +85,7 @@ class ScreenshotComponent extends Component
       $message = $e->getMessage();
       Log::debug("Screenshot failed: $message");
     } finally {
-      if ($browser) {
+      if (isset($browser)) {
         $browser->close();
       }
     }
