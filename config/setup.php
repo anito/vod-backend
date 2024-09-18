@@ -24,7 +24,6 @@ define('APP_NAME', 'VOD_APP');
 define('API_PATH', '/api/v1');
 define('AUTH_HEADER', 'Authorization');
 define('AUTH_PREFIX', 'Bearer');
-define('FIXTURE', []);
 define('SUPERUSER', 'Superuser');
 define('ADMIN', 'Administrator');
 define('MANAGER', 'Manager');

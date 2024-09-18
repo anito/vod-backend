@@ -233,20 +233,6 @@ class UsersTable extends Table
   }
 
   /**
-   * @deprecated use protected check in beforeSave instead
-   */
-  public function protected($value, $context)
-  {
-    if (isset($context['data']['id'])) {
-      $id = $context['data']['id'];
-      if (in_array($id, FIXTURE)) {
-        return false;
-      }
-    }
-    return true;
-  }
-
-  /**
    * Returns a rules checker object that will be used for validating
    * application integrity.
    *
