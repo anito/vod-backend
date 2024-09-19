@@ -58,20 +58,24 @@ class ScreenshotsController extends AppController
       $snapshot  = $this->Screenshot->snap();
 
       if (!@filesize($snapshot['path'])) {
-
-        $event->stopPropagation();
-        throw new Exception(__('An error occurred creating the screenshot'), 400);
+        if(isset($snapshot['error']) && ($snapshot['error'] instanceof Exception)) {
+          $event->stopPropagation();
+          $error = $snapshot['error'];
+          $message = $error->getMessage();
+          $code = $error->getCode();
+          throw new Exception($message, $code);
+        }
       }
 
       $path = $snapshot['path'];
-      $fn   = $snapshot['fn'];
+      $info = $snapshot['detail'];
   
       // Emulate an upload using \Laminas\Diactoros\UploadedFileInterface
       $file = new UploadedFile(
         $path,
         filesize($path),
         \UPLOAD_ERR_OK,
-        $fn,
+        $info['fn'],
         'image/png'
       );
   
@@ -87,7 +91,7 @@ class ScreenshotsController extends AppController
         $entity = $this->Screenshots->newEntity($screenshot);
   
         // Upload to cloud and receive download link 
-        $link = $this->Screenshot->saveToSeafile($files[0], $entity->id);
+        $link = $this->Screenshot->saveToSeafile($files[0], $entity->id, $info['folder']);
         $entity->link = $link;
 
         $event->getSubject()->entity = $entity;

@@ -7,7 +7,10 @@ use Cake\Core\Configure;
 use Cake\Http\Client;
 use Cake\Http\Client\FormData;
 use Cake\Log\Log;
-use Cake\Utility\Text;;
+use Cake\Utility\Text;
+use DateTime;
+
+;
 
 use HeadlessChromium\BrowserFactory;
 use HeadlessChromium\Clip;
@@ -41,10 +44,20 @@ class ScreenshotComponent extends Component
 
     if (!$url) {
       throw 'No url provided';
+    } elseif (!str_starts_with($url, 'http')) {
+      $url = 'http://' . $url;
     }
 
-    $uuid = Text::uuid();
-    $fn   = "capture-$uuid.png";
+    $error  = null;
+    $dt     = new DateTime();
+    $date   = $dt->format('Ymd');
+    $time   = $dt->format('His');
+    $uuid   = sprintf('%04x', random_int(0, 0x3fff) | 0x8000);
+    $fn     = "capture_{$date}-{$time}_{$uuid}.png";
+    $detail = [
+      'fn' => $fn,
+      'folder' => $dt->format('Y-m-d')
+    ];
     $path = rtrim(sys_get_temp_dir(), '/\\') . DS . $fn;
 
     try {
@@ -79,7 +92,7 @@ class ScreenshotComponent extends Component
       $screenshot->saveToFile($path);
       Log::debug("Screenshot successfully saved to $path");
     } catch (\Exception $e) {
-      // Something went wrong
+      $error = $e;
       $message = $e->getMessage();
       Log::debug("Screenshot failed: $message");
     } finally {
@@ -87,7 +100,7 @@ class ScreenshotComponent extends Component
         $browser->close();
       }
     }
-    return compact('path', 'fn');
+    return compact('path', 'detail', 'error');
   }
 
   private static function get_default_options()
@@ -144,13 +157,13 @@ class ScreenshotComponent extends Component
     }
   }
 
-  public function saveToSeafile(UploadedFileInterface $file, $folder)
+  public function saveToSeafile(UploadedFileInterface $file, $upload_folder, $seafile_folder)
   {
     $filename = $file->getClientFilename();
-    $source_path = SCREENSHOTS . DS . $folder . DS . 'lg' . DS . $filename;
+    $source_path = SCREENSHOTS . DS . $upload_folder . DS . 'lg' . DS . $filename;
 
     $repo_id  = 'd04a2c3c-eda3-49d6-b946-ac70beb9bbf2';
-    $folder   = '/captures' . DS . $folder;
+    $folder   = '/captures' . DS . $seafile_folder;
     $path_to_file = $folder . DS . $filename;
     $headers = [
       'Authorization' => 'Bearer cdd940c1c82aa99c7d84ef4551c13922c687aecc',
