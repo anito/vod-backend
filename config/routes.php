@@ -107,8 +107,6 @@ return function (RouteBuilder $routes): void {
         $builder->setRouteClass(DashedRoute::class);
         $builder->registerMiddleware('csrf', new CsrfProtectionMiddleware());
 
-        $builder->connect('/', ['controller' => 'Pages', 'action' => 'display', 'home']);
-
         $builder->prefix('v1', function (RouteBuilder $builder) {
             // Only controllers explicitly enabled for API use will be accessible through API
             $builder->setExtensions(['json', 'xml']);
