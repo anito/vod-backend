@@ -473,10 +473,10 @@ class UsersController extends AppController
       throw new UnauthorizedException(__('Invalid username or password'));
     }
 
-    $isPriveleged = $this->_isPrivileged($loggedinUser);
+    $isPrivileged = $this->_isPrivileged($loggedinUser);
 
     // Check token against db on none privileged users
-    if (!$this->_isValidToken($loggedinUser) && !$isPriveleged) {
+    if (!$this->_isValidToken($loggedinUser) && !$isPrivileged) {
       // Token valid but didn't pass database check
       throw new UnauthorizedException(__('Invalid Token'));
     }
@@ -484,7 +484,7 @@ class UsersController extends AppController
     $id = $loggedinUser->id;
 
     // Handle privileged users jwt if expired or empty
-    if ($isPriveleged) {
+    if ($isPrivileged) {
       $expires = $this->Users
         ->find()
         ->contain(['Tokens'])
