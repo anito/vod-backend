@@ -99,7 +99,7 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
 
     $service = new AuthenticationService();
 
-    if (strpos($path, '/api/v1') === 0) {
+    if (strpos($path, API_PATH) === 0) {
       $service->loadAuthenticator('Authentication.Form', [
         'fields' => $fields,
         // 'loginUrl' => '/v1/users/login', // ommit if additional actions (e.g. /users/token) use form authentication
