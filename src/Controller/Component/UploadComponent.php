@@ -67,10 +67,6 @@ class UploadComponent extends Component
       $_file = [];
       $uuid = Text::uuid();
       $fn = $file->getClientFilename();
-      // $type = $file->getClientMediaType();
-      // $size = $file->getSize();
-      // $tmpName = $file->getStream()->getMetadata('uri');
-      // $error = $file->getError();
 
       $isVideo      = $this->File->isVideo($fn);
       $isImage      = $this->File->isImage($fn) && strpos($this->path, 'images');

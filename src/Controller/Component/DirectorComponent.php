@@ -103,8 +103,6 @@ class DirectorComponent extends Component
 
   public function getDuration($path)
   {
-    $info = pathinfo($path);
-    $ext = $info['extension'];
     exec(FFMPEG_PATH_FINAL . " -i $path 2>&1", $out);
 
     $duration = null;

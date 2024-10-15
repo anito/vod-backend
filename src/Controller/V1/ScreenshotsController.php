@@ -53,52 +53,62 @@ class ScreenshotsController extends AppController
 
   public function add()
   {
-    $this->Crud->on('beforeSave', function(Event $event) {
+    $this->Crud->on('beforeSave', function (Event $event) {
 
-      $snapshot  = $this->Screenshot->snap();
+      $path  = $this->Screenshot->snap();
 
-      if (!@filesize($snapshot['path'])) {
-        if(isset($snapshot['error']) && ($snapshot['error'] instanceof Exception)) {
-          $event->stopPropagation();
-          $error = $snapshot['error'];
-          $message = $error->getMessage();
-          $code = $error->getCode();
-          throw new Exception($message, $code);
-        }
+      if ($path instanceof Exception) {
+        $event->stopPropagation();
+        $message = $path->getMessage();
+        $code = $path->getCode();
+        throw new Exception($message, $code);
       }
 
-      $path = $snapshot['path'];
-      $info = $snapshot['detail'];
-  
+      if (!@filesize($path)) {
+        $event->stopPropagation();
+        throw new Exception('The snapshot seems to be empty', 402);
+      }
+
+      $info = pathinfo($path);
+      $ext = $info['extension'];
+      $fn = $info['filename'] . '.' . $ext;
+
       // Emulate an upload using \Laminas\Diactoros\UploadedFileInterface
       $file = new UploadedFile(
         $path,
         filesize($path),
         \UPLOAD_ERR_OK,
-        $info['fn'],
-        'image/png'
+        $fn,
+        'image/' . $ext
       );
-  
+
       // Emulate request data
       $this->request = $this->request->withData('Files', [$file]);
       $files = $this->request->getData('Files');
-  
-      if (!empty($screenshots = $this->Upload->save($files))) {
-  
+
+      if ($screenshots = $this->Upload->save($files)) {
+
         $screenshot = $screenshots[0];
-  
+
         // Create entity from uploaded file
         $entity = $this->Screenshots->newEntity($screenshot);
-  
-        // Upload to cloud and receive download link 
-        $link = $this->Screenshot->saveToSeafile($files[0], $entity->id, $info['folder']);
-        $entity->link = $link;
+
+        // Upload to cloud and receive download link
+        try {
+          $entity->link = $this->Screenshot->saveToSeafile($entity);
+          $success = true;
+          $message = __('Screenshot saved');
+        } catch (Exception $e) {
+          $success = false;
+          $message = $e->getMessage();
+        }
 
         $event->getSubject()->entity = $entity;
 
         $this->set([
+          'success' => $success,
           'data' => $entity,
-          'message' => __('Screenshot saved')
+          'message' => $message
         ]);
       } else {
         $event->stopPropagation();

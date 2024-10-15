@@ -215,7 +215,7 @@ class FileComponent extends Component
   function directory($dir, $filters = 'all')
   {
     if ($filters == 'accepted') {
-      $filters = 'jpg,JPG,JPEG,jpeg,gif,GIF,png,PNG,swf,SWF,flv,FLV,f4v,F4V,mov,MOV,mp4,MP4,m4v,MV4,m4a,M4A,3gp,3GP,3g2,3G2';
+      $filters = 'jpg,JPG,JPEG,jpeg,gif,GIF,png,PNG,swf,SWF,flv,FLV,f4v,F4V,mov,MOV,mp4,MP4,m4v,MV4,m4a,M4A,3gp,3GP,3g2,3G2,webp';
     }
     $handle = opendir($dir);
     $files = array();
@@ -658,7 +658,7 @@ class FileComponent extends Component
         }
       }
 
-      if (preg_match('/\.(jpg|jpeg)$/', basename($path)) && is_callable('exif_read_data')) {
+      if (preg_match('/\.(jpg|jpeg|webp)$/', basename($path)) && is_callable('exif_read_data')) {
         $exif_data = exif_read_data($path, 0, true);
         $meta['Exif'] = $exif_data;
         if (isset($meta['Exif']['EXIF']['DateTimeDigitized'])) {
@@ -706,7 +706,7 @@ class FileComponent extends Component
 
   function isImage($fn)
   {
-    if (preg_match('/\.(jpg|jpe|jpeg|gif|png|ico)$/i', $fn)) {
+    if (preg_match('/\.(jpg|jpe|jpeg|gif|png|ico|webp)$/i', $fn)) {
       return true;
     } else {
       return false;
