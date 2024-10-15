@@ -198,8 +198,7 @@ class ScreenshotComponent extends Component
   {
     $filename = $screenshot->src;
     $upload_folder = $screenshot->id;
-    $ext = $this->File->returnExt($filename);
-    $source_path = SCREENSHOTS . DS . $upload_folder . DS . 'lg' . DS . $filename;
+    $path_to_file = SCREENSHOTS . DS . $upload_folder . DS . 'lg' . DS . $filename;
 
     $dt = new DateTime();
     $parent_folder = '/captures';
@@ -254,22 +253,12 @@ class ScreenshotComponent extends Component
     /**
      * Upload file to the previously generated upload link
      */
-
-    // Emulate an upload ressource using \Laminas\Diactoros\UploadedFileInterface to simplify creation of multipart form data
-    $file = new UploadedFile(
-      $source_path,
-      filesize($source_path),
-      \UPLOAD_ERR_OK,
-      $filename,
-      'image/' . $ext
-    );
-
     $data = new FormData();
     $data->addMany([
       'parent_dir' => $seafile_folder,
       'replace' => 1,
     ]);
-    $data->addFile('file', $file);
+    $data->addFile('file', fopen($path_to_file, 'r'));
 
     $response = $client->post(
       "$upload_link?ret-json=1",
