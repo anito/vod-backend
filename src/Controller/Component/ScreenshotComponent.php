@@ -235,10 +235,9 @@ class ScreenshotComponent extends Component
         ]
       ]
     );
-    if (400 >= $response->getStatusCode()) {
-      $result = json_decode($response->getBody());
-    } else {
-      throw new Exception(sprintf('Error creating seafile directory %s', $seafile_folder), 400);
+    $result = json_decode($response->getBody());
+    if (isset($result->error)) {
+      throw new Exception(sprintf('%s. Could not create seafile folder %s', $result->error, $seafile_folder), 400);
     }
 
     // Get upload link to folder
@@ -281,8 +280,8 @@ class ScreenshotComponent extends Component
      * Get seafile download link
      */
     $path_to_file = $seafile_folder . DS . $filename;
-
     $response = $client->get("$host/api2/repos/$repo_id/file/?p=$path_to_file&reuse=1");
+
     $result = json_decode($response->getBody());
 
     if (isset($result->error)) {
@@ -302,6 +301,7 @@ class ScreenshotComponent extends Component
     );
 
     $result = json_decode($response->getBody());
+
     if (isset($result->error)) {
       throw new Exception($result->error, 400);
     }
