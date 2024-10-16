@@ -196,14 +196,18 @@ class ScreenshotComponent extends Component
 
   public function saveToSeafile(Entity $screenshot)
   {
+    $referer = $this->getController()->getRequest()->getEnv('HTTP_REFERER');
+    preg_match('/^(?:http(?:s?):\/\/(?:www\.)?)?([A-Za-z0-9_:.-]+)\/?/m', $referer, $matches);
+    $domain = $matches[1];
+
     $filename = $screenshot->src;
     $upload_folder = $screenshot->id;
     $path_to_file = SCREENSHOTS . DS . $upload_folder . DS . 'lg' . DS . $filename;
 
     $dt = new DateTime();
-    $parent_folder = '/captures';
+    $parent_folder = DS . $domain;
     $seafile_subfolder = $dt->format('Y-m-d');
-    $seafile_folder = $parent_folder . DS . $seafile_subfolder;
+    $seafile_folder = trailingslashit($parent_folder) . $seafile_subfolder;
 
     $repo_id  = 'd04a2c3c-eda3-49d6-b946-ac70beb9bbf2';
 
@@ -217,7 +221,7 @@ class ScreenshotComponent extends Component
     ]);
 
     /**
-     * Create directory if not already exists
+     * Create subdirectory if not already exists
      */
     $data = new FormData();
     $data->addMany([
