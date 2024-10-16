@@ -202,9 +202,9 @@ class ScreenshotComponent extends Component
 
     $dt                 = new DateTime();
     $filename           = basename($path_to_file);
-    $parent_folder      = DS . $domain;
-    $seafile_subfolder  = $dt->format('Y-m-d');
-    $seafile_folder     = trailingslashit($parent_folder) . $seafile_subfolder;
+    $parent_folder      = $dt->format('Y-m-d');
+    $seafile_subfolder  = $domain;
+    $seafile_folder     = DS . trailingslashit($parent_folder) . $seafile_subfolder;
 
     $repo_id  = 'd04a2c3c-eda3-49d6-b946-ac70beb9bbf2';
 
