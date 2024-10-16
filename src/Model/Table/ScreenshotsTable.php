@@ -57,8 +57,7 @@ class ScreenshotsTable extends Table
         $validator
             ->scalar('src')
             ->maxLength('src', 512)
-            ->requirePresence('src', 'create')
-            ->notEmptyString('src');
+            ->allowEmptyString('src');
 
         $validator
             ->scalar('link')

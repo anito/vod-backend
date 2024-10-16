@@ -194,20 +194,17 @@ class ScreenshotComponent extends Component
     }
   }
 
-  public function saveToSeafile(Entity $screenshot)
+  public function saveToSeafile($path_to_file)
   {
     $referer = $this->getController()->getRequest()->getEnv('HTTP_REFERER');
-    preg_match('/^(?:http(?:s?):\/\/(?:www\.)?)?([A-Za-z0-9_:.-]+)\/?/m', $referer, $matches);
-    $domain = $matches[1];
+    preg_match('/^(?:http(?:s?):\/\/(?:www\.)?)?([A-Za-z0-9_:.-]+)\/?/m', $referer?? '', $matches);
+    $domain = 2 === count($matches) ? $matches[1] : null;
 
-    $filename = $screenshot->src;
-    $upload_folder = $screenshot->id;
-    $path_to_file = SCREENSHOTS . DS . $upload_folder . DS . 'lg' . DS . $filename;
-
-    $dt = new DateTime();
-    $parent_folder = DS . $domain;
-    $seafile_subfolder = $dt->format('Y-m-d');
-    $seafile_folder = trailingslashit($parent_folder) . $seafile_subfolder;
+    $dt                 = new DateTime();
+    $filename           = basename($path_to_file);
+    $parent_folder      = DS . $domain;
+    $seafile_subfolder  = $dt->format('Y-m-d');
+    $seafile_folder     = trailingslashit($parent_folder) . $seafile_subfolder;
 
     $repo_id  = 'd04a2c3c-eda3-49d6-b946-ac70beb9bbf2';
 

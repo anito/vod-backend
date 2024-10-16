@@ -8,6 +8,7 @@ use Cake\Http\Exception\ForbiddenException;
 use Cake\Log\Log;
 use Cake\ORM\TableRegistry;
 use Cake\View\JsonView;
+use Crud\Error\Exception\CrudException;
 use Exception;
 use Laminas\Diactoros\UploadedFile;
 
@@ -29,7 +30,6 @@ class ScreenshotsController extends AppController
 
     $this->loadComponent('File');
     $this->loadComponent('Director');
-    $this->loadComponent('Upload', ['type' => 'screenshots']);
     $this->loadComponent('Uri');
     $this->loadComponent('Screenshot');
 
@@ -69,52 +69,41 @@ class ScreenshotsController extends AppController
         throw new Exception('The snapshot seems to be empty', 402);
       }
 
-      $info = pathinfo($path);
-      $ext = $info['extension'];
-      $fn = $info['filename'] . '.' . $ext;
+      $entity = $this->Screenshots->newEmptyEntity();
 
-      // Emulate an upload using \Laminas\Diactoros\UploadedFileInterface
-      $file = new UploadedFile(
-        $path,
-        filesize($path),
-        \UPLOAD_ERR_OK,
-        $fn,
-        'image/' . $ext
-      );
-
-      // Emulate request data
-      $this->request = $this->request->withData('Files', [$file]);
-      $files = $this->request->getData('Files');
-
-      if ($screenshots = $this->Upload->save($files)) {
-
-        $screenshot = $screenshots[0];
-
-        // Create entity from uploaded file
-        $entity = $this->Screenshots->newEntity($screenshot);
-
+      try {
         // Upload to cloud and receive download link
-        try {
-          $entity->link = $this->Screenshot->saveToSeafile($entity);
-          $success = true;
-          $message = __('Screenshot saved');
-        } catch (Exception $e) {
-          $success = false;
-          $message = $e->getMessage();
-        }
+        $link = $this->Screenshot->saveToSeafile($path);
 
-        $event->getSubject()->entity = $entity;
-
-        $this->set([
-          'success' => $success,
-          'data' => $entity,
-          'message' => $message
+        $entity = $this->Screenshots->patchEntity($entity, [
+          'src' => basename($path),
+          'filesize' => filesize($path),
+          'link' => $link
         ]);
-      } else {
-        $event->stopPropagation();
-        throw new Exception(__('An error occurred uploading the screenshot'), 400);
+
+        $success = true;
+        $message = __('Screenshot saved');
+      } catch (Exception $e) {
+        $success = false;
+        $message = $e->getMessage();
       }
-      $this->Crud->action()->serialize(['data', 'message']);
+
+      unlink($path);
+
+      $event->getSubject()->entity = $entity;
+
+      $this->set([
+        'success' => $success,
+        'data' => $entity,
+        'message' => $message
+      ]);
+
+      $this->Crud->action()->serialize(['success', 'data', 'message']);
+    });
+
+    $this->Crud->on('afterSave', function (Event $event) {
+      $entity = $event->getSubject()->entity;
+      $this->Screenshots->delete($entity);
     });
 
     return $this->Crud->execute();
@@ -159,27 +148,5 @@ class ScreenshotsController extends AppController
     });
 
     return $this->Crud->execute();
-  }
-
-  public function uri($id)
-  {
-    $data = $this->Uri->getUrl($id);
-
-    if ($data) {
-      $this->set(
-        [
-          'success' => true,
-          'data' => $data,
-        ]
-      );
-    } else {
-      $this->set(
-        [
-          'success' => false,
-          'data' => [],
-        ]
-      );
-    }
-    $this->viewBuilder()->setOption('serialize', ['success', 'data']);
   }
 }
