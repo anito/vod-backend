@@ -176,16 +176,16 @@ class ScreenshotComponent extends Component
       (int) $gl_options->y = $maxY;
       $this->validateCaptureSize($gl_options);
     }
-    if ((int) $gl_options->w > $maxWidth) {
+    if (0 === (int) $gl_options->w || (int) $gl_options->w > $maxWidth) {
       (int) $gl_options->w = $maxWidth;
-      $this->validateCaptureSize($gl_options);
-    }
-    if ((int) $gl_options->h > $maxHeight) {
-      (int) $gl_options->h = $maxHeight;
       $this->validateCaptureSize($gl_options);
     }
     if ((int) $gl_options->w < $minWidth) {
       (int) $gl_options->w = $minWidth;
+      $this->validateCaptureSize($gl_options);
+    }
+    if (0 === (int) $gl_options->h || (int) $gl_options->h > $maxHeight) {
+      (int) $gl_options->h = $maxHeight;
       $this->validateCaptureSize($gl_options);
     }
     if ((int) $gl_options->h < $minHeight) {
@@ -196,9 +196,14 @@ class ScreenshotComponent extends Component
 
   public function saveToSeafile($path_to_file)
   {
+    // $env = $this->getController()->getRequest()->getEnv();
     $referer = $this->getController()->getRequest()->getEnv('HTTP_REFERER');
-    preg_match('/^(?:http(?:s?):\/\/(?:www\.)?)?([A-Za-z0-9_:.-]+)\/?/m', $referer?? '', $matches);
-    $domain = 2 === count($matches) ? $matches[1] : null;
+    $domain = 'unknown';
+
+    preg_match('/^(?:http(?:s?):\/\/(?:www\.)?)?([A-Za-z0-9_:.-]+)\/?/m', $referer?? '', $match);
+    if (isset($match[1])) {
+      $domain = $match[1];
+    }
 
     $dt                 = new DateTime();
     $filename           = basename($path_to_file);
@@ -207,14 +212,14 @@ class ScreenshotComponent extends Component
     $seafile_folder     = DS . trailingslashit($parent_folder) . $seafile_subfolder;
 
     $repo_id  = 'd04a2c3c-eda3-49d6-b946-ac70beb9bbf2';
+    $token    = 'cdd940c1c82aa99c7d84ef4551c13922c687aecc';
 
-    $headers = [
-      'Authorization' => 'Bearer cdd940c1c82aa99c7d84ef4551c13922c687aecc',
-    ];
     $host = 'https://cloud.doojoo.de';
     $client   = new Client([
       'host' => $host,
-      'headers' => $headers
+      'headers' => [
+        'Authorization' => "Bearer {$token}",
+      ]
     ]);
 
     /**
