@@ -211,14 +211,14 @@ class ScreenshotComponent extends Component
     $seafile_subfolder  = $domain;
     $seafile_folder     = DS . trailingslashit($parent_folder) . $seafile_subfolder;
 
-    $repo_id  = 'd04a2c3c-eda3-49d6-b946-ac70beb9bbf2';
-    $token    = 'cdd940c1c82aa99c7d84ef4551c13922c687aecc';
+    $repo_id            = 'd04a2c3c-eda3-49d6-b946-ac70beb9bbf2';
+    $account_token      = 'cdd940c1c82aa99c7d84ef4551c13922c687aecc';
 
     $host = 'https://cloud.doojoo.de';
     $client   = new Client([
       'host' => $host,
       'headers' => [
-        'Authorization' => "Bearer {$token}",
+        'Authorization' => "Bearer {$account_token}",
       ]
     ]);
 
