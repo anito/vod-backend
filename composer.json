@@ -1,7 +1,7 @@
 {
     "name": "vod/api",
     "description": "Backend API for VoD",
-    "version": "2.1.4",
+    "version": "2.1.5",
     "homepage": "https://vod.webpremiere.de",
     "type": "project",
     "license": "MIT",
@@ -11,7 +11,7 @@
         "cakephp/cakephp": "^5.0.1",
         "cakephp/migrations": "^4.0.0",
         "cakephp/plugin-installer": "^2.0",
-        "chrome-php/chrome": "^1.11",
+        "chrome-php/chrome": "^1.15",
         "firebase/php-jwt": "^6.10.1",
         "friendsofcake/crud": "^7.0",
         "guzzlehttp/guzzle": "^7.0",

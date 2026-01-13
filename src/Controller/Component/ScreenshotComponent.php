@@ -40,20 +40,12 @@ class ScreenshotComponent extends Component
   public function snap()
   {
     $url = array_key_exists('url', $this->params) ? $this->params['url'] : '';
-    $format  = array_key_exists('f', $this->params) ? $this->validateFormat($this->params['f']) : $this->get_default_options('f');
 
     if (!$url) {
-      throw 'No url provided';
+      throw new Exception(__('No url provided'));
     } elseif (!str_starts_with($url, 'http')) {
       $url = 'https://' . $url;
     }
-
-    $dt     = new DateTime();
-    $date   = $dt->format('Ymd');
-    $time   = $dt->format('His');
-    $uuid   = sprintf('%04x', random_int(0, 0x3fff) | 0x8000);
-    $fn     = "capture_{$date}-{$time}_{$uuid}.{$format}";
-    $path   = rtrim(sys_get_temp_dir(), '/\\') . DS . $fn;
 
     $browser = (new BrowserFactory())->createBrowser([
       'noSandbox' => true,
@@ -64,38 +56,16 @@ class ScreenshotComponent extends Component
       ]
     ]);
 
-    $default_capture_size = $this->get_default_options(['x', 'y', 'w', 'h', 'vw', 'vh']);
-    $capture_size = (object) array_map('intval', array_merge($default_capture_size, array_intersect_key($this->params, $default_capture_size)));
-    $this->validateCaptureSize($capture_size);
-
-    $x  = $capture_size->x;
-    $y  = $capture_size->y;
-    $w  = $capture_size->w;
-    $h  = $capture_size->h;
-    $vw = $capture_size->vw;
-    $vh = $capture_size->vh;
-
-    $s  = array_key_exists('s', $this->params) ? (float) $this->params['s'] : $this->get_default_options('s');
-    $q  = array_key_exists('q', $this->params) ? (int) $this->validateQuality($this->params['q']) : $this->get_default_options('q');
-
-    $screenshotOptions = [
-      'clip' => new Clip($x, $y, $w, $h, $s),
-      'format' => $format,
-      'quality' => $q
-    ];
-
-    // Quality is only allowed on 'jpg' and 'webp' format
-    if (!in_array($format, ['jpeg', 'webp'])) {
-      unset($screenshotOptions['quality']);
-    }
-
-    $page = $browser->createPage();
-    $page->setViewport($vw, $vh);
-
     try {
-      $page->navigate($url)->waitForNavigation(Page::INTERACTIVE_TIME, 120000);
+      $options = $this->parseOptions();
 
-      $screenshot = $page->screenshot($screenshotOptions);
+      $path = rtrim(sys_get_temp_dir(), '/\\') . DS . $this->createFilename();
+      $page = $browser->createPage();
+      $page->setViewport($options['viewport']['vw'], $options['viewport']['vh']);
+      $page->navigate($url)->waitForNavigation(Page::INTERACTIVE_TIME, 120000);
+      unset($options['viewport']);
+
+      $screenshot = $page->screenshot($options);
       $screenshot->saveToFile($path);
 
       Log::debug("Screenshot successfully saved to $path");
@@ -137,6 +107,55 @@ class ScreenshotComponent extends Component
     ], array_flip($_filter));
 
     return is_array($filter) ? $filtered : (isset($filtered[$filter]) ? $filtered[$filter] : null);
+  }
+
+  private function createFilename()
+  {
+    $dt     = new DateTime();
+    $date   = $dt->format('Ymd');
+    $time   = $dt->format('His');
+    $uuid   = sprintf('%04x', random_int(0, 0x3fff) | 0x8000);
+    $format = $this->getFormat();
+
+    return "capture_{$date}-{$time}_{$uuid}.{$format}";
+  }
+
+  private function parseOptions()
+  {
+    $format = $this->getFormat();
+    $default_capture_size = self::get_default_options(['x', 'y', 'w', 'h', 'vw', 'vh']);
+    $capture_size = (object) array_map('intval', array_merge($default_capture_size, array_intersect_key($this->params, $default_capture_size)));
+    $this->validateCaptureSize($capture_size);
+
+    $x  = $capture_size->x;
+    $y  = $capture_size->y;
+    $w  = $capture_size->w;
+    $h  = $capture_size->h;
+    $vw = $capture_size->vw;
+    $vh = $capture_size->vh;
+
+    $s  = array_key_exists('s', $this->params) ? (float) $this->params['s'] : $this->get_default_options('s');
+    $q  = array_key_exists('q', $this->params) ? (int) $this->validateQuality($this->params['q']) : $this->get_default_options('q');
+
+    $options = [
+      'clip' => new Clip($x, $y, $w, $h, $s),
+      'format' => $format,
+      'viewport' => [
+        'vw' => $vw,
+        'vh' => $vh,
+      ],
+    ];
+
+    // Quality is only allowed on 'jpg' and 'webp' format
+    if (in_array($format, ['jpeg', 'webp'])) {
+      $options['quality'] = $q;
+    }
+
+    return $options;
+  }
+
+  private function getFormat() {
+    return array_key_exists('f', $this->params) ? $this->validateFormat($this->params['f']) : $this->get_default_options('f');
   }
 
   private function validateFormat($format)
@@ -241,6 +260,9 @@ class ScreenshotComponent extends Component
         ]
       ]
     );
+    if (400 < $response->getStatusCode()) {
+        throw new Exception(sprintf('%s. Could not create seafile folder %s', $response->getStringBody(), $seafile_folder), $response->getStatusCode());
+    }
     $result = json_decode($response->getBody());
     if (isset($result->error)) {
       throw new Exception(sprintf('%s. Could not create seafile folder %s', $result->error, $seafile_folder), 400);

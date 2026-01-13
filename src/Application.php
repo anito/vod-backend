@@ -101,10 +101,14 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
 
     if (strpos($path, API_PATH) === 0) {
       $service->loadAuthenticator('Authentication.Form', [
+        'identifier' => [
+          'Authentication.Password' => [
+            'fields' => $fields
+          ]
+        ],
         'fields' => $fields,
         // 'loginUrl' => '/v1/users/login', // ommit if additional actions (e.g. /users/token) use form authentication
       ]);
-      $service->loadIdentifier('Authentication.Password', compact('fields'));
 
       // Additionally accept API JWT tokens
       $service->loadAuthenticator('Authentication.Jwt', [
@@ -114,9 +118,13 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
         'algorithm' => 'HS256',
         // 'secretKey' => Security::getSalt(),
         'secretKey' => getPublicKey(),
-        'returnPayload' => false
+        'returnPayload' => false,
+        'identifier' => [
+          'Authentication.JwtSubject' => [
+              'resolver' => $resolver,
+          ],
+        ]
       ]);
-      $service->loadIdentifier('Authentication.JwtSubject', compact('resolver'));
 
       return $service;
     }
@@ -129,10 +137,15 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
     // Load the authenticators, you want session first
     $service->loadAuthenticator('Authentication.Session');
     $service->loadAuthenticator('Authentication.Form', [
+      'identifier' => [
+        'Authentication.Password' => [
+          'fields' => $fields,
+          'resolver' => $resolver,
+        ]
+      ],
       'fields' => $fields,
       'loginUrl' => '/users/login',
     ]);
-    $service->loadIdentifier('Authentication.Password', compact('fields', 'resolver'));
 
     return $service;
   }
