@@ -16,328 +16,343 @@ use HeadlessChromium\Page;
 use Laminas\Diactoros\UploadedFile;
 use Psr\Http\Message\UploadedFileInterface;
 
-class ScreenshotComponent extends Component
-{
+class ScreenshotComponent extends Component {
 
-  protected array $components = ['Upload', 'Director', 'File'];
 
-  protected array $params;
+	protected array $components = array( 'Upload', 'Director', 'File' );
 
-  public function initialize(array $config): void
-  {
-    $queryParams = $this->getController()->getRequest()->getQueryParams();
-    $payloadParams = (array) $this->getController()->getRequest()->getParsedBody();
-    $this->params = array_merge($queryParams, $payloadParams);
-  }
+	protected array $params;
 
-  /**
-   * Take a screenshot from an url
-   *
-   * @version 4.0.0
-   * @param string|null $url Url that will be made the screenshot from.
-   * @return string
-   */
-  public function snap()
-  {
-    $url = array_key_exists('url', $this->params) ? $this->params['url'] : '';
+	public function initialize( array $config ): void {
+		$queryParams   = $this->getController()->getRequest()->getQueryParams();
+		$payloadParams = (array) $this->getController()->getRequest()->getParsedBody();
+		$this->params  = array_merge( $queryParams, $payloadParams );
+	}
 
-    if (!$url) {
-      throw new Exception(__('No url provided'));
-    } elseif (!str_starts_with($url, 'http')) {
-      $url = 'https://' . $url;
-    }
+	/**
+	 * Take a screenshot from an url
+	 *
+	 * @version 4.0.0
+	 * @param string|null $url Url that will be made the screenshot from.
+	 * @return string
+	 */
+	public function snap() {
+		$url = array_key_exists( 'url', $this->params ) ? $this->params['url'] : '';
 
-    $browser = (new BrowserFactory())->createBrowser([
-      'noSandbox' => true,
-      'ignoreCertificateErrors' => true,
-      'debugLogger'     => Configure::read('Chrome.debug') ? LOGS . 'chrome-debug.log' : false,
-      'customFlags' => [
-        '--disable-gpu',
-      ]
-    ]);
+		if ( ! $url ) {
+			throw new Exception( __( 'No url provided' ) );
+		} elseif ( ! str_starts_with( $url, 'http' ) ) {
+			$url = 'https://' . $url;
+		}
 
-    try {
-      $options = $this->parseOptions();
+		$browser = ( new BrowserFactory() )->createBrowser(
+			array(
+				'noSandbox'               => true,
+				'ignoreCertificateErrors' => true,
+				'debugLogger'             => Configure::read( 'Chrome.debug' ) ? LOGS . 'chrome-debug.log' : false,
+				'customFlags'             => array(
+					'--disable-gpu',
+				),
+				'userAgent' => 'Mozilla/5.0 (iPhone; CPU iPhone OS 12_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) FxiOS/7.0.4 Mobile/16B91 Safari/605.1.15',
+			)
+		);
 
-      $path = rtrim(sys_get_temp_dir(), '/\\') . DS . $this->createFilename();
-      $page = $browser->createPage();
-      $page->setViewport($options['viewport']['vw'], $options['viewport']['vh']);
-      $page->navigate($url)->waitForNavigation(Page::INTERACTIVE_TIME, 120000);
-      unset($options['viewport']);
+		try {
+			$options = $this->parseOptions();
 
-      $screenshot = $page->screenshot($options);
-      $screenshot->saveToFile($path);
+			$path = rtrim( sys_get_temp_dir(), '/\\' ) . DS . $this->createFilename();
+			$page = $browser->createPage();
 
-      Log::debug("Screenshot successfully saved to $path");
-    } catch (Exception $e) {
-      $path = $e;
-      $message = $e->getMessage();
+			if ( array_key_exists( 'mobile', $options ) && $options['mobile'] ) {
+				$page->setDeviceMetricsOverride( array( 'mobile' => true ) );
+			} else {
+				$page->setViewport( $options['viewport']['vw'], $options['viewport']['vh'] );
+			}
 
-      Log::debug("Screenshot failed: $message");
-    } finally {
-      if (isset($browser)) {
-        $browser->close();
-      }
-    }
-    return $path;
-  }
+			$page->navigate( $url )->waitForNavigation( Page::INTERACTIVE_TIME, 120000 );
+			unset( $options['viewport'] );
 
-  private static function get_default_options($filter = [])
-  {
-    $vw = 1200;
-    $vh = 1600;
-    $x = 0;
-    $y = 0;
-    $s = 0.5;
-    $q = 80;
-    $f = 'png';
+			$screenshot = $page->screenshot( $options );
+			$screenshot->saveToFile( $path );
 
-    $_filter = !is_array($filter) ? array($filter) : $filter;
+			Log::debug( "Screenshot successfully saved to $path" );
+		} catch ( Exception $e ) {
+			$path    = $e;
+			$message = $e->getMessage();
 
-    $filtered = array_intersect_key([
-      'x' => $x,
-      'y' => $y,
-      'w' => $vw - $x,
-      'h' => $vh - $y,
-      'vw' => $vw,
-      'vh' => $vh,
-      's' => $s,
-      'q' => $q,
-      'f' => $f
-    ], array_flip($_filter));
+			Log::debug( "Screenshot failed: $message" );
+		} finally {
+			if ( isset( $browser ) ) {
+				$browser->close();
+			}
+		}
+		return $path;
+	}
 
-    return is_array($filter) ? $filtered : (isset($filtered[$filter]) ? $filtered[$filter] : null);
-  }
+	private static function get_default_options( $filter = array() ) {
+		$vw = 1200;
+		$vh = 1600;
+		$x  = 0;
+		$y  = 0;
+		$s  = 0.5;
+		$q  = 80;
+		$f  = 'png';
+		$m  = false;
 
-  private function createFilename()
-  {
-    $dt     = new DateTime();
-    $date   = $dt->format('Ymd');
-    $time   = $dt->format('His');
-    $uuid   = sprintf('%04x', random_int(0, 0x3fff) | 0x8000);
-    $format = $this->getFormat();
+		$_filter = ! is_array( $filter ) ? array( $filter ) : $filter;
 
-    return "capture_{$date}-{$time}_{$uuid}.{$format}";
-  }
+		$filtered = array_intersect_key(
+			array(
+				'x'      => $x,
+				'y'      => $y,
+				'w'      => $vw - $x,
+				'h'      => $vh - $y,
+				'vw'     => $vw,
+				'vh'     => $vh,
+				's'      => $s,
+				'q'      => $q,
+				'f'      => $f,
+				'mobile' => $m,
+			),
+			array_flip( $_filter )
+		);
 
-  private function parseOptions()
-  {
-    $format = $this->getFormat();
-    $default_capture_size = self::get_default_options(['x', 'y', 'w', 'h', 'vw', 'vh']);
-    $capture_size = (object) array_map('intval', array_merge($default_capture_size, array_intersect_key($this->params, $default_capture_size)));
-    $this->validateCaptureSize($capture_size);
+		return is_array( $filter ) ? $filtered : ( isset( $filtered[ $filter ] ) ? $filtered[ $filter ] : null );
+	}
 
-    $x  = $capture_size->x;
-    $y  = $capture_size->y;
-    $w  = $capture_size->w;
-    $h  = $capture_size->h;
-    $vw = $capture_size->vw;
-    $vh = $capture_size->vh;
+	private function createFilename() {
+		$dt     = new DateTime();
+		$date   = $dt->format( 'Ymd' );
+		$time   = $dt->format( 'His' );
+		$uuid   = sprintf( '%04x', random_int( 0, 0x3fff ) | 0x8000 );
+		$format = $this->getFormat();
 
-    $s  = array_key_exists('s', $this->params) ? (float) $this->params['s'] : $this->get_default_options('s');
-    $q  = array_key_exists('q', $this->params) ? (int) $this->validateQuality($this->params['q']) : $this->get_default_options('q');
+		return "capture_{$date}-{$time}_{$uuid}.{$format}";
+	}
 
-    $options = [
-      'clip' => new Clip($x, $y, $w, $h, $s),
-      'format' => $format,
-      'viewport' => [
-        'vw' => $vw,
-        'vh' => $vh,
-      ],
-    ];
+	private function parseOptions() {
+		$format               = $this->getFormat();
+		$default_capture_size = self::get_default_options( array( 'x', 'y', 'w', 'h', 'vw', 'vh', 'mobile' ) );
+		$capture_size         = (object) array_map( 'intval', array_merge( $default_capture_size, array_intersect_key( $this->params, $default_capture_size ) ) );
+		$this->validateCaptureSize( $capture_size );
 
-    // Quality is only allowed on 'jpg' and 'webp' format
-    if (in_array($format, ['jpeg', 'webp'])) {
-      $options['quality'] = $q;
-    }
+		$x  = $capture_size->x;
+		$y  = $capture_size->y;
+		$w  = $capture_size->w;
+		$h  = $capture_size->h;
+		$vw = $capture_size->vw;
+		$vh = $capture_size->vh;
 
-    return $options;
-  }
+		$s = array_key_exists( 's', $this->params ) ? (float) $this->params['s'] : $this->get_default_options( 's' );
+		$m = array_key_exists( 'mobile', $this->params ) ? (float) $this->params['mobile'] : $this->get_default_options( 'mobile' );
+		$q = array_key_exists( 'q', $this->params ) ? (int) $this->validateQuality( $this->params['q'] ) : $this->get_default_options( 'q' );
 
-  private function getFormat() {
-    return array_key_exists('f', $this->params) ? $this->validateFormat($this->params['f']) : $this->get_default_options('f');
-  }
+		$options = array(
+			'clip'     => new Clip( $x, $y, $w, $h, $s ),
+			'format'   => $format,
+			'viewport' => array(
+				'vw' => $vw,
+				'vh' => $vh,
+			),
+			'mobile'   => $m,
+		);
 
-  private function validateFormat($format)
-  {
-    $f = 'jpg' == $format ? 'jpeg' : $format;
-    if (!in_array($f, ['jpeg', 'png', 'webp'])) {
-      $f = $this->get_default_options('f');
-    }
-    return $f;
-  }
+		// Quality is only allowed on 'jpg' and 'webp' format
+		if ( in_array( $format, array( 'jpeg', 'webp' ) ) ) {
+			$options['quality'] = $q;
+		}
 
-  private function validateQuality($quality)
-  {
-    $quality = intval($quality);
-    if (0 > $quality || $quality > 100) {
-      $quality = $this->get_default_options('q');
-    }
-    return $quality;
-  }
+		return $options;
+	}
 
-  private function validateCaptureSize(&$gl_options)
-  {
-    $minHeight = 100;
-    $minWidth = 100;
+	private function getFormat() {
+		return array_key_exists( 'f', $this->params ) ? $this->validateFormat( $this->params['f'] ) : $this->get_default_options( 'f' );
+	}
 
-    $maxWidth = (int) $gl_options->vw - (int) $gl_options->x;
-    $maxHeight = (int) $gl_options->vh - (int) $gl_options->y;
+	private function validateFormat( $format ) {
+		$f = 'jpg' == $format ? 'jpeg' : $format;
+		if ( ! in_array( $f, array( 'jpeg', 'png', 'webp' ) ) ) {
+			$f = $this->get_default_options( 'f' );
+		}
+		return $f;
+	}
 
-    $maxX = (int) $gl_options->vw - $minWidth;
-    $maxY = (int) $gl_options->vh - $minHeight;
+	private function validateQuality( $quality ) {
+		$quality = intval( $quality );
+		if ( 0 > $quality || $quality > 100 ) {
+			$quality = $this->get_default_options( 'q' );
+		}
+		return $quality;
+	}
 
-    if ((int) $gl_options->x > $maxX) {
-      (int) $gl_options->x = $maxX;
-      $this->validateCaptureSize($gl_options);
-    }
-    if ((int) $gl_options->y > $maxY) {
-      (int) $gl_options->y = $maxY;
-      $this->validateCaptureSize($gl_options);
-    }
-    if (0 === (int) $gl_options->w || (int) $gl_options->w > $maxWidth) {
-      (int) $gl_options->w = $maxWidth;
-      $this->validateCaptureSize($gl_options);
-    }
-    if ((int) $gl_options->w < $minWidth) {
-      (int) $gl_options->w = $minWidth;
-      $this->validateCaptureSize($gl_options);
-    }
-    if (0 === (int) $gl_options->h || (int) $gl_options->h > $maxHeight) {
-      (int) $gl_options->h = $maxHeight;
-      $this->validateCaptureSize($gl_options);
-    }
-    if ((int) $gl_options->h < $minHeight) {
-      (int) $gl_options->h = $minHeight;
-      $this->validateCaptureSize($gl_options);
-    }
-  }
+	private function validateCaptureSize( &$gl_options ) {
+		$minHeight = 100;
+		$minWidth  = 100;
 
-  public function saveToSeafile($path_to_file)
-  {
-    // $env = $this->getController()->getRequest()->getEnv();
-    $referer = $this->getController()->getRequest()->getEnv('HTTP_REFERER');
-    $domain = 'unknown';
+		$maxWidth  = (int) $gl_options->vw - (int) $gl_options->x;
+		$maxHeight = (int) $gl_options->vh - (int) $gl_options->y;
 
-    preg_match('/^(?:http(?:s?):\/\/(?:www\.)?)?([A-Za-z0-9_:.-]+)\/?/m', $referer?? '', $match);
-    if (isset($match[1])) {
-      $domain = $match[1];
-    }
+		$maxX = (int) $gl_options->vw - $minWidth;
+		$maxY = (int) $gl_options->vh - $minHeight;
 
-    $dt                 = new DateTime();
-    $filename           = basename($path_to_file);
-    $parent_folder      = $dt->format('Y-m-d');
-    $seafile_subfolder  = $domain;
-    $seafile_folder     = DS . trailingslashit($parent_folder) . $seafile_subfolder;
+		if ( (int) $gl_options->x > $maxX ) {
+			(int) $gl_options->x = $maxX;
+			$this->validateCaptureSize( $gl_options );
+		}
+		if ( (int) $gl_options->y > $maxY ) {
+			(int) $gl_options->y = $maxY;
+			$this->validateCaptureSize( $gl_options );
+		}
+		if ( 0 === (int) $gl_options->w || (int) $gl_options->w > $maxWidth ) {
+			(int) $gl_options->w = $maxWidth;
+			$this->validateCaptureSize( $gl_options );
+		}
+		if ( (int) $gl_options->w < $minWidth ) {
+			(int) $gl_options->w = $minWidth;
+			$this->validateCaptureSize( $gl_options );
+		}
+		if ( 0 === (int) $gl_options->h || (int) $gl_options->h > $maxHeight ) {
+			(int) $gl_options->h = $maxHeight;
+			$this->validateCaptureSize( $gl_options );
+		}
+		if ( (int) $gl_options->h < $minHeight ) {
+			(int) $gl_options->h = $minHeight;
+			$this->validateCaptureSize( $gl_options );
+		}
+	}
 
-    $repo_id            = 'd04a2c3c-eda3-49d6-b946-ac70beb9bbf2';
-    $account_token      = 'cdd940c1c82aa99c7d84ef4551c13922c687aecc';
+	public function saveToSeafile( $path_to_file ) {
+		// $env = $this->getController()->getRequest()->getEnv();
+		$referer = $this->getController()->getRequest()->getEnv( 'HTTP_REFERER' );
+		$domain  = 'unknown';
 
-    $host = 'https://cloud.doojoo.de';
-    $client   = new Client([
-      'host' => $host,
-      'headers' => [
-        'Authorization' => "Bearer {$account_token}",
-      ]
-    ]);
+		preg_match( '/^(?:http(?:s?):\/\/(?:www\.)?)?([A-Za-z0-9_:.-]+)\/?/m', $referer ?? '', $match );
+		if ( isset( $match[1] ) ) {
+			$domain = $match[1];
+		}
 
-    /**
-     * Create subdirectory if not already exists
-     */
-    $data = new FormData();
-    $data->addMany([
-      'operation' => 'mkdir',
-      'create_parents' => 1
-    ]);
+		$dt                = new DateTime();
+		$filename          = basename( $path_to_file );
+		$parent_folder     = $dt->format( 'Y-m-d' );
+		$seafile_subfolder = $domain;
+		$seafile_folder    = DS . trailingslashit( $parent_folder ) . $seafile_subfolder;
 
-    $response = $client->post(
-      "$host/api2/repos/$repo_id/dir/?p=$seafile_folder",
-      (string) $data,
-      [
-        'headers' => [
-          'Content-Type' => $data->contentType(),
-          'Accept' => 'application/json'
-        ]
-      ]
-    );
-    if (400 < $response->getStatusCode()) {
-        throw new Exception(sprintf('%s. Could not create seafile folder %s', $response->getStringBody(), $seafile_folder), $response->getStatusCode());
-    }
-    $result = json_decode($response->getBody());
-    if (isset($result->error)) {
-      throw new Exception(sprintf('%s. Could not create seafile folder %s', $result->error, $seafile_folder), 400);
-    }
+		$repo_id       = 'd04a2c3c-eda3-49d6-b946-ac70beb9bbf2';
+		$account_token = 'cdd940c1c82aa99c7d84ef4551c13922c687aecc';
 
-    // Get upload link to folder
-    $response = $client->get("$host/api2/repos/$repo_id/upload-link/?p=$seafile_folder");
-    $result = json_decode($response->getBody());
+		$host   = 'https://cloud.doojoo.de';
+		$client = new Client(
+			array(
+				'host'    => $host,
+				'headers' => array(
+					'Authorization' => "Bearer {$account_token}",
+				),
+			)
+		);
 
-    if (isset($result->error)) {
-      throw new Exception($result->error, 400);
-    }
-    $upload_link = $result;
+		/**
+		 * Create subdirectory if not already exists
+		 */
+		$data = new FormData();
+		$data->addMany(
+			array(
+				'operation'      => 'mkdir',
+				'create_parents' => 1,
+			)
+		);
 
-    /**
-     * Upload file to the previously generated upload link
-     */
-    $data = new FormData();
-    $data->addMany([
-      'parent_dir' => $seafile_folder,
-      'replace' => 1,
-    ]);
-    $data->addFile('file', fopen($path_to_file, 'r'));
+		$response = $client->post(
+			"$host/api2/repos/$repo_id/dir/?p=$seafile_folder",
+			(string) $data,
+			array(
+				'headers' => array(
+					'Content-Type' => $data->contentType(),
+					'Accept'       => 'application/json',
+				),
+			)
+		);
+		if ( 400 < $response->getStatusCode() ) {
+			throw new Exception( sprintf( '%s. Could not create seafile folder %s', $response->getStringBody(), $seafile_folder ), $response->getStatusCode() );
+		}
+		$result = json_decode( $response->getBody() );
+		if ( isset( $result->error ) ) {
+			throw new Exception( sprintf( '%s. Could not create seafile folder %s', $result->error, $seafile_folder ), 400 );
+		}
 
-    $response = $client->post(
-      "$upload_link?ret-json=1",
-      (string) $data,
-      [
-        'headers' => [
-          'Content-Type' => $data->contentType(), // multipart/form-data; boundary=84530945034850
-          'Accept' => 'application/json'
-        ]
-      ]
-    );
+		// Get upload link to folder
+		$response = $client->get( "$host/api2/repos/$repo_id/upload-link/?p=$seafile_folder" );
+		$result   = json_decode( $response->getBody() );
 
-    $result = json_decode($response->getBody());
+		if ( isset( $result->error ) ) {
+			throw new Exception( $result->error, 400 );
+		}
+		$upload_link = $result;
 
-    if (isset($result->error)) {
-      throw new Exception($result->error, 400);
-    }
+		/**
+		 * Upload file to the previously generated upload link
+		 */
+		$data = new FormData();
+		$data->addMany(
+			array(
+				'parent_dir' => $seafile_folder,
+				'replace'    => 1,
+			)
+		);
+		$data->addFile( 'file', fopen( $path_to_file, 'r' ) );
 
-    /**
-     * Get seafile download link
-     */
-    $path_to_file = $seafile_folder . DS . $filename;
-    $response = $client->get("$host/api2/repos/$repo_id/file/?p=$path_to_file&reuse=1");
+		$response = $client->post(
+			"$upload_link?ret-json=1",
+			(string) $data,
+			array(
+				'headers' => array(
+					'Content-Type' => $data->contentType(), // multipart/form-data; boundary=84530945034850
+					'Accept'       => 'application/json',
+				),
+			)
+		);
 
-    $result = json_decode($response->getBody());
+		$result = json_decode( $response->getBody() );
 
-    if (isset($result->error)) {
-      throw new Exception($result->error, 400);
-    }
+		if ( isset( $result->error ) ) {
+			throw new Exception( $result->error, 400 );
+		}
 
-    /**
-     * Create share link
-     */
-    $response = $client->post(
-      "$host/api/v2.1/share-links/",
-      json_encode([
-        'repo_id' => $repo_id,
-        'path' => $path_to_file
-      ]),
-      ['type' => 'json']
-    );
+		/**
+		 * Get seafile download link
+		 */
+		$path_to_file = $seafile_folder . DS . $filename;
+		$response     = $client->get( "$host/api2/repos/$repo_id/file/?p=$path_to_file&reuse=1" );
 
-    $result = json_decode($response->getBody());
+		$result = json_decode( $response->getBody() );
 
-    if (isset($result->error)) {
-      throw new Exception($result->error, 400);
-    }
+		if ( isset( $result->error ) ) {
+			throw new Exception( $result->error, 400 );
+		}
 
-    if (isset($result->link)) {
-      return $result->link . '?dl=1';
-    } else {
-      throw new Exception('Missing share link property in seafile response', 400);
-    }
-  }
+		/**
+		 * Create share link
+		 */
+		$response = $client->post(
+			"$host/api/v2.1/share-links/",
+			json_encode(
+				array(
+					'repo_id' => $repo_id,
+					'path'    => $path_to_file,
+				)
+			),
+			array( 'type' => 'json' )
+		);
+
+		$result = json_decode( $response->getBody() );
+
+		if ( isset( $result->error ) ) {
+			throw new Exception( $result->error, 400 );
+		}
+
+		if ( isset( $result->link ) ) {
+			return $result->link . '?dl=1';
+		} else {
+			throw new Exception( 'Missing share link property in seafile response', 400 );
+		}
+	}
 }
