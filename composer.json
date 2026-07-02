@@ -12,7 +12,7 @@
         "cakephp/migrations": "^4.0.0",
         "cakephp/plugin-installer": "^2.0",
         "chrome-php/chrome": "^1.15",
-        "firebase/php-jwt": "^6.10.1",
+        "firebase/php-jwt": "^7.0",
         "friendsofcake/crud": "^7.0",
         "guzzlehttp/guzzle": "^7.0",
         "kaz29/cakephp-cors-middleware-plugin": "^1.0",
