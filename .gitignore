@@ -30,5 +30,3 @@ mysqlconf/*
 
 # sensitive config
 config/.env
-config/jwt.pem
-config/jwt.key
